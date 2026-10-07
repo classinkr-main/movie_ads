@@ -1,0 +1,38 @@
+{
+  "name": "classin-ai-showreel",
+  "version": "1.0.0",
+  "description": "Classin AI 기능 커머셜 쇼릴 (20s) — Remotion 기반 키네틱 모션그래픽",
+  "scripts": {
+    "dev": "remotion studio",
+    "render": "remotion render Showreel out/classin-ai-showreel.mp4",
+    "render:vertical": "remotion render ShowreelVertical out/classin-ai-showreel-9x16.mp4",
+    "still": "remotion still Showreel out/still.png --frame=300",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/classinkr-main/movie_ads.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/classinkr-main/movie_ads/issues"
+  },
+  "homepage": "https://github.com/classinkr-main/movie_ads#readme",
+  "dependencies": {
+    "@remotion/cli": "^4.0.533",
+    "@remotion/fonts": "^4.0.533",
+    "@remotion/transitions": "^4.0.533",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.533"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}
