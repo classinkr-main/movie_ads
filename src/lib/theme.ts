@@ -22,5 +22,5 @@ export const C = {
 } as const;
 
 export const FPS = 30;
-export const DURATION_SEC = 23;
-export const DURATION_FRAMES = FPS * DURATION_SEC; // 690
+export const DURATION_SEC = 25;
+export const DURATION_FRAMES = FPS * DURATION_SEC; // 750

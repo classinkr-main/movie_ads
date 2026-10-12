@@ -314,3 +314,51 @@ export const GhostWord: React.FC<{ text: string; size: number; speed?: number; c
     </div>
   );
 };
+
+// 타이핑 텍스트 — 프레임마다 글자가 늘어나고 캐럿이 깜빡인다
+export const TypeText: React.FC<{ text: string; delay?: number; cps?: number; caret?: boolean; style?: React.CSSProperties; caretColor?: string }> = ({
+  text,
+  delay = 0,
+  cps = 1.4,
+  caret = true,
+  style,
+  caretColor,
+}) => {
+  const frame = useCurrentFrame();
+  const n = Math.max(0, Math.floor((frame - delay) * cps));
+  const shown = Array.from(text).slice(0, n).join("");
+  const done = n >= Array.from(text).length;
+  const showCaret = caret && frame >= delay && (!done || frame % 20 < 10);
+  return (
+    <span style={style}>
+      {shown}
+      {showCaret && <span style={{ display: "inline-block", width: 3, height: "0.95em", background: caretColor ?? "currentColor", marginLeft: 3, verticalAlign: "-0.12em" }} />}
+    </span>
+  );
+};
+
+// 클립 리빌 — 카드가 왼쪽에서 오른쪽으로 열린다
+export const ClipReveal: React.FC<{ delay?: number; children: React.ReactNode; style?: React.CSSProperties; radius?: number; from?: "left" | "right" | "bottom"; duration?: number }> = ({
+  delay = 0,
+  children,
+  style,
+  radius = 32,
+  from = "left",
+  duration = 22,
+}) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = sp(frame - delay, fps, SMOOTH, duration);
+  const rest = (1 - p) * 100;
+  const clip = from === "left" ? `inset(0 ${rest}% 0 0 round ${radius}px)` : from === "right" ? `inset(0 0 0 ${rest}% round ${radius}px)` : `inset(${rest}% 0 0 0 round ${radius}px)`;
+  const y = (1 - p) * 30;
+  return <div style={{ clipPath: p > 0.995 ? undefined : clip, transform: `translateY(${y}px)`, ...style }}>{children}</div>;
+};
+
+// 스켈레톤 바 — 텍스트 줄을 추상화. width는 % 단위.
+export const SkeletonLine: React.FC<{ width: number; delay?: number; height?: number; color?: string; duration?: number }> = ({ width, delay = 0, height = 12, color = C.ivory2, duration = 14 }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = sp(frame - delay, fps, SMOOTH, duration);
+  return <div style={{ height, width: `${width * p}%`, borderRadius: 999, background: color }} />;
+};
