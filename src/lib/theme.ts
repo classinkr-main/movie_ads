@@ -1,23 +1,26 @@
-// 브랜드 토큰 — classinkr-web/DESIGN.md + 로고 실측색을 따른다.
+// v2 팔레트 — 화이트·아이보리 베이스 + 연두 그린 포인트.
+// 텍스트 강조와 CTA 채움에는 Classin Green(DESIGN.md)을, 하이라이터·도형·칩에는 연두를 쓴다.
 export const C = {
-  forest: "#084734", // Classin Green (DESIGN.md 주 액센트)
-  forestDeep: "#052B20", // 다크 배경 하단 톤
-  forestHover: "#065c41",
-  brand: "#009060", // 로고 워드마크 실측 그린
-  brandBright: "#00A870", // 로고 마크 그라데이션 밝은 쪽
-  mint: "#6EE7B7", // Green Muted
-  surface50: "#ECFDF5",
-  surface100: "#D1FAE5",
-  page: "#FAFAF8",
-  ink: "#111110",
-  warmDark: "#31302E",
-  warmGray: "#615D59",
-  warmGray300: "#A39E98",
-  warmWhite: "#F6F5F4",
+  // 베이스
+  ivory: "#FAF8F2",
+  ivory2: "#F3EFE4",
   white: "#FFFFFF",
-  hairline: "rgba(0,0,0,0.08)",
+  // 텍스트
+  ink: "#1C1B17",
+  gray: "#6B675F",
+  gray300: "#A9A49A",
+  hairline: "rgba(28,27,23,0.08)",
+  // 연두 포인트
+  lime: "#C8F05A",
+  limeBright: "#D8FF5C",
+  limeSoft: "#EAF7C0",
+  limeDeep: "#8BC926",
+  limeInk: "#3C6B12",
+  // 브랜드 그린(강조 텍스트·CTA)
+  forest: "#084734",
+  brand: "#009060",
 } as const;
 
 export const FPS = 30;
-export const DURATION_SEC = 20;
-export const DURATION_FRAMES = FPS * DURATION_SEC; // 600
+export const DURATION_SEC = 23;
+export const DURATION_FRAMES = FPS * DURATION_SEC; // 690

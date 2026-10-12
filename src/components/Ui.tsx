@@ -4,49 +4,13 @@ import { clamp, PUNCH, SMOOTH, sp } from "../lib/motion";
 import { C } from "../lib/theme";
 import { FONT_FAMILY } from "../lib/fonts";
 
-export const Text: React.FC<{
-  size: number;
-  weight?: number;
-  color?: string;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
-  tracking?: number; // em 단위
-  lineHeight?: number;
-}> = ({ size, weight = 700, color = C.page, style, children, tracking = -0.03, lineHeight = 1.05 }) => (
-  <div
-    style={{
-      fontFamily: FONT_FAMILY,
-      fontSize: size,
-      fontWeight: weight,
-      color,
-      letterSpacing: `${tracking}em`,
-      lineHeight,
-      ...style,
-    }}
-  >
-    {children}
-  </div>
-);
-
 export const Eyebrow: React.FC<{ children: React.ReactNode; color?: string; size?: number; style?: React.CSSProperties }> = ({
   children,
-  color = C.mint,
-  size = 26,
+  color = C.limeInk,
+  size = 24,
   style,
 }) => (
-  <div
-    style={{
-      fontFamily: FONT_FAMILY,
-      fontSize: size,
-      fontWeight: 700,
-      color,
-      letterSpacing: "0.22em",
-      textTransform: "uppercase",
-      ...style,
-    }}
-  >
-    {children}
-  </div>
+  <div style={{ fontFamily: FONT_FAMILY, fontSize: size, fontWeight: 700, color, letterSpacing: "0.22em", textTransform: "uppercase", ...style }}>{children}</div>
 );
 
 // 알약 칩 — 스프링으로 튀어 들어온다
@@ -58,7 +22,8 @@ export const Chip: React.FC<{
   size?: number;
   outline?: boolean;
   style?: React.CSSProperties;
-}> = ({ delay = 0, children, bg = C.surface50, color = C.forest, size = 26, outline = false, style }) => {
+  shadow?: boolean;
+}> = ({ delay = 0, children, bg = C.limeSoft, color = C.limeInk, size = 26, outline = false, style, shadow = false }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = sp(frame - delay, fps, PUNCH);
@@ -70,16 +35,55 @@ export const Chip: React.FC<{
         alignItems: "center",
         fontFamily: FONT_FAMILY,
         fontSize: size,
-        fontWeight: 600,
+        fontWeight: 700,
         color,
         background: outline ? "transparent" : bg,
         border: outline ? `2px solid ${color}` : "none",
         borderRadius: 999,
-        padding: `${size * 0.35}px ${size * 0.8}px`,
+        padding: `${size * 0.36}px ${size * 0.85}px`,
         letterSpacing: "-0.01em",
         opacity,
         transform: `scale(${interpolate(s, [0, 1], [0.4, 1])})`,
         transformOrigin: "50% 50%",
+        whiteSpace: "nowrap",
+        boxShadow: shadow ? "0 10px 30px rgba(28,27,23,0.12)" : undefined,
+        ...style,
+      }}
+    >
+      {children}
+    </span>
+  );
+};
+
+// 스티커 — 살짝 기울어진 라벨
+export const Sticker: React.FC<{ delay?: number; children: React.ReactNode; rotate?: number; bg?: string; color?: string; size?: number; style?: React.CSSProperties }> = ({
+  delay = 0,
+  children,
+  rotate = -8,
+  bg = C.lime,
+  color = C.ink,
+  size = 26,
+  style,
+}) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const s = sp(frame - delay, fps, { damping: 10, stiffness: 260, mass: 0.7 });
+  const opacity = interpolate(frame - delay, [0, 3], [0, 1], clamp);
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        fontFamily: FONT_FAMILY,
+        fontSize: size,
+        fontWeight: 800,
+        color,
+        background: bg,
+        padding: `${size * 0.3}px ${size * 0.7}px`,
+        borderRadius: size * 0.4,
+        letterSpacing: "-0.01em",
+        opacity,
+        transform: `rotate(${rotate + interpolate(s, [0, 1], [-25, 0])}deg) scale(${interpolate(s, [0, 1], [0.2, 1])})`,
+        boxShadow: "0 12px 30px rgba(28,27,23,0.14)",
         whiteSpace: "nowrap",
         ...style,
       }}
@@ -89,7 +93,6 @@ export const Chip: React.FC<{
   );
 };
 
-// 스케일 팝 래퍼
 export const Pop: React.FC<{
   delay?: number;
   children: React.ReactNode;
@@ -97,7 +100,9 @@ export const Pop: React.FC<{
   from?: number;
   config?: { damping: number; stiffness: number; mass: number };
   y?: number;
-}> = ({ delay = 0, children, style, from = 0.6, config = PUNCH, y = 0 }) => {
+  x?: number;
+  rotate?: number;
+}> = ({ delay = 0, children, style, from = 0.6, config = PUNCH, y = 0, x = 0, rotate = 0 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = sp(frame - delay, fps, config);
@@ -106,7 +111,7 @@ export const Pop: React.FC<{
     <div
       style={{
         opacity,
-        transform: `translateY(${interpolate(s, [0, 1], [y, 0])}px) scale(${interpolate(s, [0, 1], [from, 1])})`,
+        transform: `translate(${interpolate(s, [0, 1], [x, 0])}px, ${interpolate(s, [0, 1], [y, 0])}px) scale(${interpolate(s, [0, 1], [from, 1])}) rotate(${interpolate(s, [0, 1], [rotate, 0])}deg)`,
         transformOrigin: "50% 50%",
         ...style,
       }}
@@ -116,7 +121,6 @@ export const Pop: React.FC<{
   );
 };
 
-// 부드럽게 올라오는 래퍼(오버슈트 없음)
 export const Rise: React.FC<{ delay?: number; children: React.ReactNode; style?: React.CSSProperties; distance?: number; duration?: number }> = ({
   delay = 0,
   children,
@@ -128,9 +132,7 @@ export const Rise: React.FC<{ delay?: number; children: React.ReactNode; style?:
   const { fps } = useVideoConfig();
   const s = sp(frame - delay, fps, SMOOTH, duration);
   const opacity = interpolate(frame - delay, [0, 8], [0, 1], clamp);
-  return (
-    <div style={{ opacity, transform: `translateY(${interpolate(s, [0, 1], [distance, 0])}px)`, ...style }}>{children}</div>
-  );
+  return <div style={{ opacity, transform: `translateY(${interpolate(s, [0, 1], [distance, 0])}px)`, ...style }}>{children}</div>;
 };
 
 export const LogoMark: React.FC<{ height: number; style?: React.CSSProperties }> = ({ height, style }) => (
@@ -144,37 +146,3 @@ export const LogoStacked: React.FC<{ height: number; style?: React.CSSProperties
 export const Wordmark: React.FC<{ height: number; style?: React.CSSProperties }> = ({ height, style }) => (
   <Img src={staticFile("brand/classin-wordmark.png")} style={{ height, width: "auto", display: "block", ...style }} />
 );
-
-// 펄스 링 — CTA 버튼 뒤에서 퍼져 나간다
-export const PulseRings: React.FC<{ color?: string; period?: number; count?: number; size: number; delay?: number }> = ({
-  color = C.brand,
-  period = 28,
-  count = 2,
-  size,
-  delay = 0,
-}) => {
-  const frame = useCurrentFrame();
-  return (
-    <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", pointerEvents: "none" }}>
-      {Array.from({ length: count }).map((_, i) => {
-        const f = frame - delay - i * (period / count);
-        if (f < 0) return null;
-        const t = (f % period) / period;
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              width: size,
-              height: size,
-              borderRadius: 999,
-              border: `3px solid ${color}`,
-              opacity: (1 - t) * 0.55,
-              transform: `scale(${1 + t * 0.9})`,
-            }}
-          />
-        );
-      })}
-    </div>
-  );
-};

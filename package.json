@@ -1,11 +1,10 @@
 {
   "name": "classin-ai-showreel",
   "version": "1.0.0",
-  "description": "Classin AI 기능 커머셜 쇼릴 (20s) — Remotion 기반 키네틱 모션그래픽",
+  "description": "Classin AI 강의 분석 커머셜 쇼릴 (23s) — Remotion 기반 키네틱 모션그래픽",
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
-    "render:vertical": "remotion render ShowreelVertical out/classin-ai-showreel-9x16.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
     "typecheck": "tsc --noEmit"
   },
