@@ -72,16 +72,16 @@ const IrisComp: React.FC<TransitionPresentationComponentProps<IrisProps>> = ({ c
 };
 const iris = (): TransitionPresentation<IrisProps> => ({ component: IrisComp, props: {} });
 
-/* ---------- 타임라인 (30fps · 750f = 25s) ---------- */
-// 씬 길이에는 앞뒤 전환 겹침이 포함된다. 합계 − 전환 합계 = 750.
+/* ---------- 타임라인 (30fps · 900f = 30s) ---------- */
+// 씬 길이에는 앞뒤 전환 겹침이 포함된다. 합계 − 전환 합계 = 900.
 export const TIMELINE = [
   { id: "S1 오프닝", frames: 110 },
-  { id: "01 강의 평가", frames: 130 },
-  { id: "02 스크립트·요약", frames: 124 },
-  { id: "03 숙제 출제·채점", frames: 124 },
-  { id: "04 번역·자막", frames: 124 },
-  { id: "05 에이전트", frames: 148 },
-  { id: "S7 CTA", frames: 106 },
+  { id: "01 강의 평가", frames: 150 },
+  { id: "02 스크립트·요약", frames: 150 },
+  { id: "03 숙제 출제·채점", frames: 160 },
+  { id: "04 번역·자막", frames: 150 },
+  { id: "05 에이전트", frames: 184 },
+  { id: "S7 CTA", frames: 112 },
 ] as const;
 export const TRANSITIONS = [20, 18, 18, 18, 18, 24] as const;
 
@@ -105,6 +105,10 @@ const RailOverlay: React.FC = () => {
       <div style={{ position: "absolute", top: 44, left: 170, display: "flex", alignItems: "center", gap: 10, opacity: visible }}>
         <span style={{ width: 10, height: 10, borderRadius: 999, background: C.limeDeep }} />
         <span style={{ fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 800, color: C.ink, letterSpacing: "0.18em", textTransform: "uppercase" }}>Classin AI</span>
+      </div>
+      <div style={{ position: "absolute", top: 34, left: "50%", transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: 10, background: C.white, border: `1.5px solid ${C.hairline}`, borderRadius: 999, padding: "8px 18px", boxShadow: "0 8px 24px rgba(28,27,23,0.06)", opacity: visible }}>
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 15, fontWeight: 800, color: C.ink, background: C.lime, borderRadius: 6, padding: "2px 8px" }}>예시 수업</span>
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 17, fontWeight: 700, color: C.ink, letterSpacing: "-0.01em" }}>중2 국어 A반 · 3단원 비유와 상징 · 윤동주 「서시」</span>
       </div>
       <div style={{ position: "absolute", top: 42, right: 100, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 700, color: C.gray300, letterSpacing: "0.16em", fontVariantNumeric: "tabular-nums", opacity: visible }}>
         {String(active + 1).padStart(2, "0")} — 05

@@ -30,7 +30,7 @@ export const FeatureLayout: React.FC<{
   const f = FEATURES[index];
   const wm = sp(frame, fps, SMOOTH, 40);
   const textCol = (
-    <div style={{ width: 740, flexShrink: 0, position: "relative", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <div style={{ width: 660, flexShrink: 0, position: "relative", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <div
         style={{
           position: "absolute",
@@ -59,7 +59,7 @@ export const FeatureLayout: React.FC<{
           </Eyebrow>
         </div>
       </Rise>
-      <div style={{ marginTop: 22, fontFamily: FONT_FAMILY, fontSize: 84, fontWeight: 900, color: C.ink, letterSpacing: "-0.045em", lineHeight: 1.14, wordBreak: "keep-all" }}>
+      <div style={{ marginTop: 22, fontFamily: FONT_FAMILY, fontSize: 78, fontWeight: 900, color: C.ink, letterSpacing: "-0.045em", lineHeight: 1.14, wordBreak: "keep-all" }}>
         <MaskText delay={6}>
           <span>{title}</span>
         </MaskText>
@@ -68,7 +68,7 @@ export const FeatureLayout: React.FC<{
         <DrawLine delay={16} color={C.limeDeep} thickness={3} duration={14} />
       </div>
       <Rise delay={18} distance={24} style={{ marginTop: 22 }}>
-        <div style={{ fontFamily: FONT_FAMILY, fontSize: 34, fontWeight: 500, color: C.gray, letterSpacing: "-0.015em", lineHeight: 1.45 }}>{sub}</div>
+        <div style={{ fontFamily: FONT_FAMILY, fontSize: 29, fontWeight: 500, color: C.gray, letterSpacing: "-0.015em", lineHeight: 1.5, wordBreak: "keep-all" }}>{sub}</div>
       </Rise>
       {bullets.length > 0 && (
         <div style={{ marginTop: 26, display: "flex", flexWrap: "wrap", gap: 10 }}>
@@ -161,11 +161,15 @@ export const CardHeader: React.FC<{ title: string; right?: React.ReactNode }> = 
   </div>
 );
 
-export const Stamp: React.FC<{ delay: number; ok: boolean; size?: number }> = ({ delay, ok, size = 34 }) => {
+export type StampKind = "ok" | "partial" | "wrong";
+export const Stamp: React.FC<{ delay: number; kind: StampKind; size?: number }> = ({ delay, kind, size = 34 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = sp(frame - delay, fps, { damping: 9, stiffness: 300, mass: 0.6 });
   const o = interpolate(frame - delay, [0, 2], [0, 1], clamp);
+  const bg = kind === "ok" ? C.lime : kind === "partial" ? C.limeSoft : C.ivory2;
+  const color = kind === "ok" ? C.ink : kind === "partial" ? C.limeInk : C.gray;
+  const glyph = kind === "ok" ? "✓" : kind === "partial" ? "△" : "✗";
   return (
     <span
       style={{
@@ -174,16 +178,18 @@ export const Stamp: React.FC<{ delay: number; ok: boolean; size?: number }> = ({
         width: size,
         height: size,
         borderRadius: 999,
-        background: ok ? C.lime : C.ivory2,
-        color: ok ? C.ink : C.gray,
+        background: bg,
+        border: kind === "partial" ? `2px solid ${C.limeDeep}` : "none",
+        boxSizing: "border-box",
+        color,
         fontFamily: FONT_FAMILY,
-        fontSize: size * 0.55,
+        fontSize: size * 0.52,
         fontWeight: 900,
         opacity: o,
         transform: `scale(${interpolate(s, [0, 1], [2.4, 1])}) rotate(${interpolate(s, [0, 1], [-30, 0])}deg)`,
       }}
     >
-      {ok ? "✓" : "✗"}
+      {glyph}
     </span>
   );
 };
