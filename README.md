@@ -10,19 +10,19 @@ Classin 영상 광고 모음입니다. 폴더는 Google Drive `ClassIn Korea / �
 | 폴더 | 시작일 | 특징 | 컴포지션 id | Drive 폴더 | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | [00_공통에셋](public/00_공통에셋) | – | 공식 로고·Pretendard 폰트 | – | [00_공통에셋](https://drive.google.com/drive/folders/1X7t0H6oLzrNI0sW2xRGO9Uvqhy3mXzAK) | – |
-| [01_20261001_갈매기_Vox_문제해결형_캐릭터-해설](src/projects/01_20261001_갈매기_Vox_문제해결형_캐릭터-해설) | 2026-10-01 | 캐릭터 해설형(Vox식), 2–3분 | – | [01_갈매기_Vox_문제해결형](https://drive.google.com/drive/folders/1ud_wYExPQvW8nRJBnG9dZ-AnjcynXcub) | v7.1 대본·스토리보드, 21초 구도 테스트 |
-| [02_20261001_브랜드_타이포와앱패키징_키네틱-타이포](src/projects/02_20261001_브랜드_타이포와앱패키징_키네틱-타이포) | 2026-10-01 | 키네틱 타이포·앱 패키징, 가로 35초 | – | [02_브랜드_타이포와앱패키징](https://drive.google.com/drive/folders/1tQDCUQCOpiEGWZ9LY6BqGcI9-G0ePNUF) | v13 35초 가이드 사운드 시안 |
-| [03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로](src/projects/03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로) | 2026-10-01 | 실사 발표자 + 상하 분할, 세로 30초 | – | [03_발표자_통합플랫폼_30초_v0.6](https://drive.google.com/drive/folders/19q7EtQSRgULM3mB_MOFSmsRgRAXxsLNY) | 촬영 대본·HTML 구도 시안 |
-| [04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스](src/projects/04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스) | 2026-10-05 | Higgsfield AI 영상 생성, 세로 릴스 35초 | – | [04_갈매기_35초_릴스_Higgsfield](https://drive.google.com/drive/folders/1GD_7zDIHduR_qV2tZx2-SASRJCsyuPqt) | 제작팩 v2·심도 기획 v3, 생성 영상 없음 |
-| [05_20261002_멘탈_설명형_시리즈_AI이미지-3편](src/projects/05_20261002_멘탈_설명형_시리즈_AI이미지-3편) | 2026-10-02 | AI 이미지 설명형 3편(질문·녹화·어디서나수업) | – | [05_멘탈_설명형_시리즈](https://drive.google.com/drive/folders/1DO5aMlKP2atJwgHMPZ93gL4RLo_TzHo-) | 3편 모두 검토 단계 |
-| [06_20261006_수업전중후케어_40초_앱화면-학습흐름](src/projects/06_20261006_수업전중후케어_40초_앱화면-학습흐름) | 2026-10-06 | 앱 화면 + 내레이션, 수업 전·중·후 흐름 | – | [06_수업전중후케어_40초](https://drive.google.com/drive/folders/1la2sEGeHKTpSbl5Zw-LXR7BO1M2GlDhE) | 기획·녹음 대본만 |
-| [07_20261006_수업표준화_45초_앱화면-수업형태비교](src/projects/07_20261006_수업표준화_45초_앱화면-수업형태비교) | 2026-10-06 | 앱 화면 + 내레이션, 수업 형태 4가지 비교 | – | [07_수업표준화_45초](https://drive.google.com/drive/folders/17lY4zsdAvvNvJa7kGlyQ6F_JKzeRn0-W) | 기획·녹음 대본만 |
+| [01_20261001_갈매기_Vox_문제해결형_캐릭터-해설](src/projects/01_20261001_갈매기_Vox_문제해결형_캐릭터-해설) | 2026-10-01 | 캐릭터 해설형(Vox식), 2–3분 | – | [01_20261001_갈매기_Vox_문제해결형_캐릭터-해설](https://drive.google.com/drive/folders/1ud_wYExPQvW8nRJBnG9dZ-AnjcynXcub) | v7.1 대본·스토리보드, 21초 구도 테스트 |
+| [02_20261001_브랜드_타이포와앱패키징_키네틱-타이포](src/projects/02_20261001_브랜드_타이포와앱패키징_키네틱-타이포) | 2026-10-01 | 키네틱 타이포·앱 패키징, 가로 35초 | – | [02_20261001_브랜드_타이포와앱패키징_키네틱-타이포](https://drive.google.com/drive/folders/1tQDCUQCOpiEGWZ9LY6BqGcI9-G0ePNUF) | v13 35초 가이드 사운드 시안 |
+| [03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로](src/projects/03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로) | 2026-10-01 | 실사 발표자 + 상하 분할, 세로 30초 | – | [03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로](https://drive.google.com/drive/folders/19q7EtQSRgULM3mB_MOFSmsRgRAXxsLNY) | 촬영 대본·HTML 구도 시안 |
+| [04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스](src/projects/04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스) | 2026-10-05 | Higgsfield AI 영상 생성, 세로 릴스 35초 | – | [04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스](https://drive.google.com/drive/folders/1GD_7zDIHduR_qV2tZx2-SASRJCsyuPqt) | 제작팩 v2·심도 기획 v3, 생성 영상 없음 |
+| [05_20261002_멘탈_설명형_시리즈_AI이미지-3편](src/projects/05_20261002_멘탈_설명형_시리즈_AI이미지-3편) | 2026-10-02 | AI 이미지 설명형 3편(질문·녹화·어디서나수업) | – | [05_20261002_멘탈_설명형_시리즈_AI이미지-3편](https://drive.google.com/drive/folders/1DO5aMlKP2atJwgHMPZ93gL4RLo_TzHo-) | 3편 모두 검토 단계 |
+| [06_20261006_수업전중후케어_40초_앱화면-학습흐름](src/projects/06_20261006_수업전중후케어_40초_앱화면-학습흐름) | 2026-10-06 | 앱 화면 + 내레이션, 수업 전·중·후 흐름 | – | [06_20261006_수업전중후케어_40초_앱화면-학습흐름](https://drive.google.com/drive/folders/1la2sEGeHKTpSbl5Zw-LXR7BO1M2GlDhE) | 기획·녹음 대본만 |
+| [07_20261006_수업표준화_45초_앱화면-수업형태비교](src/projects/07_20261006_수업표준화_45초_앱화면-수업형태비교) | 2026-10-06 | 앱 화면 + 내레이션, 수업 형태 4가지 비교 | – | [07_20261006_수업표준화_45초_앱화면-수업형태비교](https://drive.google.com/drive/folders/17lY4zsdAvvNvJa7kGlyQ6F_JKzeRn0-W) | 기획·녹음 대본만 |
 | [08_20261008_정글대타_63초_32컷_Blender3D-시네마틱](src/projects/08_20261008_정글대타_63초_32컷_Blender3D-시네마틱) | 2026-10-08 | Blender 3D 캐릭터 시네마틱, 63초 32컷 | – | [08_정글대타_63초_32컷](https://drive.google.com/drive/folders/16V3oTAs6zLtMUxiXxhr2JYW7dcEh_63H) | r10 63초 렌더 검토본, 70초 이하 v2 검토 중 |
-| [09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽](src/projects/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽) | 2026-10-07 | Remotion 코드 모션그래픽, 가로 30초 | `p09-classin-ai-features-30s` | 아직 없음 | v4 30초 렌더 완료(콘셉트 목업) |
+| [09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽](src/projects/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽) | 2026-10-07 | Remotion 코드 모션그래픽, 가로 30초 | `p09-classin-ai-features-30s` | [09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽](https://drive.google.com/drive/folders/1y8kegxiXT4PWTHOzxKIFbbsmxuBuUTiM) | v4 30초 렌더 완료(콘셉트 목업) |
 
 - **시작일**은 Drive 첫 해시 목록(`00_파일목록_SHA256.csv`)에서 원본 수정시각이 가장 이른 날짜(KST)입니다. 예외로 06은 참고 PDF만 10-01이라 기획 작성일을, 08은 기록상 가장 이른 자료(v10·참조 이미지)의 날짜를, 09는 이 저장소의 첫 커밋 날짜를 썼습니다.
 - 01–08 폴더에는 Drive 링크·시작일·특징·상태를 적은 README만 있습니다. 상태는 Drive 정리 문서(2026-10-12 진행표, 08은 10-14 진행현황) 기준입니다.
-- Drive 폴더는 아직 예전 이름(번호_이름)을 씁니다.
+- Drive 폴더도 01–07·09는 같은 이름입니다(2026-10-21 변경). 08은 혁님 Mac의 Blender 작업 경로가 폴더 이름을 절대경로로 참조하고 있어 Drive에서는 `08_정글대타_63초_32컷` 그대로 둡니다.
 
 ## 폴더 규칙
 

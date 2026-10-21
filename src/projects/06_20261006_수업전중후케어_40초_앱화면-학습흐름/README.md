@@ -1,6 +1,6 @@
 # 06_20261006_수업전중후케어_40초_앱화면-학습흐름
 
-Drive: [06_수업전중후케어_40초](https://drive.google.com/drive/folders/1la2sEGeHKTpSbl5Zw-LXR7BO1M2GlDhE) · 40초
+Drive: [06_20261006_수업전중후케어_40초_앱화면-학습흐름](https://drive.google.com/drive/folders/1la2sEGeHKTpSbl5Zw-LXR7BO1M2GlDhE) · 40초
 
 **시작일** 2026-10-06 (기획 요약·녹음대본 작성일(참고 PDF만 10-01)) · **특징** 실제 앱 화면 + 내레이션, 수업 전·중·후 학습 흐름을 따라감
 

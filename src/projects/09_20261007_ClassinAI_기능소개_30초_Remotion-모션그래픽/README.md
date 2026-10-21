@@ -71,7 +71,7 @@ public/00_공통에셋/fonts/       # Pretendard (SIL OFL 1.1)
 
 컴포지션 id: `p09-classin-ai-features-30s` (Studio의 `p09-classin-ai` 폴더 안).
 
-> Drive `영상_ai_프로젝트`에는 아직 09번 폴더가 없습니다(mp4는 이 저장소 `out/`에 있음). Drive 처음읽기에 "AI 강의 분석 편 미제작"으로 남아 있던 자리를 채우는 영상이라 다음 번호(09)를 붙였습니다.
+> Drive: [09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽](https://drive.google.com/drive/folders/1y8kegxiXT4PWTHOzxKIFbbsmxuBuUTiM) (2026-10-21 생성, `00_먼저읽기.md`만 있음 — mp4는 이 저장소 `out/`에서 직접 올려야 합니다). Drive 처음읽기에 "AI 강의 분석 편 미제작"으로 남아 있던 자리를 채우는 영상이라 다음 번호(09)를 붙였습니다.
 
 ## 실행
 

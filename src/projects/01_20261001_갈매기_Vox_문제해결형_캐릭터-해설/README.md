@@ -1,6 +1,6 @@
 # 01_20261001_갈매기_Vox_문제해결형_캐릭터-해설
 
-Drive: [01_갈매기_Vox_문제해결형](https://drive.google.com/drive/folders/1ud_wYExPQvW8nRJBnG9dZ-AnjcynXcub) · 2–3분 편집 방향
+Drive: [01_20261001_갈매기_Vox_문제해결형_캐릭터-해설](https://drive.google.com/drive/folders/1ud_wYExPQvW8nRJBnG9dZ-AnjcynXcub) · 2–3분 편집 방향
 
 **시작일** 2026-10-01 (21초 구도 테스트·갈매기 투명 PNG 원본 수정시각) · **특징** 갈매기 캐릭터가 문제→해결을 설명하는 Vox식 해설형, 2–3분 편집 방향
 

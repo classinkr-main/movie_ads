@@ -1,6 +1,6 @@
 # 05_20261002_멘탈_설명형_시리즈_AI이미지-3편
 
-Drive: [05_멘탈_설명형_시리즈](https://drive.google.com/drive/folders/1DO5aMlKP2atJwgHMPZ93gL4RLo_TzHo-) · 시리즈 3편: 01_질문 · 02_녹화 · 03_어디서나수업
+Drive: [05_20261002_멘탈_설명형_시리즈_AI이미지-3편](https://drive.google.com/drive/folders/1DO5aMlKP2atJwgHMPZ93gL4RLo_TzHo-) · 시리즈 3편: 01_질문 · 02_녹화 · 03_어디서나수업
 
 **시작일** 2026-10-02 (질문편 narration_v2 원본 수정시각) · **특징** AI 생성 이미지로 만드는 멘탈 설명형 시리즈 3편 — 01_질문(10-02) · 02_녹화(10-02, Grok) · 03_어디서나수업(10-03)
 

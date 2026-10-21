@@ -1,6 +1,6 @@
 # 02_20261001_브랜드_타이포와앱패키징_키네틱-타이포
 
-Drive: [02_브랜드_타이포와앱패키징](https://drive.google.com/drive/folders/1tQDCUQCOpiEGWZ9LY6BqGcI9-G0ePNUF) · 35초 · 1920×1080
+Drive: [02_20261001_브랜드_타이포와앱패키징_키네틱-타이포](https://drive.google.com/drive/folders/1tQDCUQCOpiEGWZ9LY6BqGcI9-G0ePNUF) · 35초 · 1920×1080
 
 **시작일** 2026-10-01 (초기 8초 타이포 v1 원본 수정시각) · **특징** 키네틱 타이포와 앱 패키징 중심의 브랜드 무드 영상, 가로 35초
 

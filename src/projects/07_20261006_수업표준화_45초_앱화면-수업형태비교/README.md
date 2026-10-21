@@ -1,6 +1,6 @@
 # 07_20261006_수업표준화_45초_앱화면-수업형태비교
 
-Drive: [07_수업표준화_45초](https://drive.google.com/drive/folders/17lY4zsdAvvNvJa7kGlyQ6F_JKzeRn0-W) · 45초
+Drive: [07_20261006_수업표준화_45초_앱화면-수업형태비교](https://drive.google.com/drive/folders/17lY4zsdAvvNvJa7kGlyQ6F_JKzeRn0-W) · 45초
 
 **시작일** 2026-10-06 (기획 요약·녹음대본 작성일) · **특징** 실제 앱 화면 + 내레이션, 같은 교안으로 대면·온라인·하이브리드·녹화를 비교
 

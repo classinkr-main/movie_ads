@@ -1,6 +1,6 @@
 # 03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로
 
-Drive: [03_발표자_통합플랫폼_30초_v0.6](https://drive.google.com/drive/folders/19q7EtQSRgULM3mB_MOFSmsRgRAXxsLNY) · 30초 · 1080×1920 · 11컷
+Drive: [03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로](https://drive.google.com/drive/folders/19q7EtQSRgULM3mB_MOFSmsRgRAXxsLNY) · 30초 · 1080×1920 · 11컷
 
 **시작일** 2026-10-01 (발표자 컷 이미지 원본 수정시각) · **특징** 실제 발표자 촬영 + 상하 분할 화면, 세로 1080×1920 · 11컷
 

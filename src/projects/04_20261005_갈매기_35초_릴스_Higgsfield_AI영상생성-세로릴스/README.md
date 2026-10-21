@@ -1,6 +1,6 @@
 # 04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스
 
-Drive: [04_갈매기_35초_릴스_Higgsfield](https://drive.google.com/drive/folders/1GD_7zDIHduR_qV2tZx2-SASRJCsyuPqt) · 35초 릴스
+Drive: [04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스](https://drive.google.com/drive/folders/1GD_7zDIHduR_qV2tZx2-SASRJCsyuPqt) · 35초 릴스
 
 **시작일** 2026-10-05 (Higgsfield 제작팩 v2 원본 수정시각(UTC 10-04 21:20)) · **특징** Higgsfield AI 영상 생성으로 만드는 세로 릴스, A/B/C 3안 + 심도 기획 v3
 
