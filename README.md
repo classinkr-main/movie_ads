@@ -36,7 +36,7 @@
 
 ## 소재와 출처
 
-- **사진** (`public/reel/photos/`, 25장, 최대 2560px · EXIF/GPS 제거): Drive `0. 사진창고` — classin korea 목동쇼룸, classin 연출(빈 전자칠판),
+- **사진** (`public/reel/photos/`, 23장, 최대 2560px · EXIF/GPS 제거): Drive `0. 사진창고` — classin korea 목동쇼룸, classin 연출(빈 전자칠판),
   수학의심장을달다(목동), 그릿831(대구), 라임라잇수학(부산), 정율사관(부천), 과사람(부산), 윤유경플러스(평택), 원더스잉글리시(서울), 이센스영어(울산).
   뉴스 매체 사진(정율사관 폴더의 `news-p…jpg`)과 직원 행사 사진(클래스인사이드)은 쓰지 않았습니다.
 - **영상** (`public/reel/video/`): `classinkr-web/public/video/home-hero.mp4`, `Interactive Learning with ClassIn.mp4` 구간 발췌 → 60fps 보간.
