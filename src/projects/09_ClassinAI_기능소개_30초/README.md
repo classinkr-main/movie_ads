@@ -1,4 +1,4 @@
-# Classin AI 커머셜 쇼릴 (30초, v4)
+# 09_ClassinAI_기능소개_30초 — Classin AI 커머셜 쇼릴 (v4)
 
 **"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고
 **"지금 문의하기"** CTA로 끝나는 30초 가로(16:9) 커머셜 쇼릴입니다. v4부터 모든 기능 화면을 하나의 예시 수업(중2 국어)으로 채웠습니다. [Remotion](https://www.remotion.dev/) 4 기반이라
@@ -6,7 +6,7 @@
 
 | 산출물 | 규격 | 경로 |
 | --- | --- | --- |
-| 메인 (16:9) | 1920×1080 · 30fps · 30s · H.264 · yuv420p bt709 · 무음 | `out/classin-ai/showreel.mp4` |
+| 메인 (16:9) | 1920×1080 · 30fps · 30s · H.264 · yuv420p bt709 · 무음 | `out/09_ClassinAI_기능소개_30초/ClassinAI_기능소개_30초_v4.mp4` |
 
 > v1(20초 다크 톤 · 9:16 포함), v2(23초 AI 강의 분석 단독), v3(25초 5개 기능 · 스켈레톤 UI)는 git 히스토리에 남아 있습니다.
 
@@ -53,7 +53,7 @@
 ## 폴더 구조
 
 ```
-src/projects/classin-ai/showreel/
+src/projects/09_ClassinAI_기능소개_30초/
   Showreel.tsx              # TransitionSeries 타임라인 + 커스텀 전환(연두 스윕·패럴랙스 푸시·연두 아이리스) + 챕터 레일 오버레이
   theme.ts                  # 팔레트 · FPS · 길이(900f)
   scenes/Opening · F01Eval · F02Script · F03Homework · F04Subtitle · F05Agent · Cta
@@ -63,16 +63,19 @@ src/projects/classin-ai/showreel/
   components/Ui.tsx         # Eyebrow · Chip · Sticker · Pop · Rise · 로고
   components/Backgrounds.tsx# IvoryStage · LimeStage · PanelWipe · Grain
 src/shared/fonts.ts · motion.ts   # Pretendard 로드 · 스프링 프리셋(모든 영상 공용)
-public/projects/classin-ai/brand/ # Classin 마크·워드마크·스택 로고
+public/00_공통에셋/brand/       # Classin 마크·워드마크·스택 로고
+public/00_공통에셋/fonts/       # Pretendard (SIL OFL 1.1)
 ```
 
-컴포지션 id: `classin-ai-showreel` (Studio의 `classin-ai` 폴더 안).
+컴포지션 id: `p09-classin-ai-features-30s` (Studio의 `p09-classin-ai` 폴더 안).
+
+> Drive `영상_ai_프로젝트`에는 아직 09번 폴더가 없습니다. Drive 처음읽기에 "AI 강의 분석 편 미제작"으로 남아 있던 자리를 채우는 영상이라 다음 번호(09)를 붙였습니다.
 
 ## 실행
 
 ```bash
 npm run dev                          # Remotion Studio
-npm run render:classin-ai/showreel   # out/classin-ai/showreel.mp4
+npm run render:p09   # out/09_ClassinAI_기능소개_30초/ClassinAI_기능소개_30초_v4.mp4
 ```
 
 ## 수정 가이드
@@ -82,7 +85,7 @@ npm run render:classin-ai/showreel   # out/classin-ai/showreel.mp4
 - **예시 수업 바꾸기** — 각 기능 씬 상단 상수(`AREAS`·`LINES`·`QS`·`LANGS`·`UNITS` 등)와 `Showreel.tsx`의 예시 수업 라벨 문자열.
 - **타이밍** — `Showreel.tsx`의 `TIMELINE`(씬 길이, 전환 겹침 포함)과 `TRANSITIONS`. 합계 − 전환 합계 = 900.
 - **색** — `theme.ts`.
-- **BGM/SFX** — `Showreel.tsx`에 `<Audio src={staticFile("projects/classin-ai/audio/bgm.mp3")} />` 추가. 전환 시작 프레임은 `starts` 배열 참고.
+- **BGM/SFX** — `Showreel.tsx`에 `<Audio src={staticFile("09_ClassinAI_기능소개_30초/audio/bgm.mp3")} />` 추가. 전환 시작 프레임은 `starts` 배열 참고.
 
 ## 참고한 라이브러리
 

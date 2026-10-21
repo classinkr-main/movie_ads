@@ -4,7 +4,7 @@ import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import type { TransitionPresentation, TransitionPresentationComponentProps } from "@remotion/transitions";
 import { Grain } from "./components/Backgrounds";
 import { ChapterRail } from "./components/Feature";
-import { FONT_FAMILY } from "../../../shared/fonts";
+import { FONT_FAMILY } from "../../shared/fonts";
 import { C } from "./theme";
 import { Opening } from "./scenes/Opening";
 import { F01Eval } from "./scenes/F01Eval";

@@ -3,8 +3,8 @@ import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CardHeader, FeatureLayout, UiCard } from "../components/Feature";
 import { ClipReveal, RollingNumber, TypeText } from "../components/Flourish";
 import { Chip } from "../components/Ui";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, PUNCH, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, PUNCH, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 const SWITCH = 84; // 학생 질문 → 교사 상담 탭 전환

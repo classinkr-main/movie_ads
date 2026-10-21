@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, useCurrentFrame, useVideoConfig } from "remotion";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, PUNCH, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, PUNCH, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 // 형광펜 스트로크 — 글자 뒤에서 왼쪽→오른쪽으로 칠해진다.

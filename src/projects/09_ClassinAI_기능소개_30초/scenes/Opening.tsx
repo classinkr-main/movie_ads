@@ -4,8 +4,8 @@ import { IvoryStage } from "../components/Backgrounds";
 import { FEATURES } from "../components/Feature";
 import { Burst, Chars, Highlighter } from "../components/Flourish";
 import { Eyebrow, LogoMark, Pop, Rise } from "../components/Ui";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 // S1 — 오프닝: "Classin AI로, 수업을 업그레이드." + 5개 기능 목차

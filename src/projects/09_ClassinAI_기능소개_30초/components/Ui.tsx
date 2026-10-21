@@ -1,8 +1,8 @@
 import React from "react";
 import { Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { clamp, PUNCH, SMOOTH, sp } from "../../../../shared/motion";
+import { clamp, PUNCH, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
-import { FONT_FAMILY } from "../../../../shared/fonts";
+import { FONT_FAMILY } from "../../../shared/fonts";
 
 export const Eyebrow: React.FC<{ children: React.ReactNode; color?: string; size?: number; style?: React.CSSProperties }> = ({
   children,
@@ -136,13 +136,13 @@ export const Rise: React.FC<{ delay?: number; children: React.ReactNode; style?:
 };
 
 export const LogoMark: React.FC<{ height: number; style?: React.CSSProperties }> = ({ height, style }) => (
-  <Img src={staticFile("projects/classin-ai/brand/classin-mark.png")} style={{ height, width: "auto", display: "block", ...style }} />
+  <Img src={staticFile("00_공통에셋/brand/classin-mark.png")} style={{ height, width: "auto", display: "block", ...style }} />
 );
 
 export const LogoStacked: React.FC<{ height: number; style?: React.CSSProperties }> = ({ height, style }) => (
-  <Img src={staticFile("projects/classin-ai/brand/classin-logo-stacked.png")} style={{ height, width: "auto", display: "block", ...style }} />
+  <Img src={staticFile("00_공통에셋/brand/classin-logo-stacked.png")} style={{ height, width: "auto", display: "block", ...style }} />
 );
 
 export const Wordmark: React.FC<{ height: number; style?: React.CSSProperties }> = ({ height, style }) => (
-  <Img src={staticFile("projects/classin-ai/brand/classin-wordmark.png")} style={{ height, width: "auto", display: "block", ...style }} />
+  <Img src={staticFile("00_공통에셋/brand/classin-wordmark.png")} style={{ height, width: "auto", display: "block", ...style }} />
 );

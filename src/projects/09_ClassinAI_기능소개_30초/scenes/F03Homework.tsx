@@ -4,8 +4,8 @@ import { CardHeader, FeatureLayout, Stamp, UiCard } from "../components/Feature"
 import type { StampKind } from "../components/Feature";
 import { Burst, ClipReveal, RollingNumber, TypeText } from "../components/Flourish";
 import { Chip, Pop } from "../components/Ui";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 const QS: Array<{ type: "객관식" | "서술형"; q: string; a: string; kind: StampKind }> = [

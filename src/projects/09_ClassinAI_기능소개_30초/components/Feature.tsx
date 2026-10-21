@@ -3,8 +3,8 @@ import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remo
 import { IvoryStage } from "./Backgrounds";
 import { DrawLine, MaskText } from "./Kinetic";
 import { Chip, Eyebrow, Rise } from "./Ui";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 export const FEATURES = [

@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render",
-    "render:classin-ai/showreel": "remotion render classin-ai-showreel out/classin-ai/showreel.mp4",
-    "still:classin-ai/showreel": "remotion still classin-ai-showreel out/classin-ai/showreel.png --frame=300",
+    "render:p09": "remotion render p09-classin-ai-features-30s out/09_ClassinAI_기능소개_30초/ClassinAI_기능소개_30초_v4.mp4",
+    "still:p09": "remotion still p09-classin-ai-features-30s out/09_ClassinAI_기능소개_30초/still.png --frame=300",
     "typecheck": "tsc --noEmit"
   },
   "repository": {

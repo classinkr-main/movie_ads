@@ -3,8 +3,8 @@ import { interpolate, random, useCurrentFrame, useVideoConfig } from "remotion";
 import { CardHeader, FeatureLayout, UiCard } from "../components/Feature";
 import { ClipReveal, RollingNumber } from "../components/Flourish";
 import { Chip } from "../components/Ui";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 // 예시 수업: 중2 국어 A반 · 3단원 비유와 상징 · 윤동주 「서시」 (45분). 점수는 예시.

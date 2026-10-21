@@ -2,8 +2,8 @@ import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { FeatureLayout } from "../components/Feature";
 import { ClipReveal, TypeText } from "../components/Flourish";
-import { FONT_FAMILY } from "../../../../shared/fonts";
-import { clamp, SMOOTH, sp } from "../../../../shared/motion";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
 import { C } from "../theme";
 
 const KO = "'별'은 화자가 지향하는 이상을 상징해요.";
