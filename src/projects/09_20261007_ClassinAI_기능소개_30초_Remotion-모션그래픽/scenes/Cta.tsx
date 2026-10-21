@@ -1,9 +1,9 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { IvoryStage } from "../components/Backgrounds";
+import { IvoryStage } from "../../../shared/brand/Backgrounds";
 import { FEATURES } from "../components/Feature";
-import { Burst, Chars, Dots, Highlighter } from "../components/Flourish";
-import { Chip, LogoStacked, Pop, Rise } from "../components/Ui";
+import { Burst, Chars, Dots, Highlighter } from "../../../shared/brand/Flourish";
+import { Chip, LogoStacked, Pop, Rise } from "../../../shared/brand/Ui";
 import { FONT_FAMILY } from "../../../shared/fonts";
 import { C } from "../theme";
 

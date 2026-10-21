@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, useCurrentFrame } from "remotion";
-import { C } from "../theme";
+import { C } from "./theme";
 
 // 아이보리 스테이지 — 따뜻한 베이스 + 헤어라인 그리드 + 천천히 떠다니는 연두 글로우
 export const IvoryStage: React.FC<{ children?: React.ReactNode; variant?: "ivory" | "ivory2" | "white"; glow?: boolean; grid?: boolean; drift?: boolean }> = ({

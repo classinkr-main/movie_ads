@@ -57,14 +57,11 @@
 ```
 src/projects/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/
   Showreel.tsx              # TransitionSeries 타임라인 + 커스텀 전환(연두 스윕·패럴랙스 푸시·연두 아이리스) + 챕터 레일 오버레이
-  theme.ts                  # 팔레트 · FPS · 길이(900f)
+  theme.ts                  # FPS · 길이(900f) — 팔레트 C는 shared/brand/theme 재노출
   scenes/Opening · F01Eval · F02Script · F03Homework · F04Subtitle · F05Agent · Cta
-  components/Feature.tsx    # FEATURES 목록 · FeatureLayout(텍스트 컬럼 + 카드 컬럼) · ChapterRail · UiCard · CardHeader · Stamp
-  components/Flourish.tsx   # Highlighter · Chars · RollingNumber · Burst · Dots · GlassCard · GhostWord · TypeText · ClipReveal · SkeletonLine
-  components/Kinetic.tsx    # WordPop · MaskText · CountUp · DrawLine
-  components/Ui.tsx         # Eyebrow · Chip · Sticker · Pop · Rise · 로고
-  components/Backgrounds.tsx# IvoryStage · LimeStage · PanelWipe · Grain
-src/shared/fonts.ts · motion.ts   # Pretendard 로드 · 스프링 프리셋(모든 영상 공용)
+  components/Feature.tsx    # FEATURES 목록 · FeatureLayout(텍스트 컬럼 + 카드 컬럼) · ChapterRail (UiCard·CardHeader·Stamp는 shared/brand/Card 재노출)
+src/shared/brand/           # 2026-10-21 이 영상에서 공용으로 올림 — theme(팔레트) · Backgrounds · Kinetic · Flourish · Ui · Card · Narrated(06·07용)
+src/shared/fonts.ts · motion.ts   # Pretendard 로드 · 스프링 프리셋
 public/00_공통에셋/brand/       # Classin 마크·워드마크·스택 로고
 public/00_공통에셋/fonts/       # Pretendard (SIL OFL 1.1)
 ```
@@ -86,7 +83,7 @@ npm run render:p09   # out/09_20261007_ClassinAI_기능소개_30초_Remotion-모
 - **카피** — 각 기능 씬의 `title`/`sub`/`bullets` props와 카드 안 문자열.
 - **예시 수업 바꾸기** — 각 기능 씬 상단 상수(`AREAS`·`LINES`·`QS`·`LANGS`·`UNITS` 등)와 `Showreel.tsx`의 예시 수업 라벨 문자열.
 - **타이밍** — `Showreel.tsx`의 `TIMELINE`(씬 길이, 전환 겹침 포함)과 `TRANSITIONS`. 합계 − 전환 합계 = 900.
-- **색** — `theme.ts`.
+- **색** — `src/shared/brand/theme.ts`(06·07도 같이 바뀜).
 - **BGM/SFX** — `Showreel.tsx`에 `<Audio src={staticFile("09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/audio/bgm.mp3")} />` 추가. 전환 시작 프레임은 `starts` 배열 참고.
 
 ## 참고한 라이브러리

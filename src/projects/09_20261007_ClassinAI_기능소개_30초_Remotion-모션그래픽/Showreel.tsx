@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, Easing, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import type { TransitionPresentation, TransitionPresentationComponentProps } from "@remotion/transitions";
-import { Grain } from "./components/Backgrounds";
+import { Grain } from "../../shared/brand/Backgrounds";
 import { ChapterRail } from "./components/Feature";
 import { FONT_FAMILY } from "../../shared/fonts";
 import { C } from "./theme";

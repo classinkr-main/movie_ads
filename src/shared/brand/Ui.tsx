@@ -1,8 +1,8 @@
 import React from "react";
 import { Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { clamp, PUNCH, SMOOTH, sp } from "../../../shared/motion";
-import { C } from "../theme";
-import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, PUNCH, SMOOTH, sp } from "../motion";
+import { C } from "./theme";
+import { FONT_FAMILY } from "../fonts";
 
 export const Eyebrow: React.FC<{ children: React.ReactNode; color?: string; size?: number; style?: React.CSSProperties }> = ({
   children,

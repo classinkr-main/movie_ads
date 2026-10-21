@@ -1,6 +1,6 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { clamp, PUNCH, SMOOTH, sp } from "../../../shared/motion";
+import { clamp, PUNCH, SMOOTH, sp } from "../motion";
 
 type PopProps = {
   delay?: number;
