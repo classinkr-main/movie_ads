@@ -6,7 +6,9 @@
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render:guangzhou": "remotion render GuangzhouVlog out/guangzhou-vlog-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh",
+    "still:guangzhou": "remotion still GuangzhouVlog out/guangzhou-still.png --frame=180"
   },
   "repository": {
     "type": "git",

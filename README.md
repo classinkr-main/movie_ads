@@ -1,3 +1,58 @@
+# Classin 광고 영상 (Remotion)
+
+| 영상 | 규격 | 경로 |
+| --- | --- | --- |
+| 광저우 탐방 브이로그 × Classin (9:16) | 1080×1920 · 30fps · 30s · H.264 · AAC 48kHz · -14 LUFS | `out/guangzhou-vlog.mp4` |
+| Classin AI 커머셜 쇼릴 (16:9) | 1920×1080 · 30fps · 30s · H.264 · 무음 | `out/classin-ai-showreel.mp4` |
+
+## 광저우 탐방 브이로그 × Classin (30초, 세로)
+
+"2026 글로벌 교육 인사이트 · 광저우"(2026.01.22–24, 한국 교육 리더 방문단) 현장 촬영본으로 만든 브이로그형 광고입니다.
+릴스·쇼츠·틱톡용 9:16이며, 마지막 5초에 "광저우에서 만난 수업의 미래, 이제 우리 학원에서." → Classin 엔드카드로 이어집니다.
+
+### 구성 (900f · 120BPM — 모든 컷이 한 박(15f) 그리드 위)
+
+| 구간 | 프레임 | 내용 |
+| --- | --- | --- |
+| 훅 | 0–90 | "중국 교실은 / 지금 어디까지 / 왔을까?" — 주강신도시 빌딩숲 → 야경 → 휩 업 → 광저우타워 + "그래서, 직접 보고 왔습니다" |
+| 항로 | 90–150 | 줌 스루 → 동아시아 도트 맵, 한국 → 광저우 비행 + "3일간의 교육 탐방" |
+| 타이틀 | 150–210 | 드롭 임팩트(플래시·셰이크·색수차) — 공항 현수막(실제 행사명) 위 "Global Education Insight · 광저우 广州" |
+| DAY 1 | 210–390 | DAY 와이프 → 버스 창밖 주강 · 광장 · 환영 만찬(현장 박수) · 야식 폴라로이드 · 광저우 타워(줌 블러) · 무지개 타워 |
+| DAY 2 | 390–630 | 교육기관 방문 · 교류단 복도 입장 · 환영 배너 → 강당 리빌(속도 램프) · 딤섬 폴라로이드 · 온라인 강의 스튜디오 · 연회(현장 환호) |
+| DAY 3 | 630–750 | 파저우 빌딩 · EEO 로고 월 · Classin 스마트 교실 · Classin 보드 시연 · 차 · 단체 사진 폴라로이드 |
+| 메시지 | 750–810 | 브랜드 드롭 — "광저우에서 만난 수업의 미래," |
+| 엔드카드 | 810–900 | 그린 아이리스 → "이제, 우리 학원에서." · Classin 로고 · 수업 시스템 OS · 지금 문의하기 · classin.co.kr |
+
+### 편집·이펙트
+
+- **색**: 아이폰 16 Pro 4K 120fps HLG 원본 → hable 톤매핑 → 자체 룩 LUT 3종(주간·야간·사진, `scripts/guangzhou/make_lut.py`).
+- **리타이머** (`scripts/guangzhou/prep_clip.py`): PCHIP 속도 램프 + 180° 셔터 모션블러(120fps 프레임 블렌딩), 컷마다 8f 핸들 → 1440×2560 클립.
+- **전환**: 휩 팬(방향성 모션블러), 줌 블러, 줌 스루, 임팩트(플래시·셰이크·RGB 분리), 셔터, DAY 와이프, 그린 아이리스 — `src/guangzhou/GuangzhouVlog.tsx`.
+- **그래픽**: 키네틱 타이포(Pretendard), 손글씨 캡션(나눔펜, 쓰기 리빌 + 밑줄), 위치 칩, 필름 날짜 각인(DSEG7), 폴라로이드 포토덤프, 비트 펄스, 라이트 릭, 필름 그레인, 비네트.
+- **오디오** (`scripts/guangzhou/make_audio.py`): BGM(120BPM F장조, 인트로 → 드롭 → 빌드업 → 브랜드 드롭)·효과음·현장음 믹스를 직접 합성 — 샘플·라이선스 음원 없음. -14 LUFS / True Peak -1.5 dBTP.
+
+### 카피·사실 확인 참고
+
+- 행사명 "2026 글로벌 교육 인사이트 · 광저우"와 "한국 교육 리더 방문단"은 현장 현수막(韩国教育领袖访华团) 기준, 날짜는 촬영 메타데이터(2026-01-22~24) 기준입니다.
+- 현수막 번역 자막은 "热烈欢迎韩国教培交流团莅临交流"의 의역입니다. 방문 기관명은 자막에 쓰지 않았습니다(화면 속 간판·배너로만 노출).
+- 3일차 장소는 EEO(Classin 개발사) 로고 월과 Classin 보드가 있는 교실 촬영본입니다.
+- 브랜드 카피는 `classinkr-web` 정본(카테고리명 "수업 시스템 OS", 보이스 헌장)을 따랐고, 회사 수치는 넣지 않았습니다.
+- 행사 참가자 얼굴이 나옵니다. 외부 게시 전에 출연자 동의 범위를 확인해 주세요.
+
+### 실행
+
+```bash
+npm run render:guangzhou                    # out/guangzhou-vlog-master.mp4(CRF 17) → out/guangzhou-vlog.mp4(업로드용 2-pass 9Mbps)
+python3 scripts/guangzhou/prepare.py        # 소스 재생성: Drive 원본 → 컷·사진·현장음·BGM (public/guangzhou)
+node scripts/guangzhou/stills.mjs <dir> 180 400 780   # 지정 프레임 스틸 확인
+```
+
+- 타임라인(컷·전환)은 `src/guangzhou/timeline.json` 하나가 영상과 효과음 배치를 함께 결정합니다. 컷 길이를 바꾸면 `make_audio.py`를 다시 돌립니다.
+- 컷 구간·속도 램프는 `scripts/guangzhou/shots.json`, 캡션 문구는 `GuangzhouVlog.tsx`의 `ShotDecor`·`GlobalCaptions`, 엔드카드는 `scenes.tsx`의 `EndCard`.
+- 서체: 나눔펜·Instrument Serif·Noto Serif SC(서브셋)·DSEG7 — 모두 SIL OFL 1.1 (`public/guangzhou/fonts/LICENSE-*`).
+
+---
+
 # Classin AI 커머셜 쇼릴 (30초, v4)
 
 **"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고

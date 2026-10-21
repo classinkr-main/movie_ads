@@ -5,3 +5,7 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+scripts/guangzhou/.src
+scripts/guangzhou/luts
+__pycache__
+out/*-master.mp4
