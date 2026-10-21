@@ -5,3 +5,7 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+
+# 숏폼 — 원본에서 잘라 낸 클립과 렌더 결과는 용량이 커서 저장소에 넣지 않는다(scripts/cut-clips.py로 재생성)
+public/shorts/
+out/shorts/

@@ -6,7 +6,9 @@
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "shorts:cut": "python3 scripts/cut-clips.py",
+    "shorts:render": "for id in short-01-ai-teacher short-02-institution short-03-learning; do remotion render $id out/shorts/$id.mp4 --crf=20; done"
   },
   "repository": {
     "type": "git",

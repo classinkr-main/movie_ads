@@ -50,11 +50,45 @@
 - 점수(종합 88, 영역 92/88/81/90, 형성평가 90점, 반 평균 82, 단원 성취도 72/78/90)와 발문 14회, 발화 비율, 제출 24/28, 제출률 92%는 모두 예시 수치입니다.
 - CTA URL은 사이트 정본 도메인 `classin.co.kr/contact`.
 
+## 숏폼 (9:16) — 2026 아시아 AI 교육 포럼 · 허첸 CTO 세션
+
+포럼 영상(드라이브 「부산 포럼 영상/허첸 진행자.mp4」, 28:54)에서 한국 교육 업계(학원 원장·강사)가 반응할 구간 세 개를 골라 세로 숏폼으로 만듭니다.
+
+| 컴포지션 | 상단 카피 | 길이 | 원본 구간(파일 기준) |
+| --- | --- | --- | --- |
+| `short-01-ai-teacher` | 매년 똑같은 강의라면, **AI가 대체**할 수 있다 | 66.5s | Q&A 25:24~28:44 — 현장 질문 "AI의 부속품 같은 선생님이 되지 않을까?"와 답변 |
+| `short-02-institution` | 수업의 질, 아직도 **강사 한 명**에게 달렸나요? | 35.6s | 16:22~17:06 — 강사 개인기에서 기관의 데이터·AI 경쟁력으로 |
+| `short-03-learning` | AI가 이제 **'왜 막혔는지'**까지 봅니다 | 48.4s | 7:46~9:06 — AI가 학생 한 명의 학습 과정을 이해한다 |
+
+- **레이아웃(1080×1920)**: 상단 행사명·헤드 카피 → 가운데 16:9 영상 → 바로 아래 원어(중국어) + 한국어 자막 → 하단 Classin 워드마크. 맨 아래 250px는 플랫폼 UI 자리로 비워 둡니다.
+- **화면**: 원본은 무대 와이드 샷이고 LED 화면 오른쪽에 발표자 클로즈업이 뜹니다. 구간마다 `wide`(LED 전체)와 `close`(발표자) 크롭을 번갈아 써서 점프컷을 투캠 편집처럼 보이게 합니다.
+- **오디오·인코딩**: 구간 경계 30ms 페이드, 라우드니스 -14 LUFS. 숏폼은 업로드용이라 CRF 20으로 렌더합니다(쇼릴은 16).
+- **자막**: Whisper large-v3-turbo로 받아쓴 뒤 포럼 전체 자막과 대조해 정리했습니다. 한국어 발화(현장 질문)는 한국어 한 줄만 표시합니다.
+
+### 검수 참고
+
+- 원본 파일 자체가 점프컷 편집본이라 문장 중간이 잘린 곳이 있습니다. 마무리 발언의 "혁신은 대부분 **구미**에서 왔다. 다음은 **우리**에게서"는 이 파일에서 "혁신은 대부분 **우리**에게서 왔다"로 이어 붙어 있어(1123.8s·1126.4s 컷) 뜻이 반대가 되므로 쓰지 않았습니다.
+- Q&A 중 "스탠퍼드 졸업생 280여 명 중 취업자 20명 미만" 일화는 출처를 확인할 수 없어 컷에서 뺐습니다.
+- 1번의 "매년 똑같은 강의는 단순 반복이라 대체될 수 있다"는 원본 1680.3s 컷 앞뒤("简单的 | 把那个替掉")를 포럼 전체 자막 기준으로 이어 번역했습니다.
+
+### 다시 만들기
+
+```bash
+npm run shorts:cut -- <원본 mp4 경로>   # src/shorts/specs/*.json의 segments대로 public/shorts/<id>.mp4 생성
+npm run shorts:render                    # out/shorts/<id>.mp4
+```
+
+구간·자막·카피는 `src/shorts/specs/<id>.json` 하나에서 고칩니다. 시간은 모두 원본 파일 기준 초이고, 클립 위치로의 변환은 `src/shorts/timeline.ts`가 합니다. 구간을 바꾸면 `shorts:cut`부터 다시 돌립니다.
+
 ## 프로젝트 구조
 
 ```
 src/
-  Root.tsx                  # Showreel(16:9) 컴포지션
+  Root.tsx                  # Showreel(16:9) + 숏폼 3편(9:16) 컴포지션
+  shorts/ShortForm.tsx      # 숏폼 레이아웃 — 헤드 카피 · 크롭 영상 · 이름표 · 원어/한국어 자막 · Classin
+  shorts/specs/*.json       # 숏폼별 구간 · 자막 · 카피 · 크롭(원본 기준 초)
+  shorts/timeline.ts        # 원본 시각 → 클립 시각 변환, 프레임 고정 구간 길이
+scripts/cut-clips.py        # 스펙대로 원본을 잘라 이어 붙여 public/shorts/<id>.mp4 생성
   Showreel.tsx              # TransitionSeries 타임라인 + 커스텀 전환(연두 스윕·패럴랙스 푸시·연두 아이리스) + 챕터 레일 오버레이
   scenes/Opening · F01Eval · F02Script · F03Homework · F04Subtitle · F05Agent · Cta
   components/Feature.tsx    # FEATURES 목록 · FeatureLayout(텍스트 컬럼 + 카드 컬럼) · ChapterRail · UiCard · CardHeader · Stamp
@@ -64,8 +98,8 @@ src/
   components/Backgrounds.tsx# IvoryStage · LimeStage · PanelWipe · Grain
   lib/theme.ts              # 팔레트 · FPS · 길이(900f)
   lib/motion.ts             # 스프링 프리셋 · 이징
-  lib/fonts.ts              # Pretendard 6굵기 로드
-public/fonts/               # Pretendard (SIL OFL 1.1)
+  lib/fonts.ts              # Pretendard 6굵기 + Noto Sans SC 2굵기(숏폼 중국어 자막) 로드
+public/fonts/               # Pretendard · Noto Sans SC GB2312 서브셋 (둘 다 SIL OFL 1.1)
 public/brand/               # Classin 마크·워드마크·스택 로고
 ```
 
