@@ -5,7 +5,7 @@
     [{ "t": "AI가 이제" }],
     [{ "t": "'왜 막혔는지'", "hl": true }, { "t": "까지 봅니다" }]
   ],
-  "speakers": [{ "name": "허첸", "role": "ClassIn 공동창업자 · CTO" }],
+  "speakers": [{ "name": "허첸", "role": "ClassIn CTO" }],
   "crops": {
     "wide": { "x": 170, "y": 0, "w": 1490 },
     "close": { "x": 960, "y": 110, "w": 760 }

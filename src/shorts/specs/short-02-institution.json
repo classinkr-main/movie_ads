@@ -5,7 +5,7 @@
     [{ "t": "수업의 질, 아직도" }],
     [{ "t": "강사 한 명", "hl": true }, { "t": "에게 달렸나요?" }]
   ],
-  "speakers": [{ "name": "허첸", "role": "ClassIn 공동창업자 · CTO" }],
+  "speakers": [{ "name": "허첸", "role": "ClassIn CTO" }],
   "crops": {
     "wide": { "x": 170, "y": 0, "w": 1490 },
     "close": { "x": 960, "y": 110, "w": 760 }

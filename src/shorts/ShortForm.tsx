@@ -6,12 +6,14 @@ import { C } from "../lib/theme";
 import { segmentAt, segmentOffsets, timedCues } from "./timeline";
 import type { Crop, ShortSpec } from "./types";
 
-// 1080×1920 세로 레이아웃. 상단 헤드 카피 → 가운데 16:9 영상 → 바로 아래 원어·한국어 자막 → 하단 Classin
+// 1080×1920 세로 레이아웃. 상단 헤드 카피 → 가운데 16:9 영상(왼쪽 위 이름표) → 영상 하단에 겹친 원어·한국어 자막 → 하단 Classin
 export const SHORT_W = 1080;
 export const SHORT_H = 1920;
 const VIDEO_TOP = 650;
 const VIDEO_H = Math.round((SHORT_W * 9) / 16); // 608
-const SUB_TOP = VIDEO_TOP + VIDEO_H + 44;
+// 한국어 자막 첫 줄 위치. 영상 아래쪽 100px에 겹치고, 원어 줄은 그 위에 붙는다
+const KO_TOP = VIDEO_TOP + VIDEO_H - 100;
+const TAG_BRIEF_SEC = 3.5; // 연사 이름표가 떠 있는 시간
 
 const BG_TOP = "#0F2119";
 const BG_BOTTOM = "#07110D";
@@ -150,48 +152,64 @@ const VideoPane: React.FC<{ spec: ShortSpec; clip: string }> = ({ spec, clip }) 
           maxWidth: "none",
         }}
       />
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 300, background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.74) 100%)" }} />
     </div>
   );
 };
 
+// 화자별 발화 구간(연속된 같은 화자 자막 묶음)
+const speakerRuns = (spec: ShortSpec) => {
+  const runs: Array<{ speaker: number; start: number; end: number }> = [];
+  for (const c of timedCues(spec)) {
+    const last = runs[runs.length - 1];
+    if (last && last.speaker === c.speaker) last.end = c.until;
+    else runs.push({ speaker: c.speaker, start: c.at, end: c.until });
+  }
+  return runs;
+};
+
+// 영상 왼쪽 위 이름표. tag "run"(현장 질문)은 말하는 동안 계속, 기본(연사)은 처음 말을 시작할 때만 잠깐 보였다 사라진다
 const NameTag: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
-  // 지금 화자와, 그 화자가 말하기 시작한 시점(화자가 바뀔 때마다 이름표가 다시 들어온다)
-  let speakerIdx = spec.cues[0].speaker;
-  let runStart = 0;
-  for (const c of timedCues(spec)) {
-    if (c.at > t) break;
-    if (c.speaker !== speakerIdx) runStart = c.at;
-    speakerIdx = c.speaker;
-  }
-  const speaker = spec.speakers[speakerIdx];
-  const local = frame - Math.round(runStart * fps);
-  const s = sp(local, fps, SMOOTH, 14);
+  const runs = speakerRuns(spec);
+  const idx = runs.findIndex((r, i) => t >= r.start && (i === runs.length - 1 || t < runs[i + 1].start));
+  if (idx < 0) return null;
+  const run = runs[idx];
+  const speaker = spec.speakers[run.speaker];
+  const firstRun = runs.findIndex((r) => r.speaker === run.speaker) === idx;
+  const until = speaker.tag === "run" ? run.end : run.start + TAG_BRIEF_SEC;
+  if (speaker.tag !== "run" && !firstRun) return null;
+  const inF = frame - Math.round(run.start * fps);
+  const outF = Math.round(until * fps) - frame;
+  const opacity = Math.min(interpolate(inF, [0, 6], [0, 1], clamp), interpolate(outF, [0, 10], [0, 1], clamp));
+  if (opacity <= 0) return null;
+  const s = sp(inF, fps, SMOOTH, 14);
   return (
     <div
       style={{
         position: "absolute",
-        left: 28,
-        top: VIDEO_TOP + VIDEO_H - 92,
+        left: 24,
+        top: VIDEO_TOP + 24,
         display: "flex",
         alignItems: "center",
-        gap: 14,
-        padding: "12px 22px 12px 14px",
-        borderRadius: 999,
-        background: "rgba(7,17,13,0.78)",
-        border: "1px solid rgba(200,240,90,0.35)",
-        opacity: interpolate(local, [0, 6], [0, 1], clamp),
-        transform: `translateX(${interpolate(s, [0, 1], [-24, 0])}px)`,
+        gap: 12,
+        padding: "10px 18px 10px 14px",
+        borderRadius: 10,
+        background: "rgba(0,0,0,0.45)",
+        opacity,
+        transform: `translateX(${interpolate(s, [0, 1], [-16, 0])}px)`,
       }}
     >
-      <span style={{ width: 12, height: 12, borderRadius: 6, background: C.lime, marginLeft: 6 }} />
-      <span style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 800, color: C.white, letterSpacing: "-0.02em" }}>{speaker.name}</span>
-      <span style={{ fontFamily: FONT_FAMILY, fontSize: 24, fontWeight: 500, color: "rgba(255,255,255,0.72)" }}>{speaker.role}</span>
+      <span style={{ width: 4, alignSelf: "stretch", borderRadius: 2, background: C.lime }} />
+      <span style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 700, color: C.white, letterSpacing: "-0.02em" }}>{speaker.name}</span>
+      {speaker.role ? <span style={{ fontFamily: FONT_FAMILY, fontSize: 24, fontWeight: 500, color: "rgba(255,255,255,0.72)" }}>{speaker.role}</span> : null}
     </div>
   );
 };
+
+const SUB_SHADOW = "0 2px 4px rgba(0,0,0,0.55), 0 0 22px rgba(0,0,0,0.45)";
 
 const Subtitles: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
   const frame = useCurrentFrame();
@@ -202,23 +220,27 @@ const Subtitles: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
   const local = frame - Math.round(cue.at * fps);
   const appear = interpolate(local, [0, 4], [0, 1], clamp);
   return (
-    <div
-      style={{
-        position: "absolute",
-        left: 50,
-        right: 50,
-        top: SUB_TOP,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 16,
-        textAlign: "center",
-        opacity: appear,
-        transform: `translateY(${interpolate(appear, [0, 1], [10, 0])}px)`,
-      }}
-    >
+    <div style={{ position: "absolute", left: 50, right: 50, top: KO_TOP, textAlign: "center", opacity: appear, transform: `translateY(${interpolate(appear, [0, 1], [10, 0])}px)` }}>
       {cue.src ? (
-        <div style={{ fontFamily: FONT_FAMILY_ZH, fontSize: 36, fontWeight: 500, lineHeight: 1.4, color: "rgba(255,255,255,0.62)", letterSpacing: "0.01em", textWrap: "balance" }}>{cue.src}</div>
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: "100%",
+            marginBottom: 12,
+            fontFamily: FONT_FAMILY_ZH,
+            fontSize: 36,
+            fontWeight: 500,
+            lineHeight: 1.4,
+            color: "rgba(255,255,255,0.78)",
+            letterSpacing: "0.01em",
+            textWrap: "balance",
+            textShadow: SUB_SHADOW,
+          }}
+        >
+          {cue.src}
+        </div>
       ) : null}
       <div
         style={{
@@ -230,7 +252,7 @@ const Subtitles: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
           color: C.white,
           wordBreak: "keep-all",
           textWrap: "balance",
-          textShadow: "0 2px 12px rgba(0,0,0,0.35)",
+          textShadow: SUB_SHADOW,
         }}
       >
         <Emph text={cue.ko} />

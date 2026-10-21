@@ -6,8 +6,8 @@
     [{ "t": "AI가 대체", "hl": true }, { "t": "할 수 있다" }]
   ],
   "speakers": [
-    { "name": "허첸", "role": "ClassIn 공동창업자 · CTO" },
-    { "name": "현장 질문", "role": "포럼 참석자" }
+    { "name": "허첸", "role": "ClassIn CTO" },
+    { "name": "현장 질문", "tag": "run" }
   ],
   "crops": {
     "wide": { "x": 170, "y": 0, "w": 1490 },

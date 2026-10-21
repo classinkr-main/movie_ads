@@ -20,7 +20,9 @@ export type Cue = {
 
 export type Speaker = {
   name: string;
-  role: string;
+  role?: string;
+  // 이름표 표시 방식. 기본은 처음 말을 시작할 때 잠깐(연사), "run"은 말하는 동안 계속(현장 질문)
+  tag?: "run";
 };
 
 // 헤드라인 한 줄 = 텍스트 조각 배열. hl이면 연두 하이라이터를 깐다
