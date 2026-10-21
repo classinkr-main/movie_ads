@@ -17,7 +17,7 @@ export const fontsReady: Promise<void> = Promise.all(
   WEIGHTS.map(([weight, file]) =>
     loadFont({
       family: FONT_FAMILY,
-      url: staticFile(`fonts/${file}`),
+      url: staticFile(`00_공통에셋/fonts/${file}`),
       weight,
       format: "woff2",
       display: "block",

@@ -2,11 +2,11 @@ import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CardHeader, FeatureLayout, Stamp, UiCard } from "../components/Feature";
 import type { StampKind } from "../components/Feature";
-import { Burst, ClipReveal, RollingNumber, TypeText } from "../components/Flourish";
-import { Chip, Pop } from "../components/Ui";
-import { FONT_FAMILY } from "../lib/fonts";
-import { clamp, SMOOTH, sp } from "../lib/motion";
-import { C } from "../lib/theme";
+import { Burst, ClipReveal, RollingNumber, TypeText } from "../../../shared/brand/Flourish";
+import { Chip, Pop } from "../../../shared/brand/Ui";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
+import { C } from "../theme";
 
 const QS: Array<{ type: "객관식" | "서술형"; q: string; a: string; kind: StampKind }> = [
   { type: "객관식", q: "「서시」에서 '별'이 상징하는 것으로 알맞은 것은?", a: "② 이상과 희망", kind: "ok" },

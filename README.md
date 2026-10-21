@@ -1,95 +1,61 @@
-# Classin AI 커머셜 쇼릴 (30초, v4)
+# movie_ads
 
-**"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고
-**"지금 문의하기"** CTA로 끝나는 30초 가로(16:9) 커머셜 쇼릴입니다. v4부터 모든 기능 화면을 하나의 예시 수업(중2 국어)으로 채웠습니다. [Remotion](https://www.remotion.dev/) 4 기반이라
-카피·수치·색·타이밍을 코드에서 바꾸고 다시 렌더할 수 있습니다.
+Classin 영상 광고 모음입니다. 폴더는 Google Drive `ClassIn Korea / 혁님 작업 / [영상_ai_프로젝트(마케팅,혁)](https://drive.google.com/drive/folders/1kfof3LwlePQhLExUu-cVSqq0t3xnh33e)`의 **프로젝트 번호·이름을 그대로** 따릅니다.
+코드로 만드는 영상은 [Remotion](https://www.remotion.dev/) 4 워크스페이스 하나에서 관리하고, 기획서·생성 이미지·영상 원본 같은 대용량 자료는 Drive에 둡니다.
 
-| 산출물 | 규격 | 경로 |
-| --- | --- | --- |
-| 메인 (16:9) | 1920×1080 · 30fps · 30s · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-showreel.mp4` |
+## 프로젝트 목록
 
-> v1(20초 다크 톤 · 9:16 포함), v2(23초 AI 강의 분석 단독), v3(25초 5개 기능 · 스켈레톤 UI)는 git 히스토리에 남아 있습니다.
+폴더 이름 규칙: `<번호>_<시작일 YYYYMMDD>_<Drive 프로젝트 이름>_<특징>`. 특징은 만드는 방식·포맷이라 이름만 보고 구분할 수 있습니다.
 
-## 예시 수업 (v4)
+| 폴더 | 시작일 | 특징 | 컴포지션 id | Drive 폴더 | 상태 |
+| --- | --- | --- | --- | --- | --- |
+| [00_공통에셋](public/00_공통에셋) | – | 공식 로고·Pretendard 폰트 | – | [00_공통에셋](https://drive.google.com/drive/folders/1X7t0H6oLzrNI0sW2xRGO9Uvqhy3mXzAK) | – |
+| [01_20261001_갈매기_Vox_문제해결형_캐릭터-해설](src/projects/01_20261001_갈매기_Vox_문제해결형_캐릭터-해설) | 2026-10-01 | 캐릭터 해설형(Vox식), 2–3분 | – | [01_20261001_갈매기_Vox_문제해결형_캐릭터-해설](https://drive.google.com/drive/folders/1ud_wYExPQvW8nRJBnG9dZ-AnjcynXcub) | v7.1 대본·스토리보드, 21초 구도 테스트 |
+| [02_20261001_브랜드_타이포와앱패키징_키네틱-타이포](src/projects/02_20261001_브랜드_타이포와앱패키징_키네틱-타이포) | 2026-10-01 | 키네틱 타이포·앱 패키징, 가로 35초 | – | [02_20261001_브랜드_타이포와앱패키징_키네틱-타이포](https://drive.google.com/drive/folders/1tQDCUQCOpiEGWZ9LY6BqGcI9-G0ePNUF) | v13 35초 가이드 사운드 시안 |
+| [03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로](src/projects/03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로) | 2026-10-01 | 실사 발표자 + 상하 분할, 세로 30초 | – | [03_20261001_발표자_통합플랫폼_30초_v0.6_실사발표자-세로](https://drive.google.com/drive/folders/19q7EtQSRgULM3mB_MOFSmsRgRAXxsLNY) | 촬영 대본·HTML 구도 시안 |
+| [04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스](src/projects/04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스) | 2026-10-05 | Higgsfield AI 영상 생성, 세로 릴스 35초 | – | [04_20261005_갈매기_35초_릴스_Higgsfield_AI영상생성-세로릴스](https://drive.google.com/drive/folders/1GD_7zDIHduR_qV2tZx2-SASRJCsyuPqt) | 제작팩 v2·심도 기획 v3, 생성 영상 없음 |
+| [05_20261002_멘탈_설명형_시리즈_AI이미지-3편](src/projects/05_20261002_멘탈_설명형_시리즈_AI이미지-3편) | 2026-10-02 | AI 이미지 설명형 3편(질문·녹화·어디서나수업) | – | [05_20261002_멘탈_설명형_시리즈_AI이미지-3편](https://drive.google.com/drive/folders/1DO5aMlKP2atJwgHMPZ93gL4RLo_TzHo-) | 3편 모두 검토 단계 |
+| [06_20261006_수업전중후케어_40초_앱화면-학습흐름](src/projects/06_20261006_수업전중후케어_40초_앱화면-학습흐름) | 2026-10-06 | 앱 화면 + 내레이션, 수업 전·중·후 흐름 | `p06-care-flow-40s` | [06_20261006_수업전중후케어_40초_앱화면-학습흐름](https://drive.google.com/drive/folders/1la2sEGeHKTpSbl5Zw-LXR7BO1M2GlDhE) | **Remotion 애니매틱 v1** 40초 렌더(목업 화면·가이드 자막) |
+| [07_20261006_수업표준화_45초_앱화면-수업형태비교](src/projects/07_20261006_수업표준화_45초_앱화면-수업형태비교) | 2026-10-06 | 앱 화면 + 내레이션, 수업 형태 4가지 비교 | `p07-one-standard-45s` | [07_20261006_수업표준화_45초_앱화면-수업형태비교](https://drive.google.com/drive/folders/17lY4zsdAvvNvJa7kGlyQ6F_JKzeRn0-W) | **Remotion 애니매틱 v1** 45초 렌더(목업 화면·가이드 자막) |
+| [08_20261008_정글대타_63초_32컷_Blender3D-시네마틱](src/projects/08_20261008_정글대타_63초_32컷_Blender3D-시네마틱) | 2026-10-08 | Blender 3D 캐릭터 시네마틱, 63초 32컷 | – | [08_정글대타_63초_32컷](https://drive.google.com/drive/folders/16V3oTAs6zLtMUxiXxhr2JYW7dcEh_63H) | r10 63초 렌더 검토본, 70초 이하 v2 검토 중 |
+| [09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽](src/projects/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽) | 2026-10-07 | Remotion 코드 모션그래픽, 가로 30초 | `p09-classin-ai-features-30s` | [09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽](https://drive.google.com/drive/folders/1y8kegxiXT4PWTHOzxKIFbbsmxuBuUTiM) | v4 30초 렌더 완료(콘셉트 목업) |
 
-모든 기능 화면은 같은 수업 하나를 따라갑니다. 상단 중앙의 "예시 수업" 라벨이 기능 씬 내내 표시됩니다.
+- **시작일**은 Drive 첫 해시 목록(`00_파일목록_SHA256.csv`)에서 원본 수정시각이 가장 이른 날짜(KST)입니다. 예외로 06은 참고 PDF만 10-01이라 기획 작성일을, 08은 기록상 가장 이른 자료(v10·참조 이미지)의 날짜를, 09는 이 저장소의 첫 커밋 날짜를 썼습니다.
+- 01–05·08 폴더에는 Drive 링크·시작일·특징·상태를 적은 README만 있습니다. 06·07·09는 Remotion 코드가 있습니다. 상태는 Drive 정리 문서(2026-10-12 진행표, 08은 10-14 진행현황) 기준입니다.
+- Drive 폴더도 01–07·09는 같은 이름입니다(2026-10-21 변경). 08은 혁님 Mac의 Blender 작업 경로가 폴더 이름을 절대경로로 참조하고 있어 Drive에서는 `08_정글대타_63초_32컷` 그대로 둡니다.
 
-- **수업**: 중2 국어 A반 · 3단원 비유와 상징 · 윤동주 「서시」 · 45분 · 이서윤 선생님(가상)
-- **학생**: 김지민, 박도윤(가상) · 다국어 자막 장면에서는 Alex · Lin · Yui · Thu(가상)
-- **수업 흐름**: 도입 8분 → 전개 28분 → 정리 9분, '하늘·바람·별'의 상징 해석, 과제 "상징이 쓰인 시 1편 찾아오기"
-- 「서시」 시구 인용은 공유 저작물(윤동주, 1945년 작고) 범위이며, 은유법 예문은 직접 만든 문장입니다.
-
-## 디자인 톤 (v3)
-
-- **베이스**: 화이트·아이보리(`#FFFFFF` / `#FAF8F2` / `#F3EFE4`), 헤어라인 그리드, 느린 카메라 드리프트
-- **포인트**: 연두 그린(`#C8F05A` 형광펜·칩·스티커·전환 띠, `#8BC926` 선·아이콘·거대 아웃라인 인덱스, `#3C6B12` 소문자)
-- **강조 텍스트·CTA 채움**: Classin Green `#084734`
-- **에디토리얼 장치**: 좌측 챕터 레일(01–05), 상단 "Classin AI · 01 — 05" 라벨, 기능별 거대 아웃라인 번호 워터마크, 유리 카드 UI 목업
-
-## 스토리 (7씬 · 900f)
-
-| # | 글로벌 프레임 | 길이 | 화면 속 예시 내용 |
-| --- | --- | --- | --- |
-| S1 오프닝 | 0–110 | 3.7s | "Classin AI로, 수업을 업그레이드." + 5개 기능 목차 |
-| 01 AI 강의 평가 | 90–240 | 5.0s | 45분 파형 스캔, 발문 14회 위치(개방형 6), 도입·전개·정리 구간, 종합 88 · 4개 영역 점수와 11개 항목, 발화 비율(교사 62 · 학생 38), 강점(12:40 생활 예시로 상징 설명) · 개선 포인트(발문 9회가 앞줄에 집중) |
-| 02 AI 스크립트 · 강의 요약 | 222–372 | 5.0s | 화자 구분 스크립트 6줄(교사·김지민·박도윤, 타임스탬프), 핵심 문장 하이라이트, 요약 패널(핵심 개념 · 「서시」 속 상징 3개 · 과제) |
-| 03 AI 숙제 출제 · 채점 | 354–514 | 5.3s | 출제 조건(범위·근거·객관식 3/서술형 2·난이도), 5문항 생성 → 김지민 답안 채점(✓/△), Q3 서술형 AI 피드백, 90점 · 제출 24/28 · 반 평균 82 · 오답 많은 문항 |
-| 04 AI 자동 번역 · 실시간 자막 | 496–646 | 5.0s | LIVE 교실 화면, 칠판 판서(서시 — 하늘·바람·별), 교사 발화 자막 → English · 中文 · 日本語 · Tiếng Việt 순환, 해당 언어 학생 타일 하이라이트 |
-| 05 AI 에이전트 | 628–812 | 6.1s | 비서 설정(이름·역할·말투·근거 자료·모델 3종), 학생 질문 탭(강의 21:05 근거 답변 · 다시보기 · 교안 쪽수) → 교사 상담 탭(단원 성취도 72→78→90, 강점·보완점·참여, 제출률 92%, 학부모 상담 초안) |
-| S7 CTA | 788–900 | 3.7s | 헤드라인 + 5개 기능 칩 + 지금 문의하기 + classin.co.kr/contact |
-
-전환: 연두 스윕(오프닝→01) → 패럴랙스 푸시 ×4(기능 사이) → 연두 아이리스(05→CTA). 챕터 레일 · 상단 라벨 · 예시 수업 라벨은 기능 씬 동안 고정됩니다.
-
-## 콘텐츠 출처와 검수 참고
-
-- 기능 구성(강의 평가 / 스크립트·요약 / 숙제 출제·채점 / 자동 번역·실시간 자막 / AI 에이전트)은 마케팅 측 지시 목록을 따릅니다.
-  AI 강의 평가의 4개 영역 11개 항목·리포트 위치는 Notion "AI 강의 분석 기능 소개 (2026.04.23)" 원문입니다.
-- **AI 강의 평가는 Notion 기준 현재 중국어 수업·실시간 수업에만 제공**됩니다. 영상은 언어를 단정하지 않습니다.
-- 모든 기능 카드는 **콘셉트 목업**입니다. 예시 수업의 문장·답안·피드백·번역문은 연출용으로 작성했고, 지원 언어(English·中文·日本語·Tiếng Việt),
-  에이전트의 모델 선택(기본·경량·고급), 서술형 채점 범위는 실제 지원 범위에 맞춰 조정이 필요합니다.
-- 점수(종합 88, 영역 92/88/81/90, 형성평가 90점, 반 평균 82, 단원 성취도 72/78/90)와 발문 14회, 발화 비율, 제출 24/28, 제출률 92%는 모두 예시 수치입니다.
-- CTA URL은 사이트 정본 도메인 `classin.co.kr/contact`.
-
-## 프로젝트 구조
+## 폴더 규칙
 
 ```
 src/
-  Root.tsx                  # Showreel(16:9) 컴포지션
-  Showreel.tsx              # TransitionSeries 타임라인 + 커스텀 전환(연두 스윕·패럴랙스 푸시·연두 아이리스) + 챕터 레일 오버레이
-  scenes/Opening · F01Eval · F02Script · F03Homework · F04Subtitle · F05Agent · Cta
-  components/Feature.tsx    # FEATURES 목록 · FeatureLayout(텍스트 컬럼 + 카드 컬럼) · ChapterRail · UiCard · CardHeader · Stamp
-  components/Flourish.tsx   # Highlighter · Chars · RollingNumber · Burst · Dots · GlassCard · GhostWord · TypeText · ClipReveal · SkeletonLine
-  components/Kinetic.tsx    # WordPop · MaskText · CountUp · DrawLine
-  components/Ui.tsx         # Eyebrow · Chip · Sticker · Pop · Rise · 로고
-  components/Backgrounds.tsx# IvoryStage · LimeStage · PanelWipe · Grain
-  lib/theme.ts              # 팔레트 · FPS · 길이(900f)
-  lib/motion.ts             # 스프링 프리셋 · 이징
-  lib/fonts.ts              # Pretendard 6굵기 로드
-public/fonts/               # Pretendard (SIL OFL 1.1)
-public/brand/               # Classin 마크·워드마크·스택 로고
+  index.ts · Root.tsx            # 프로젝트별 <Folder>, 영상별 <Composition> 등록
+  shared/                        # 모든 영상 공용 코드 (fonts · motion)
+  shared/brand/                  # Classin 팔레트·배경·키네틱 타이포·카드·해설용 컴포넌트(갈매기·자막·기기 프레임)
+  projects/<번호>_<시작일>_<이름>_<특징>/   # 시리즈(05)는 하위에 <번호>_<편> 폴더
+public/
+  00_공통에셋/                   # brand · fonts · character → staticFile("00_공통에셋/…")
+  <번호>_<이름>/                 # 프로젝트 전용 에셋(필요할 때)
+out/<프로젝트 폴더 이름>/*.mp4    # 렌더 결과
 ```
+
+- 새 프로젝트는 Drive와 이 저장소에 **같은 번호**로 만들고, 이름 뒤에 시작일과 특징을 붙입니다.
+- Remotion의 `<Folder>` 이름과 컴포지션 id는 한글을 받지 않으므로 `p<번호>-<영문 이름>`으로 씁니다.
+
+### 영상을 코드로 만들기 시작할 때
+
+1. `src/projects/<번호>_<시작일>_<이름>_<특징>/`에 메인 컴포넌트를 둡니다. 내레이션형은 06·07(`src/shared/brand/Narrated.tsx`의 `BEATS`·`Caption`·`BigType`), 기능 소개형은 09를 참고합니다.
+2. `src/Root.tsx`에 `<Folder name="p<번호>-…"><Composition id="p<번호>-…" …/></Folder>`를 추가합니다.
+3. `package.json`에 `render:p<번호>` 스크립트를 추가하고 위 표를 갱신합니다.
 
 ## 실행
 
 ```bash
 npm install
-npm run dev        # Remotion Studio — 씬·전환을 타임라인에서 확인
-npm run render     # out/classin-ai-showreel.mp4
+npm run dev          # Remotion Studio
+npm run render:p06   # 06 애니매틱 40초
+npm run render:p07   # 07 애니매틱 45초
+npm run render:p09   # out/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/ClassinAI_기능소개_30초_v4.mp4
 npm run typecheck
 ```
 
-Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 설치된 브라우저를 쓰려면 `REMOTION_BROWSER_EXECUTABLE`을 지정합니다.
-
-## 수정 가이드
-
-- **기능 목록·순서** — `src/components/Feature.tsx`의 `FEATURES`(목차·레일·CTA 칩이 함께 바뀜) + `src/Showreel.tsx`의 씬 순서.
-- **카피** — 각 기능 씬의 `title`/`sub`/`bullets` props와 카드 안 문자열.
-- **예시 수업 바꾸기** — 각 기능 씬 상단 상수(`AREAS`·`LINES`·`QS`·`LANGS`·`UNITS` 등)와 `src/Showreel.tsx`의 예시 수업 라벨 문자열.
-- **타이밍** — `src/Showreel.tsx`의 `TIMELINE`(씬 길이, 전환 겹침 포함)과 `TRANSITIONS`. 합계 − 전환 합계 = 900.
-- **색** — `src/lib/theme.ts`.
-- **BGM/SFX** — `Showreel.tsx`에 `<Audio src={staticFile("audio/bgm.mp3")} />` 추가. 전환 시작 프레임은 `starts` 배열 참고.
-
-## 참고한 라이브러리
-
-- **Remotion 4.0.533** — 프레임 결정론적 React 렌더, `spring`/`interpolate`, `@remotion/fonts`, `@remotion/transitions`(TransitionSeries + 커스텀 프레젠테이션).
-- **HyperFrames**(`hyperframes` npm, HeyGen) — HTML/GSAP 타임라인 기반 영상 합성 CLI. 검토했으나 한글 폰트 번들과 스프링 물리 기반 키네틱 타이포에 Remotion이 더 직접적이라 엔진으로 채택하지 않았습니다.
+Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 설치된 브라우저를 쓰려면 `REMOTION_BROWSER_EXECUTABLE`을 지정합니다(`remotion.config.ts`).

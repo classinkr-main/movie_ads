@@ -1,3 +1,4 @@
+// Classin 브랜드 팔레트 — 모든 영상 공용(09 쇼릴 v2 톤에서 시작).
 // v2 팔레트 — 화이트·아이보리 베이스 + 연두 그린 포인트.
 // 텍스트 강조와 CTA 채움에는 Classin Green(DESIGN.md)을, 하이라이터·도형·칩에는 연두를 쓴다.
 export const C = {
@@ -20,7 +21,3 @@ export const C = {
   forest: "#084734",
   brand: "#009060",
 } as const;
-
-export const FPS = 30;
-export const DURATION_SEC = 30;
-export const DURATION_FRAMES = FPS * DURATION_SEC; // 900

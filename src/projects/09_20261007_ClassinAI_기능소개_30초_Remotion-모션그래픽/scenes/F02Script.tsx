@@ -1,11 +1,11 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { CardHeader, FeatureLayout, UiCard } from "../components/Feature";
-import { ClipReveal, TypeText } from "../components/Flourish";
-import { Chip } from "../components/Ui";
-import { FONT_FAMILY } from "../lib/fonts";
-import { clamp, SMOOTH, sp } from "../lib/motion";
-import { C } from "../lib/theme";
+import { ClipReveal, TypeText } from "../../../shared/brand/Flourish";
+import { Chip } from "../../../shared/brand/Ui";
+import { FONT_FAMILY } from "../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../shared/motion";
+import { C } from "../theme";
 
 // 예시 수업 스크립트 (윤동주 「서시」는 공유 저작물)
 const LINES = [
