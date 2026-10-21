@@ -1,12 +1,95 @@
-# Classin AI 커머셜 쇼릴 (30초, v4)
+# Classin 커머셜 쇼릴
+
+[Remotion](https://www.remotion.dev/) 4로 만든 Classin 커머셜 영상 두 편입니다. 카피·수치·색·타이밍을 코드에서 바꾸고 다시 렌더할 수 있습니다.
+
+| 컴포지션 | 내용 | 규격 | 경로 |
+| --- | --- | --- | --- |
+| `BrandReel` (v5) | 학원·교육기관 대상 브랜드 쇼릴 — 실제 학원·쇼룸 사진 + Classin 스톡 영상 | 1920×1080 · **60fps** · 20s · H.264 · yuv420p bt709 | `out/classin-brand-reel-60fps.mp4` (무음) · `out/classin-brand-reel-60fps-guide-sfx.mp4` (가이드 사운드) |
+| `Showreel` (v4) | Classin AI 기능 5종 소개 | 1920×1080 · 30fps · 30s | `out/classin-ai-showreel.mp4` |
+
+---
+
+# BrandReel — 20초 · 60fps 브랜드 쇼릴 (v5)
+
+**"미래의 수업, 이미 학원에서 시작됐습니다."** → **"좋은 수업을, 강사의 개인기에서 학원의 시스템으로."** → **목동 쇼룸 CTA**.
+학원 원장·교육기관 의사결정자를 겨냥한 다크 시네마틱 커머셜입니다. Drive `0. 사진창고`의 실제 학원·쇼룸 사진과
+`classinkr-web/public/video`의 Classin 스톡 영상을 모션그래픽으로 묶었습니다.
+
+## 스토리 (6씬 · 1200f @60fps)
+
+| # | 글로벌 프레임 | 길이 | 화면 |
+| --- | --- | --- | --- |
+| S1 훅 | 0–180 | 3.0s | 거대 타이포 "미래의 수업" — 글자 안에서 스톡 영상(SPACE TRAVEL 전자칠판)이 재생 → 글자로 줌스루 → "이미, 학원에서 시작됐습니다." |
+| S2 흐름 | 168–540 | 6.2s | 5비트 휩 몽타주: **판서**(EDB 저장) · **녹화**(REC 뷰파인더) · **교안**(EDB 템플릿 카드) · **복습**(LMS 다시보기 플레이어) · **데이터**(수업 리포트 카드). 상단 흐름 레일이 차례로 켜진다 |
+| S3 그리드 | 528–720 | 3.2s | 사진·영상 15타일이 3D로 날아와 정렬 → 연두 신호가 타일을 통과 → "하나의 흐름으로." → 중앙 칠판 타일로 줌스루 |
+| S4 히어로 | 720–912 | 3.2s | **스크린 리플레이스** — 실제 교실 사진 속 빈 전자칠판에 예시 수업(이차함수 판서)을 원근 매핑 → 지우개 스윕 → 칠판 위에 "좋은 수업을, 강사의 개인기에서 / 학원의 시스템으로." |
+| S5 스케일 | 900–1062 | 2.7s | 160+ 개국 서비스 · 6만+ 교육기관 · 5,000만+ 교사·학습자(슬롯 롤) + 반대 방향으로 흐르는 사진 기둥 |
+| S6 엔드 | 1050–1200 | 2.5s | 연두 링 아이리스 → Classin 마크·워드마크 → 태그라인 · 수업 시스템 OS · CTA "목동 쇼룸에서 실제 수업 흐름 보기" · classin.co.kr |
+
+전환: 휩 푸시+블러+플래시(S1→S2, S2 비트 사이) → 3D 그리드 줌스루(S3→S4, 같은 칠판 시계를 공유해 끊김 없음) → 연두 사선 스윕(S4→S5) → 연두 링 아이리스(S5→S6).
+
+## 60fps 처리
+
+- 컴포지션 자체가 60fps이고 모든 모션(스프링·카메라·마스크)이 프레임 단위로 계산됩니다.
+- 스톡 영상(25fps)은 `ffmpeg minterpolate`(mci · aobmc · bidir)로 **움직임 보간한 60fps 클립**으로 미리 만들어 `public/reel/video/`에 두었습니다.
+  S1 훅 클립은 0.74배 슬로모션으로 보간했습니다. 원본 home-hero.mp4의 레터박스(위아래 60px)는 잘라냈습니다.
+
+## 소재와 출처
+
+- **사진** (`public/reel/photos/`, 25장, 최대 2560px · EXIF/GPS 제거): Drive `0. 사진창고` — classin korea 목동쇼룸, classin 연출(빈 전자칠판),
+  수학의심장을달다(목동), 그릿831(대구), 라임라잇수학(부산), 정율사관(부천), 과사람(부산), 윤유경플러스(평택), 원더스잉글리시(서울), 이센스영어(울산).
+  뉴스 매체 사진(정율사관 폴더의 `news-p…jpg`)과 직원 행사 사진(클래스인사이드)은 쓰지 않았습니다.
+- **영상** (`public/reel/video/`): `classinkr-web/public/video/home-hero.mp4`, `Interactive Learning with ClassIn.mp4` 구간 발췌 → 60fps 보간.
+- **수치**: `classinkr-web/docs/active/brand-canon/company-facts.md` §3(EEO 공식, classin.com) — 화면에 "전 세계 누적 수치 · EEO 공식 소개 기준" 캡션 표기.
+- **카피**: 헤드라인·CTA는 `classinkr-web/lib/classin-positioning.ts`(heroHeadline · primaryCtas[0]) 정본, "감이 아니라 기준으로"는 보이스 헌장 권장어.
+- 칠판 화면·플레이어·수업 리포트·EDB 카드는 **예시 화면(콘셉트 목업)**이며 S4 좌하단에 "예시 화면" 라벨을 둡니다. 학생 이름(지민·도윤·서아)은 가상입니다.
+
+### 외부 배포 전 확인할 것
+
+- 사진 속 인물(원장·강사·참석자)과 학원 간판·화면의 **초상권·사용 동의** — 사진창고 소재라도 광고 집행 전 해당 학원 확인 권장.
+- 가이드 사운드는 편집 확인용 절차적 사운드입니다. 집행본은 라이선스 BGM으로 교체하세요(100 BPM이면 S2 컷이 박에 맞습니다).
+
+## 디자인 톤
+
+- 베이스 딥 그린 블랙 `#030B08` · 브랜드 그린 `#084734`/`#00A86B` · 포인트 연두 `#C8F05A` · 흰 타이포(Pretendard 600–900)
+- 사진 그레이드: 채도 −14% · 대비 +8% + 포레스트 그린 soft-light 톤 + 비네트, 필름 그레인(overlay) 전역
+- HUD 장치: 타임코드, 뷰파인더 브래킷, REC, 흐름 레일, 모노 대문자 라벨
+
+## 구조
+
+```
+src/reel/
+  BrandReel.tsx      # 6씬 타임라인 + 전역 비네트·그레인
+  theme.ts           # 팔레트 · 60fps · 씬 경계(T) · HERO_CLOCK
+  media.tsx          # Photo · Clip (켄 번스 카메라 + 그레이드)
+  fx.tsx             # FilmGrain · Vignette · Flash · LightSweep · Mono · Timecode · Brackets · RecDot
+  type.tsx           # MaskLine · Chars · Highlight · CountUp
+  homography.ts      # 4점 → CSS matrix3d (스크린 리플레이스)
+  HeroShot.tsx       # 빈 전자칠판 사진 + 칠판 화면(예시 수업 → 헤드라인)
+  scenes/S1Hook · S2Flow · S3Grid · S4Hero · S5Proof · S6End
+scripts/
+  board_corners.py   # 사진 속 빈 칠판 꼭짓점 검출
+  guide_sfx.py       # 가이드 사운드(휩·임팩트·펄스·패드) 생성
+public/reel/photos · public/reel/video
+```
+
+## 실행
+
+```bash
+npm run render:reel                                   # out/classin-brand-reel-60fps.mp4
+python3 scripts/guide_sfx.py out/brand-reel-guide-sfx.wav   # numpy · scipy 필요
+ffmpeg -i out/classin-brand-reel-60fps.mp4 -i out/brand-reel-guide-sfx.wav -c:v copy -c:a aac -b:a 256k -shortest out/classin-brand-reel-60fps-guide-sfx.mp4
+```
+
+수정 포인트: 씬 길이 `src/reel/theme.ts`의 `T`, 흐름 비트 카피·사진 `scenes/S2Flow.tsx`의 `BEATS`, 그리드 타일 `scenes/S3Grid.tsx`의 `TILES`,
+칠판 화면 내용 `HeroShot.tsx`, 수치 `scenes/S5Proof.tsx`의 `STATS`, CTA `scenes/S6End.tsx`.
+
+---
+
+# Showreel — Classin AI 커머셜 쇼릴 (30초, v4)
 
 **"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고
-**"지금 문의하기"** CTA로 끝나는 30초 가로(16:9) 커머셜 쇼릴입니다. v4부터 모든 기능 화면을 하나의 예시 수업(중2 국어)으로 채웠습니다. [Remotion](https://www.remotion.dev/) 4 기반이라
-카피·수치·색·타이밍을 코드에서 바꾸고 다시 렌더할 수 있습니다.
-
-| 산출물 | 규격 | 경로 |
-| --- | --- | --- |
-| 메인 (16:9) | 1920×1080 · 30fps · 30s · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-showreel.mp4` |
+**"지금 문의하기"** CTA로 끝나는 30초 가로(16:9) 커머셜 쇼릴입니다. v4부터 모든 기능 화면을 하나의 예시 수업(중2 국어)으로 채웠습니다.
 
 > v1(20초 다크 톤 · 9:16 포함), v2(23초 AI 강의 분석 단독), v3(25초 5개 기능 · 스켈레톤 UI)는 git 히스토리에 남아 있습니다.
 

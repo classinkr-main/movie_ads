@@ -5,3 +5,4 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+out/*.wav
