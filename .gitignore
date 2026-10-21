@@ -5,3 +5,5 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+out/stems
+__pycache__

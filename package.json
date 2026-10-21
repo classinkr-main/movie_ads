@@ -1,11 +1,13 @@
 {
   "name": "classin-ai-showreel",
   "version": "1.0.0",
-  "description": "Classin AI 강의 분석 커머셜 쇼릴 (23s) — Remotion 기반 키네틱 모션그래픽",
+  "description": "Classin 쇼릴 v5 (22s · 60fps) — 뮤직비디오 커머셜 × Vox 해설 스타일 모션그래픽, Remotion 기반",
   "scripts": {
     "dev": "remotion studio",
-    "render": "remotion render Showreel out/classin-ai-showreel.mp4",
-    "still": "remotion still Showreel out/still.png --frame=300",
+    "render": "remotion render Showreel out/classin-showreel-v5.mp4",
+    "still": "remotion still Showreel out/still.png --frame=262",
+    "stills": "node tools/stills.mjs --every 60",
+    "music": "python3 tools/music/compose.py",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
