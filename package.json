@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render",
-    "render:p09": "remotion render p09-classin-ai-features-30s out/09_ClassinAI_기능소개_30초/ClassinAI_기능소개_30초_v4.mp4",
-    "still:p09": "remotion still p09-classin-ai-features-30s out/09_ClassinAI_기능소개_30초/still.png --frame=300",
+    "render:p09": "remotion render p09-classin-ai-features-30s out/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/ClassinAI_기능소개_30초_v4.mp4",
+    "still:p09": "remotion still p09-classin-ai-features-30s out/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/still.png --frame=300",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
