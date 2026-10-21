@@ -4,8 +4,8 @@ import { IvoryStage } from "../components/Backgrounds";
 import { FEATURES } from "../components/Feature";
 import { Burst, Chars, Dots, Highlighter } from "../components/Flourish";
 import { Chip, LogoStacked, Pop, Rise } from "../components/Ui";
-import { FONT_FAMILY } from "../lib/fonts";
-import { C } from "../lib/theme";
+import { FONT_FAMILY } from "../../../../shared/fonts";
+import { C } from "../theme";
 
 const CTA_URL = "classin.co.kr/contact";
 

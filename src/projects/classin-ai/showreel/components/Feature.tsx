@@ -3,9 +3,9 @@ import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remo
 import { IvoryStage } from "./Backgrounds";
 import { DrawLine, MaskText } from "./Kinetic";
 import { Chip, Eyebrow, Rise } from "./Ui";
-import { FONT_FAMILY } from "../lib/fonts";
-import { clamp, SMOOTH, sp } from "../lib/motion";
-import { C } from "../lib/theme";
+import { FONT_FAMILY } from "../../../../shared/fonts";
+import { clamp, SMOOTH, sp } from "../../../../shared/motion";
+import { C } from "../theme";
 
 export const FEATURES = [
   { n: "01", short: "AI 강의 평가", en: "Lesson Evaluation" },

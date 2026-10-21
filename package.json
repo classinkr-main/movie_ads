@@ -1,11 +1,12 @@
 {
-  "name": "classin-ai-showreel",
+  "name": "movie-ads",
   "version": "1.0.0",
-  "description": "Classin AI 강의 분석 커머셜 쇼릴 (23s) — Remotion 기반 키네틱 모션그래픽",
+  "description": "Classin 영상 광고 모음 — 프로젝트/영상별 Remotion 컴포지션",
   "scripts": {
     "dev": "remotion studio",
-    "render": "remotion render Showreel out/classin-ai-showreel.mp4",
-    "still": "remotion still Showreel out/still.png --frame=300",
+    "render": "remotion render",
+    "render:classin-ai/showreel": "remotion render classin-ai-showreel out/classin-ai/showreel.mp4",
+    "still:classin-ai/showreel": "remotion still classin-ai-showreel out/classin-ai/showreel.png --frame=300",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
