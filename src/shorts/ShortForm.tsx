@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, interpolate, OffthreadVideo, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { FONT_FAMILY, FONT_FAMILY_ZH } from "../lib/fonts";
-import { clamp, SMOOTH, sp } from "../lib/motion";
+import { clamp, easeInOutCubic, SMOOTH, sp } from "../lib/motion";
 import { C } from "../lib/theme";
 import { segmentAt, segmentOffsets, timedCues } from "./timeline";
 import type { Crop, ShortSpec } from "./types";
@@ -45,13 +45,16 @@ const NightGrain: React.FC = () => (
   />
 );
 
-// 어두운 배경용 강조 — 글자 높이 전체를 덮는 연두 박스가 왼쪽부터 칠해지고 글자는 잉크색으로 뒤집힌다
+// 어두운 배경용 강조 — 연두 박스가 왼쪽부터 칠해지고, 박스가 지나간 만큼만 글자가 잉크색으로 바뀐다
+// (흰 글자 위에 잉크 글자를 겹쳐 두고 박스와 같은 너비로 잘라 보여 준다)
+const MARKER_FRAMES = 20;
+
 const MarkerBox: React.FC<{ text: string; delay: number }> = ({ text, delay }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const p = sp(frame - delay, fps, SMOOTH, 14);
+  const p = interpolate(frame - delay, [0, MARKER_FRAMES], [0, 1], { ...clamp, easing: easeInOutCubic });
+  const pad = "0 0.14em";
   return (
-    <span style={{ position: "relative", display: "inline-block", padding: "0 0.14em", margin: "0 0.04em" }}>
+    <span style={{ position: "relative", display: "inline-block", padding: pad, margin: "0 0.04em", whiteSpace: "nowrap" }}>
       <span
         style={{
           position: "absolute",
@@ -64,7 +67,13 @@ const MarkerBox: React.FC<{ text: string; delay: number }> = ({ text, delay }) =
           transform: "rotate(-1.2deg)",
         }}
       />
-      <span style={{ position: "relative", color: p > 0.5 ? C.ink : C.white }}>{text}</span>
+      <span style={{ position: "relative", color: C.white }}>{text}</span>
+      <span
+        aria-hidden
+        style={{ position: "absolute", left: 0, top: 0, width: "100%", padding: pad, color: C.ink, clipPath: `inset(-20% ${(1 - p) * 100}% -20% 0)` }}
+      >
+        {text}
+      </span>
     </span>
   );
 };
@@ -112,7 +121,7 @@ const Header: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
                 whiteSpace: "nowrap",
               }}
             >
-              {line.map((run, ri) => (run.hl ? <MarkerBox key={ri} delay={delay + 8} text={run.t} /> : <span key={ri}>{run.t}</span>))}
+              {line.map((run, ri) => (run.hl ? <MarkerBox key={ri} delay={delay + 6} text={run.t} /> : <span key={ri}>{run.t}</span>))}
             </div>
           );
         })}
