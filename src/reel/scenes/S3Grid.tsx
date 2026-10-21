@@ -8,9 +8,9 @@ import { MaskLine } from "../type";
 import { HERO_CLOCK, R, T } from "../theme";
 
 /*
- * S3 연결 그리드 (글로벌 528–720f · 3.2s)
- *   0–70    15개 타일(학원·쇼룸 사진 + 스톡 영상)이 흩어진 위치에서 3D로 날아와 5×3 그리드로 정렬
- *   46–100  연두 신호가 좌→우로 타일을 통과(“하나의 흐름”)
+ * S3 연결 그리드 (글로벌 498–690f · 3.2s)
+ *   0–70    15개 타일(학원·쇼룸 사진 + 스톡 영상)이 흩어진 위치에서 3D로 날아와 5×3 그리드로 정렬(멀리 있을수록 흐린 피사계 심도)
+ *   46–100  민트 신호가 좌→우로 타일을 통과(“하나의 흐름”)
  *   54–124  "칠판 · 카메라 · 교안 · 녹화 · LMS · 데이터 / 하나의 흐름으로."
  *   120–192 중앙 타일(히어로 칠판 샷)로 줌스루 — 마지막 프레임이 S4 첫 프레임과 같은 화면이 된다
  */
@@ -99,7 +99,8 @@ export const S3Grid: React.FC = () => {
                   background: R.night2,
                   opacity: t.k === "hero" ? 1 : Math.min(1, k * 1.6),
                   transform: `translate3d(${(1 - k) * sx}px, ${(1 - k) * sy}px, ${(1 - k) * sz}px) rotate(${(1 - k) * sr}deg)`,
-                  boxShadow: `0 0 0 ${2 + pulse * 2}px rgba(200,240,90,${0.08 + pulse * 0.9}), 0 0 ${pulse * 40}px rgba(200,240,90,${pulse * 0.6})`,
+                  filter: k < 0.97 ? `blur(${(1 - k) * 12}px)` : undefined,
+                  boxShadow: `0 0 0 ${2 + pulse * 2}px rgba(${R.accentRgb},${0.08 + pulse * 0.9}), 0 0 ${pulse * 40}px rgba(${R.accentRgb},${pulse * 0.6})`,
                 }}
               >
                 {t.k === "photo" && <Img src={staticFile(`reel/photos/${t.src}.jpg`)} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.85) contrast(1.06) brightness(0.86)" }} />}
@@ -121,11 +122,11 @@ export const S3Grid: React.FC = () => {
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", opacity: textOut }}>
         <div style={{ textAlign: "center", fontFamily: FONT_FAMILY, color: R.white }}>
           <MaskLine at={54} dur={22}>
-            <Mono size={26} color={R.lime}>칠판 · 카메라 · 교안 · 녹화 · LMS · 데이터</Mono>
+            <Mono size={26} color={R.accent}>칠판 · 카메라 · 교안 · 녹화 · LMS · 데이터</Mono>
           </MaskLine>
           <MaskLine at={60} dur={26} style={{ marginTop: 16 }}>
             <div style={{ fontSize: 150, fontWeight: 900, letterSpacing: "-0.055em", lineHeight: 1.05 }}>
-              하나의 <span style={{ color: R.lime }}>흐름</span>으로.
+              하나의 <span style={{ color: R.accent }}>흐름</span>으로.
             </div>
           </MaskLine>
           <div style={{ marginTop: 22, opacity: interpolate(f, [74, 92], [0, 1], { ...clamp, easing: easeOutExpo }) }}>

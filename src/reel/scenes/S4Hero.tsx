@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { clamp } from "../../lib/motion";
 import { HeroShot } from "../HeroShot";
-import { LightSweep, Mono } from "../fx";
+import { Dust, LightLeak, LightSweep, Mono } from "../fx";
 import { HERO_CLOCK, R, T } from "../theme";
 
 /*
@@ -18,9 +18,11 @@ export const S4Hero: React.FC = () => {
   return (
     <AbsoluteFill>
       <HeroShot f={heroF} push={push} />
+      <Dust count={36} seed="hero" opacity={0.5} />
+      <LightLeak at={0} len={50} side="top" peak={0.38} />
       <LightSweep from={112} dur={46} width={14} opacity={0.18} />
       <div style={{ position: "absolute", left: 72, bottom: 56, opacity: label, display: "flex", alignItems: "center", gap: 14 }}>
-        <span style={{ width: 10, height: 10, borderRadius: 999, background: R.lime }} />
+        <span style={{ width: 10, height: 10, borderRadius: 999, background: R.accent }} />
         <Mono size={17}>Classin Board · 예시 화면</Mono>
       </div>
     </AbsoluteFill>

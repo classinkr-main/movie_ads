@@ -55,12 +55,12 @@ export const Chars: React.FC<{ text: string; at: number; stagger?: number; style
   );
 };
 
-// 형광펜 — 텍스트 뒤로 연두 띠가 좌→우로 그어진다
+// 형광펜 — 텍스트 뒤로 강조색 띠가 좌→우로 그어진다
 export const Highlight: React.FC<{ at: number; dur?: number; children: React.ReactNode; color?: string; height?: string; style?: React.CSSProperties }> = ({
   at,
   dur = 18,
   children,
-  color = R.lime,
+  color = R.accent,
   height = "0.42em",
   style,
 }) => {

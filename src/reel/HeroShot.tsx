@@ -12,7 +12,7 @@ import { R } from "./theme";
  *
  * 칠판 화면 타임라인(f)
  *   0–40    화면이 켜지고 상단 바·툴바가 올라온다
- *   20–150  예시 수업: 좌표축 → 포물선 → 식 → 꼭짓점 → 점이 곡선을 따라 이동, 우측 학생 타일
+ *   16–156  예시 영어 수업(현재완료): 예문 타이핑 → have + p.p. 주석 → 2021→Now 타임라인 아크 → 어휘 칩, 우측 학생 타일·질문
  *   150–176 지우개 스윕으로 판서를 걷어낸다
  *   168–    헤드라인 "좋은 수업을, 강사의 개인기에서 / 학원의 시스템으로." 가 칠판에 쓰인다
  */
@@ -32,61 +32,121 @@ const MATRIX = quadToMatrix3d(SCREEN_W, SCREEN_H, QUAD);
 
 const ease = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], { ...clamp, easing: easeOutExpo });
 
-// 포물선 y = x² − 4x + 3 (x: −0.6 … 4.6) → 그래프 박스 좌표
-const GX = 150;
-const GY = 210;
-const GW = 980;
-const GH = 640;
-const toPx = (x: number, y: number): [number, number] => [GX + ((x + 1) / 6.2) * GW, GY + GH - ((y + 2) / 9) * GH];
-const PARABOLA = (() => {
-  const pts: string[] = [];
-  for (let i = 0; i <= 64; i++) {
-    const x = -0.6 + (5.2 * i) / 64;
-    const [px, py] = toPx(x, x * x - 4 * x + 3);
-    pts.push(`${i === 0 ? "M" : "L"}${px.toFixed(1)},${py.toFixed(1)}`);
-  }
-  return pts.join(" ");
-})();
+// 영어 수업(현재완료) — 예문 타이핑 → have + p.p. 주석 → 타임라인 아크 → 어휘 칩, 우측 학생 타일
+const LINE1: Array<{ t: string; key?: boolean }> = [{ t: "I " }, { t: "have lived", key: true }, { t: " in Seoul" }];
+const LINE2 = "for five years.";
+const LINE1_LEN = LINE1.reduce((n, s) => n + s.t.length, 0);
+const TL_Y = 780; // 타임라인 기준선
+const TL_X0 = 250;
+const TL_X1 = 1050;
+const ARC = `M${TL_X0},${TL_Y} C${TL_X0 + 180},${TL_Y - 170} ${TL_X1 - 180},${TL_Y - 170} ${TL_X1},${TL_Y}`;
+// 3차 베지어 위 점(아크를 따라 움직이는 점)
+const arcAt = (u: number): [number, number] => {
+  const p0 = [TL_X0, TL_Y];
+  const p1 = [TL_X0 + 180, TL_Y - 170];
+  const p2 = [TL_X1 - 180, TL_Y - 170];
+  const p3 = [TL_X1, TL_Y];
+  const a = (1 - u) ** 3;
+  const b = 3 * (1 - u) ** 2 * u;
+  const c = 3 * (1 - u) * u * u;
+  const d = u ** 3;
+  return [a * p0[0] + b * p1[0] + c * p2[0] + d * p3[0], a * p0[1] + b * p1[1] + c * p2[1] + d * p3[1]];
+};
+const WORDS = ["for", "since", "already", "yet", "ever"];
 
 const STUDENTS = [
   { n: "지민", c: "#3FD39A" },
-  { n: "도윤", c: "#C8F05A" },
-  { n: "서아", c: "#7FD8FF" },
+  { n: "도윤", c: "#A7F3D0" },
+  { n: "서아", c: "#D6D3CC" },
 ];
 
 const Lesson: React.FC<{ f: number }> = ({ f }) => {
   const { fps } = useVideoConfig();
-  const axes = ease(f, 18, 48);
-  const curve = ease(f, 38, 98);
-  const dotP = interpolate(f, [100, 156], [0, 1], clamp);
-  const dx = -0.4 + 4.8 * dotP;
-  const [dpx, dpy] = toPx(dx, dx * dx - 4 * dx + 3);
-  const vtx = sp(f - 92, fps, { damping: 12, stiffness: 220, mass: 0.6 });
-  const [vx, vy] = toPx(2, -1);
-  const formula = "y = x² − 4x + 3";
-  const shown = Math.round(interpolate(f, [50, 82], [0, formula.length], clamp));
+  const n1 = Math.round(interpolate(f, [16, 50], [0, LINE1_LEN], clamp));
+  const n2 = Math.round(interpolate(f, [48, 72], [0, LINE2.length], clamp));
+  const marker = ease(f, 74, 94);
+  const note = sp(f - 82, fps, { damping: 13, stiffness: 220, mass: 0.6 });
+  const noteArrow = ease(f, 86, 104);
+  const base = ease(f, 56, 86);
+  const arc = ease(f, 86, 120);
+  const arcLabel = ease(f, 108, 124);
+  const dotU = interpolate(f, [112, 156], [0, 1], { ...clamp, easing: (t) => t * t * (3 - 2 * t) });
+  const [dx, dy] = arcAt(dotU);
+  const caret = Math.floor(f / 15) % 2 === 0;
+  let left = n1;
   return (
     <>
+      <div style={{ position: "absolute", left: 150, top: 150 }}>
+        <Mono size={22} color={R.accent}>{`Today's grammar · Present perfect`}</Mono>
+      </div>
+      {/* 예문 */}
+      <div style={{ position: "absolute", left: 150, top: 300, fontFamily: FONT_FAMILY, fontSize: 96, fontWeight: 800, color: R.white, letterSpacing: "-0.02em", lineHeight: 1.12, whiteSpace: "pre" }}>
+        <div>
+          {LINE1.map((seg) => {
+            const shown = seg.t.slice(0, Math.max(0, Math.min(seg.t.length, left)));
+            left -= seg.t.length;
+            if (!seg.key) return <span key={seg.t}>{shown}</span>;
+            return (
+              <span key={seg.t} style={{ position: "relative", display: "inline-block", color: marker > 0.5 ? R.accent : R.white }}>
+                <span style={{ position: "absolute", left: -6, right: -6, bottom: 6, height: 22, borderRadius: 6, background: `rgba(${R.accentRgb},0.28)`, transform: `scaleX(${marker})`, transformOrigin: "0 50%" }} />
+                <span style={{ position: "relative" }}>{shown}</span>
+              </span>
+            );
+          })}
+          {n1 < LINE1_LEN && f > 16 && <span style={{ opacity: caret ? 1 : 0, color: R.accent }}>|</span>}
+        </div>
+        <div>
+          {LINE2.slice(0, n2)}
+          {n1 >= LINE1_LEN && n2 < LINE2.length && <span style={{ opacity: caret ? 1 : 0, color: R.accent }}>|</span>}
+        </div>
+      </div>
+      {/* have + p.p. 주석 */}
+      <div style={{ position: "absolute", left: 640, top: 196, transform: `scale(${note})`, transformOrigin: "0% 100%", opacity: Math.min(1, note * 1.5) }}>
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 34, fontWeight: 800, color: R.accentInk, background: R.accent, borderRadius: 999, padding: "8px 22px" }}>have + p.p.</span>
+      </div>
       <svg width={SCREEN_W} height={SCREEN_H} style={{ position: "absolute", inset: 0 }}>
-        {/* 격자 */}
-        {Array.from({ length: 7 }).map((_, i) => (
-          <line key={`v${i}`} x1={GX + (i * GW) / 6.2 + GW / 6.2} y1={GY} x2={GX + (i * GW) / 6.2 + GW / 6.2} y2={GY + GH} stroke="rgba(255,255,255,0.06)" strokeWidth={2} />
-        ))}
-        {/* 축 */}
-        <line x1={GX} y1={toPx(0, 0)[1]} x2={GX + GW * axes} y2={toPx(0, 0)[1]} stroke="rgba(255,255,255,0.7)" strokeWidth={4} strokeLinecap="round" />
-        <line x1={toPx(0, 0)[0]} y1={GY + GH} x2={toPx(0, 0)[0]} y2={GY + GH - GH * axes} stroke="rgba(255,255,255,0.7)" strokeWidth={4} strokeLinecap="round" />
-        {/* 포물선 */}
-        <path d={PARABOLA} fill="none" stroke={R.lime} strokeWidth={9} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - curve} style={{ filter: "drop-shadow(0 0 10px rgba(200,240,90,0.55))" }} />
-        {/* 꼭짓점 */}
-        <circle cx={vx} cy={vy} r={16 * vtx} fill={R.white} />
-        <circle cx={vx} cy={vy} r={34 * vtx} fill="none" stroke={R.lime} strokeWidth={3} opacity={0.7} />
-        {/* 곡선을 따라 움직이는 점 */}
-        {f > 100 && f < 176 && <circle cx={dpx} cy={dpy} r={14} fill="#FF6B5A" style={{ filter: "drop-shadow(0 0 12px rgba(255,107,90,0.8))" }} />}
+        <path d="M600,232 C540,236 470,262 452,300" fill="none" stroke={R.accent} strokeWidth={5} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - noteArrow} />
+        {/* 타임라인 */}
+        <line x1={150} y1={TL_Y} x2={150 + 1000 * base} y2={TL_Y} stroke="rgba(255,255,255,0.7)" strokeWidth={4} strokeLinecap="round" />
+        <circle cx={TL_X0} cy={TL_Y} r={12 * base} fill={R.white} />
+        <circle cx={TL_X1} cy={TL_Y} r={14 * base} fill={R.accent} />
+        <path d={ARC} fill="none" stroke={R.accent} strokeWidth={8} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - arc} style={{ filter: `drop-shadow(0 0 10px rgba(${R.accentRgb},0.6))` }} />
+        {f > 112 && f < 176 && <circle cx={dx} cy={dy} r={14} fill={R.white} style={{ filter: `drop-shadow(0 0 14px rgba(${R.accentRgb},0.9))` }} />}
       </svg>
-      <div style={{ position: "absolute", left: vx + 40, top: vy - 10, opacity: vtx, fontFamily: FONT_FAMILY, fontSize: 40, fontWeight: 700, color: R.white }}>꼭짓점 (2, −1)</div>
-      <div style={{ position: "absolute", left: 640, top: 250, fontFamily: FONT_FAMILY, fontSize: 64, fontWeight: 800, color: R.white, letterSpacing: "-0.01em" }}>
-        {formula.slice(0, shown)}
-        {shown < formula.length && f > 50 && <span style={{ opacity: Math.floor(f / 15) % 2 ? 0 : 1, color: R.lime }}>|</span>}
+      <div style={{ position: "absolute", left: TL_X0 - 50, top: TL_Y + 28, opacity: base }}>
+        <Mono size={26} color="rgba(255,255,255,0.7)">2021</Mono>
+      </div>
+      <div style={{ position: "absolute", left: TL_X1 - 36, top: TL_Y + 28, opacity: base }}>
+        <Mono size={26} color={R.accent}>Now</Mono>
+      </div>
+      <div style={{ position: "absolute", left: (TL_X0 + TL_X1) / 2 - 150, top: TL_Y - 186, width: 300, textAlign: "center", opacity: arcLabel, transform: `translateY(${(1 - arcLabel) * 16}px)`, fontFamily: FONT_FAMILY, fontSize: 40, fontWeight: 700, color: R.white }}>
+        for five years
+      </div>
+      {/* 어휘 칩 */}
+      <div style={{ position: "absolute", left: 150, top: 880, display: "flex", gap: 18 }}>
+        {WORDS.map((w, i) => {
+          const k = sp(f - 96 - i * 6, fps, { damping: 14, stiffness: 230, mass: 0.6 });
+          const on = i === 0;
+          return (
+            <span
+              key={w}
+              style={{
+                fontFamily: FONT_FAMILY,
+                fontSize: 36,
+                fontWeight: 700,
+                color: on ? R.accentInk : R.white,
+                background: on ? R.accent : "rgba(255,255,255,0.08)",
+                border: on ? "none" : "2px solid rgba(255,255,255,0.18)",
+                borderRadius: 999,
+                padding: "8px 28px",
+                transform: `scale(${k})`,
+                opacity: Math.min(1, k * 1.5),
+              }}
+            >
+              {w}
+            </span>
+          );
+        })}
       </div>
       {/* 학생 타일 */}
       <div style={{ position: "absolute", right: 60, top: 150, display: "flex", flexDirection: "column", gap: 22 }}>
@@ -101,7 +161,7 @@ const Lesson: React.FC<{ f: number }> = ({ f }) => {
                 height: 200,
                 borderRadius: 22,
                 background: `linear-gradient(150deg, ${R.board2} 0%, #0B1F18 100%)`,
-                border: `2px solid ${hand ? R.lime : "rgba(255,255,255,0.12)"}`,
+                border: `2px solid ${hand ? R.accent : "rgba(255,255,255,0.12)"}`,
                 position: "relative",
                 transform: `translateX(${(1 - k) * 120}%)`,
                 opacity: Math.min(1, k * 1.4),
@@ -112,7 +172,7 @@ const Lesson: React.FC<{ f: number }> = ({ f }) => {
               <div style={{ position: "absolute", left: "50%", top: 108, width: 150, height: 90, marginLeft: -75, borderRadius: "75px 75px 0 0", background: s.c, opacity: 0.55 }} />
               <div style={{ position: "absolute", left: 16, bottom: 12, fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 700, color: R.white }}>{s.n}</div>
               {hand && (
-                <div style={{ position: "absolute", right: 14, top: 14, background: R.lime, color: R.ink, borderRadius: 999, padding: "4px 14px", fontFamily: FONT_FAMILY, fontSize: 24, fontWeight: 800, transform: `scale(${sp(f - 118, fps, { damping: 10, stiffness: 260, mass: 0.6 })})` }}>
+                <div style={{ position: "absolute", right: 14, top: 14, background: R.accent, color: R.accentInk, borderRadius: 999, padding: "4px 14px", fontFamily: FONT_FAMILY, fontSize: 24, fontWeight: 800, transform: `scale(${sp(f - 118, fps, { damping: 10, stiffness: 260, mass: 0.6 })})` }}>
                   ✋ 질문
                 </div>
               )}
@@ -120,6 +180,11 @@ const Lesson: React.FC<{ f: number }> = ({ f }) => {
           );
         })}
       </div>
+      {f > 124 && (
+        <div style={{ position: "absolute", right: 440, top: 392, background: R.white, color: R.ink, borderRadius: "22px 22px 4px 22px", padding: "14px 24px", fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 700, transform: `scale(${sp(f - 124, fps, { damping: 12, stiffness: 240, mass: 0.6 })})`, transformOrigin: "100% 100%", boxShadow: "0 16px 40px rgba(0,0,0,0.3)" }}>
+          since랑 for, 언제 써요?
+        </div>
+      )}
     </>
   );
 };
@@ -135,7 +200,7 @@ const Headline: React.FC<{ f: number }> = ({ f }) => {
         <div style={{ fontSize: 78, fontWeight: 700, letterSpacing: "-0.03em", transform: `translateY(${(1 - l1) * 110}%)` }}>좋은 수업을, 강사의 개인기에서</div>
       </div>
       <div style={{ overflow: "hidden", marginTop: 6, paddingBottom: 24 }}>
-        <div style={{ fontSize: 172, fontWeight: 900, letterSpacing: "-0.045em", lineHeight: 1.05, color: R.lime, transform: `translateY(${(1 - l2) * 110}%)`, textShadow: "0 0 40px rgba(200,240,90,0.35)" }}>학원의 시스템으로.</div>
+        <div style={{ fontSize: 172, fontWeight: 900, letterSpacing: "-0.045em", lineHeight: 1.05, color: R.accent, transform: `translateY(${(1 - l2) * 110}%)`, textShadow: `0 0 40px rgba(${R.accentRgb},0.35)` }}>학원의 시스템으로.</div>
       </div>
       <svg width={1300} height={60} style={{ display: "block", marginTop: -30 }}>
         <path d="M8,34 C260,14 520,48 820,26 S1180,30 1290,20" fill="none" stroke={R.white} strokeWidth={8} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - und} opacity={0.9} />
@@ -172,23 +237,23 @@ const BoardScreen: React.FC<{ f: number }> = ({ f }) => {
       <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 92, display: "flex", alignItems: "center", padding: "0 56px", gap: 26, background: "rgba(0,0,0,0.22)", transform: `translateY(${(1 - bar) * -100}%)` }}>
         <span style={{ width: 16, height: 16, borderRadius: 999, background: R.brandSoft }} />
         <span style={{ fontFamily: FONT_FAMILY, fontSize: 34, fontWeight: 800, color: R.white }}>Classin</span>
-        <span style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 600, color: "rgba(255,255,255,0.65)" }}>3단원 · 이차함수의 그래프</span>
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 600, color: "rgba(255,255,255,0.65)" }}>English B반 · Unit 5 현재완료</span>
         <span style={{ flex: 1 }} />
         <span style={{ display: "inline-flex", alignItems: "center", gap: 12, fontFamily: FONT_FAMILY, fontSize: 28, fontWeight: 700, color: R.white }}>
           <span style={{ width: 14, height: 14, borderRadius: 999, background: "#FF4D3D", opacity: Math.floor(f / 30) % 2 ? 0.35 : 1 }} />
-          녹화 중
+          자동 녹화 중
         </span>
       </div>
       {/* 판서 — 지우개 스윕 왼쪽은 지워진다 */}
       <div style={{ position: "absolute", inset: 0, clipPath: `inset(0 0 0 ${Math.max(0, wipeX)}px)` }}>
         <Lesson f={f} />
       </div>
-      {f >= 150 && f <= 178 && <div style={{ position: "absolute", top: 92, bottom: 0, left: wipeX - 30, width: 60, background: R.lime, boxShadow: "0 0 60px rgba(200,240,90,0.8)" }} />}
+      {f >= 150 && f <= 178 && <div style={{ position: "absolute", top: 92, bottom: 0, left: wipeX - 30, width: 60, background: R.accent, boxShadow: `0 0 60px rgba(${R.accentRgb},0.8)` }} />}
       {f >= 166 && <Headline f={f} />}
       {/* 하단 툴바 */}
       <div style={{ position: "absolute", left: "50%", bottom: 30, transform: `translate(-50%, ${(1 - bar) * 160}%)`, display: "flex", gap: 22, alignItems: "center", background: "rgba(0,0,0,0.3)", borderRadius: 999, padding: "14px 30px" }}>
-        {["#FFFFFF", R.lime, "#FF6B5A", "#7FD8FF"].map((c) => (
-          <span key={c} style={{ width: 30, height: 30, borderRadius: 999, background: c, border: c === R.lime ? "4px solid rgba(255,255,255,0.9)" : "none" }} />
+        {["#FFFFFF", R.accent, "#FF6B5A", "#7FD8FF"].map((c) => (
+          <span key={c} style={{ width: 30, height: 30, borderRadius: 999, background: c, border: c === R.accent ? "4px solid rgba(255,255,255,0.9)" : "none" }} />
         ))}
         <span style={{ width: 2, height: 30, background: "rgba(255,255,255,0.25)" }} />
         <span style={{ fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 700, color: "rgba(255,255,255,0.7)" }}>EDB 1 / 50</span>
