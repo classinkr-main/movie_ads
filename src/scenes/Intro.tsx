@@ -7,7 +7,7 @@ import { Caption, Typewriter } from "../components/Type";
 import { C, CUES, FONT, H } from "../lib/theme";
 import { clamp, ease, prog } from "../lib/motion";
 
-// S1 훅 + S2 상실 (0–240f) — 모눈종이 지면 위 Vox식 해설.
+// S1 훅 + S2 상실 (0–240f) — 파스텔 연두 모눈종이 지면 위 Vox식 해설.
 // 위쪽 지면(0–1080)에 질문을 타이핑하고, 카메라가 아래 지면(1080–2160)으로 휩 팬해 실제 학원 사진에 주석을 단다.
 // 206f에 불이 꺼지고 "미래의 학원은,"이 찍힌 뒤 240f 드롭으로 넘어간다.
 
@@ -254,7 +254,7 @@ export const Intro: React.FC = () => {
   const scale = frame < L.whip ? settle * drift : push * (1 + Math.sin(whip * Math.PI) * 0.04);
   const originY = 540 + whip * (H + 20);
   return (
-    <AbsoluteFill style={{ background: C.paper, overflow: "hidden" }}>
+    <AbsoluteFill style={{ background: C.limeLight, overflow: "hidden" }}>
       <svg width={0} height={0} style={{ position: "absolute" }}>
         <filter id="whipblur">
           <feGaussianBlur stdDeviation={`0 ${blurAmt.toFixed(2)}`} />

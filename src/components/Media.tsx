@@ -2,34 +2,6 @@ import React from "react";
 import { AbsoluteFill, Img, OffthreadVideo, staticFile } from "remotion";
 import { C } from "../lib/theme";
 
-// 듀오톤 SVG 필터 — 루트에 한 번 깔고 style.filter = "url(#duo-…)"로 쓴다
-const DUOS: Record<string, [string, string]> = {
-  "duo-ink": ["#0A0B14", "#F2F4F8"],
-  "duo-cobalt": ["#070A3C", "#AEB6FF"],
-  "duo-heat": ["#1B23C9", "#FFB592"],
-};
-const hex = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
-
-export const DuotoneDefs: React.FC = () => (
-  <svg width={0} height={0} style={{ position: "absolute" }}>
-    <defs>
-      {Object.entries(DUOS).map(([id, [dark, light]]) => {
-        const [d, l] = [hex(dark), hex(light)];
-        return (
-          <filter key={id} id={id} colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0 0 0 1 0" />
-            <feComponentTransfer>
-              <feFuncR type="table" tableValues={`${d[0]} ${l[0]}`} />
-              <feFuncG type="table" tableValues={`${d[1]} ${l[1]}`} />
-              <feFuncB type="table" tableValues={`${d[2]} ${l[2]}`} />
-            </feComponentTransfer>
-          </filter>
-        );
-      })}
-    </defs>
-  </svg>
-);
-
 type Fit = { pos?: string; scale?: number; x?: number; y?: number; filter?: string; style?: React.CSSProperties };
 
 // 풀블리드 사진 — object-fit: cover + 확대·이동(켄 번스)

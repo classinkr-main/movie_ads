@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { Clip, Photo } from "../components/Media";
+import { limeGrid } from "../components/Stage";
 import { HandCircle, Tag } from "../components/Marks";
 import { Flash } from "../components/Fx";
 import { Caption, Slam } from "../components/Type";
@@ -9,7 +10,7 @@ import { C, CUES, FONT, scene } from "../lib/theme";
 import { POP, clamp, ease, prog, shake, sp } from "../lib/motion";
 
 // S4 챈트 (270–510f) — 단어 하나에 한 박. "판서는, 파일로. / 설명은, 영상으로. / 복습은, 앱으로. / 운영은, 데이터로."
-// A박: 실제 학원 사진·영상 + 첫 단어 / B박: 오른쪽 코발트 패널이 밀려 들어오며 두 번째 단어와 결과물.
+// A박: 실제 학원 사진·영상 + 첫 단어 / B박: 오른쪽 파스텔 연두 패널이 밀려 들어오며 두 번째 단어와 결과물.
 
 type Pair = {
   a: string;
@@ -47,7 +48,7 @@ const EdbCard: React.FC = () => {
       {[2, 1].map((k) => (
         <div key={k} style={{ position: "absolute", left: k * 18, top: k * -16, width: 640, height: 420, background: C.white, opacity: 0.35 + 0.2 * (2 - k), borderRadius: 14 }} />
       ))}
-      <div style={{ position: "relative", width: 640, height: 420, background: C.white, borderRadius: 14, boxShadow: "0 30px 60px rgba(7,10,60,0.45)", overflow: "hidden" }}>
+      <div style={{ position: "relative", width: 640, height: 420, background: C.white, borderRadius: 14, boxShadow: `0 30px 60px ${C.shadow}`, overflow: "hidden" }}>
         <div style={{ position: "absolute", left: 24, top: 24, width: 592, height: 270, borderRadius: 8, overflow: "hidden", background: "#22252B" }}>
           <Img src={staticFile("photos/mokdong-point.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "30% 22%", transform: "scale(1.9)", transformOrigin: "30% 22%", filter: "contrast(1.1)" }} />
         </div>
@@ -84,7 +85,7 @@ const VideoPlayer: React.FC = () => {
   const s = sp(frame, POP);
   const bar = interpolate(frame, [0, 30], [0.18, 0.62], { ...clamp, easing: ease.out });
   return (
-    <div style={{ position: "absolute", left: 100, top: 150, width: 820, height: 461, transform: `scale(${0.75 + 0.25 * s}) rotate(${2 - 2 * s}deg)`, opacity: Math.min(1, s * 2), borderRadius: 18, overflow: "hidden", boxShadow: "0 30px 60px rgba(7,10,60,0.5)", background: C.ink }}>
+    <div style={{ position: "absolute", left: 100, top: 150, width: 820, height: 461, transform: `scale(${0.75 + 0.25 * s}) rotate(${2 - 2 * s}deg)`, opacity: Math.min(1, s * 2), borderRadius: 18, overflow: "hidden", boxShadow: `0 30px 60px ${C.shadow}`, background: C.ink }}>
       <Clip src="class.mp4" style={{ filter: "contrast(1.05) saturate(0.9)" }} />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,11,20,0.45) 0%, rgba(10,11,20,0) 30%, rgba(10,11,20,0) 65%, rgba(10,11,20,0.7) 100%)" }} />
       <div style={{ position: "absolute", left: 24, top: 20, display: "flex", alignItems: "center", gap: 10, fontFamily: FONT.mono, fontWeight: 600, fontSize: 22, color: C.white, letterSpacing: "0.1em" }}>
@@ -124,11 +125,11 @@ const PhoneApp: React.FC = () => {
         background: C.ink,
         padding: 14,
         boxSizing: "border-box",
-        boxShadow: "0 40px 70px rgba(7,10,60,0.55)",
+        boxShadow: `0 40px 70px ${C.shadow}`,
         transform: `translateY(${(1 - s) * 140}px) rotate(${-6 + (1 - s) * -6}deg)`,
       }}
     >
-      <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: 40, background: C.paper, overflow: "hidden" }}>
+      <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: 40, background: C.limeLight, overflow: "hidden" }}>
         <div style={{ position: "absolute", left: 24, top: 40, fontFamily: FONT.sans, fontWeight: 700, fontSize: 30, color: C.ink }}>오늘의 복습</div>
         <div style={{ position: "absolute", left: 16, right: 16, top: 96, height: 170, borderRadius: 16, overflow: "hidden" }}>
           <Img src={staticFile("photos/hw-room86.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.9)" }} />
@@ -182,7 +183,7 @@ const Dashboard: React.FC = () => {
   const pts = bars.map((b, i) => [70 + i * 130, 330 - b * 230 - 30] as const);
   const d = pts.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join("");
   return (
-    <div style={{ position: "absolute", left: 110, top: 150, width: 800, height: 470, borderRadius: 18, background: C.white, boxShadow: "0 30px 60px rgba(7,10,60,0.45)", transform: `scale(${0.75 + 0.25 * s})`, opacity: Math.min(1, s * 2), overflow: "hidden" }}>
+    <div style={{ position: "absolute", left: 110, top: 150, width: 800, height: 470, borderRadius: 18, background: C.white, boxShadow: `0 30px 60px ${C.shadow}`, transform: `scale(${0.75 + 0.25 * s})`, opacity: Math.min(1, s * 2), overflow: "hidden" }}>
       <div style={{ position: "absolute", left: 32, top: 26, fontFamily: FONT.sans, fontWeight: 700, fontSize: 30, color: C.ink }}>수업 운영 리포트</div>
       <Caption size={18} style={{ position: "absolute", right: 32, top: 36 }}>
         관리자 · 이번 주
@@ -229,7 +230,6 @@ const PairShot: React.FC<{ pair: Pair; index: number }> = ({ pair, index }) => {
           <Photo src={pair.photo ?? ""} pos={pair.pos} scale={punch + drift} filter={`contrast(1.12) saturate(0.82) brightness(${dim})`} />
         )}
         <AbsoluteFill style={{ background: "linear-gradient(20deg, rgba(10,11,20,0.82) 0%, rgba(10,11,20,0.35) 42%, rgba(10,11,20,0) 70%)" }} />
-        <AbsoluteFill style={{ background: C.cobalt, mixBlendMode: "color", opacity: 0.14 }} />
         {pair.circle && <HandCircle {...pair.circle} start={3} dur={12} width={8} seed={`pc${index}`} />}
       </AbsoluteFill>
       <div style={{ position: "absolute", left: 110, bottom: 130, transform: `translateX(${-panel * 40}px)` }}>
@@ -240,15 +240,15 @@ const PairShot: React.FC<{ pair: Pair; index: number }> = ({ pair, index }) => {
       <Tag x={118} y={700} start={2} index={`0${index + 1}`} text={pair.tag} size={34} rotate={-1.5} />
       {frame >= B && (
         <div style={{ position: "absolute", left: PANEL_X, top: 0, width: PANEL_W, height: 1080, transform: `translateX(${(1 - panel) * PANEL_W}px) translate(${sh.x}px, ${sh.y}px)` }}>
-          <div style={{ position: "absolute", inset: 0, background: C.cobalt, clipPath: "polygon(6% 0, 100% 0, 100% 100%, 0 100%)" }}>
-            <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(255,255,255,0.09) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,0.09) 1.5px, transparent 1.5px)", backgroundSize: "80px 80px" }} />
+          <div style={{ position: "absolute", inset: 0, background: C.lime, clipPath: "polygon(6% 0, 100% 0, 100% 100%, 0 100%)" }}>
+            <div style={{ position: "absolute", inset: 0, ...limeGrid(40) }} />
           </div>
           <Sequence from={B} layout="none">
             <Panel />
           </Sequence>
           <Tag x={160} y={96} start={B + 2} index="→" text={pair.btag} size={30} rotate={1.5} dark />
           <div style={{ position: "absolute", left: 150, bottom: 130 }}>
-            <Slam start={B} from={1.5} origin="0% 100%" style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 200, lineHeight: 1, letterSpacing: "-0.05em", color: C.white }}>
+            <Slam start={B} from={1.5} origin="0% 100%" style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 200, lineHeight: 1, letterSpacing: "-0.05em", color: C.ink }}>
               {pair.b}
             </Slam>
           </div>

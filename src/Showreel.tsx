@@ -1,6 +1,5 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
-import { DuotoneDefs } from "./components/Media";
 import { Grain, Vignette } from "./components/Stage";
 import { RecHud } from "./components/Hud";
 import { C, FONT, scene } from "./lib/theme";
@@ -30,7 +29,6 @@ const SCENES: Array<{ name: string; from: number; len: number; Comp: React.FC }>
 
 export const Showreel: React.FC = () => (
   <AbsoluteFill style={{ background: C.ink, fontFamily: FONT.sans }}>
-    <DuotoneDefs />
     {SCENES.map(({ name, from, len, Comp }) => (
       <Sequence key={name} name={name} from={from} durationInFrames={len}>
         <Comp />
@@ -38,7 +36,7 @@ export const Showreel: React.FC = () => (
     ))}
     <RecHud />
     <Grain opacity={0.085} />
-    <Vignette strength={0.26} />
+    <Vignette />
     <Audio src={staticFile("audio/classin-v5.wav")} />
   </AbsoluteFill>
 );

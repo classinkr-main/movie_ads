@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, useCurrentFrame } from "remotion";
-import { InkStage } from "../components/Stage";
+import { LimeStage } from "../components/Stage";
 import { Flash, Rings } from "../components/Fx";
 import { Caption, Counter, MaskUp } from "../components/Type";
 import { C, CUES, FONT, scene } from "../lib/theme";
@@ -26,10 +26,10 @@ const WorldDots: React.FC = () => {
   const appear = prog(frame, 0, 16);
   const [kx, ky] = geo.world.korea;
   return (
-    <svg width={1920} height={1080} viewBox={`0 0 ${geo.world.width} ${geo.world.height}`} style={{ position: "absolute", left: 0, top: 0, opacity: 0.55 * appear }}>
+    <svg width={1920} height={1080} viewBox={`0 0 ${geo.world.width} ${geo.world.height}`} style={{ position: "absolute", left: 0, top: 0, opacity: 0.42 * appear }}>
       {geo.world.dots.map(([x, y], i) => {
         const tw = 0.55 + 0.45 * Math.sin(frame * 0.12 + random(`d${i}`) * 6.28);
-        return <circle key={i} cx={x} cy={y} r={3.4} fill={C.cobalt} opacity={tw} />;
+        return <circle key={i} cx={x} cy={y} r={3.4} fill={C.olive} opacity={tw} />;
       })}
       {[0, 30, 60, 90].map((o) => {
         const t = ((frame - o) % 60) / 60;
@@ -61,13 +61,13 @@ const Stat: React.FC<{ i: number }> = ({ i }) => {
         whiteSpace: "nowrap",
       }}
     >
-      <div style={{ display: "flex", alignItems: "baseline", color: C.white, lineHeight: 1 }}>
+      <div style={{ display: "flex", alignItems: "baseline", color: C.ink, lineHeight: 1 }}>
         <Counter value={st.value} start={at} dur={14} format={st.format} style={{ fontFamily: FONT.num, fontSize: 196, letterSpacing: "0.005em" }} />
         {st.unit && <span style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 124, marginLeft: 6, letterSpacing: "-0.04em" }}>{st.unit}</span>}
         <span style={{ fontFamily: FONT.num, fontSize: 140, color: C.signal, marginLeft: 6 }}>+</span>
       </div>
       <div style={{ height: 6, width: 120, background: C.signal, margin: "18px 0 18px", transform: `scaleX(${prog(frame, at + 4, at + 14)})`, transformOrigin: "0 50%" }} />
-      <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 58, letterSpacing: "-0.03em", color: C.white }}>{st.label}</div>
+      <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 58, letterSpacing: "-0.03em", color: C.ink }}>{st.label}</div>
     </div>
   );
 };
@@ -77,15 +77,15 @@ export const Scale: React.FC = () => {
   const cap = prog(frame, CAPTION, CAPTION + 10);
   const out = interpolate(frame, [104, 120], [1, 1.06], { ...clamp, easing: ease.in });
   return (
-    <InkStage glow={0.8}>
+    <LimeStage grid={false}>
       <AbsoluteFill style={{ transform: `scale(${out})` }}>
         <WorldDots />
         <div style={{ position: "absolute", left: 160, top: 150 }}>
-          <Caption size={22} color={C.white} style={{ opacity: 0.7, letterSpacing: "0.24em", fontWeight: 600 }}>
+          <Caption size={22} color={C.olive} style={{ letterSpacing: "0.24em", fontWeight: 600 }}>
             GLOBAL · SINCE 2014
           </Caption>
           <MaskUp start={0} dur={12} style={{ marginTop: 14 }}>
-            <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 84, letterSpacing: "-0.04em", color: C.white, lineHeight: 1.1 }}>그리고 전 세계에서.</div>
+            <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 84, letterSpacing: "-0.04em", color: C.ink, lineHeight: 1.1 }}>그리고 전 세계에서.</div>
           </MaskUp>
         </div>
         {HITS.map((h, i) => (
@@ -94,13 +94,13 @@ export const Scale: React.FC = () => {
             <Stat i={i} />
           </React.Fragment>
         ))}
-        <Caption size={20} color={C.white} style={{ position: "absolute", left: 160, bottom: 140, opacity: cap * 0.7 }}>
+        <Caption size={20} color={C.muted} style={{ position: "absolute", left: 160, bottom: 140, opacity: cap }}>
           * 전 세계 누적 수치 · EEO 공식 소개(classin.com) 기준
         </Caption>
       </AbsoluteFill>
       {HITS.map((h) => (
         <Flash key={h} at={h} dur={6} max={0.22} />
       ))}
-    </InkStage>
+    </LimeStage>
   );
 };

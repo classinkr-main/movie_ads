@@ -21,7 +21,7 @@ export const Finale: React.FC = () => {
   const idx = Math.min(STROBE.length - 1, Math.floor(frame / STEP));
   const local = frame - idx * STEP;
   const z = interpolate(local, [0, STEP], [1.1, 1.04], { ...clamp, easing: ease.out });
-  const block = prog(frame, STRIKE + 2, STRIKE + 9, ease.outExpo);
+  const block = prog(frame, STRIKE, STRIKE + 7, ease.outExpo);
   const struck = prog(frame, STRIKE, STRIKE + 10);
   const push = interpolate(frame, [STRIKE, 120], [1, 1.05], { ...clamp, easing: ease.inOut });
   const line: React.CSSProperties = { fontFamily: FONT.display, fontSize: 150, lineHeight: 1.12, letterSpacing: "-0.05em", color: C.white, whiteSpace: "nowrap" };
@@ -29,7 +29,6 @@ export const Finale: React.FC = () => {
     <AbsoluteFill style={{ background: C.ink, overflow: "hidden" }}>
       <Photo src={STROBE[idx]} scale={z} filter="saturate(0.85) contrast(1.12) brightness(0.48)" />
       <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(10,11,20,0.78) 0%, rgba(10,11,20,0.35) 60%, rgba(10,11,20,0.1) 100%)" }} />
-      <AbsoluteFill style={{ background: C.cobalt, mixBlendMode: "color", opacity: 0.16 }} />
       <AbsoluteFill style={{ transform: `scale(${push})`, transformOrigin: "0% 50%" }}>
         <div style={{ position: "absolute", left: 130, top: 170 }}>
           <Slam start={LINES[0]} from={1.35} origin="0% 100%" style={{ ...line, fontWeight: 900 }}>
@@ -41,8 +40,8 @@ export const Finale: React.FC = () => {
             </Slam>
           </div>
           <div style={{ position: "relative", marginTop: 26, display: "inline-block" }}>
-            <div style={{ position: "absolute", left: -26, right: -30, top: 8, bottom: -6, background: C.cobalt, transform: `scaleX(${block})`, transformOrigin: "0 50%" }} />
-            <Slam start={LINES[2]} from={1.4} origin="0% 100%" style={{ ...line, position: "relative", fontSize: 168, fontWeight: 900 }}>
+            <div style={{ position: "absolute", left: -26, right: -30, top: 8, bottom: -6, background: C.lime, transform: `scaleX(${block})`, transformOrigin: "0 50%" }} />
+            <Slam start={LINES[2]} from={1.4} origin="0% 100%" style={{ ...line, position: "relative", fontSize: 168, fontWeight: 900, color: C.ink }}>
               학원의 시스템으로.
             </Slam>
           </div>

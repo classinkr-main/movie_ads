@@ -41,11 +41,7 @@ const MiniChart: React.FC = () => (
   </AbsoluteFill>
 );
 
-const CameraCard: React.FC = () => (
-  <AbsoluteFill style={{ background: C.cobalt, alignItems: "center", justifyContent: "center" }}>
-    <Img src={staticFile("photos/hw-camera.png")} style={{ width: "86%", transform: "rotate(-4deg)" }} />
-  </AbsoluteFill>
-);
+const CameraCard: React.FC = () => <Img src={staticFile("photos/hw-camera.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 45%" }} />;
 
 const STATIONS: Array<{ title: string; sub: string; Icon: React.FC<{ size?: number; color?: string }>; card: React.ReactNode }> = [
   { title: "EDB 교안", sub: "판서·교안 파일", Icon: IconFile, card: <MiniDoc /> },
@@ -89,7 +85,7 @@ const Station: React.FC<{ i: number }> = ({ i }) => {
           height: 100,
           borderRadius: 99,
           background: C.cobalt,
-          border: `7px solid ${C.paper}`,
+          border: `7px solid ${C.limeLight}`,
           boxSizing: "border-box",
           boxShadow: `0 0 0 4px ${C.ink}`,
           display: "flex",
@@ -149,7 +145,7 @@ const Groups: React.FC = () => {
             <div style={{ position: "absolute", left: g.x0, top: 300, width: 3, height: 16, background: C.ink, opacity: a }} />
             <div style={{ position: "absolute", left: g.x1 - 3, top: 300, width: 3, height: 16, background: C.ink, opacity: a }} />
             <div style={{ position: "absolute", left: (g.x0 + g.x1) / 2 - 100, width: 200, top: 256, textAlign: "center", opacity: a }}>
-              <span style={{ background: C.paper, padding: "0 14px", fontFamily: FONT.mono, fontWeight: 600, fontSize: 22, letterSpacing: "0.16em", color: C.cobalt }}>{g.label}</span>
+              <span style={{ background: C.limeLight, padding: "0 14px", fontFamily: FONT.mono, fontWeight: 600, fontSize: 22, letterSpacing: "0.16em", color: C.cobalt }}>{g.label}</span>
             </div>
           </React.Fragment>
         );
@@ -163,9 +159,9 @@ export const System: React.FC = () => {
   const drift = interpolate(frame, [0, ZOOM[0]], [1, 1.03], clamp);
   const zoom = interpolate(frame, [ZOOM[0], ZOOM[1]], [1, 3.4], { ...clamp, easing: ease.inExpo });
   const blur = interpolate(frame, [ZOOM[0] + 10, ZOOM[1]], [0, 14], clamp);
-  const toCobalt = interpolate(frame, [ZOOM[1] - 12, ZOOM[1]], [0, 1], clamp);
+  const toLime = interpolate(frame, [ZOOM[1] - 12, ZOOM[1]], [0, 1], clamp);
   return (
-    <AbsoluteFill style={{ background: C.paper, overflow: "hidden" }}>
+    <AbsoluteFill style={{ background: C.limeLight, overflow: "hidden" }}>
       <Camera scale={drift * zoom} blur={blur} originX={960} originY={900}>
         <GraphPaper>
           <div style={{ position: "absolute", left: 120, top: 92 }}>
@@ -192,7 +188,7 @@ export const System: React.FC = () => {
           </div>
         </GraphPaper>
       </Camera>
-      <AbsoluteFill style={{ background: C.cobalt, opacity: toCobalt }} />
+      <AbsoluteFill style={{ background: C.lime, opacity: toLime }} />
     </AbsoluteFill>
   );
 };

@@ -1,12 +1,12 @@
 import React from "react";
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from "remotion";
-import { Blueprint } from "../components/Stage";
+import { LimeStage } from "../components/Stage";
 import { Caption, MaskUp } from "../components/Type";
 import { C, CUES, FONT, scene } from "../lib/theme";
 import { POP, clamp, ease, prog, sp } from "../lib/motion";
 import geo from "../data/geo.json";
 
-// S7 지도 (840–960f) — 8분음표마다 핀이 하나씩 꽂히고, 같은 박에 그 학원의 사진이 붙는다.
+// S7 지도 (840–960f) — 파스텔 연두 지면 위 한국 지도. 8분음표마다 핀이 하나씩 꽂히고, 같은 박에 그 학원의 사진이 붙는다.
 const { from } = scene("map");
 const PINS = CUES.map.pins.map((f) => f - from);
 
@@ -41,7 +41,7 @@ const Polaroid: React.FC<{ i: number }> = ({ i }) => {
         width: 196,
         padding: "10px 10px 0",
         background: C.white,
-        boxShadow: "0 16px 34px rgba(7,10,60,0.45)",
+        boxShadow: `0 16px 34px ${C.shadow}`,
         transform: `rotate(${rot}deg) scale(${0.5 + 0.5 * s}) translateY(${(1 - s) * 40}px)`,
         opacity: Math.min(1, s * 2),
       }}
@@ -64,7 +64,7 @@ const KoreaMap: React.FC = () => {
     <div style={{ position: "absolute", left: MAP.x, top: MAP.y, transform: `scale(${MAP.scale})`, transformOrigin: "0 0" }}>
       <svg width={geo.korea.width} height={geo.korea.height} style={{ overflow: "visible" }}>
         {geo.korea.provinces.map((p) => (
-          <path key={p.name} d={p.d} pathLength={1} fill="rgba(255,255,255,0.07)" stroke={C.white} strokeWidth={2.4} strokeLinejoin="round" strokeDasharray={1} strokeDashoffset={1 - draw} fillOpacity={draw} />
+          <path key={p.name} d={p.d} pathLength={1} fill="rgba(255,255,255,0.6)" stroke={C.ink} strokeWidth={2.2} strokeLinejoin="round" strokeDasharray={1} strokeDashoffset={1 - draw} fillOpacity={draw} />
         ))}
         {PLACES.map((pl, i) => {
           const at = PINS[i];
@@ -98,18 +98,18 @@ export const MapScene: React.FC = () => {
   const enter = interpolate(frame, [0, 16], [1.14, 1], { ...clamp, easing: ease.outExpo });
   const push = interpolate(frame, [16, 120], [1, 1.035], clamp);
   return (
-    <Blueprint>
+    <LimeStage>
       <AbsoluteFill style={{ transform: `scale(${enter * push})` }}>
         <div style={{ position: "absolute", left: 120, top: 110 }}>
-          <Caption size={22} color={C.white} style={{ opacity: 0.75, letterSpacing: "0.24em", fontWeight: 600 }}>
+          <Caption size={22} color={C.olive} style={{ letterSpacing: "0.24em", fontWeight: 600 }}>
             FIELD MAP · 학원 현장
           </Caption>
           <MaskUp start={0} dur={12} style={{ marginTop: 14 }}>
-            <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 92, letterSpacing: "-0.04em", color: C.white, lineHeight: 1.08 }}>서울에서 부산까지,</div>
+            <div style={{ fontFamily: FONT.display, fontWeight: 800, fontSize: 92, letterSpacing: "-0.04em", color: C.ink, lineHeight: 1.08 }}>서울에서 부산까지,</div>
           </MaskUp>
           <MaskUp start={6} dur={12} distance={1.6}>
-            <div style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 92, letterSpacing: "-0.04em", color: C.white, lineHeight: 1.08 }}>
-              학원의 <span style={{ display: "inline-block", lineHeight: 1.04, background: C.signal, padding: "0 12px" }}>교실</span>에서.
+            <div style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 92, letterSpacing: "-0.04em", color: C.ink, lineHeight: 1.08 }}>
+              학원의 <span style={{ display: "inline-block", lineHeight: 1.04, background: C.signal, color: C.white, padding: "0 12px" }}>교실</span>에서.
             </div>
           </MaskUp>
         </div>
@@ -118,6 +118,6 @@ export const MapScene: React.FC = () => {
         ))}
         <KoreaMap />
       </AbsoluteFill>
-    </Blueprint>
+    </LimeStage>
   );
 };

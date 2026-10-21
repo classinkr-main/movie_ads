@@ -14,33 +14,27 @@ const gridLines = (minor: string, major: string, size = 32, majorEvery = 5): Rea
   backgroundSize: `${size * majorEvery}px ${size * majorEvery}px, ${size * majorEvery}px ${size * majorEvery}px, ${size}px ${size}px, ${size}px ${size}px`,
 });
 
-// 모눈종이 지면 — Vox식 해설 장면의 바탕. height로 세로로 긴 지면(카메라 이동용)을 만든다.
+// 모눈종이 지면 — Vox식 해설 장면의 바탕(밝은 파스텔 연두). height로 세로로 긴 지면(카메라 이동용)을 만든다.
 export const GraphPaper: React.FC<Children & { height?: number }> = ({ children, height = H }) => (
-  <div style={{ position: "absolute", left: 0, top: 0, width: W, height, background: C.paper, overflow: "hidden" }}>
+  <div style={{ position: "absolute", left: 0, top: 0, width: W, height, background: C.limeLight, overflow: "hidden" }}>
     <div style={{ position: "absolute", inset: 0, ...gridLines(C.grid, C.gridMajor) }} />
     {Array.from({ length: Math.ceil(height / H) }, (_, i) => (
-      <Img key={i} src={staticFile("textures/paper.jpg")} style={{ position: "absolute", left: 0, top: i * H, width: W, height: H, mixBlendMode: "multiply", opacity: 0.55 }} />
+      <Img key={i} src={staticFile("textures/paper.jpg")} style={{ position: "absolute", left: 0, top: i * H, width: W, height: H, mixBlendMode: "multiply", opacity: 0.32 }} />
     ))}
     {children}
   </div>
 );
 
-// 블루프린트 — 코발트 지면 + 흰 격자. 지도·미래 장면용
-export const Blueprint: React.FC<Children> = ({ children }) => (
-  <AbsoluteFill style={{ background: C.cobalt }}>
-    <AbsoluteFill style={gridLines("rgba(255,255,255,0.08)", "rgba(255,255,255,0.16)")} />
-    <AbsoluteFill style={{ background: `radial-gradient(ellipse 80% 70% at 50% 45%, rgba(47,60,255,0) 40%, ${C.cobaltDeep} 100%)`, opacity: 0.85 }} />
+// 파스텔 연두 무대 — 드롭·패널·지도·수치·엔드의 바탕. 가운데가 살짝 밝다
+export const LimeStage: React.FC<Children & { grid?: boolean; style?: React.CSSProperties }> = ({ children, grid = true, style }) => (
+  <AbsoluteFill style={{ background: C.lime, ...style }}>
+    {grid && <AbsoluteFill style={gridLines(C.grid, C.gridMajor)} />}
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse 70% 65% at 50% 45%, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0) 70%)" }} />
     {children}
   </AbsoluteFill>
 );
 
-// 잉크 무대 — 뮤직비디오 장면의 바탕
-export const InkStage: React.FC<Children & { glow?: number }> = ({ children, glow = 0.5 }) => (
-  <AbsoluteFill style={{ background: C.ink }}>
-    <AbsoluteFill style={{ background: `radial-gradient(ellipse 60% 55% at 50% 50%, rgba(47,60,255,${0.32 * glow}) 0%, rgba(47,60,255,0) 70%)` }} />
-    {children}
-  </AbsoluteFill>
-);
+export const limeGrid = (size = 32) => gridLines(C.grid, C.gridMajor, size);
 
 // 필름 그레인 — 512px 타일 4장을 2프레임마다 바꾸고 위치를 흔든다
 export const Grain: React.FC<{ opacity?: number; blend?: React.CSSProperties["mixBlendMode"] }> = ({ opacity = 0.1, blend = "overlay" }) => {
@@ -60,8 +54,9 @@ export const Grain: React.FC<{ opacity?: number; blend?: React.CSSProperties["mi
   );
 };
 
-export const Vignette: React.FC<{ strength?: number }> = ({ strength = 0.35 }) => (
-  <AbsoluteFill style={{ background: `radial-gradient(ellipse 75% 70% at 50% 50%, rgba(10,11,20,0) 55%, rgba(10,11,20,${strength}) 100%)`, pointerEvents: "none" }} />
+// 비네트 — 연두 지면이 탁해지지 않도록 올리브 톤으로 가장자리만 살짝 누른다
+export const Vignette: React.FC<{ strength?: number }> = ({ strength = 0.2 }) => (
+  <AbsoluteFill style={{ background: `radial-gradient(ellipse 75% 70% at 50% 50%, rgba(36,52,8,0) 55%, rgba(36,52,8,${strength}) 100%)`, pointerEvents: "none" }} />
 );
 
 // 카메라 — 장면 전체에 이동·확대·회전·흐림을 건다
