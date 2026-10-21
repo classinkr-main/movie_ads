@@ -7,7 +7,7 @@ import { MaskLine } from "../type";
 import { R } from "../theme";
 
 /*
- * S6 엔드 카드 (글로벌 1050–1200f · 2.5s)
+ * S6 엔드 카드 (글로벌 1266–1440f · 2.9s)
  * 민트 링 아이리스로 열리고, Classin 마크가 스프링으로 내려앉은 뒤 워드마크·태그라인·CTA가 순서대로 선다.
  * CTA 문구는 사이트 정본(lib/classin-positioning.ts primaryCtas[0])을 그대로 쓴다.
  * 시네마틱: 뒤로 학원·쇼룸 사진이 깊게 흐려진 채 흐르고(보케 월), 로고 착지에 아나모픽 플레어(BrandReel)가 겹친다.
@@ -36,13 +36,13 @@ export const S6End: React.FC = () => {
   const f = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   const RMAX = Math.hypot(width, height) / 2 + 60;
-  const iris = interpolate(f, [0, 22], [0, 1], { ...clamp, easing: easeOutExpo });
+  const iris = interpolate(f, [0, 24], [0, 1], { ...clamp, easing: easeOutExpo });
   const r = iris * RMAX;
-  const ring = interpolate(f, [10, 22], [1, 0], clamp);
+  const ring = interpolate(f, [12, 24], [1, 0], clamp);
 
-  const mark = sp(f - 6, fps, { damping: 13, stiffness: 150, mass: 0.9 });
-  const word = interpolate(f, [26, 48], [0, 1], { ...clamp, easing: easeOutExpo });
-  const cta = sp(f - 58, fps, { damping: 15, stiffness: 200, mass: 0.7 });
+  const mark = sp(f - 8, fps, { damping: 14, stiffness: 140, mass: 0.9 });
+  const word = interpolate(f, [30, 54], [0, 1], { ...clamp, easing: easeOutExpo });
+  const cta = sp(f - 68, fps, { damping: 15, stiffness: 190, mass: 0.7 });
   const glow = 0.55 + Math.sin(f / 18) * 0.08;
 
   return (
@@ -70,12 +70,12 @@ export const S6End: React.FC = () => {
           <div style={{ marginTop: 34, clipPath: `inset(0 ${(1 - word) * 100}% 0 0)`, transform: `translateX(${(1 - word) * -30}px)` }}>
             <Img src={staticFile("brand/classin-wordmark.png")} style={{ height: 128, width: "auto", display: "block", filter: "brightness(0) invert(1)" }} />
           </div>
-          <MaskLine at={40} dur={24} style={{ marginTop: 34 }}>
+          <MaskLine at={46} dur={28} style={{ marginTop: 34 }}>
             <div style={{ fontSize: 54, fontWeight: 700, letterSpacing: "-0.03em", color: "rgba(255,255,255,0.92)" }}>
               좋은 수업을, <span style={{ color: R.accent }}>학원의 시스템으로</span>
             </div>
           </MaskLine>
-          <MaskLine at={48} dur={22} style={{ marginTop: 14 }}>
+          <MaskLine at={56} dur={26} style={{ marginTop: 14 }}>
             <Mono size={24} color={R.mute}>수업 시스템 OS</Mono>
           </MaskLine>
           <div style={{ marginTop: 44, display: "flex", alignItems: "center", gap: 28, transform: `scale(${0.6 + 0.4 * cta})`, opacity: Math.min(1, cta * 1.5) }}>
@@ -86,7 +86,7 @@ export const S6End: React.FC = () => {
             <span style={{ fontSize: 34, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.01em" }}>classin.co.kr</span>
           </div>
         </AbsoluteFill>
-        <LightSweep from={66} dur={50} width={12} opacity={0.22} angle={18} />
+        <LightSweep from={84} dur={56} width={12} opacity={0.22} angle={18} />
       </AbsoluteFill>
       {ring > 0 && iris < 1 && (
         <div style={{ position: "absolute", left: "50%", top: "50%", width: r * 2 + 40, height: r * 2 + 40, borderRadius: 999, border: `20px solid ${R.accent}`, transform: "translate(-50%,-50%)", opacity: ring, boxSizing: "border-box" }} />

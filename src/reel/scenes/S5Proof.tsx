@@ -8,11 +8,11 @@ import { MaskLine } from "../type";
 import { R } from "../theme";
 
 /*
- * S5 스케일 (글로벌 870–1062f · 3.2s)
- *   0–18    민트 사선 스윕으로 들어온다
- *   10–120  점으로 된 3D 지구본이 서울에서부터 물결처럼 켜지며 천천히 돈다. 대륙을 잇는 아크가 차례로 그어진다
- *   22–120  왼쪽에 EEO 공식 수치 4개가 슬롯처럼 굴러 선다 — 160+ 개국 · 6만+ 교육기관 · 5,000만+ 교사·학습자 · 3,000만+ 월간 수업
- *   176–192 어두워지며 S6 아이리스가 덮는다
+ * S5 스케일 (글로벌 1056–1278f · 3.7s)
+ *   0–20    민트 사선 스윕으로 들어온다
+ *   12–150  점으로 된 3D 지구본이 서울에서부터 물결처럼 켜지며 천천히 돈다. 대륙을 잇는 아크가 차례로 그어진다
+ *   28–140  왼쪽에 EEO 공식 수치 4개가 슬롯처럼 굴러 선다 — 160+ 개국 · 6만+ 교육기관 · 5,000만+ 교사·학습자 · 3,000만+ 월간 수업
+ *   206–222 어두워지며 S6 아이리스가 덮는다
  * 수치 출처: classinkr-web docs/active/brand-canon/company-facts.md §3 — 화면 하단에 "EEO 공식 소개 기준" 캡션을 단다.
  * 아크 끝점은 대륙 위치를 잡기 위한 좌표일 뿐 특정 도시·고객을 뜻하지 않아 라벨을 달지 않는다(서울만 표기).
  */
@@ -87,22 +87,22 @@ const DOT_DIST = Array.from({ length: DOT_COUNT }, (_, i) => angDist(SEOUL, [LAN
 
 const Globe: React.FC = () => {
   const f = useCurrentFrame();
-  const lam0 = interpolate(f, [0, 192], [104, 134], clamp) * DEG;
-  const halo = interpolate(f, [6, 40], [0, 1], { ...clamp, easing: easeOutExpo });
+  const lam0 = interpolate(f, [0, 222], [104, 138], clamp) * DEG;
+  const halo = interpolate(f, [6, 44], [0, 1], { ...clamp, easing: easeOutExpo });
 
   const dots: React.ReactNode[] = [];
   for (let i = 0; i < DOT_COUNT; i++) {
     const pr = project(LAND_DOTS[i * 2], LAND_DOTS[i * 2 + 1], lam0);
     if (pr.c < 0.02) continue;
-    const a = interpolate(f - 10 - DOT_DIST[i] * 34, [0, 12], [0, 1], clamp);
+    const a = interpolate(f - 12 - DOT_DIST[i] * 40, [0, 12], [0, 1], clamp);
     if (a <= 0) continue;
-    const wave = interpolate(f - 10 - DOT_DIST[i] * 34, [0, 6, 24], [0, 1, 0], clamp); // 켜지는 순간 반짝
+    const wave = interpolate(f - 12 - DOT_DIST[i] * 40, [0, 6, 24], [0, 1, 0], clamp); // 켜지는 순간 반짝
     dots.push(<circle key={i} cx={GX + pr.x} cy={GY + pr.y} r={1.5 + 1.7 * pr.c + wave * 1.6} fill={wave > 0.05 ? R.white : R.accent} opacity={a * (0.22 + 0.7 * pr.c)} />);
   }
 
   const arcs = ARCS.map(([a, b], i) => {
-    const start = 34 + i * 7;
-    const p = interpolate(f - start, [0, 34], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+    const start = 40 + i * 9;
+    const p = interpolate(f - start, [0, 38], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
     if (p <= 0) return null;
     const om = angDist(a, b);
     const lift = 0.06 + 0.16 * (om / Math.PI);
@@ -125,14 +125,14 @@ const Globe: React.FC = () => {
         head = null;
       }
     }
-    const fade = interpolate(f - start, [40, 90], [1, 0.45], clamp);
+    const fade = interpolate(f - start, [44, 100], [1, 0.45], clamp);
     const end = project(b[0], b[1], lam0);
     const landed = p >= 1 && end.c > 0;
     return (
       <g key={i} opacity={fade}>
         <path d={d} fill="none" stroke={R.accent} strokeWidth={2.4} strokeLinecap="round" style={{ filter: `drop-shadow(0 0 6px rgba(${R.accentRgb},0.8))` }} />
         {head && p < 1 && <circle cx={GX + head.x} cy={GY + head.y} r={5} fill={R.white} style={{ filter: `drop-shadow(0 0 10px rgba(${R.accentRgb},1))` }} />}
-        {landed && <circle cx={GX + end.x} cy={GY + end.y} r={4 + 10 * interpolate(f - start - 34, [0, 20], [1, 0], clamp)} fill="none" stroke={R.white} strokeWidth={2} opacity={interpolate(f - start - 34, [0, 20], [1, 0.2], clamp)} />}
+        {landed && <circle cx={GX + end.x} cy={GY + end.y} r={4 + 10 * interpolate(f - start - 38, [0, 20], [1, 0], clamp)} fill="none" stroke={R.white} strokeWidth={2} opacity={interpolate(f - start - 38, [0, 20], [1, 0.2], clamp)} />}
       </g>
     );
   });
@@ -165,7 +165,7 @@ const Globe: React.FC = () => {
         )}
       </svg>
       {seoul.c > 0 && (
-        <div style={{ position: "absolute", left: GX + seoul.x + 24, top: GY + seoul.y - 52, display: "flex", alignItems: "center", gap: 10, opacity: interpolate(f, [24, 40], [0, 1], clamp) }}>
+        <div style={{ position: "absolute", left: GX + seoul.x + 24, top: GY + seoul.y - 52, display: "flex", alignItems: "center", gap: 10, opacity: interpolate(f, [28, 44], [0, 1], clamp) }}>
           <span style={{ width: 36, height: 2, background: R.accent }} />
           <Mono size={18} color={R.white}>Seoul · Classin Korea</Mono>
         </div>
@@ -190,10 +190,10 @@ const Roll: React.FC<{ text: string; at: number; size: number }> = ({ text, at, 
         }
         const d = Number(ch);
         const k = digitIndex++;
-        const p = interpolate(f - at - k * 4, [0, 34], [0, 1], { ...clamp, easing: easeOutExpo });
+        const p = interpolate(f - at - k * 4, [0, 40], [0, 1], { ...clamp, easing: easeOutExpo });
         const turns = 2 + k;
         const pos = (turns * 10 + d) * p;
-        const speed = interpolate(f - at - k * 4, [0, 2, 30], [0, 1, 0], clamp);
+        const speed = interpolate(f - at - k * 4, [0, 2, 34], [0, 1, 0], clamp);
         return (
           <span key={i} style={{ display: "inline-block", height: "1em", overflow: "hidden", position: "relative" }}>
             <span style={{ display: "flex", flexDirection: "column", transform: `translateY(${-pos}em)`, filter: speed > 0.15 ? `blur(${speed * 3}px)` : undefined }}>
@@ -219,11 +219,11 @@ const STATS = [
 
 export const S5Proof: React.FC = () => {
   const f = useCurrentFrame();
-  const p = interpolate(f, [0, 18], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const p = interpolate(f, [0, 20], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   const edge = -8 + p * 116;
   const clip = `polygon(0 0, ${edge + 8}% 0, ${edge - 8}% 100%, 0 100%)`;
-  const exit = interpolate(f, [176, 192], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
-  const push = interpolate(f, [0, 192], [0, 1], { ...clamp, easing: Easing.inOut(Easing.sin) });
+  const exit = interpolate(f, [206, 222], [0, 1], { ...clamp, easing: Easing.in(Easing.cubic) });
+  const push = interpolate(f, [0, 222], [0, 1], { ...clamp, easing: Easing.inOut(Easing.sin) });
 
   return (
     <AbsoluteFill>
@@ -243,15 +243,15 @@ export const S5Proof: React.FC = () => {
 
         {/* 왼쪽 수치 */}
         <div style={{ position: "absolute", left: 130, top: 112, fontFamily: FONT_FAMILY, color: R.white }}>
-          <MaskLine at={10} dur={22}>
+          <MaskLine at={12} dur={26}>
             <Mono size={22} color={R.accent}>Classin worldwide</Mono>
           </MaskLine>
-          <MaskLine at={14} dur={24} style={{ marginTop: 12 }}>
+          <MaskLine at={16} dur={28} style={{ marginTop: 12 }}>
             <div style={{ fontSize: 54, fontWeight: 800, letterSpacing: "-0.035em" }}>전 세계 교실이 쓰는 수업 플랫폼</div>
           </MaskLine>
           <div style={{ marginTop: 34, display: "flex", flexDirection: "column" }}>
             {STATS.map((s, i) => {
-              const at = 22 + i * 14;
+              const at = 28 + i * 18;
               const o = interpolate(f - at, [0, 10], [0, 1], clamp);
               const line = interpolate(f - at, [6, 40], [0, 1], { ...clamp, easing: easeOutExpo });
               return (
@@ -271,7 +271,7 @@ export const S5Proof: React.FC = () => {
               );
             })}
           </div>
-          <div style={{ marginTop: 22, opacity: interpolate(f, [70, 86], [0, 1], clamp) }}>
+          <div style={{ marginTop: 22, opacity: interpolate(f, [96, 112], [0, 1], clamp) }}>
             <Mono size={17} color={R.faint}>전 세계 누적 수치 · EEO 공식 소개 기준</Mono>
           </div>
         </div>

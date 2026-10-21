@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, interpolate, random, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, interpolate, random, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { clamp } from "../lib/motion";
 import { FONT_FAMILY } from "../lib/fonts";
 import { R } from "./theme";
@@ -205,3 +205,38 @@ export const Letterbox: React.FC<{ open: number; ratio?: number }> = ({ open, ra
     </AbsoluteFill>
   );
 };
+
+/* ---------- 질감 ---------- */
+// 텍스처는 CSS background 대신 <Img>로 깐다 — Remotion이 로드를 기다려 프레임마다 질감이 깜빡이지 않는다.
+
+type Blend = React.CSSProperties["mixBlendMode"];
+
+// 미리 구운 텍스처 한 장(scripts/make_textures.py) — chalk.png · reflection.jpg 등
+export const TexImg: React.FC<{ file: string; opacity?: number; blend?: Blend; style?: React.CSSProperties }> = ({ file, opacity = 1, blend = "normal", style }) => (
+  <Img src={staticFile(`reel/tex/${file}`)} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity, mixBlendMode: blend, pointerEvents: "none", ...style }} />
+);
+
+// 512px 그레인을 타일로 깐다(늘려서 뭉개지지 않게). w·h는 덮을 영역.
+export const GrainTiles: React.FC<{ w: number; h: number; opacity?: number; blend?: Blend; tile?: number }> = ({ w, h, opacity = 0.3, blend = "soft-light", tile = 512 }) => {
+  const cols = Math.ceil(w / tile);
+  const rows = Math.ceil(h / tile);
+  return (
+    <div style={{ position: "absolute", left: 0, top: 0, width: w, height: h, overflow: "hidden", opacity, mixBlendMode: blend, pointerEvents: "none" }}>
+      {Array.from({ length: rows * cols }).map((_, i) => (
+        <Img key={i} src={staticFile("reel/tex/grain.png")} style={{ position: "absolute", left: (i % cols) * tile, top: Math.floor(i / cols) * tile, width: tile, height: tile }} />
+      ))}
+    </div>
+  );
+};
+
+// 분필 획 필터 — 획 알파를 노이즈로 깎고(끊긴 가루) 가장자리를 살짝 흔든다. SVG <defs> 안에 넣고 filter="url(#id)"로 쓴다.
+// id는 문서 안에서 겹치지 않게 호출부마다 다르게 준다.
+export const ChalkFilter: React.FC<{ id: string; seed?: number; rough?: number }> = ({ id, seed = 3, rough = 3.5 }) => (
+  <filter id={id} x="-10%" y="-30%" width="120%" height="160%" colorInterpolationFilters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} seed={seed} result="n" />
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.2 0 0 0 -0.72" result="speck" />
+    <feComposite in="SourceGraphic" in2="speck" operator="in" result="eroded" />
+    <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves={2} seed={seed + 4} result="warp" />
+    <feDisplacementMap in="eroded" in2="warp" scale={rough} xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+);

@@ -1,4 +1,4 @@
-"""BrandReel 가이드 사운드(20초) — 컷 타이밍 확인용 절차적 사운드 디자인.
+"""BrandReel 가이드 사운드(24초) — 컷 타이밍 확인용 절차적 사운드 디자인.
 
 최종 납품용 BGM이 아니다. 라이선스 음원을 고르기 전까지 편집 박자(휩 · 줌스루 · 로고 임팩트)를
 소리로 확인하려는 용도이며, 타이밍 상수는 src/reel/theme.ts 의 씬 경계(60fps 프레임)를 초로 옮긴 값이다.
@@ -12,7 +12,7 @@ import numpy as np
 from scipy.signal import butter, fftconvolve, lfilter, sosfilt
 
 SR = 48000
-DUR = 20.0
+DUR = 24.0
 N = int(SR * DUR)
 rng = np.random.default_rng(7)
 t_all = np.arange(N) / SR
@@ -179,33 +179,36 @@ def pluck(nm, gain=1.0):
     return lp(tri, 3500) * np.exp(-t * 9) * gain
 
 
-# ---------- 편곡(초) ----------
-S2_CUTS = [f2s(168 + 6 + 66 * i) for i in range(5)]  # 휩 컷 플래시 정점
-GRID = f2s(498)
-ZOOM_END = f2s(690)
-HERO_CLOCK = 570
-ERASE = f2s(HERO_CLOCK + 150)
-HEADLINE = f2s(HERO_CLOCK + 184)
-PROOF = f2s(870)
-LOGO = f2s(1050 + 6)
-BEAT = 0.55  # 약 109 BPM — S2 한 컷(66f = 1.1s)이 두 박
+# ---------- 편곡(초) — src/reel/theme.ts 의 T · HERO_CLOCK · IMPACTS 와 맞춘다 ----------
+HOOK_HIT = f2s(146)  # 글자 줌스루 임팩트
+S2_CUTS = [f2s(208 + 6 + 80 * i) for i in range(5)]  # 휩 컷 플래시 정점
+GRID = f2s(608)
+ZOOM_END = f2s(812)
+HERO_CLOCK = 716
+CHALK = f2s(HERO_CLOCK + 112)  # 스타일러스가 아크를 긋는 구간
+ERASE = f2s(HERO_CLOCK + 196)
+HEADLINE = f2s(HERO_CLOCK + 230)
+PROOF = f2s(1056)
+END = f2s(1266)
+LOGO = f2s(1274)
+BEAT = 2 / 3  # 90 BPM — S2 한 컷(80f = 1.33s)이 두 박
 
-# A. 인트로 드론 + 라이저 → 글자 줌스루 임팩트(2.0s)
-drone_l, drone_r = pad_chord(["D2", "A2", "D3"], 3.2, gain=0.55, bright=500)
+# A. 인트로 드론 + 라이저 → 글자 줌스루 임팩트
+drone_l, drone_r = pad_chord(["D2", "A2", "D3"], 3.9, gain=0.55, bright=500)
 place_st(drone_l, drone_r, 0.0, gain=0.8, send=0.3)
-place(riser(1.5), 0.55, gain=0.55, send=0.2)
-place(impact(0.9), f2s(122), send=0.35)
-place(bell(note("A5"), 2.6, 0.18), f2s(122), pan=0.2, send=0.6)
+place(riser(1.5), HOOK_HIT - 1.48, gain=0.55, send=0.2)
+place(impact(0.9), HOOK_HIT, send=0.35)
+place(bell(note("A5"), 2.6, 0.18), HOOK_HIT + 0.03, pan=0.2, send=0.6)
 
-# B–C. 흐름 몽타주 — 컷마다 휩, 박마다 킥, 8분 하이햇, 1.2s마다 코드
+# B–C. 흐름 몽타주 — 컷마다 휩, 박마다 킥, 8분 하이햇, 컷마다 코드
 CHORDS_C = [["D3", "F3", "A3", "C4", "E4"], ["Bb2", "D3", "F3", "A3"], ["A2", "C3", "F3", "A3"], ["C3", "E3", "G3", "D4"], ["D3", "F3", "A3", "C4"]]
 BASS_C = ["D2", "Bb1", "F2", "C2", "D2"]
 for i, cut in enumerate(S2_CUTS):
-    wl, wr = whoosh(0.42, 0.86)
-    place_st(wl, wr, cut - 0.36, gain=0.32, send=0.1)
-    pl, pr = pad_chord(CHORDS_C[i], 1.2, gain=0.5)
+    wl, wr = whoosh(0.46, 0.86)
+    place_st(wl, wr, cut - 0.4, gain=0.32, send=0.1)
+    pl, pr = pad_chord(CHORDS_C[i], 1.45, gain=0.5)
     place_st(pl, pr, cut, gain=0.55, send=0.35)
-    place(bass(BASS_C[i], 1.08, 0.32), cut)
+    place(bass(BASS_C[i], 1.3, 0.32), cut)
     tones = CHORDS_C[i][1:] + [CHORDS_C[i][1][:-1] + str(int(CHORDS_C[i][1][-1]) + 1)]
     for k in range(8):  # 16분 아르페지오
         nm = tones[k % len(tones)]
@@ -216,62 +219,64 @@ for k in range(10):
     place(kick(0.75), tt)
     place(hat(0.16), tt + BEAT / 2, pan=0.25)
 
-# D. 그리드 — 하프타임 킥, 흐름 펄스 상행 아르페지오, 줌 라이저 → 임팩트(12.0s)
+# D. 그리드 — 하프타임 킥, 흐름 펄스 상행 아르페지오, 줌 라이저 → 임팩트
 for k in range(3):
-    place(kick(0.6), GRID + 0.1 + k * 1.2)
-gl, gr = pad_chord(["G2", "Bb2", "D3", "F3", "A3"], 2.75, gain=0.5, bright=1200)
+    place(kick(0.6), GRID + 0.1 + k * 2 * BEAT)
+gl, gr = pad_chord(["G2", "Bb2", "D3", "F3", "A3"], 3.0, gain=0.5, bright=1200)
 place_st(gl, gr, GRID, gain=0.6, send=0.4)
 for k, nm in enumerate(["D5", "F5", "A5", "C6", "D6", "F6"]):
-    place(pluck(nm, 0.14), f2s(498 + 46) + k * 0.15, pan=-0.6 + k * 0.24, send=0.4)
-al, ar = pad_chord(["A2", "D3", "E3", "G3"], 1.2, gain=0.5, bright=2200)
-place_st(al, ar, ZOOM_END - 1.2, gain=0.6, send=0.4)
-place(riser(1.25), ZOOM_END - 1.25, gain=0.7, send=0.2)
-wl, wr = whoosh(0.9, 0.95, 200, 5500)
-place_st(wl, wr, ZOOM_END - 0.86, gain=0.35)
+    place(pluck(nm, 0.14), f2s(608 + 58) + k * 0.16, pan=-0.6 + k * 0.24, send=0.4)
+al, ar = pad_chord(["A2", "D3", "E3", "G3"], 1.3, gain=0.5, bright=2200)
+place_st(al, ar, ZOOM_END - 1.3, gain=0.6, send=0.4)
+place(riser(1.3), ZOOM_END - 1.3, gain=0.7, send=0.2)
+wl, wr = whoosh(0.95, 0.95, 200, 5500)
+place_st(wl, wr, ZOOM_END - 0.9, gain=0.35)
 place(impact(1.0), ZOOM_END, send=0.4)
 
-# E. 히어로 — 밝은 장조(F)로 풀린다. 지우개 휩, 헤드라인 벨
-fl, fr = pad_chord(["F2", "C3", "F3", "A3", "E4"], 1.6, gain=0.55, bright=2000)
+# E. 히어로 — 밝은 장조(F)로 풀린다. 분필 긁는 소리, 지우개 휩, 헤드라인 벨
+fl, fr = pad_chord(["F2", "C3", "F3", "A3", "E4"], 2.2, gain=0.55, bright=2000)
 place_st(fl, fr, ZOOM_END, gain=0.6, send=0.45)
-cl, cr = pad_chord(["E2", "C3", "E3", "G3", "D4"], 1.6, gain=0.55, bright=2000)
-place_st(cl, cr, ZOOM_END + 1.5, gain=0.6, send=0.45)
-for k in range(5):
-    place(kick(0.55), ZOOM_END + 0.6 + k * BEAT)
-    place(hat(0.12), ZOOM_END + 0.9 + k * BEAT, pan=-0.2)
+cl, cr = pad_chord(["E2", "C3", "E3", "G3", "D4"], 2.3, gain=0.55, bright=2000)
+place_st(cl, cr, ZOOM_END + 2.1, gain=0.6, send=0.45)
+for k in range(6):
+    place(kick(0.55), ZOOM_END + BEAT + k * BEAT)
+    place(hat(0.12), ZOOM_END + 1.5 * BEAT + k * BEAT, pan=-0.2)
+n_chalk = int(0.62 * SR)
+tc = np.arange(n_chalk) / SR
+scratch = bp(rng.standard_normal(n_chalk), 1800, 6000) * (0.4 + 0.6 * (rng.random(n_chalk // 400 + 1).repeat(400)[:n_chalk] > 0.35)) * np.minimum(1, tc * 30) * np.minimum(1, (0.62 - tc) * 20)
+place(scratch, CHALK, gain=0.09, pan=-0.2, send=0.15)
 wl, wr = whoosh(0.5, 0.6, 400, 4500)
 place_st(wl, wr, ERASE - 0.1, gain=0.25)
 place(bell(note("C6"), 2.2, 0.2), HEADLINE, pan=-0.15, send=0.6)
 place(bell(note("F5"), 2.2, 0.16), HEADLINE + 0.3, pan=0.15, send=0.6)
 
-# F. 스케일 — 사선 스윕 휩, 숫자 롤 틱, 4박
+# F. 스케일 — 사선 스윕 휩, 지구본 스웰, 숫자 롤 틱
 wl, wr = whoosh(0.45, 0.8, 300, 5000)
 place_st(wl, wr, PROOF - 0.32, gain=0.35)
-bl, br = pad_chord(["Bb2", "D3", "F3", "A3", "C4"], 1.6, gain=0.5, bright=2200)
+bl, br = pad_chord(["Bb2", "D3", "F3", "A3", "C4"], 1.9, gain=0.5, bright=2200)
 place_st(bl, br, PROOF, gain=0.6, send=0.4)
-c2l, c2r = pad_chord(["C3", "E3", "G3", "D4"], 1.5, gain=0.5, bright=2200)
-place_st(c2l, c2r, PROOF + 1.55, gain=0.6, send=0.4)
-place(bass("Bb1", 1.5, 0.3), PROOF)
-place(bass("C2", 1.4, 0.3), PROOF + 1.55)
+c2l, c2r = pad_chord(["C3", "E3", "G3", "D4"], 1.8, gain=0.5, bright=2200)
+place_st(c2l, c2r, PROOF + 1.85, gain=0.6, send=0.4)
+place(bass("Bb1", 1.8, 0.3), PROOF)
+place(bass("C2", 1.7, 0.3), PROOF + 1.85)
 for k in range(5):
     place(kick(0.6), PROOF + k * BEAT)
     place(hat(0.14), PROOF + BEAT / 2 + k * BEAT, pan=0.3)
-# 지구본 점이 켜지는 물결 — 부드러운 노이즈 스웰
-gl2, gr2 = whoosh(1.4, 0.55, 300, 2600)
-place_st(gl2, gr2, PROOF + 0.15, gain=0.18, send=0.4)
-# 숫자 슬롯 롤 틱 — 4줄이 14f 간격으로 굴러 선다
-for row in range(4):
-    for k in range(9):
-        place(hat(0.07, decay=180), f2s(870 + 22 + row * 14) + k * 0.04, pan=-0.3 + (k % 3) * 0.3)
+gl2, gr2 = whoosh(1.6, 0.55, 300, 2600)
+place_st(gl2, gr2, PROOF + 0.18, gain=0.18, send=0.4)
+for row in range(4):  # 4줄이 18f 간격으로 굴러 선다
+    for k in range(10):
+        place(hat(0.07, decay=180), f2s(1056 + 28 + row * 18) + k * 0.045, pan=-0.3 + (k % 3) * 0.3)
 
 # G. 엔드 — 아이리스 휩, 로고 임팩트 + 벨, F add9 해결 화음, 페이드
 wl, wr = whoosh(0.4, 0.75, 300, 5000)
-place_st(wl, wr, f2s(1050) - 0.28, gain=0.3)
+place_st(wl, wr, END - 0.28, gain=0.3)
 place(impact(0.75), LOGO, send=0.5)
 for k, nm in enumerate(["F5", "A5", "C6", "G6"]):
     place(bell(note(nm), 2.4, 0.12), LOGO + 0.05 + k * 0.09, pan=-0.3 + k * 0.2, send=0.7)
 el, er = pad_chord(["F2", "C3", "F3", "A3", "C4", "G4"], DUR - LOGO, gain=0.6, bright=2400)
 place_st(el, er, LOGO, gain=0.65, send=0.5)
-place(bass("F1", 2.0, 0.35), LOGO)
+place(bass("F1", 2.2, 0.35), LOGO)
 
 # ---------- 리버브 · 마스터 ----------
 ir_n = int(2.2 * SR)
