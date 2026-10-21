@@ -186,7 +186,7 @@ ZOOM_END = f2s(720)
 ERASE = f2s(600 + 150)
 HEADLINE = f2s(600 + 184)
 PROOF = f2s(900)
-LOGO = f2s(1050 + 12)
+LOGO = f2s(1050 + 6)
 BEAT = 0.6  # 100 BPM — S2 한 컷(72f = 1.2s)이 두 박
 
 # A. 인트로 드론 + 라이저 → 글자 줌스루 임팩트(2.0s)

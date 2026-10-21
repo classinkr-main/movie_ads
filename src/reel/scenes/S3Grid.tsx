@@ -52,7 +52,9 @@ export const S3Grid: React.FC = () => {
   const bg = interpolate(f, [0, 12], [0, 1], clamp);
   const flat = interpolate(f, [0, 78], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   const zoomP = interpolate(f, [118, 192], [0, 1], { ...clamp, easing: Easing.bezier(0.7, 0, 0.18, 1) });
-  const scale = (0.84 + 0.16 * flat) * Math.pow(ZOOM, zoomP);
+  const hold = interpolate(f, [56, 118], [0, 1], { ...clamp, easing: Easing.inOut(Easing.sin) });
+  const drift = 1 + 0.035 * hold * (1 - zoomP);
+  const scale = (0.84 + 0.16 * flat) * drift * Math.pow(ZOOM, zoomP);
   const textOut = interpolate(f, [112, 126], [1, 0], clamp);
   const scrim = interpolate(f, [50, 64, 112, 126], [0, 0.62, 0.62, 0], clamp);
   const heroF = f + T.grid.from - HERO_CLOCK;
