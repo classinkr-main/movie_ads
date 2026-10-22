@@ -30,7 +30,7 @@ export type HeadlineRun = { t: string; hl?: boolean };
 
 export type ShortSpec = {
   id: string;
-  source: string; // 원본 영상 파일명(드라이브 「부산 포럼 영상」 폴더). segments·cues 시간의 기준
+  source: string; // 원본 영상 파일명(드라이브 「부산 포럼 영상/섹션별 렌더링본」 폴더). segments·cues 시간의 기준
   eyebrow: string;
   headline: HeadlineRun[][];
   speakers: Speaker[];
