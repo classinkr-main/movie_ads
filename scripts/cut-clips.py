@@ -2,6 +2,7 @@
 """숏폼 스펙(src/shorts/specs/*.json)의 segments대로 원본에서 구간을 잘라 이어 붙인다.
 
 사용: python3 scripts/cut-clips.py <원본 영상> [스펙 id ...]
+스펙마다 기준 원본이 다르다(source 필드). id를 생략하면 원본 파일명과 source가 같은 스펙만 만든다.
 출력: public/shorts/<id>.mp4 — 1920×1080 · 30fps · H.264 · AAC, 라우드니스 -14 LUFS(숏폼 플랫폼 기준)
 구간 경계마다 오디오를 30ms 페이드해 이음새의 딸깍 소리를 없앤다.
 """
@@ -59,9 +60,17 @@ def main() -> None:
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     source, ids = sys.argv[1], set(sys.argv[2:])
+    name = pathlib.Path(source).name
     for path in sorted(SPECS.glob("*.json")):
-        if not ids or path.stem in ids:
-            build(source, path)
+        spec_source = json.loads(path.read_text()).get("source")
+        if ids:
+            if path.stem not in ids:
+                continue
+            if spec_source != name:
+                print(f"주의: {path.stem}의 기준 원본은 「{spec_source}」인데 「{name}」로 자릅니다")
+        elif spec_source != name:
+            continue
+        build(source, path)
 
 
 if __name__ == "__main__":

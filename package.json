@@ -8,7 +8,7 @@
     "still": "remotion still Showreel out/still.png --frame=300",
     "typecheck": "tsc --noEmit",
     "shorts:cut": "python3 scripts/cut-clips.py",
-    "shorts:render": "for id in short-01-ai-teacher short-02-institution short-03-learning; do remotion render $id out/shorts/$id.mp4 --crf=20; done"
+    "shorts:render": "for id in short-01-ai-teacher short-02-institution short-03-learning short-04-teacher-pay short-05-first-year short-06-ai-kpi; do remotion render $id out/shorts/$id.mp4 --crf=20; done"
   },
   "repository": {
     "type": "git",

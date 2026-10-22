@@ -1,4 +1,4 @@
-// 숏폼 한 편의 정의. 시간은 모두 원본 영상(드라이브 「허첸 진행자.mp4」, 28:54) 기준 초다.
+// 숏폼 한 편의 정의. 시간은 모두 source에 적힌 원본 영상 기준 초다.
 // 같은 JSON을 scripts/cut-clips.py가 읽어 구간을 잘라 붙이고, Remotion이 읽어 자막을 그린다.
 
 // 원본 1920×1080에서 보여 줄 16:9 영역. h = w × 9/16
@@ -30,6 +30,7 @@ export type HeadlineRun = { t: string; hl?: boolean };
 
 export type ShortSpec = {
   id: string;
+  source: string; // 원본 영상 파일명(드라이브 「부산 포럼 영상」 폴더). segments·cues 시간의 기준
   eyebrow: string;
   headline: HeadlineRun[][];
   speakers: Speaker[];
