@@ -15,15 +15,17 @@ const VIDEO_H = Math.round((SHORT_W * 9) / 16); // 608
 const KO_TOP = VIDEO_TOP + VIDEO_H - 100;
 const TAG_BRIEF_SEC = 3.5; // 연사 이름표가 떠 있는 시간
 
-const BG_TOP = "#0F2119";
-const BG_BOTTOM = "#07110D";
+// 색 시안 3안(브랜드 그린) — Classin 포레스트 그린 그라디언트 바탕 + 밝은 라임 강조
+const BG_TOP = C.forest; // #084734
+const BG_BOTTOM = "#05301F";
+const ACCENT = C.limeBright; // #D8FF5C — 헤드 마커·자막 강조·행사명·이름표 막대
 
-// *강조* 구간을 연두로 칠한다
+// *강조* 구간을 강조색으로 칠한다
 const Emph: React.FC<{ text: string }> = ({ text }) => (
   <>
     {text.split(/(\*[^*]+\*)/g).map((part, i) =>
       part.startsWith("*") && part.endsWith("*") ? (
-        <span key={i} style={{ color: C.lime }}>
+        <span key={i} style={{ color: ACCENT }}>
           {part.slice(1, -1)}
         </span>
       ) : (
@@ -62,7 +64,7 @@ const MarkerBox: React.FC<{ text: string; delay: number }> = ({ text, delay }) =
           top: "0.1em",
           bottom: "0.04em",
           width: `${p * 100}%`,
-          background: C.lime,
+          background: ACCENT,
           borderRadius: "0.12em",
           transform: "rotate(-1.2deg)",
         }}
@@ -89,7 +91,7 @@ const Header: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
           fontFamily: FONT_FAMILY,
           fontSize: 30,
           fontWeight: 700,
-          color: C.lime,
+          color: ACCENT,
           letterSpacing: "0.02em",
           opacity: eyebrowIn,
           display: "flex",
@@ -97,9 +99,9 @@ const Header: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
           gap: 14,
         }}
       >
-        <span style={{ width: 34, height: 3, background: C.lime, borderRadius: 2 }} />
+        <span style={{ width: 34, height: 3, background: ACCENT, borderRadius: 2 }} />
         {spec.eyebrow}
-        <span style={{ width: 34, height: 3, background: C.lime, borderRadius: 2 }} />
+        <span style={{ width: 34, height: 3, background: ACCENT, borderRadius: 2 }} />
       </div>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
         {spec.headline.map((line, li) => {
@@ -211,7 +213,7 @@ const NameTag: React.FC<{ spec: ShortSpec }> = ({ spec }) => {
         transform: `translateX(${interpolate(s, [0, 1], [-16, 0])}px)`,
       }}
     >
-      <span style={{ width: 4, alignSelf: "stretch", borderRadius: 2, background: C.lime }} />
+      <span style={{ width: 4, alignSelf: "stretch", borderRadius: 2, background: ACCENT }} />
       <span style={{ fontFamily: FONT_FAMILY, fontSize: 30, fontWeight: 700, color: C.white, letterSpacing: "-0.02em" }}>{speaker.name}</span>
       {speaker.role ? <span style={{ fontFamily: FONT_FAMILY, fontSize: 24, fontWeight: 500, color: "rgba(255,255,255,0.72)" }}>{speaker.role}</span> : null}
     </div>
