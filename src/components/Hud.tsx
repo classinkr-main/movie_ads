@@ -22,7 +22,7 @@ const hudColors = (frame: number): { left: string; right: string } => {
     const i = CUES.chant.reduce((acc, f, k) => (frame >= f ? k : acc), 0);
     return { left: C.white, right: i % 2 === 1 && frame >= CUES.chant[i] + 4 ? C.ink : C.white };
   }
-  if (within(frame, S.future)) return frame >= CUES.future[1] && frame < CUES.future[2] ? onLime : onPhoto; // AI 카메라 컷만 연두
+  if (within(frame, S.future)) return frame >= CUES.future[1] && frame < CUES.future[3] ? onLime : onPhoto; // AI 카메라(연두)·AI 강의 분석(앱 화면) 컷만 밝다
   if (within(frame, S.finale)) return onPhoto;
   return onLime;
 };

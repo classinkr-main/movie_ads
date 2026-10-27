@@ -4,7 +4,7 @@ import { Clip, Photo } from "../components/Media";
 import { limeGrid } from "../components/Stage";
 import { HandCircle, Tag } from "../components/Marks";
 import { Flash } from "../components/Fx";
-import { Caption, Slam } from "../components/Type";
+import { Counter, Slam } from "../components/Type";
 import { IconRec } from "../components/Icons";
 import { C, CUES, FONT, scene } from "../lib/theme";
 import { POP, clamp, ease, prog, shake, sp } from "../lib/motion";
@@ -173,35 +173,125 @@ const PhoneApp: React.FC = () => {
   );
 };
 
-// 운영 리포트 — 막대가 자라고 추세선이 그려진다(수치는 표시하지 않는 개념도)
-const Dashboard: React.FC = () => {
+// AI 강의 분석 리포트 — Classin 앱의 AI 강의 분석 화면을 데이터 모션으로 옮긴 카드.
+// 수치는 제공받은 예시 리포트(과학 · 전자기 유도 법칙의 이해와 적용) 값 그대로다.
+const REPORT = {
+  subject: "과학",
+  title: "전자기 유도 법칙의 이해와 적용",
+  meta: "강사 A · 고2 물리Ⅰ · 개념 · 2시간 16분",
+  score: 93,
+  radar: [0.8, 0.85, 0.9, 0.75, 0.85], // 역량 레이더 5축(위에서 시계 방향)
+  dims: [
+    ["지식 설명 품질", 28, 30],
+    ["사고 수준과 방법 정리", 23, 25],
+    ["학생 학습 품질", 18, 20],
+    ["교수 구조와 효율", 14, 15],
+    ["수업 분위기와 리스크 통제", 10, 10],
+  ] as Array<[string, number, number]>,
+};
+const CARD = { x: 92, y: 146, w: 850, h: 524 };
+
+// 점수 옆 월계수 가지 — 앱의 AI Eval. 배지처럼 통통한 잎 4장 + 아래로 말린 줄기
+const Laurel: React.FC<{ flip?: boolean; color: string }> = ({ flip, color }) => (
+  <svg width={30} height={64} viewBox="0 0 30 64" style={{ transform: flip ? "scaleX(-1)" : undefined }}>
+    <path d="M23,59 C14,55 9,46 10,35" fill="none" stroke={color} strokeWidth={2.6} strokeLinecap="round" />
+    <path d="M23,59 C26,59 27,56 25,55" fill="none" stroke={color} strokeWidth={2.4} strokeLinecap="round" />
+    {[
+      [15, 10, 12],
+      [10, 21, -18],
+      [9, 32, -38],
+      [12, 43, -60],
+    ].map(([x, y, r]) => (
+      <ellipse key={y} cx={x} cy={y} rx={5.4} ry={8.8} transform={`rotate(${r} ${x} ${y})`} fill={color} />
+    ))}
+  </svg>
+);
+
+// 역량 레이더 — 격자가 먼저 깔리고 다각형이 중심에서 튀어나온다
+const Radar: React.FC<{ values: number[]; p: number; grid: number }> = ({ values, p, grid }) => {
+  const cx = 160;
+  const cy = 160;
+  const R = 108;
+  const pt = (i: number, r: number) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / values.length;
+    return [cx + Math.cos(a) * r, cy + Math.sin(a) * r] as const;
+  };
+  const ring = (r: (i: number) => number) => values.map((_, i) => pt(i, r(i)).map((n) => n.toFixed(1)).join(",")).join(" ");
+  return (
+    <svg width={320} height={320} viewBox="0 0 320 320">
+      <g opacity={grid}>
+        {[0.25, 0.5, 0.75, 1].map((k) => (
+          <polygon key={k} points={ring(() => R * k)} fill="none" stroke={C.olive} strokeOpacity={0.22} strokeWidth={1.5} />
+        ))}
+        {values.map((_, i) => {
+          const [x, y] = pt(i, R);
+          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke={C.olive} strokeOpacity={0.2} strokeWidth={1.5} />;
+        })}
+        {values.map((v, i) => {
+          const [x, y] = pt(i, R + 28);
+          return (
+            <text key={i} x={x} y={y + 6} textAnchor="middle" fontFamily={FONT.mono} fontWeight={600} fontSize={17} fill={C.olive}>
+              {Math.round(v * 100)}%
+            </text>
+          );
+        })}
+      </g>
+      {p > 0 && (
+        <>
+          <polygon points={ring((i) => R * values[i] * p)} fill={C.cobalt} fillOpacity={0.16} stroke={C.cobalt} strokeWidth={4} strokeLinejoin="round" />
+          {values.map((v, i) => {
+            const [x, y] = pt(i, R * v * p);
+            return <circle key={i} cx={x} cy={y} r={6} fill={C.cobalt} />;
+          })}
+        </>
+      )}
+    </svg>
+  );
+};
+
+const AiReport: React.FC = () => {
   const frame = useCurrentFrame();
   const s = sp(frame, POP);
-  const bars = [0.78, 0.6, 0.72, 0.55, 0.68];
-  const labels = ["출결", "참여", "과제", "녹화 시청", "복습"];
-  const line = prog(frame, 8, 26, ease.inOut);
-  const pts = bars.map((b, i) => [70 + i * 130, 330 - b * 230 - 30] as const);
-  const d = pts.map(([x, y], i) => `${i ? "L" : "M"}${x},${y}`).join("");
+  const grid = prog(frame, 0, 6);
+  const radar = prog(frame, 4, 16, ease.outBack);
   return (
-    <div style={{ position: "absolute", left: 110, top: 150, width: 800, height: 470, borderRadius: 18, background: C.white, boxShadow: `0 30px 60px ${C.shadow}`, transform: `scale(${0.75 + 0.25 * s})`, opacity: Math.min(1, s * 2), overflow: "hidden" }}>
-      <div style={{ position: "absolute", left: 32, top: 26, fontFamily: FONT.sans, fontWeight: 700, fontSize: 30, color: C.ink }}>수업 운영 리포트</div>
-      <Caption size={18} style={{ position: "absolute", right: 32, top: 36 }}>
-        관리자 · 이번 주
-      </Caption>
-      <svg width={800} height={470} style={{ position: "absolute", left: 0, top: 0 }}>
-        <line x1={40} x2={760} y1={400} y2={400} stroke={C.ink} strokeOpacity={0.2} strokeWidth={2} />
-        {bars.map((b, i) => {
-          const g = prog(frame, 2 + i * 3, 14 + i * 3, ease.outBack);
-          const h = Math.max(0, b * 230 * g);
-          return <rect key={i} x={40 + i * 145} y={400 - h} width={86} height={h} rx={8} fill={i === 1 ? C.signal : C.cobalt} />;
-        })}
-        <path d={d} transform="translate(13,40)" fill="none" stroke={C.ink} strokeWidth={4} strokeDasharray={900} strokeDashoffset={900 * (1 - line)} strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      {labels.map((l, i) => (
-        <div key={l} style={{ position: "absolute", left: 40 + i * 145, width: 86, top: 412, textAlign: "center", fontFamily: FONT.sans, fontWeight: 600, fontSize: 19, color: C.ink, whiteSpace: "nowrap", marginLeft: l.length > 3 ? -20 : 0, marginRight: l.length > 3 ? -20 : 0 }}>
-          {l}
+    <div style={{ position: "absolute", left: CARD.x, top: CARD.y, width: CARD.w, height: CARD.h, transform: `scale(${0.75 + 0.25 * s})`, opacity: Math.min(1, s * 2) }}>
+      <div style={{ position: "absolute", inset: 0, borderRadius: 18, background: C.white, boxShadow: `0 30px 60px ${C.shadow}`, overflow: "hidden" }}>
+        <div style={{ position: "absolute", left: 32, top: 28, padding: "4px 14px", borderRadius: 8, background: C.limeLight, fontFamily: FONT.sans, fontWeight: 700, fontSize: 19, color: C.olive }}>{REPORT.subject}</div>
+        <div style={{ position: "absolute", left: 32, top: 72, fontFamily: FONT.sans, fontWeight: 700, fontSize: 36, letterSpacing: "-0.02em", color: C.ink }}>{REPORT.title}</div>
+        <div style={{ position: "absolute", left: 32, top: 126, fontFamily: FONT.sans, fontWeight: 600, fontSize: 19, color: C.muted }}>{REPORT.meta}</div>
+        <div style={{ position: "absolute", right: 30, top: 16, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <Laurel color={C.ink} />
+            <div style={{ width: 122, textAlign: "center", fontFamily: FONT.num, fontSize: 112, lineHeight: 1, color: C.ink }}>
+              <Counter value={REPORT.score} start={3} dur={16} />
+            </div>
+            <Laurel color={C.ink} flip />
+          </div>
+          <div style={{ fontFamily: FONT.mono, fontWeight: 500, fontSize: 18, letterSpacing: "0.12em", color: C.muted, marginTop: 2 }}>AI Eval.</div>
         </div>
-      ))}
+        <div style={{ position: "absolute", left: 32, right: 32, top: 178, height: 2, background: C.ink, opacity: 0.1 }} />
+        <div style={{ position: "absolute", left: 18, top: 192 }}>
+          <Radar values={REPORT.radar} p={radar} grid={grid} />
+        </div>
+        {REPORT.dims.map(([name, got, max], i) => {
+          const g = prog(frame, 5 + i * 2, 17 + i * 2, ease.outQuint);
+          return (
+            <div key={name} style={{ position: "absolute", left: 372, right: 34, top: 202 + i * 60 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <span style={{ fontFamily: FONT.sans, fontWeight: 700, fontSize: 20, color: C.ink }}>{name}</span>
+                <span style={{ fontFamily: FONT.mono, fontWeight: 600, fontSize: 17, color: C.muted, fontVariantNumeric: "tabular-nums" }}>
+                  <span style={{ color: C.cobalt }}>{Math.round((got / max) * 100 * g)}%</span> {Math.round(got * g)}/{max}
+                </span>
+              </div>
+              <div style={{ marginTop: 9, height: 10, borderRadius: 6, background: "rgba(10,11,20,0.07)" }}>
+                <div style={{ width: `${(got / max) * g * 100}%`, height: "100%", borderRadius: 6, background: C.cobalt }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <HandCircle cx={CARD.w - 122} cy={88} rx={122} ry={80} start={14} dur={10} width={6} seed="eval" w={CARD.w} h={CARD.h} />
     </div>
   );
 };
@@ -210,7 +300,7 @@ const PAIRS: Pair[] = [
   { a: "판서는,", b: "파일로.", photo: "mokdong-point.jpg", pos: "62% 40%", tag: "전자칠판 판서", btag: "EDB 교안", circle: { cx: 575, cy: 150, rx: 345, ry: 112 }, Panel: EdbCard },
   { a: "설명은,", b: "영상으로.", photo: "case-daegu.jpg", pos: "55% 40%", tag: "수업 중 설명", btag: "자동 녹화 · 다시보기", circle: { cx: 1545, cy: 480, rx: 165, ry: 285 }, Panel: VideoPlayer },
   { a: "복습은,", b: "앱으로.", clip: "quad-tablet.mp4", pos: "50% 45%", tag: "수업 후 복습", btag: "LMS · 과제", Panel: PhoneApp },
-  { a: "운영은,", b: "데이터로.", photo: "mokdong-wide.jpg", pos: "50% 45%", tag: "학원 운영", btag: "관리자 데이터", Panel: Dashboard },
+  { a: "운영은,", b: "데이터로.", photo: "mokdong-wide.jpg", pos: "50% 45%", tag: "학원 운영", btag: "AI 강의 분석", Panel: AiReport },
 ];
 
 const PairShot: React.FC<{ pair: Pair; index: number }> = ({ pair, index }) => {

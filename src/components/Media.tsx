@@ -2,14 +2,14 @@ import React from "react";
 import { AbsoluteFill, Img, OffthreadVideo, staticFile } from "remotion";
 import { C } from "../lib/theme";
 
-type Fit = { pos?: string; scale?: number; x?: number; y?: number; filter?: string; style?: React.CSSProperties };
+type Fit = { pos?: string; scale?: number; x?: number; y?: number; origin?: string; filter?: string; style?: React.CSSProperties };
 
-// 풀블리드 사진 — object-fit: cover + 확대·이동(켄 번스)
-export const Photo: React.FC<Fit & { src: string }> = ({ src, pos = "50% 50%", scale = 1, x = 0, y = 0, filter, style }) => (
+// 풀블리드 사진 — object-fit: cover + 확대·이동(켄 번스). origin은 확대 기준점(기본 가운데)
+export const Photo: React.FC<Fit & { src: string }> = ({ src, pos = "50% 50%", scale = 1, x = 0, y = 0, origin, filter, style }) => (
   <AbsoluteFill style={{ overflow: "hidden", ...style }}>
     <Img
       src={staticFile(`photos/${src}`)}
-      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: pos, transform: `translate(${x}px, ${y}px) scale(${scale})`, filter }}
+      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: pos, transform: `translate(${x}px, ${y}px) scale(${scale})`, transformOrigin: origin, filter }}
     />
   </AbsoluteFill>
 );
