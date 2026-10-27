@@ -63,6 +63,9 @@ export const Future: React.FC = () => {
   const { from, len } = scene("future");
   const cuts = CUES.future.map((f) => f - from);
   const chip = interpolate(frame, [0, 6], [0, 1], { ...clamp, easing: ease.outBack });
+  // 흰 앱 화면 위에선 흰 윤곽선이 배경에 묻히고 글자 획만 깎아 보이므로, 그 컷에서만 옅은 잉크 윤곽선으로 바꾼다
+  const cur = cuts.reduce((acc, c, k) => (frame >= c ? k : acc), 0);
+  const onScreen = SHOTS[cur].kind === "screen";
   return (
     <AbsoluteFill style={{ background: C.ink, overflow: "hidden" }}>
       {cuts.map((c, i) => (
@@ -70,7 +73,7 @@ export const Future: React.FC = () => {
           <Shot i={i} />
         </Sequence>
       ))}
-      <Marquee text="FUTURE CLASSROOM" y={330} size={300} speed={11} opacity={0.9} />
+      <Marquee text="FUTURE CLASSROOM" y={330} size={300} speed={11} color={onScreen ? C.ink : C.white} opacity={onScreen ? 0.2 : 0.9} />
       <div
         style={{
           position: "absolute",
