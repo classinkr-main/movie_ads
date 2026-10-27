@@ -93,3 +93,62 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 
 - **Remotion 4.0.533** — 프레임 결정론적 React 렌더, `spring`/`interpolate`, `@remotion/fonts`, `@remotion/transitions`(TransitionSeries + 커스텀 프레젠테이션).
 - **HyperFrames**(`hyperframes` npm, HeyGen) — HTML/GSAP 타임라인 기반 영상 합성 CLI. 검토했으나 한글 폰트 번들과 스프링 물리 기반 키네틱 타이포에 Remotion이 더 직접적이라 엔진으로 채택하지 않았습니다.
+
+---
+
+# 2026 아시아 AI 교육 포럼(부산) 스케치 영상 — 2개 버전
+
+2026년 5월 29일 부산 WP과사람에서 열린 **2026 Asia AI Education Forum in Busan** 촬영본(Google Drive `260529 부산 포럼(영상)`, 한국팀 DJI + 중국 본사 촬영본)으로
+만든 현장 스케치 영상입니다. 두 버전 모두 **실황 톤**(현장음·실제 연설 음성 중심, 과한 그래픽 없음)이고, **컷은 대부분 4.8–8초**로 길게 가져갑니다.
+
+| 버전 | 성격 | 규격 | 경로 |
+| --- | --- | --- | --- |
+| A안 · 실황편 | 사회자·축사·발표자의 실제 목소리(자막)와 현장음이 흐름을 이끈다. 개막 → 축사 → 국가별 발표(한국·중국·일본) → 질의응답 → 단체 사진. 음악은 오프닝·엔딩에만 낮게 | 1920×1080 · 30fps · 2:33 · H.264/AAC | `out/busan-forum-sketch-A-live.mp4` |
+| B안 · 하이라이트편 | 오리지널 음악 마디(2.4초)에 맞춘 4.8초 컷 16개 + 키 카피 3개. 현장음은 음악 아래 깔고, 마지막 단체 사진 환호는 살린다 | 1920×1080 · 30fps · 1:22 · H.264/AAC | `out/busan-forum-sketch-B-highlight.mp4` |
+
+## A안 사운드바이트
+
+모두 현장 녹음이며, 자막은 음성 인식(Whisper large-v3-turbo) 결과를 들리는 말 그대로 다듬었습니다(말버릇·반복만 정리).
+
+| 위치 | 화자 | 자막 |
+| --- | --- | --- |
+| 콜드 오픈 | 사회자 | 기술은 빠르게 변하고 있지만 / 학생들은 여전히 좋은 선생님을 기억합니다. / 교육은 결국, 사람이 사람을 성장시키는 일입니다. |
+| 01 개막 | 사회자 | 이번 포럼은 클래스인과 과사람 교육기업이 함께 준비했습니다. |
+| 02 축사 | 설동근 전 교육부 차관 | AI는 인간이 더 인간다운 일에 집중하도록 돕는 기반이 될 수 있습니다. |
+| 03 발표 · 한국 | WP과사람 발표자 | 그리고 클래스인 아카이브라는 곳에 가면 / 왼쪽은 학생 판서, 오른쪽은 선생님 판서 / 분할 화면으로 보이는 구조입니다. (화면 속 슬라이드와 동기) |
+| 03 발표 · 한국 | 클래스인 세션 발표자 | 누구나 자신의 수업을 열어서 가르칠 수 있어야 합니다. |
+| 청중 컷 | 설동근 전 교육부 차관 | 교육의 본질은 사람을 키우는 일입니다. / 학생이 스스로 질문하게 하는 일입니다. / 다른 사람과 함께 생각하게 하는 일입니다. |
+| 05 함께 | 설동근 전 교육부 차관 | 아시아 교육의 미래를 함께 여는 소중한 출발점이 되기를 기원합니다. / 감사합니다. |
+
+단체 사진 컷은 촬영자의 "一、二、三 — 茄子!" 구호와 웃음을 그대로 살렸습니다.
+
+## 검수 참고
+
+- 이름 자막은 공식 블로그 후기("설동근 전 교육부 차관의 축사")로 확인된 **설동근 전 차관만** 넣었습니다. 사회자·발표자 이름은 확인되지 않아 넣지 않았습니다.
+- B안 카피 "한·중·일·베트남 교육 관계자 150여 명", "AI 시대, 교육은 어디로 향해야 할까?", "기술은 도구, 중심은 사람"은 공식 블로그 후기(2026-06-02) 표현을 따랐습니다.
+- 축사 원음의 "제2회 아시아 교육 포럼" 표현과 환영 문장 일부는 음성 인식이 불확실해 쓰지 않았습니다.
+- 중국 본사 촬영본 대부분은 세로(9:16)라 가로 16:9 띠로 잘라 썼습니다. 1080×1920 원본(입장·개막 타이틀·축사 슬라이드·일본 세션 청중)은 1.78배 확대라 다른 컷보다 약간 부드럽습니다.
+- 음악은 저작권 이슈가 없도록 직접 작곡(MIDI)해 FluidR3 GM 사운드폰트(MIT)로 렌더한 오리지널입니다. 유료 라이브러리 곡으로 바꾸려면 `public/forum/audio/music-*.wav`를 교체하고 EDL의 `music.gain` 키프레임만 맞추면 됩니다.
+
+## 구조와 다시 만들기
+
+```
+src/forum/edl/live.json        # A안 EDL — 컷(원본·인/아웃·크롭·현장음 볼륨)·사운드바이트(자막 포함)·텍스트·음악 큐
+src/forum/edl/highlight.json   # B안 EDL
+src/forum/ForumEdit.tsx        # EDL 렌더러 — 디졸브, 사운드바이트 구간 현장음·음악 덕킹, 자막
+src/forum/Overlays.tsx         # 타이틀 · 챕터 라벨 · LIVE HUD · 로워서드 · 자막 · 키 카피 · 엔드 카드
+tools/forum/fetch.sh           # Drive 원본 내려받기(footage.tsv = EDL이 쓰는 21개 클립)
+tools/forum/cut.py             # EDL → public/forum/clips/*.mp4(1080p30 중간본) · public/forum/audio/*.wav(사운드바이트)
+tools/forum/compose_music.py   # 오리지널 음악 MIDI
+tools/forum/music.sh           # MIDI → public/forum/audio/music-*.wav
+```
+
+```bash
+tools/forum/fetch.sh ~/footage                                   # 원본 약 6GB
+python3 tools/forum/cut.py ~/footage src/forum/edl/live.json src/forum/edl/highlight.json
+tools/forum/music.sh                                             # fluidsynth · fluid-soundfont-gm · mido 필요
+npm run render:forum-live && npm run render:forum-highlight      # out/forum-sketch-*-master.mp4 (CRF 17)
+```
+
+`public/forum/`와 마스터 렌더는 용량 때문에 git에서 제외했습니다. 납품용 `out/busan-forum-sketch-*.mp4`는 마스터를 x264 2-pass로 다시 인코딩한 파일입니다.
+컷 길이·순서는 EDL의 `dur`/`xfade`(겹침 초)만 고치면 되고, 인/아웃이나 크롭을 바꿨다면 `cut.py`를 다시 돌립니다(EDL보다 새 파일은 건너뜀).

@@ -1,0 +1,33 @@
+{
+  "name": "ForumHighlight",
+  "duration": 82,
+  "music": [{ "src": "music-highlight.wav", "at": 0, "gain": [[0, 0.0], [0.4, 0.92], [72, 0.92], [76.8, 0.7], [81.5, 0.0]] }],
+  "duck": { "nat": 1, "music": 1 },
+  "hud": false,
+  "shots": [
+    { "id": "B01", "src": "main/DJI_20260529101616_0048_D.MP4", "in": 0.3, "dur": 4.8, "vol": 0.35, "push": 0.03 },
+    { "id": "B02", "src": "main/DJI_20260529101952_0049_D.MP4", "in": 1.0, "dur": 5.2, "xfade": 0.4, "vol": 0.35, "push": 0.03 },
+    { "id": "B03", "src": "cn/DJI_20260529094825_0533_D.MP4", "in": 1.6, "dur": 4.8, "crop": [0, 0.33, 1], "vol": 0.3 },
+    { "id": "B04", "src": "cn/DJI_20260529115711_0265_D.MP4", "in": 0.5, "dur": 4.8, "crop": [0, 0.36, 1], "vol": 0.3 },
+    { "id": "B05", "src": "main/DJI_20260529125233_0053_D.MP4", "in": 3.6, "dur": 4.8, "vol": 0.3 },
+    { "id": "B06", "src": "cn/DJI_20260529120314_0266_D.MP4", "in": 0.5, "dur": 4.8, "crop": [0, 0.38, 1], "vol": 0.3, "push": 0.03 },
+    { "id": "B07", "src": "main/DJI_20260529162745_0059_D.MP4", "in": 2.0, "dur": 4.8, "vol": 0.3, "push": 0.03 },
+    { "id": "B08", "src": "main/DJI_20260529104337_0050_D.MP4", "in": 38.0, "dur": 4.8, "crop": [0.1, 0.05, 0.8], "vol": 0.3 },
+    { "id": "B09", "src": "cn/DJI_20260529132307_0011_D.MP4", "in": 8.0, "dur": 4.8, "crop": [0, 0.45, 1], "vol": 0.3 },
+    { "id": "B10", "src": "cn/DJI_20260529164807_0669_D.MP4", "in": 12.0, "dur": 4.8, "crop": [0, 0.45, 1], "vol": 0.3 },
+    { "id": "B11", "src": "main/DJI_20260529165958_0064_D.MP4", "in": 0.6, "dur": 4.8, "vol": 0.3 },
+    { "id": "B12", "src": "cn/DJI_20260529132759_0017_D.MP4", "in": 0.3, "dur": 4.8, "crop": [0, 0.45, 1], "vol": 0.3 },
+    { "id": "B13", "src": "main/DJI_20260529162823_0060_D.MP4", "in": 3.2, "dur": 4.8, "vol": 0.3 },
+    { "id": "B14", "src": "main/DJI_20260529173521_0065_D.MP4", "in": 8.0, "dur": 4.8, "vol": 0.4 },
+    { "id": "B15", "src": "cn/DJI_20260529163456_0033_D.MP4", "in": 3.0, "dur": 4.8, "vol": 0.5 },
+    { "id": "B16", "src": "cn/DJI_20260529163641_0036_D.MP4", "in": 4.4, "dur": 4.8, "vol": 0.9 },
+    { "id": "B17", "src": "main/DJI_20260529173521_0065_D.MP4", "in": 30.0, "dur": 5.6, "xfade": 0.4, "vol": 0.5, "push": 0.03 }
+  ],
+  "texts": [
+    { "kind": "title", "at": 0.8, "dur": 8.4, "eyebrow": "ASIA AI EDUCATION FORUM", "title": "2026 아시아 AI 교육 포럼", "sub": "2026. 05. 29  ·  부산" },
+    { "kind": "statement", "at": 29.4, "dur": 5.8, "eyebrow": "KOREA · CHINA · JAPAN · VIETNAM", "lines": ["한·중·일·베트남", "교육 관계자 150여 명"] },
+    { "kind": "statement", "at": 48.4, "dur": 6.4, "lines": ["AI 시대,", "교육은 어디로 향해야 할까?"] },
+    { "kind": "statement", "at": 62.6, "dur": 4.6, "align": "left", "lines": ["기술은 도구,", "중심은 사람"] },
+    { "kind": "end", "at": 74.4, "dur": 7.6, "title": "2026 ASIA AI EDUCATION FORUM IN BUSAN", "sub": "함께해 주셔서 감사합니다" }
+  ]
+}
