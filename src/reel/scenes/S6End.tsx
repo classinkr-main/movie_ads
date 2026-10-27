@@ -2,14 +2,14 @@ import React from "react";
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { clamp, easeOutExpo, sp } from "../../lib/motion";
 import { FONT_FAMILY } from "../../lib/fonts";
-import { Dust, LightSweep, Mono } from "../fx";
+import { Dust, GrainTiles, LightSweep, Mono } from "../fx";
 import { MaskLine } from "../type";
 import { R } from "../theme";
 
 /*
  * S6 엔드 카드 (글로벌 1266–1440f · 2.9s)
  * 민트 링 아이리스로 열리고, Classin 마크가 스프링으로 내려앉은 뒤 워드마크·태그라인·CTA가 순서대로 선다.
- * CTA 문구는 사이트 정본(lib/classin-positioning.ts primaryCtas[0])을 그대로 쓴다.
+ * CTA 문구는 사이트 정본(lib/classin-positioning.ts primaryCtas[0])을 그대로 쓴다. 버튼은 알약 대신 12px 모서리의 매트 민트 플랫(Cta).
  * 시네마틱: 뒤로 학원·쇼룸 사진이 깊게 흐려진 채 흐르고(보케 월), 로고 착지에 아나모픽 플레어(BrandReel)가 겹친다.
  */
 
@@ -32,6 +32,38 @@ const PhotoHaze: React.FC = () => {
     </AbsoluteFill>
   );
 };
+// CTA — 모서리를 덜 굴린(12px) 매트 민트 플랫 버튼. 아주 옅은 세로 톤 차 + 그레인(soft-light)으로 종이 같은 질감을 주고,
+// 위 1px 하이라이트 · 헤어라인 테두리 · 낮고 부드러운 그림자(글로우 없음). 문구와 화살표 사이에 얇은 구분선, 한 번 스치는 광택.
+const Cta: React.FC<{ f: number }> = ({ f }) => {
+  const sheen = interpolate(f, [100, 136], [-0.3, 1.3], clamp);
+  return (
+    <span
+      style={{
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "stretch",
+        borderRadius: 12,
+        overflow: "hidden",
+        background: "linear-gradient(180deg, #80ECC4 0%, #66E0B1 100%)",
+        color: R.accentInk,
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.65), inset 0 -1px 0 rgba(8,71,52,0.2), inset 0 0 0 1px rgba(8,71,52,0.16), 0 12px 26px rgba(0,0,0,0.34), 0 2px 5px rgba(0,0,0,0.22)",
+      }}
+    >
+      <span style={{ position: "relative", padding: "24px 34px 24px 40px", fontSize: 35, fontWeight: 800, letterSpacing: "-0.02em" }}>목동 쇼룸에서 실제 수업 흐름 보기</span>
+      <span style={{ position: "relative", width: 1, margin: "18px 0", background: "rgba(8,71,52,0.24)" }} />
+      <span style={{ position: "relative", display: "inline-flex", alignItems: "center", padding: "0 30px 0 28px" }}>
+        <svg width={34} height={20} viewBox="0 0 34 20" style={{ transform: `translateX(${Math.sin(f / 9) * 3}px)` }}>
+          <path d="M1 10 H31 M23 2 L31 10 L23 18" fill="none" stroke={R.accentInk} strokeWidth={2.6} strokeLinecap="square" />
+        </svg>
+      </span>
+      <GrainTiles w={900} h={120} opacity={0.6} blend="soft-light" />
+      {sheen > -0.3 && sheen < 1.3 && (
+        <span style={{ position: "absolute", top: 0, bottom: 0, left: `${sheen * 100}%`, width: "16%", marginLeft: "-8%", background: "linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.32) 50%, rgba(255,255,255,0) 100%)", pointerEvents: "none" }} />
+      )}
+    </span>
+  );
+};
+
 export const S6End: React.FC = () => {
   const f = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
@@ -42,7 +74,7 @@ export const S6End: React.FC = () => {
 
   const mark = sp(f - 8, fps, { damping: 14, stiffness: 140, mass: 0.9 });
   const word = interpolate(f, [30, 54], [0, 1], { ...clamp, easing: easeOutExpo });
-  const cta = sp(f - 68, fps, { damping: 15, stiffness: 190, mass: 0.7 });
+  const cta = sp(f - 68, fps, { damping: 20, stiffness: 150, mass: 0.8 });
   const glow = 0.55 + Math.sin(f / 18) * 0.08;
 
   return (
@@ -78,12 +110,9 @@ export const S6End: React.FC = () => {
           <MaskLine at={56} dur={26} style={{ marginTop: 14 }}>
             <Mono size={24} color={R.mute}>수업 시스템 OS</Mono>
           </MaskLine>
-          <div style={{ marginTop: 44, display: "flex", alignItems: "center", gap: 28, transform: `scale(${0.6 + 0.4 * cta})`, opacity: Math.min(1, cta * 1.5) }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 16, background: R.accent, color: R.accentInk, borderRadius: 999, padding: "22px 44px", fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", boxShadow: `0 18px 50px rgba(${R.accentRgb},0.28)` }}>
-              목동 쇼룸에서 실제 수업 흐름 보기
-              <span style={{ fontSize: 34, transform: `translateX(${Math.sin(f / 9) * 4}px)` }}>→</span>
-            </span>
-            <span style={{ fontSize: 34, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.01em" }}>classin.co.kr</span>
+          <div style={{ marginTop: 44, display: "flex", alignItems: "center", gap: 30, transform: `translateY(${(1 - cta) * 26}px) scale(${0.94 + 0.06 * cta})`, opacity: Math.min(1, cta * 1.5) }}>
+            <Cta f={f} />
+            <span style={{ fontSize: 32, fontWeight: 700, color: "rgba(255,255,255,0.8)", letterSpacing: "0.01em" }}>classin.co.kr</span>
           </div>
         </AbsoluteFill>
         <LightSweep from={84} dur={56} width={12} opacity={0.22} angle={18} />

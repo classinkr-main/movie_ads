@@ -60,9 +60,10 @@ export const Mono: React.FC<{ children: React.ReactNode; size?: number; color?: 
   <span style={{ fontFamily: FONT_FAMILY, fontSize: size, fontWeight: 700, letterSpacing: "0.24em", textTransform: "uppercase", color, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap", ...style }}>{children}</span>
 );
 
-// 타임코드 HH:MM:SS:FF — 실제 60fps 프레임을 센다
-export const Timecode: React.FC<{ offset?: number; size?: number; color?: string }> = ({ offset = 0, size = 16, color }) => {
-  const frame = useCurrentFrame() + offset;
+// 타임코드 HH:MM:SS:FF — 실제 60fps 프레임을 센다. freezeAt(로컬 프레임)을 주면 그 순간에서 멈춘다.
+export const Timecode: React.FC<{ offset?: number; size?: number; color?: string; freezeAt?: number }> = ({ offset = 0, size = 16, color, freezeAt }) => {
+  const now = useCurrentFrame();
+  const frame = (freezeAt === undefined ? now : Math.min(now, freezeAt)) + offset;
   const { fps } = useVideoConfig();
   const ff = frame % fps;
   const s = Math.floor(frame / fps);

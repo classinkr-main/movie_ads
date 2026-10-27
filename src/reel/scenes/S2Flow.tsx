@@ -6,14 +6,18 @@ import { Clip, Photo } from "../media";
 import { Brackets, Flash, LightLeak, Mono, RecDot, Timecode } from "../fx";
 import { MaskLine } from "../type";
 import { EdbDeck } from "../EdbDeck";
+import { AiReport } from "../AiReport";
+import { ShadedIcon } from "../ShadedIcon";
 import { R } from "../theme";
 
 /*
  * S2 수업 흐름 몽타주 (글로벌 208–620f · 6.9s)
  * 5비트 × 80f(1.33s). 각 비트는 12f 겹치며 오른쪽에서 휩 인 → 왼쪽으로 휩 아웃.
+ * 녹화 비트는 타임코드가 45:00에 멈추며 수업이 끝나고, 녹화본이 바로 업로드돼 결석생 보강 영상이 된다.
  * 교안 비트는 Unit 5 교안 파일 세 페이지(EdbDeck)가 3D로 겹치며 내용이 그려지고 템플릿으로 저장된다.
+ * 데이터 비트는 같은 Unit 5 수업의 AI 강의 분석 리포트(AiReport)가 떠오른다. 녹화·데이터 카피 위에는 음영 아이콘(ShadedIcon)이 선다.
  * 비트마다 사진은 초점이 맞아 들어오고(랙 포커스), 컷 순간에 라이트 릭이 번진다.
- * 카피가 이어 읽히도록 썼다: 판서는 EDB로 저장되고 → 카메라가 수업을 그대로 담고 → 좋은 교안은 템플릿이 되고
+ * 카피가 이어 읽히도록 썼다: 판서는 EDB로 저장되고 → 수업이 끝나면 즉시 업로드, 보강까지 → 좋은 교안은 템플릿이 되고
  *                         → 자동 녹화된 수업으로 복습하고 → 운영은 감이 아니라 기준으로
  */
 export const BEAT_LEN = 80;
@@ -22,8 +26,9 @@ const OVERLAP = 12;
 type Beat = {
   word: string;
   en: string;
-  line: string;
+  line: React.ReactNode;
   align?: "left" | "right";
+  icon?: "camera" | "data";
   render: () => React.ReactNode;
 };
 
@@ -68,21 +73,84 @@ const EdbChip: React.FC = () => {
   );
 };
 
-// 02 녹화 — 뷰파인더, REC, 타임코드, 레벨 미터(카피가 오른쪽이라 HUD는 왼쪽 위)
+// 02 녹화 — 화면에 고정된 뷰파인더 HUD(사진 켄 번스와 따로 논다). REC 타임코드가 45:00에 닿으면 수업 종료로 멈추고,
+// 오른쪽 위 업로드 카드가 떠서 녹화본이 바로 올라간 뒤 [보강] 다시보기가 된다. 카메라 본체(왼쪽 가운데)는 가리지 않는다.
 const sec2f = (s: number) => s * 60;
+// 비트가 보이는 시간은 휩 인(0–20)부터 휩 아웃(80)까지라, [보강] 줄이 80 전에 30f 넘게 머물도록 앞당겨 잡았다.
+const END_AT = 28; // 로컬 프레임 — 이 순간 타임코드가 00:45:00:00
+const UP_FROM = 31;
+const UP_TO = 46;
+
+const UploadGlyph: React.FC<{ done: number }> = ({ done }) => (
+  <span style={{ position: "relative", width: 50, height: 50, flexShrink: 0, borderRadius: 14, background: R.accent, boxShadow: `0 0 22px rgba(${R.accentRgb},${0.25 + 0.35 * done})` }}>
+    <svg width={50} height={50} viewBox="0 0 50 50" style={{ position: "absolute", inset: 0 }}>
+      <g fill="none" stroke={R.accentInk} strokeWidth={3.4} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M25 34 V17 M18 24 L25 17 L32 24 M16 36 H34" opacity={1 - done} />
+        <path d="M15.5 25.5 L22 32 L34.5 19" opacity={done} />
+      </g>
+    </svg>
+  </span>
+);
+
+const UploadCard: React.FC = () => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  if (f < END_AT) return null;
+  const k = pop(f, END_AT + 1, fps);
+  const p = interpolate(f, [UP_FROM, UP_TO], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const done = f >= UP_TO;
+  const dk = pop(f, UP_TO, fps);
+  return (
+    <div style={{ position: "absolute", right: 200, top: 196, width: 560, ...glass, padding: "24px 28px", transform: `translateY(${(1 - k) * -30}px) scale(${0.94 + 0.06 * k})`, transformOrigin: "100% 0%", opacity: Math.min(1, k * 1.5) }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <UploadGlyph done={Math.min(1, dk * 1.4)} />
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: FONT_FAMILY, fontSize: 27, fontWeight: 800, letterSpacing: "-0.02em", color: R.white }}>{done ? "업로드 완료" : "수업 종료 · 즉시 업로드"}</div>
+          <Mono size={14}>English B반 · Unit 5 · 45:00</Mono>
+        </div>
+        <Mono size={20} color={R.accent}>{`${Math.round(p * 100)}%`}</Mono>
+      </div>
+      <div style={{ height: 8, borderRadius: 8, background: "rgba(255,255,255,0.16)", marginTop: 20, overflow: "hidden" }}>
+        <div style={{ width: `${p * 100}%`, height: "100%", borderRadius: 8, background: R.accent, boxShadow: `0 0 14px rgba(${R.accentRgb},0.8)` }} />
+      </div>
+      {/* 자리는 처음부터 잡아 두고 완료 순간 떠오른다(카드 높이가 튀지 않게) */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 18, opacity: Math.min(1, dk * 1.4), transform: `translateY(${(1 - dk) * 14}px)` }}>
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 20, fontWeight: 900, color: R.accentInk, background: R.accent, borderRadius: 8, padding: "4px 12px" }}>보강</span>
+        <span style={{ fontFamily: FONT_FAMILY, fontSize: 23, fontWeight: 700, color: R.white }}>결석생도 앱에서 바로 다시보기</span>
+      </div>
+    </div>
+  );
+};
+
 const RecHud: React.FC = () => {
   const f = useCurrentFrame();
-  const o = interpolate(f, [8, 20], [0, 1], clamp);
+  const o = interpolate(f, [6, 16], [0, 1], clamp);
+  const ended = f >= END_AT;
+  const stamp = interpolate(f, [END_AT, END_AT + 16], [1, 0], clamp); // 멈추는 순간 타임코드가 민트로 번쩍
+  const live = interpolate(f, [END_AT, END_AT + 12], [1, 0], clamp); // 레벨 미터가 잦아든다
   return (
     <AbsoluteFill style={{ opacity: o }}>
       <Brackets inset={150} len={70} thick={4} opacity={0.9} />
       <div style={{ position: "absolute", left: 200, top: 196, display: "flex", alignItems: "center", gap: 30 }}>
-        <RecDot size={26} />
-        <Timecode offset={sec2f(42 * 60 + 17)} size={26} color={R.white} />
+        <span style={{ minWidth: 184 }}>
+          {ended ? (
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 13 }}>
+              <span style={{ width: 18, height: 18, borderRadius: 3, background: R.white }} />
+              <Mono size={26} color={R.white}>
+                수업 종료
+              </Mono>
+            </span>
+          ) : (
+            <RecDot size={26} />
+          )}
+        </span>
+        <span style={{ textShadow: ended ? `0 0 ${20 * stamp}px rgba(${R.accentRgb},${stamp})` : undefined }}>
+          <Timecode offset={sec2f(45 * 60) - END_AT} freezeAt={END_AT} size={26} color={ended ? R.accent : R.white} />
+        </span>
       </div>
-      <div style={{ position: "absolute", left: 200, top: 250, display: "flex", alignItems: "flex-end", gap: 7, height: 70 }}>
+      <div style={{ position: "absolute", left: 200, top: 250, display: "flex", alignItems: "flex-end", gap: 7, height: 70, opacity: 0.3 + 0.7 * live }}>
         {Array.from({ length: 14 }).map((_, i) => {
-          const h = 18 + Math.abs(Math.sin(f / 5 + i * 0.9) * Math.cos(f / 11 + i * 0.4)) * 52;
+          const h = 6 + (12 + Math.abs(Math.sin(f / 5 + i * 0.9) * Math.cos(f / 11 + i * 0.4)) * 52) * live;
           return <span key={i} style={{ width: 8, height: h, borderRadius: 3, background: i > 10 ? R.accent : "rgba(255,255,255,0.8)" }} />;
         })}
       </div>
@@ -91,6 +159,7 @@ const RecHud: React.FC = () => {
         <div style={{ position: "absolute", left: 29, top: 0, width: 2, height: 60, background: "rgba(255,255,255,0.7)" }} />
         <div style={{ position: "absolute", top: 29, left: 0, height: 2, width: 60, background: "rgba(255,255,255,0.7)" }} />
       </div>
+      <UploadCard />
     </AbsoluteFill>
   );
 };
@@ -127,39 +196,7 @@ const Player: React.FC = () => {
   );
 };
 
-// 05 데이터 — 수업 리포트 카드(예시 막대, 수치 없음)
-const Report: React.FC = () => {
-  const f = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const k = pop(f, 8, fps);
-  const rows = [
-    { l: "출석", v: 0.94 },
-    { l: "수업 참여", v: 0.78 },
-    { l: "과제 제출", v: 0.86 },
-    { l: "다시보기", v: 0.64 },
-  ];
-  return (
-    <div style={{ position: "absolute", right: 120, top: 180, width: 560, ...glass, padding: "28px 32px", transform: `translateX(${(1 - k) * 90}px)`, opacity: Math.min(1, k * 1.4) }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontFamily: FONT_FAMILY, fontSize: 28, fontWeight: 800, color: R.white }}>수업 리포트</span>
-        <Mono size={14}>관리자 · 예시 화면</Mono>
-      </div>
-      <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 18 }}>
-        {rows.map((r, i) => {
-          const p = draw(f, 16 + i * 7, 54 + i * 7);
-          return (
-            <div key={r.l} style={{ display: "flex", alignItems: "center", gap: 18 }}>
-              <span style={{ width: 120, fontFamily: FONT_FAMILY, fontSize: 22, fontWeight: 600, color: R.mute }}>{r.l}</span>
-              <div style={{ flex: 1, height: 16, borderRadius: 16, background: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
-                <div style={{ width: `${r.v * p * 100}%`, height: "100%", borderRadius: 16, background: i === 1 ? R.accent : `linear-gradient(90deg, ${R.brand}, ${R.brandSoft})` }} />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+// 05 데이터 — AI 강의 분석 리포트 카드는 ../AiReport.tsx
 
 const BEATS: Beat[] = [
   {
@@ -175,13 +212,19 @@ const BEATS: Beat[] = [
   },
   {
     word: "녹화",
-    en: "Class Recording",
-    line: "카메라가 수업을 그대로 담고",
+    en: "Instant Upload",
+    line: (
+      <>
+        수업이 끝나면 <span style={{ color: R.accent }}>즉시 업로드</span>, 보강까지
+      </>
+    ),
     align: "right",
+    icon: "camera",
     render: () => (
-      <Photo src="academy-rec" from={{ s: 1.03, x: 1 }} to={{ s: 1.13, x: -1, y: -1 }} dur={BEAT_LEN + OVERLAP} position="50% 52%">
+      <>
+        <Photo src="academy-rec" from={{ s: 1.03, x: 1 }} to={{ s: 1.13, x: -1, y: -1 }} dur={BEAT_LEN + OVERLAP} position="50% 52%" />
         <RecHud />
-      </Photo>
+      </>
     ),
   },
   {
@@ -206,12 +249,15 @@ const BEATS: Beat[] = [
   },
   {
     word: "데이터",
-    en: "Admin Insight",
+    en: "AI Lecture Report",
     line: "운영은 감이 아니라 기준으로",
+    icon: "data",
     render: () => (
-      <Photo src="showroom-class2" from={{ s: 1.12, x: 2 }} to={{ s: 1.02 }} dur={BEAT_LEN + OVERLAP} position="50% 40%">
-        <Report />
-      </Photo>
+      <>
+        {/* 강사가 학생 옆에서 봐 주는 장면이 왼쪽 가운데에 있어 리포트 카드(오른쪽)와 겹치지 않는다 */}
+        <Photo src="academy-green" from={{ s: 1.12, x: 2 }} to={{ s: 1.02 }} dur={BEAT_LEN + OVERLAP} />
+        <AiReport />
+      </>
     ),
   },
 ];
@@ -232,6 +278,11 @@ const BeatShot: React.FC<{ i: number; beat: Beat; last: boolean }> = ({ i, beat,
       <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(3,11,8,0.6) 0%, rgba(3,11,8,0) 18%)" }} />
       <AbsoluteFill style={{ background: `linear-gradient(${right ? -20 : 20}deg, rgba(3,11,8,0.92) 0%, rgba(3,11,8,0.55) 32%, rgba(3,11,8,0) 58%)` }} />
       <div style={{ position: "absolute", [right ? "right" : "left"]: 120, bottom: 112, fontFamily: FONT_FAMILY, color: R.white, textAlign: right ? "right" : "left" }}>
+        {beat.icon && (
+          <div style={{ display: "flex", justifyContent: right ? "flex-end" : "flex-start", marginBottom: 16 }}>
+            <ShadedIcon kind={beat.icon} at={4} />
+          </div>
+        )}
         <MaskLine at={6} dur={26}>
           <div style={{ display: "flex", alignItems: "center", gap: 18, justifyContent: right ? "flex-end" : "flex-start" }}>
             <Mono size={22} color={R.accent}>{`0${i + 1}`}</Mono>

@@ -26,7 +26,7 @@ const TILES: Tile[] = [
   { k: "photo", src: "academy-ai", tag: "부산 · 워크숍" },
   { k: "video", src: "tablet", tag: "Classin 수업 영상" },
   { k: "hero", tag: "Classin Board" },
-  { k: "photo", src: "academy-green", tag: "부산 · 수학학원" },
+  { k: "photo", src: "academy-teacher", tag: "서울 목동 · 수학학원" },
   { k: "photo", src: "academy-talk", tag: "부산 · 수학학원" },
   { k: "photo", src: "showroom-class", tag: "서울 목동 · 쇼룸" },
   { k: "photo", src: "academy-english", tag: "서울 · 영어학원" },

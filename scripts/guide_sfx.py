@@ -219,6 +219,27 @@ for k in range(10):
     place(kick(0.75), tt)
     place(hat(0.16), tt + BEAT / 2, pan=0.25)
 
+# B2. 녹화 비트 — 타임코드가 45:00에 멈추는 '삑' 두 번, 업로드 완료 차임(S2Flow END_AT · UP_TO)
+#     데이터 비트 — 민트 스캔 스윕, 점수 0→93 카운트 틱(앞은 촘촘하게), 월계수가 돋을 때 벨(AiReport)
+def beep(freq, dur=0.07, gain=1.0):
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    return np.sin(2 * np.pi * freq * t) * np.minimum(1, t * 400) * np.minimum(1, (dur - t) * 200) * gain
+
+
+REC_BEAT = 208 + 80
+place(beep(1760, 0.07, 0.16), f2s(REC_BEAT + 28), pan=-0.35, send=0.2)
+place(beep(1320, 0.09, 0.14), f2s(REC_BEAT + 28) + 0.09, pan=-0.35, send=0.2)
+for k, nm in enumerate(["E6", "B6"]):
+    place(bell(note(nm), 1.6, 0.11), f2s(REC_BEAT + 46) + k * 0.07, pan=0.35, send=0.5)
+DATA_BEAT = 208 + 80 * 4
+sl_, sr_ = whoosh(0.6, 0.5, 900, 6500)
+place_st(sl_, sr_, f2s(DATA_BEAT + 12), gain=0.08, send=0.3)
+for k, off in enumerate([14, 17, 20, 24, 29, 35, 43]):
+    place(hat(0.09 * (1 - k * 0.08), decay=220), f2s(DATA_BEAT + off), pan=0.3, send=0.1)
+place(bell(note("A6"), 1.8, 0.08), f2s(DATA_BEAT + 40), pan=0.4, send=0.6)
+place(bell(note("E6"), 1.8, 0.07), f2s(DATA_BEAT + 44), pan=0.5, send=0.6)
+
 # D. 그리드 — 하프타임 킥, 흐름 펄스 상행 아르페지오, 줌 라이저 → 임팩트
 for k in range(3):
     place(kick(0.6), GRID + 0.1 + k * 2 * BEAT)
