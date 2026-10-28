@@ -4,15 +4,16 @@ import { FONT_FAMILY, MONO, SERIF, SERIF_EN } from "../lib/fonts";
 import { clamp } from "../lib/motion";
 import { C } from "../lib/theme";
 import { BlurIn, Camera, Float3D, Hud, K, NightStage, timecode, Words } from "./Cinema";
+import { DrawIcon } from "./Icons";
 import { SCENE_FROM } from "./timeline";
 
 // 릴스·쇼츠 UI가 덮는 영역을 피한 안전 구역(1080×1920 기준)
 export const SAFE = { top: 200, bottom: 1540, side: 64 } as const;
 
 export const HIGHLIGHTS = [
-  { n: "01", id: "eval", en: "Lesson Evaluation" },
-  { n: "02", id: "grade", en: "Homework Grading" },
-  { n: "03", id: "caption", en: "Live Translation" },
+  { n: "01", id: "eval", en: "Lesson Evaluation", icon: "analyze" },
+  { n: "02", id: "grade", en: "Homework Grading", icon: "grade" },
+  { n: "03", id: "caption", en: "Live Translation", icon: "translate" },
 ] as const;
 
 export const t = (size: number, weight: number, color: string, extra?: React.CSSProperties): React.CSSProperties => ({
@@ -73,9 +74,10 @@ export const CineFeature: React.FC<{
       >
         {backdrop}
         <div style={{ position: "absolute", left: SAFE.side, right: SAFE.side, top: SAFE.top + 86 }}>
-          <div style={{ fontFamily: SERIF_EN, fontStyle: "italic", fontSize: 50, color: C.lime, lineHeight: 1, letterSpacing: "-0.01em" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, fontFamily: SERIF_EN, fontStyle: "italic", fontSize: 50, color: C.lime, lineHeight: 1, letterSpacing: "-0.01em" }}>
+            <DrawIcon kind={h.icon} delay={titleAt - 8} size={64} color={K.paper} accent={C.lime} bg={K.night3} stroke={2.6} />
             <BlurIn delay={titleAt - 4} track={[0.2, 0]}>
-              — {h.en}
+              {h.en}
             </BlurIn>
           </div>
           <div style={{ marginTop: 26, ...serif(122, 500, K.paper, { lineHeight: 1.12, wordBreak: "keep-all" }) }}>

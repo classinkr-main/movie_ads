@@ -16,7 +16,7 @@ const L = {
   ring: local("eval", "eval.ring"),
   insight: local("eval", "eval.insight"),
 };
-// 예시 수업(v4와 동일): 중2 국어 A반 · 윤동주 「서시」 · 45분. 점수는 예시.
+// 예시 수업(v4와 동일): 중2 국어 A반 · 윤동주 「서시」 · 60분. 점수는 예시.
 const AREAS = [
   { label: "수업 전달", score: 92 },
   { label: "수업 분위기", score: 88 },
@@ -49,7 +49,7 @@ export const Eval: React.FC = () => {
       sheenAt={L.ring + 10}
       lineA="수업을"
       lineB="분석하고,"
-      sub="45분 수업을 4개 영역으로 진단한 리포트"
+      sub="1시간 수업을 4개 영역으로 진단한 리포트"
       beamX={78}
       rest={{ rx: 7, ry: -11 }}
       backdrop={<GiantType text="88" at={L.ring} top={250} left={470} />}
@@ -68,7 +68,7 @@ export const Eval: React.FC = () => {
             </div>
           }
         />
-        <div style={{ ...mono(22, 500, C.gray), marginTop: 16 }}>중2 국어 A반 · 45:00 · 이서윤 선생님</div>
+        <div style={{ ...mono(22, 500, C.gray), marginTop: 16 }}>중2 국어 A반 · 60:00 · 이서윤 선생님</div>
 
         {/* 파형 + 스캐너 */}
         <div style={{ position: "relative", height: 84, marginTop: 16, display: "flex", alignItems: "center", gap }}>

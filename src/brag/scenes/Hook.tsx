@@ -17,10 +17,10 @@ const L = {
   notify: local("hook", "hook.notify"),
   line2: local("hook", "hook.line2"),
 };
-const LESSON_MIN = 45;
+const LESSON_MIN = 60;
 const BARS = { top: 250, bottom: 330 };
 
-// S1 콜드 오픈 — 어둠 속 45분이 흘러가고, 수업이 끝나는 순간 리포트 알림이 도착한다
+// S1 콜드 오픈 — 어둠 속 1시간이 흘러가고, 수업이 끝나는 순간 리포트 알림이 도착한다
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -41,7 +41,7 @@ export const Hook: React.FC = () => {
           <AbsoluteFill style={{ alignItems: "center", paddingTop: 380 }}>
             <div style={serif(108, 400, K.paper, { lineHeight: 1.16, textAlign: "center" })}>
               <BlurIn delay={L.line1} duration={22}>
-                45분 수업이
+                1시간 수업이
               </BlurIn>
               <br />
               <BlurIn delay={L.line1 + 8} duration={22} style={{ fontWeight: 700 }}>
@@ -64,7 +64,7 @@ export const Hook: React.FC = () => {
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 18, ...mono(22, 500, K.paperFaint, { letterSpacing: "0.12em" }) }}>
               <span>00:00</span>
               <span style={{ color: C.lime, opacity: ended ? 1 : 0 }}>SESSION END</span>
-              <span>45:00</span>
+              <span>60:00</span>
             </div>
           </div>
         </div>
