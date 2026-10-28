@@ -193,6 +193,8 @@ npm run render:forum-live && npm run render:forum-highlight && npm run render:fo
 npm run render:forum-sketch60 && npm run render:forum-style && npm run render:forum-short30
 tools/forum/deliver.sh out/forum-sketch-speakers-master.mp4 out/busan-forum-sketch-C-highlight-speakers.mp4 5500
 tools/forum/deliver.sh out/forum-sketch-60s-master.mp4 out/busan-forum-sketch-D-60s.mp4 6000
+tools/forum/deliver.sh out/forum-sketch-style-master.mp4 out/busan-forum-sketch-E-style.mp4 7000
+tools/forum/deliver.sh out/forum-sketch-30s-master.mp4 out/busan-forum-sketch-F-30s.mp4 7000
 ```
 
 `public/forum/`와 마스터 렌더는 용량 때문에 git에서 제외했습니다. 납품용 `out/busan-forum-sketch-*.mp4`는 마스터를 x264 2-pass로 다시 인코딩한 파일입니다.
