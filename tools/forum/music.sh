@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # 오리지널 음악 렌더 — fluidsynth + fluid-soundfont-gm(FluidR3_GM, MIT) 필요.
-# usage: tools/forum/music.sh   → public/forum/audio/music-{highlight,live,speakers}.wav
+# usage: tools/forum/music.sh   → public/forum/audio/music-{highlight,live,speakers,sketch}.wav
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
 out="$here/../../public/forum/audio"
 sf2="${SF2:-/usr/share/sounds/sf2/FluidR3_GM.sf2}"
 tmp="$(mktemp -d)"
 mkdir -p "$out"
-for v in highlight live speakers; do
+for v in ${VARIANTS:-highlight live speakers sketch}; do
   python3 "$here/compose_music.py" "$v" "$tmp/$v.mid"
   fluidsynth -ni -g 0.7 -r 48000 -R 1 -C 1 -F "$tmp/$v.raw.wav" "$sf2" "$tmp/$v.mid" > /dev/null
   ffmpeg -v error -y -i "$tmp/$v.raw.wav" \

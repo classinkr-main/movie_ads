@@ -1,0 +1,339 @@
+{
+ "name": "ForumShort30",
+ "duration": 30.0,
+ "music": [
+  {
+   "src": "music-short.wav",
+   "at": 0,
+   "gain": [
+    [
+     0,
+     0.95
+    ],
+    [
+     24.0,
+     0.95
+    ],
+    [
+     24.3,
+     0.72
+    ],
+    [
+     27.0,
+     0.85
+    ],
+    [
+     29.2,
+     0.8
+    ],
+    [
+     30.0,
+     0.0
+    ]
+   ]
+  }
+ ],
+ "duck": {
+  "nat": 0.35,
+  "music": 0.45
+ },
+ "hud": false,
+ "style": {
+  "bars": 96,
+  "top": [
+   "2026 ASIA AI EDUCATION FORUM",
+   "BUSAN · KOREA"
+  ],
+  "sections": [
+   {
+    "at": 4.0,
+    "label": "DAY 01  학원 탐방",
+    "date": "2026.05.28"
+   },
+   {
+    "at": 14.0,
+    "label": "DAY 02  포럼",
+    "date": "2026.05.29"
+   }
+  ],
+  "grain": 0.1,
+  "vignette": 0.45,
+  "grade": "contrast(1.08) saturate(1.12)"
+ },
+ "shots": [
+  {
+   "id": "F00",
+   "color": "#050505",
+   "dur": 4.0
+  },
+  {
+   "id": "F01",
+   "img": "CSJ00892.jpg",
+   "scale": 1.04,
+   "push": 0.06,
+   "pan": [
+    -30,
+    0
+   ],
+   "focus": [
+    50,
+    45
+   ],
+   "flash": 0.3,
+   "punch": 0.05,
+   "dur": 2.0
+  },
+  {
+   "id": "F02",
+   "img": "CSJ00998.jpg",
+   "focus": [
+    50,
+    0
+   ],
+   "punch": 0.04,
+   "push": 0.05,
+   "dur": 2.0
+  },
+  {
+   "id": "F03",
+   "push": 0.0,
+   "panels": [
+    {
+     "id": "F03a",
+     "src": "kakao/KakaoTalk_20260528_194156450.mp4",
+     "in": 2.0,
+     "dur": 2.2,
+     "tall": true,
+     "lufs": -22,
+     "vol": 0.45,
+     "focus": [
+      50,
+      50
+     ],
+     "delay": 0
+    },
+    {
+     "id": "F03b",
+     "src": "kakao/KakaoTalk_20260528_194221199.mp4",
+     "in": 4.5,
+     "dur": 2.2,
+     "tall": true,
+     "lufs": -22,
+     "focus": [
+      50,
+      50
+     ],
+     "delay": 0.5
+    },
+    {
+     "id": "F03c",
+     "src": "kakao/KakaoTalk_20260528_194152728.mp4",
+     "in": 0.5,
+     "dur": 2.2,
+     "tall": true,
+     "lufs": -22,
+     "focus": [
+      50,
+      50
+     ],
+     "delay": 1.0
+    }
+   ],
+   "dur": 2.0
+  },
+  {
+   "id": "F04",
+   "img": "CSJ00880.jpg",
+   "focus": [
+    45,
+    45
+   ],
+   "punch": 0.04,
+   "push": 0.05,
+   "dur": 2.0
+  },
+  {
+   "id": "F05",
+   "img": "CSJ00811.jpg",
+   "focus": [
+    50,
+    35
+   ],
+   "pan": [
+    0,
+    -20
+   ],
+   "scale": 1.03,
+   "punch": 0.04,
+   "push": 0.05,
+   "dur": 2.0
+  },
+  {
+   "id": "F06",
+   "clip": "B01",
+   "vol": 0.3,
+   "push": 0.05,
+   "flash": 0.3,
+   "punch": 0.05,
+   "dur": 2.0
+  },
+  {
+   "id": "F07",
+   "panels": [
+    {
+     "clip": "C_JO",
+     "offset": 0.6,
+     "focus": [
+      69.9,
+      45
+     ],
+     "zoom": 1.0,
+     "delay": 0.0,
+     "label": "조규성",
+     "sub": "WP과사람 교육기업 이사장"
+    },
+    {
+     "clip": "A13",
+     "offset": 0.6,
+     "focus": [
+      9.0,
+      45
+     ],
+     "zoom": 1.0,
+     "delay": 0.35,
+     "label": "곽정율",
+     "sub": "정률사관학원 대표"
+    },
+    {
+     "clip": "C_HE",
+     "offset": 0.0,
+     "focus": [
+      40.1,
+      45
+     ],
+     "zoom": 1.0,
+     "delay": 0.7,
+     "label": "허첸 He Qian",
+     "sub": "클래스인 CTO",
+     "rate": 0.67
+    },
+    {
+     "clip": "C13",
+     "offset": 0.6,
+     "focus": [
+      18.9,
+      45
+     ],
+     "zoom": 1.0,
+     "delay": 1.05,
+     "label": "지우유 左佑",
+     "sub": "항저우 A+ 심화교육 창립자"
+    },
+    {
+     "clip": "C15",
+     "offset": 1.0,
+     "focus": [
+      41.3,
+      45
+     ],
+     "zoom": 1.7,
+     "delay": 1.4,
+     "label": "안도 다이사쿠",
+     "sub": "일본 전국학원협회 회장"
+    }
+   ],
+   "dur": 4.0
+  },
+  {
+   "id": "F08",
+   "clip": "C13",
+   "offset": 2.0,
+   "vol": 0.35,
+   "punch": 0.04,
+   "dur": 2.0
+  },
+  {
+   "id": "F09",
+   "clip": "A09",
+   "offset": 1.0,
+   "vol": 0.3,
+   "push": 0.1,
+   "dur": 2.0
+  },
+  {
+   "id": "F10",
+   "clip": "A25",
+   "offset": 4.2,
+   "vol": 1.0,
+   "flash": 0.3,
+   "punch": 0.06,
+   "dur": 4.0
+  },
+  {
+   "id": "F11",
+   "clip": "A27",
+   "offset": 3.0,
+   "vol": 0.5,
+   "dur": 2.0
+  }
+ ],
+ "texts": [
+  {
+   "kind": "words",
+   "at": 0.0,
+   "dur": 4.0,
+   "mode": "swap",
+   "size": 230,
+   "items": [
+    {
+     "t": "ASIA",
+     "s": 0.0
+    },
+    {
+     "t": "AI",
+     "s": 0.5
+    },
+    {
+     "t": "EDUCATION",
+     "s": 1.0
+    },
+    {
+     "t": "FORUM",
+     "s": 1.5
+    },
+    {
+     "t": "BUSAN",
+     "s": 2.5,
+     "accent": true
+    }
+   ]
+  },
+  {
+   "kind": "stamp",
+   "at": 4.25,
+   "dur": 3.6,
+   "num": "01",
+   "eyebrow": "DAY",
+   "title": "학원 탐방",
+   "sub": "ACADEMY TOUR  ·  2026.05.28"
+  },
+  {
+   "kind": "stamp",
+   "at": 14.25,
+   "dur": 3.6,
+   "num": "02",
+   "eyebrow": "DAY",
+   "title": "포럼",
+   "sub": "FORUM  ·  2026.05.29"
+  },
+  {
+   "kind": "lockup",
+   "at": 27.4,
+   "dur": 2.6,
+   "eyebrow": "2026 ASIA AI EDUCATION FORUM IN BUSAN",
+   "title": "아시아 AI 교육 포럼",
+   "sub": "함께해 주셔서 감사합니다",
+   "logo": true
+  }
+ ]
+}

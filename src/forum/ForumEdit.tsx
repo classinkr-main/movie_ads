@@ -1,9 +1,10 @@
 import React from "react";
-import { AbsoluteFill, Audio, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Audio, Img, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { clamp } from "../lib/motion";
 import { FPS } from "../lib/theme";
 import { ChapterTag, EndCard, LiveHud, LowerThird, Statement, Subtitle, TitleCard } from "./Overlays";
-import type { BiteSpec, Edl, ShotSpec, TextSpec } from "./types";
+import { Flash, Grain, Lockup, Panels, Stamp, StyleFrame, Vignette, Words } from "./Style";
+import type { BiteSpec, Edl, PanelSpec, ShotSpec, TextSpec } from "./types";
 
 const f = (sec: number) => Math.round(sec * FPS);
 
@@ -38,20 +39,75 @@ const biteCover = (bites: BiteSpec[], frame: number) => {
 const Shot: React.FC<{ shot: PlacedShot; bites: BiteSpec[]; duckNat: number }> = ({ shot, bites, duckNat }) => {
   const frame = useCurrentFrame();
   const opacity = shot.xf > 0 ? interpolate(frame, [0, shot.xf], [0, 1], clamp) : 1;
-  const scale = 1 + (shot.push ?? 0) * (frame / shot.frames);
+  const p = frame / shot.frames;
+  const [px, py] = shot.pan ?? [0, 0];
+  const kick = (shot.punch ?? 0) * Math.exp(-frame / 5);
+  const transform = `translate(${px * p}px, ${py * p}px) scale(${(shot.scale ?? 1) + (shot.push ?? 0) * p + kick})`;
   const edge = Math.max(shot.xf, 6);
+
+  if (shot.color) {
+    return <AbsoluteFill style={{ opacity, background: shot.color }} />;
+  }
+
+  if (shot.img) {
+    const pos = shot.focus ? `${shot.focus[0]}% ${shot.focus[1]}%` : "50% 50%";
+    return (
+      <AbsoluteFill style={{ opacity, overflow: "hidden" }}>
+        <Img
+          src={staticFile(`forum/stills/${shot.img}`)}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: pos, transform, transformOrigin: pos }}
+        />
+      </AbsoluteFill>
+    );
+  }
+
+  const src = staticFile(`forum/clips/${shot.clip ?? shot.id}.mp4`);
+  const startFrom = f(shot.offset ?? 0);
+  const gainAt = (vol: number) => (fr: number) => {
+    const ramp = interpolate(fr, [0, edge, shot.frames - 6, shot.frames], [0, 1, 1, 0], clamp);
+    const duck = 1 - biteCover(bites, shot.from + fr) * (1 - duckNat);
+    return vol * ramp * duck;
+  };
+  const volume = gainAt(shot.vol ?? 1);
+
+  if (shot.panels) {
+    // 칸 소리는 그 칸이 열릴 때부터 짧게 올라온다
+    const panelVolume = (pn: PanelSpec) => {
+      const d = f(pn.delay ?? 0);
+      return (fr: number) => gainAt(pn.vol ?? 0)(fr + d) * interpolate(fr, [0, 4], [0, 1], clamp);
+    };
+    return (
+      <AbsoluteFill style={{ opacity, transform }}>
+        <Panels panels={shot.panels} frames={shot.frames} volume={panelVolume} />
+      </AbsoluteFill>
+    );
+  }
+
+  if (shot.tall) {
+    // 세로 원본: 흐리게 깐 같은 화면 위에 원본 비율 그대로 세운다
+    return (
+      <AbsoluteFill style={{ opacity, overflow: "hidden", background: "#000" }}>
+        <OffthreadVideo
+          src={src}
+          startFrom={startFrom}
+          muted
+          style={{ width: "100%", height: "100%", objectFit: "cover", transform: "scale(1.2)", filter: "blur(40px) brightness(0.5) saturate(1.2)" }}
+        />
+        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
+          <OffthreadVideo
+            src={src}
+            startFrom={startFrom}
+            volume={volume}
+            style={{ height: "100%", transform, boxShadow: "0 0 60px rgba(0,0,0,0.5)" }}
+          />
+        </AbsoluteFill>
+      </AbsoluteFill>
+    );
+  }
+
   return (
-    <AbsoluteFill style={{ opacity }}>
-      <OffthreadVideo
-        src={staticFile(`forum/clips/${shot.clip ?? shot.id}.mp4`)}
-        startFrom={f(shot.offset ?? 0)}
-        style={{ width: "100%", height: "100%", transform: `scale(${scale})` }}
-        volume={(fr) => {
-          const ramp = interpolate(fr, [0, edge, shot.frames - 6, shot.frames], [0, 1, 1, 0], clamp);
-          const duck = 1 - biteCover(bites, shot.from + fr) * (1 - duckNat);
-          return (shot.vol ?? 1) * ramp * duck;
-        }}
-      />
+    <AbsoluteFill style={{ opacity, overflow: "hidden" }}>
+      <OffthreadVideo src={src} startFrom={startFrom} style={{ width: "100%", height: "100%", transform }} volume={volume} />
     </AbsoluteFill>
   );
 };
@@ -69,6 +125,12 @@ const Text: React.FC<{ t: TextSpec }> = ({ t }) => {
       return <Statement dur={dur} lines={t.lines} eyebrow={t.eyebrow} align={t.align} />;
     case "end":
       return <EndCard dur={dur} title={t.title} sub={t.sub} />;
+    case "words":
+      return <Words dur={dur} items={t.items} mode={t.mode} size={t.size} align={t.align} />;
+    case "stamp":
+      return <Stamp dur={dur} num={t.num} eyebrow={t.eyebrow} title={t.title} sub={t.sub} />;
+    case "lockup":
+      return <Lockup dur={dur} eyebrow={t.eyebrow} title={t.title} sub={t.sub} logo={t.logo} />;
   }
 };
 
@@ -84,13 +146,24 @@ export const ForumEdit: React.FC<{ edl: Edl }> = ({ edl }) => {
     return base * (1 - biteCover(bites, fr + f(cue.at)) * (1 - duck.music));
   };
 
+  const style = edl.style;
   return (
     <AbsoluteFill style={{ background: "#000" }}>
-      {shots.map((s) => (
-        <Sequence key={s.id} from={s.from} durationInFrames={s.frames} name={s.id}>
-          <Shot shot={s} bites={bites} duckNat={duck.nat} />
-        </Sequence>
-      ))}
+      <AbsoluteFill style={{ filter: style?.grade }}>
+        {shots.map((s) => (
+          <Sequence key={s.id} from={s.from} durationInFrames={s.frames} name={s.id}>
+            <Shot shot={s} bites={bites} duckNat={duck.nat} />
+          </Sequence>
+        ))}
+      </AbsoluteFill>
+      {style?.vignette ? <Vignette amount={style.vignette} /> : null}
+      {shots
+        .filter((s) => s.flash)
+        .map((s) => (
+          <Sequence key={`flash-${s.id}`} from={s.from + s.xf} durationInFrames={f(s.flash ?? 0)} name={`flash-${s.id}`}>
+            <Flash len={f(s.flash ?? 0)} />
+          </Sequence>
+        ))}
 
       {cues.map((cue, i) => (
         <Sequence key={i} from={f(cue.at)} durationInFrames={f(cue.gain[cue.gain.length - 1][0] - cue.at)} name={`music-${i}`}>
@@ -116,6 +189,9 @@ export const ForumEdit: React.FC<{ edl: Edl }> = ({ edl }) => {
           <Text t={t} />
         </Sequence>
       ))}
+
+      {style?.grain ? <Grain amount={style.grain} /> : null}
+      {style ? <StyleFrame style={style} total={edlFrames(edl)} /> : null}
     </AbsoluteFill>
   );
 };
