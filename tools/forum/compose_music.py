@@ -1,15 +1,16 @@
 """부산 포럼 스케치용 오리지널 음악(MIDI). tools/forum/music.sh 가 FluidR3 GM 사운드폰트로 렌더한다.
 
-usage: compose_music.py <highlight|live> <out.mid>   (pip install mido)
+usage: compose_music.py <highlight|live|speakers> <out.mid>   (pip install mido)
   highlight  100 BPM, D장조 I–V–vi–IV, 32마디(76.8초): 인트로 4 · A 8 · B 8 · A' 8 · 아웃트로 4
   live        84 BPM, 피아노·현악·벨만 쓰는 잔잔한 28마디(80초)
+  speakers   100 BPM, 50마디(120초): 인트로 4 · 연설 8 · 발표 8 · 발표 10 · 빌드 2 · 몽타주 6 · 피날레 8 · 아웃트로 4
 """
 import sys, random
 import mido
 random.seed(7)
 variant, out = sys.argv[1], sys.argv[2]
 TPB = 480
-BPM = 100 if variant == "highlight" else 84
+BPM = 84 if variant == "live" else 100
 mid = mido.MidiFile(ticks_per_beat=TPB)
 def track(ch, program, name, vol=100, pan=64, rev=60, cho=0):
     t = mido.MidiTrack(); mid.tracks.append(t)
@@ -95,6 +96,37 @@ if variant == "highlight":
         if i < 3: piano_arp(bar, c, 62 - i * 4, 8)
         else: piano_block(bar, "D", 58)
         pad(bar, c, 50 - i * 4); bassline(bar, c, 76, "long"); bar += 1
+elif variant == "speakers":
+    # 하이라이트편(연사): 연사 사운드바이트 구간은 가볍게, 몽타주에서 올리고, 단체 사진 구호 구간은 비운다
+    bar = 0
+    for i in range(4):  # intro
+        c = prog_a[i % 4]; piano_arp(bar, c, 58, 8); pad(bar, c, 40); bar += 1
+    for blk in range(2):  # 연설·발표 1–3: hats + long bass, motif only in second half
+        for i in range(8):
+            c = prog_a[i % 4]; piano_arp(bar, c, 62); pad(bar, c, 48); bassline(bar, c, 76, "long"); drum_bar(bar, 1)
+            if blk == 1 and i >= 4: melody_bar(bar, motif[c], 58)
+            bar += 1
+    for i in range(10):  # 발표 3–6: lift to B progression, light kick
+        c = (prog_b + ["G", "A"])[i]; piano_arp(bar, c, 66); pad(bar, c, 54); bassline(bar, c, 82); drum_bar(bar, 2 if i >= 2 else 1); bar += 1
+    for i, c in enumerate(["G", "A"]):  # build
+        piano_arp(bar, c, 70, 16 if i else 8); pad(bar, c, 60); bassline(bar, c, 86); drum_bar(bar, 2)
+        if i: [note(drums, 9, SNARE, bar * 4 + k * 0.25, 0.2, 50 + k * 4) for k in range(16)]
+        bar += 1
+    note(drums, 9, CRASH, bar * 4, 2, 92)
+    for i in range(6):  # 몽타주: full
+        c = prog_a[i % 4]; piano_arp(bar, c, 74); pad(bar, c, 62); bassline(bar, c, 92); drum_bar(bar, 3); melody_bar(bar, motif[c], 76); bar += 1
+    note(drums, 9, CRASH, bar * 4, 2, 84)
+    for i in range(8):  # 피날레: bars 2–5 thin out for the group-photo countdown
+        c = prog_b[i]; quiet = 2 <= i <= 5
+        piano_arp(bar, c, 56 if quiet else 70, 4 if quiet else 8); pad(bar, c, 44 if quiet else 58)
+        bassline(bar, c, 70 if quiet else 88, "long" if quiet else "drive")
+        if not quiet: drum_bar(bar, 2); melody_bar(bar, motif[c], 70)
+        bar += 1
+    note(drums, 9, CRASH, bar * 4, 3, 80)
+    for i, c in enumerate(["G", "A", "D", "D"]):  # outro
+        if i < 3: piano_arp(bar, c, 62 - i * 4, 8)
+        else: piano_block(bar, "D", 58)
+        pad(bar, c, 50 - i * 4); bassline(bar, c, 74, "long"); bar += 1
 else:
     # live: gentle 84bpm, 28 bars ~80s, piano + strings + soft bells, no drums except light shaker mid
     bar = 0

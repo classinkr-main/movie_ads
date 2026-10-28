@@ -3,8 +3,10 @@
 
 export type ShotSpec = {
   id: string; // public/forum/clips/<id>.mp4
-  src: string; // 원본 경로(푸티지 폴더 기준) — cut.py 전용
-  in: number; // 원본 시작 초 — cut.py 전용
+  src?: string; // 원본 경로(푸티지 폴더 기준) — cut.py 전용. 없으면 clip 의 기존 중간본을 재사용한다
+  in?: number; // 원본 시작 초 — cut.py 전용
+  clip?: string; // 다른 컷의 중간본을 재사용할 때 그 id
+  offset?: number; // 재사용하는 중간본 안의 시작 초
   dur: number; // 컷 길이(초). 다음 컷과 겹치는 xfade 구간을 포함한다
   crop?: [number, number, number]; // cut.py 전용
   lufs?: number; // cut.py 전용
@@ -15,7 +17,7 @@ export type ShotSpec = {
 
 export type BiteSpec = {
   id: string; // public/forum/audio/<id>.wav
-  src: string;
+  src: string; // 원본 경로, 또는 이미 다듬은 바이트를 다시 자를 때 "bite:<파일명>"
   in: number;
   dur: number;
   lufs?: number;
@@ -27,7 +29,7 @@ export type BiteSpec = {
 
 export type TextSpec =
   | { kind: "title"; at: number; dur: number; eyebrow: string; title: string; sub: string }
-  | { kind: "lower"; at: number; dur: number; name: string; role: string }
+  | { kind: "lower"; at: number; dur: number; name: string; role: string; note?: string }
   | { kind: "chapter"; at: number; dur: number; index: string; label: string }
   | { kind: "statement"; at: number; dur: number; lines: string[]; eyebrow?: string; align?: "center" | "left" }
   | { kind: "end"; at: number; dur: number; title: string; sub: string };

@@ -43,7 +43,8 @@ const Shot: React.FC<{ shot: PlacedShot; bites: BiteSpec[]; duckNat: number }> =
   return (
     <AbsoluteFill style={{ opacity }}>
       <OffthreadVideo
-        src={staticFile(`forum/clips/${shot.id}.mp4`)}
+        src={staticFile(`forum/clips/${shot.clip ?? shot.id}.mp4`)}
+        startFrom={f(shot.offset ?? 0)}
         style={{ width: "100%", height: "100%", transform: `scale(${scale})` }}
         volume={(fr) => {
           const ramp = interpolate(fr, [0, edge, shot.frames - 6, shot.frames], [0, 1, 1, 0], clamp);
@@ -61,7 +62,7 @@ const Text: React.FC<{ t: TextSpec }> = ({ t }) => {
     case "title":
       return <TitleCard dur={dur} eyebrow={t.eyebrow} title={t.title} sub={t.sub} />;
     case "lower":
-      return <LowerThird dur={dur} name={t.name} role={t.role} />;
+      return <LowerThird dur={dur} name={t.name} role={t.role} note={t.note} />;
     case "chapter":
       return <ChapterTag dur={dur} index={t.index} label={t.label} />;
     case "statement":

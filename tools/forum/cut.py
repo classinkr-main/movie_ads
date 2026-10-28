@@ -9,7 +9,9 @@ usage: python3 tools/forum/cut.py <footage_dir> <edl.json> [<edl.json> ...]
   crop  [x, y, w] — 원본 대비 비율. 16:9 영역의 왼쪽 위(x, y)와 너비(w). 세로 원본은 w=1 로 가로 띠를 잘라낸다.
   lufs  현장음 목표 라우드니스 (기본 -23)
 
+src 가 없는 샷은 clip 이 가리키는 기존 중간본을 재사용하므로 건너뛴다.
 bites 항목(인터뷰·연설 사운드바이트)은 오디오만 잘라 public/forum/audio/<id>.wav 로 쓴다.
+src 가 "bite:<파일명>" 이면 이미 처리된 바이트에서 다시 잘라 낸다.
 말소리 대역 EQ·노이즈 저감·컴프레서를 거쳐 목표 라우드니스(기본 -18 LUFS)에 맞춘다.
 """
 import json, os, re, subprocess, sys
@@ -37,9 +39,11 @@ def loudness(path, t0, dur):
 
 
 def cut(footage, shot):
+    if "src" not in shot:
+        return shot["id"], f"reuse {shot.get('clip', shot['id'])}"
     src = os.path.join(footage, shot["src"])
     dst = os.path.join(OUT, f"{shot['id']}.mp4")
-    if os.path.exists(dst) and os.path.getmtime(dst) > os.path.getmtime(shot["_edl"]):
+    if os.path.exists(dst) and (os.path.getmtime(dst) > os.path.getmtime(shot["_edl"]) or not os.path.exists(src)):
         return shot["id"], "skip"
     w, h = probe(src)
     x, y, cw = shot.get("crop", [0, 0, 1])
@@ -60,10 +64,17 @@ def cut(footage, shot):
 
 
 def bite(footage, b):
-    src = os.path.join(footage, b["src"])
     dst = os.path.join(AUDIO_OUT, f"{b['id']}.wav")
-    if os.path.exists(dst) and os.path.getmtime(dst) > os.path.getmtime(b["_edl"]):
+    src_path = os.path.join(AUDIO_OUT, b["src"][5:]) if b["src"].startswith("bite:") else os.path.join(footage, b["src"])
+    if os.path.exists(dst) and (os.path.getmtime(dst) > os.path.getmtime(b["_edl"]) or not os.path.exists(src_path)):
         return b["id"], "skip"
+    if b["src"].startswith("bite:"):
+        # 이미 말소리 처리를 거친 바이트에서 다시 잘라 낸다
+        src = os.path.join(AUDIO_OUT, b["src"][5:])
+        af = f"afade=t=in:d=0.08,afade=t=out:st={b['dur'] - 0.12:.2f}:d=0.12"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", str(b["in"]), "-i", src, "-t", str(b["dur"]), "-af", af, dst], check=True)
+        return b["id"], f"trim {b['src'][5:]}"
+    src = os.path.join(footage, b["src"])
     lufs = loudness(src, b["in"], b["dur"])
     gain = max(-20.0, min(30.0, b.get("lufs", -18.0) - lufs - 2.0))
     af = f"{SPEECH},volume={gain:.1f}dB,alimiter=limit=0.89,afade=t=in:d=0.08,afade=t=out:st={b['dur'] - 0.12:.2f}:d=0.12"

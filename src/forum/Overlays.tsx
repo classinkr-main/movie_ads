@@ -60,21 +60,40 @@ export const TitleCard: React.FC<{ dur: number; eyebrow: string; title: string; 
   );
 };
 
-export const LowerThird: React.FC<{ dur: number; name: string; role: string }> = ({ dur, name, role }) => {
-  const { frame, exit } = useInOut(dur, 12, 12);
+export const LowerThird: React.FC<{ dur: number; name: string; role: string; note?: string }> = ({ dur, name, role, note }) => {
+  const { frame, exit, alpha } = useInOut(dur, 12, 12);
   const bar = interpolate(frame, [0, 16], [0, 1], { ...clamp, easing: easeOutExpo });
   return (
-    <div style={{ position: "absolute", left: 120, bottom: 230, display: "flex", alignItems: "stretch", gap: 22, fontFamily: FONT_FAMILY, opacity: exit }}>
-      <div style={{ width: 6, background: C.lime, transform: `scaleY(${bar})`, transformOrigin: "50% 100%", borderRadius: 3 }} />
-      <div style={{ textShadow: shadow }}>
-        <Rise delay={4}>
-          <div style={{ fontSize: 44, fontWeight: 700, color: C.white, letterSpacing: "-0.01em" }}>{name}</div>
-        </Rise>
-        <Rise delay={9}>
-          <div style={{ fontSize: 28, fontWeight: 500, color: "rgba(255,255,255,0.82)", marginTop: 4 }}>{role}</div>
-        </Rise>
+    <>
+      {/* 밝은 벽·스크린 위에서도 읽히도록 왼쪽 아래만 살짝 어둡게 */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 150,
+          width: 1250,
+          height: note ? 300 : 260,
+          background: "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%)",
+          opacity: alpha,
+        }}
+      />
+      <div style={{ position: "absolute", left: 120, bottom: 230, display: "flex", alignItems: "stretch", gap: 22, fontFamily: FONT_FAMILY, opacity: exit }}>
+        <div style={{ width: 6, background: C.lime, transform: `scaleY(${bar})`, transformOrigin: "50% 100%", borderRadius: 3 }} />
+        <div style={{ textShadow: shadow }}>
+          <Rise delay={4}>
+            <div style={{ fontSize: 44, fontWeight: 700, color: C.white, letterSpacing: "-0.01em" }}>{name}</div>
+          </Rise>
+          <Rise delay={9}>
+            <div style={{ fontSize: 28, fontWeight: 500, color: "rgba(255,255,255,0.82)", marginTop: 4 }}>{role}</div>
+          </Rise>
+          {note ? (
+            <Rise delay={14}>
+              <div style={{ fontSize: 22, fontWeight: 600, color: C.lime, letterSpacing: "0.04em", marginTop: 10 }}>{note}</div>
+            </Rise>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -95,6 +114,10 @@ export const ChapterTag: React.FC<{ dur: number; index: string; label: string }>
         opacity: alpha,
         textShadow: shadow,
         transform: `translateX(${(1 - alpha) * -16}px)`,
+        padding: "10px 20px 12px",
+        marginLeft: -20,
+        borderRadius: 10,
+        background: "rgba(0,0,0,0.38)",
       }}
     >
       <span style={{ fontSize: 24, fontWeight: 700, color: C.lime, letterSpacing: "0.08em" }}>{index}</span>

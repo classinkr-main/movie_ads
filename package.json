@@ -8,6 +8,7 @@
     "still": "remotion still Showreel out/still.png --frame=300",
     "render:forum-live": "remotion render ForumLive out/forum-sketch-live-master.mp4 --crf=17",
     "render:forum-highlight": "remotion render ForumHighlight out/forum-sketch-highlight-master.mp4 --crf=17",
+    "render:forum-speakers": "remotion render ForumSpeakers out/forum-sketch-speakers-master.mp4 --crf=17",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
