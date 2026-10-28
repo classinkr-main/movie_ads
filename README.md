@@ -7,8 +7,21 @@
 | 산출물 | 규격 | 경로 |
 | --- | --- | --- |
 | 메인 (16:9) | 1920×1080 · 30fps · 30s · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-showreel.mp4` |
+| 브래그컷 v5 (9:16) | 1080×1920 · 30fps · 20s · H.264 · 음악·효과음 포함 · 시네마틱 | `out/brag/brag.mp4` (+ `brag.jpg` 포스터, `share-copy.txt`) |
 
 > v1(20초 다크 톤 · 9:16 포함), v2(23초 AI 강의 분석 단독), v3(25초 5개 기능 · 스켈레톤 UI)는 git 히스토리에 남아 있습니다.
+
+## 브래그컷 v5 (9:16 · 20s · 시네마틱)
+
+[latent-spaces/brag](https://github.com/latent-spaces/brag)의 `/brag-slim` 스킬(`.claude/skills/brag-slim/`)을 이 레포의 Remotion에 맞춰 적용한 숏폼 런칭 컷입니다.
+v4의 기능 5개 대신 **3개(분석 · 채점 · 통역)만, 일하는 장면으로** 보여 주고 "선생님은 가르치기만 하세요."로 닫습니다.
+기획·스토리보드·사운드 설계는 `out/brag/brag-plan.md`에 있습니다.
+
+- **조명 흐름**: 어둠(레터박스 콜드 오픈) → 화이트 플래시(타이틀) → 어두운 스튜디오의 3D 카드(하이라이트) → 플래시 → 밝은 엔딩(CTA).
+- **타입**: 나눔명조(국문 헤드라인) · Instrument Serif Italic(영문 액센트·큰 숫자) · JetBrains Mono(타임코드·HUD) · Pretendard(UI).
+- **연출**: 카메라 풀백·푸시인, 깊이에서 회전하며 초점이 맞는 카드, 랙 포커스, 아나모픽 플레어, 필름 그레인·비네트, 플래시·줌 스루·휩 팬 전환.
+- **사운드**: `scripts/brag-audio.py`가 numpy로 합성(D단조 → F장조 해결, 120 BPM, -14 LUFS). 장면 도착 3·5·9·13·17s가 모두 다운비트입니다.
+- **타이밍은 한 곳**: `src/brag/cues.json`을 영상과 오디오 스크립트가 함께 읽습니다. 큐를 바꾸면 `npm run brag`으로 오디오와 영상을 다시 만듭니다.
 
 ## 예시 수업 (v4)
 
@@ -64,8 +77,12 @@ src/
   components/Backgrounds.tsx# IvoryStage · LimeStage · PanelWipe · Grain
   lib/theme.ts              # 팔레트 · FPS · 길이(900f)
   lib/motion.ts             # 스프링 프리셋 · 이징
-  lib/fonts.ts              # Pretendard 6굵기 로드
-public/fonts/               # Pretendard (SIL OFL 1.1)
+  lib/fonts.ts              # Pretendard 6굵기 + 브래그컷용 나눔명조 · Instrument Serif · JetBrains Mono 로드
+  components/Transitions.tsx# 커스텀 전환(v4: 스윕·푸시·아이리스 / v5: 플래시·줌 스루·휩 팬)
+  brag/                     # 브래그컷 v5 — Brag.tsx(타임라인) · cues.json(영상·오디오 공용 큐) · Cinema.tsx(카메라·조명·필름 룩) · Layout.tsx · scenes/
+scripts/brag-audio.py       # 브래그컷 사운드트랙 합성 → public/audio/brag-mix.wav
+scripts/brag-poster.sh      # 포스터 프레임 추출 + 0번 프레임에 굽기
+public/fonts/               # Pretendard · 나눔명조 · Instrument Serif · JetBrains Mono (모두 SIL OFL 1.1)
 public/brand/               # Classin 마크·워드마크·스택 로고
 ```
 
@@ -75,6 +92,7 @@ public/brand/               # Classin 마크·워드마크·스택 로고
 npm install
 npm run dev        # Remotion Studio — 씬·전환을 타임라인에서 확인
 npm run render     # out/classin-ai-showreel.mp4
+npm run brag       # 브래그컷: 오디오 합성 → 렌더 → 포스터 굽기 → out/brag/brag.mp4 (python3 + numpy, ffmpeg 필요)
 npm run typecheck
 ```
 

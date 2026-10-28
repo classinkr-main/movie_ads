@@ -6,7 +6,10 @@
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "brag:audio": "python3 scripts/brag-audio.py",
+    "brag:render": "remotion render Brag out/brag/brag-raw.mp4 && sh scripts/brag-poster.sh",
+    "brag": "npm run brag:audio && npm run brag:render"
   },
   "repository": {
     "type": "git",

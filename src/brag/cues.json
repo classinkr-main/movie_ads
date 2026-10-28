@@ -1,0 +1,212 @@
+{
+  "fps": 30,
+  "frames": 600,
+  "bpm": 120,
+  "barOffsetSec": 1.0,
+  "scenes": [
+    {
+      "id": "hook",
+      "frames": 96
+    },
+    {
+      "id": "reveal",
+      "frames": 66
+    },
+    {
+      "id": "eval",
+      "frames": 130
+    },
+    {
+      "id": "grade",
+      "frames": 132
+    },
+    {
+      "id": "caption",
+      "frames": 132
+    },
+    {
+      "id": "end",
+      "frames": 104
+    }
+  ],
+  "transitions": [
+    12,
+    10,
+    12,
+    12,
+    14
+  ],
+  "cues": {
+    "hook.line1": 3,
+    "hook.rollStart": 10,
+    "hook.rollEnd": 38,
+    "hook.ended": 40,
+    "hook.notify": 46,
+    "hook.line2": 54,
+    "reveal.logo": 90,
+    "reveal.chip1": 102,
+    "reveal.chip2": 108,
+    "reveal.chip3": 114,
+    "eval.title": 150,
+    "eval.card": 154,
+    "eval.scanStart": 166,
+    "eval.scanEnd": 200,
+    "eval.ring": 198,
+    "eval.insight": 230,
+    "grade.title": 270,
+    "grade.card": 274,
+    "grade.stamp1": 290,
+    "grade.stamp2": 297,
+    "grade.stamp3": 304,
+    "grade.typeStart": 308,
+    "grade.typeEnd": 330,
+    "grade.score": 336,
+    "caption.title": 390,
+    "caption.card": 394,
+    "caption.koStart": 404,
+    "caption.koEnd": 432,
+    "caption.en": 434,
+    "caption.zh": 458,
+    "caption.ja": 470,
+    "caption.vi": 482,
+    "end.line1": 512,
+    "end.cta": 542,
+    "end.tap": 568
+  },
+  "sfx": [
+    {
+      "kind": "drone",
+      "at": 0,
+      "to": "reveal.logo"
+    },
+    {
+      "kind": "ticks",
+      "at": "hook.rollStart",
+      "to": "hook.rollEnd"
+    },
+    {
+      "kind": "boom",
+      "at": "hook.ended"
+    },
+    {
+      "kind": "chime",
+      "at": "hook.notify"
+    },
+    {
+      "kind": "riser",
+      "at": "hook.line2",
+      "to": "reveal.logo"
+    },
+    {
+      "kind": "impact",
+      "at": "reveal.logo"
+    },
+    {
+      "kind": "bell",
+      "at": "reveal.chip1"
+    },
+    {
+      "kind": "bell",
+      "at": "reveal.chip2",
+      "pitch": 1.189
+    },
+    {
+      "kind": "bell",
+      "at": "reveal.chip3",
+      "pitch": 1.498
+    },
+    {
+      "kind": "suck",
+      "at": "transition.2"
+    },
+    {
+      "kind": "scan",
+      "at": "eval.scanStart",
+      "to": "eval.scanEnd"
+    },
+    {
+      "kind": "roll",
+      "at": "eval.ring",
+      "to": 226
+    },
+    {
+      "kind": "pop",
+      "at": "eval.insight",
+      "gain": 0.7
+    },
+    {
+      "kind": "whip",
+      "at": "transition.3"
+    },
+    {
+      "kind": "stamp",
+      "at": "grade.stamp1"
+    },
+    {
+      "kind": "stamp",
+      "at": "grade.stamp2",
+      "pitch": 1.189
+    },
+    {
+      "kind": "stamp",
+      "at": "grade.stamp3",
+      "pitch": 0.84
+    },
+    {
+      "kind": "type",
+      "at": "grade.typeStart",
+      "to": "grade.typeEnd"
+    },
+    {
+      "kind": "hit",
+      "at": "grade.score"
+    },
+    {
+      "kind": "roll",
+      "at": "grade.score",
+      "to": 354
+    },
+    {
+      "kind": "whip",
+      "at": "transition.4"
+    },
+    {
+      "kind": "type",
+      "at": "caption.koStart",
+      "to": "caption.koEnd",
+      "gain": 0.7
+    },
+    {
+      "kind": "blip",
+      "at": "caption.en"
+    },
+    {
+      "kind": "blip",
+      "at": "caption.zh",
+      "pitch": 1.189
+    },
+    {
+      "kind": "blip",
+      "at": "caption.ja",
+      "pitch": 1.335
+    },
+    {
+      "kind": "blip",
+      "at": "caption.vi",
+      "pitch": 1.498
+    },
+    {
+      "kind": "flash",
+      "at": "transition.5"
+    },
+    {
+      "kind": "pop",
+      "at": "end.cta",
+      "gain": 0.7
+    },
+    {
+      "kind": "click",
+      "at": "end.tap"
+    }
+  ]
+}
