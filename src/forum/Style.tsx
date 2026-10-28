@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Img, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Freeze, Img, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { FONT_FAMILY } from "../lib/fonts";
 import { clamp, easeInOutCubic, easeOutExpo, SMOOTH, sp, SNAP } from "../lib/motion";
 import { C, FPS } from "../lib/theme";
@@ -120,7 +120,11 @@ export const Panels: React.FC<{ panels: PanelSpec[]; frames: number; volume: (p:
           >
             {/* 칸 영상은 열리는 순간 offset 부터 재생한다 */}
             <Sequence from={d} layout="none">
-              {p.img ? (
+              {p.freeze ? (
+                <Freeze frame={0}>
+                  <OffthreadVideo src={staticFile(`forum/clips/${p.clip ?? p.id}.mp4`)} startFrom={f(p.offset ?? 0)} muted style={media} />
+                </Freeze>
+              ) : p.img ? (
                 <Img src={staticFile(`forum/stills/${p.img}`)} style={media} />
               ) : (
                 <OffthreadVideo
@@ -272,7 +276,8 @@ export const Lockup: React.FC<{ dur: number; eyebrow: string; title: string; sub
   const s = sp(frame - 12, fps, SMOOTH);
   return (
     <AbsoluteFill style={{ opacity: exit }}>
-      <AbsoluteFill style={{ background: "rgba(0,0,0,0.38)" }} />
+      {/* 배경 화면의 글자와 겹치지 않도록 흐리게 눌러 둔다 */}
+      <AbsoluteFill style={{ background: `rgba(0,0,0,${0.55 * rule})`, backdropFilter: `blur(${14 * rule}px)` }} />
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT_FAMILY, color: C.white, textAlign: "center" }}>
         <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "0.42em", color: C.lime, opacity: t }}>{eyebrow}</div>
         <div style={{ height: 2, width: 760 * rule, background: "rgba(255,255,255,0.8)", margin: "30px 0 26px" }} />

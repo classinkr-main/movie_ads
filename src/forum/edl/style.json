@@ -279,16 +279,16 @@
     },
     {
      "clip": "C_HE",
-     "offset": 0.0,
+     "offset": 0.3,
      "focus": [
-      40.1,
+      45.0,
       45
      ],
      "zoom": 1.0,
      "delay": 1.0,
      "label": "허첸 He Qian",
      "sub": "클래스인 CTO",
-     "rate": 0.73
+     "freeze": true
     },
     {
      "clip": "C13",

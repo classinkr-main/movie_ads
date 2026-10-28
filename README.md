@@ -96,16 +96,20 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 
 ---
 
-# 2026 아시아 AI 교육 포럼(부산) 스케치 영상 — 3개 버전
+# 2026 아시아 AI 교육 포럼(부산) 스케치 영상 — 6개 버전
 
-2026년 5월 29일 부산 WP과사람에서 열린 **2026 Asia AI Education Forum in Busan** 촬영본(Google Drive `260529 부산 포럼(영상)`, 한국팀 DJI + 중국 본사 촬영본)으로
-만든 현장 영상입니다. 모두 **실황 톤**(현장음·실제 연설 음성 중심, 과한 그래픽 없음)이고, **컷은 대부분 4.8–8초**로 길게 가져갑니다.
+2026년 5월 29일 부산 WP과사람에서 열린 **2026 Asia AI Education Forum in Busan** 촬영본(Google Drive `260529 부산 포럼(영상)`, 한국팀 DJI + 중국 본사 촬영본)과
+전날 **5월 28일 부산 학원 탐방** 자료(`260528 학원 탐방`의 카메라 사진·핸드폰 영상)로 만든 현장 영상입니다.
+A–C안은 **실황 톤**(현장음·실제 연설 음성 중심, 과한 그래픽 없음)에 **컷 대부분 4.8–8초**, D–F안은 탐방을 넣은 짧은 버전입니다.
 
 | 버전 | 성격 | 규격 | 경로 |
 | --- | --- | --- | --- |
 | A안 · 실황편 | 사회자·축사·발표자의 실제 목소리(자막)와 현장음이 흐름을 이끈다. 01 교육기관 탐방 → 02 개막 → 03 축사 → 04 국가별 발표(한국·중국·일본) → 05 질의응답 → 06 함께. 음악은 오프닝·엔딩에만 낮게 | 1920×1080 · 30fps · 2:33 · H.264/AAC | `out/busan-forum-sketch-A-live.mp4` |
 | B안 · 스케치 하이라이트 | 오리지널 음악 마디(2.4초)에 맞춘 4.8초 컷 16개 + 키 카피 3개. 연사 소개 없이 현장 분위기 중심. 마지막 단체 사진 환호는 살린다 | 1920×1080 · 30fps · 1:22 · H.264/AAC | `out/busan-forum-sketch-B-highlight.mp4` |
 | C안 · 하이라이트편(연사) | 사회 → 축사 → 세션 01–06을 순서대로, 연사마다 3.6–7초 컷 1–2개와 한 줄 사운드바이트(한국어 자막)만. 세션 라벨·이름 자막은 공식 아젠다 표기. 몽타주 → 단체 사진 "茄子!" → 엔드 카드 | 1920×1080 · 30fps · 2:00 · H.264/AAC | `out/busan-forum-sketch-C-highlight-speakers.mp4` |
+| D안 · 1분 스케치 | **DAY 1 학원 탐방(약 22초)** → DAY 2 WP과사람·포럼. 탐방은 카메라 사진(천천히 밀고 당기기)과 현장 영상, 연사는 한 컷(2.4초)씩 이름만, 객석 위에 사회자 한 줄 바이트, 단체 사진 구호로 마무리. 100 BPM 마디에 맞춘 2.4–4.8초 컷 | 1920×1080 · 30fps · 0:57.6 · H.264/AAC | `out/busan-forum-sketch-D-60s.mp4` |
+| E안 · 스타일편 | D안 구성을 더 세련되게: 레터박스(섹션·날짜 표기, 진행 막대) · 그레인·비네트·색보정, 박자에 맞춰 들어오는 큰 타이포, DAY 01/02 외곽선 숫자, 세로 영상·사진 3분할, 연사 5인 라인업 분할, 플래시·펀치 줌. 120 BPM 하우스 그루브 | 1920×1080 · 30fps · 0:58 · H.264/AAC | `out/busan-forum-sketch-E-style.mp4` |
+| F안 · 30초편 | E안 문법으로 탐방 5마디 · 포럼 4마디 · 단체 사진 드롭만 남긴 30초. 컷은 2초(1마디) 이상 | 1920×1080 · 30fps · 0:30 · H.264/AAC | `out/busan-forum-sketch-F-30s.mp4` |
 
 ## 공식 프로그램 (현장 아젠다 슬라이드 기준)
 
@@ -138,6 +142,7 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 | C 세션 05 | 지우유 (중국어) | 피드백할 때도 어느 단계에서 문제가 생겼는지 보입니다. / 앞으로 AI가 들어와도 마찬가지입니다. |
 | C 세션 06 | 안도 다이사쿠 (일본어) | 아이 수는 계속 줄고 있지만 / 1.2조 엔이라는 시장 규모는 변하지 않았습니다. (화면의 '1.2兆円' 슬라이드와 동기) |
 | A 06 함께 | 설동근 전 교육부 차관 | 아시아 교육의 미래를 함께 여는 소중한 출발점이 되기를 기원합니다. / 감사합니다. |
+| D 객석 컷 | 김정무 (사회) | 교육은 결국, 사람이 사람을 성장시키는 일입니다. |
 
 단체 사진 컷은 촬영자의 "一、二、三 — 茄子!" 구호와 웃음을 그대로 살렸습니다.
 
@@ -153,6 +158,12 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 - **섹션별 고화질 렌더링본**(`부산 포럼 영상/섹션별 렌더링본`, 1080p 19Mbps)은 이번 작업에 쓰지 못했습니다. 01·04–07 파일은 링크 공유가 되어 있지만
   Drive의 파일별 다운로드 할당량이 초과됐고(대략 24시간 뒤 풀림), 02 조교성·03 곽정율 파일은 링크 공유가 꺼져 있습니다. 할당량이 풀리면 연사 컷만
   고화질로 바꿔 넣을 수 있도록 C안은 연사 컷을 샷 단위로 분리해 두었습니다(`src/forum/edl/speakers.json`의 `C_JO`·`C_HE`·`C11`·`C13`·`C14`·`C15`).
+- **학원 탐방(D–F안)**: `260528 학원 탐방/카메라 사진`(소니 원본, 가로 2880px로 줄여 사용)과 `핸드폰 사진`의 카카오톡 영상(1280×720, 세로 영상 다수)을 썼습니다.
+  학원 이름은 간판이 화면에 보이는 컷(라임라잇수학학원 · 리드101)만 그대로 두고 자막으로 따로 적지 않았습니다. 방문 순서·기관 목록이 있으면 라벨을 더 붙일 수 있습니다.
+  세로 영상은 16:9로 자르면 너무 확대돼 E·F안에서는 3분할 칸에 원본 비율로 넣었습니다.
+- D–F안의 연사 컷은 얼굴이 잡힌 5인(조규성·곽정율·허첸·지우유·안도 다이사쿠)입니다. 세션 04 웅극중은 쓸 수 있는 컷이 없어 빠졌습니다.
+  허첸 컷은 3초 휴대폰 영상이라 E·F안 라인업에서는 얼굴이 잡힌 프레임에서 멈춘 화면으로 씁니다.
+- E·F안 카피 "직접 보고, 함께 배우다."는 제작 카피이고, "한·중·일·베트남 150여 명이 함께"는 B안과 같은 공식 블로그 후기 표현입니다.
 - 음악은 저작권 이슈가 없도록 직접 작곡(MIDI)해 FluidR3 GM 사운드폰트(MIT)로 렌더한 오리지널입니다. 유료 라이브러리 곡으로 바꾸려면 `public/forum/audio/music-*.wav`를 교체하고 EDL의 `music` 키프레임만 맞추면 됩니다.
 
 ## 구조와 다시 만들기
@@ -161,21 +172,27 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 src/forum/edl/live.json        # A안 EDL — 컷(원본·인/아웃·크롭·현장음 볼륨)·사운드바이트(자막 포함)·텍스트·음악 큐
 src/forum/edl/highlight.json   # B안 EDL
 src/forum/edl/speakers.json    # C안 EDL — 대부분 A·B 중간본을 clip/offset 으로 재사용
-src/forum/ForumEdit.tsx        # EDL 렌더러 — 디졸브, 사운드바이트 구간 현장음·음악 덕킹, 자막
+src/forum/edl/sketch.json      # D안 EDL — 탐방 사진(img)·영상 + A–C 중간본 재사용
+src/forum/edl/style.json       # E안 EDL — style(레터박스·그레인·색보정) · panels(분할 화면) · words/stamp/lockup 텍스트
+src/forum/edl/short.json       # F안 EDL
+src/forum/ForumEdit.tsx        # EDL 렌더러 — 디졸브, 사진 켄번스, 세로 영상(tall), 분할 화면, 플래시·펀치, 덕킹, 자막
 src/forum/Overlays.tsx         # 타이틀 · 챕터/세션 라벨 · LIVE HUD · 로워서드 · 자막 · 키 카피 · 엔드 카드
-tools/forum/fetch.sh           # Drive 원본 내려받기(footage.tsv = EDL이 쓰는 클립)
-tools/forum/cut.py             # EDL → public/forum/clips/*.mp4(1080p30 중간본) · public/forum/audio/*.wav(사운드바이트)
-tools/forum/compose_music.py   # 오리지널 음악 MIDI (highlight · live · speakers)
+src/forum/Style.tsx            # E·F안 — 레터박스 틀 · 그레인 · 비네트 · 분할 화면 · 박자 타이포 · DAY 스탬프 · 락업
+tools/forum/fetch.sh           # Drive 원본 내려받기(footage.tsv = EDL이 쓰는 클립·탐방 사진)
+tools/forum/cut.py             # EDL → public/forum/clips/*.mp4(1080p30 중간본) · stills/*.jpg(사진) · audio/*.wav(사운드바이트)
+tools/forum/compose_music.py   # 오리지널 음악 MIDI (highlight · live · speakers · sketch · style · short)
 tools/forum/music.sh           # MIDI → public/forum/audio/music-*.wav
 tools/forum/deliver.sh         # 마스터 → 납품본(-16 LUFS, x264 2-pass)
 ```
 
 ```bash
 tools/forum/fetch.sh ~/footage
-python3 tools/forum/cut.py ~/footage src/forum/edl/live.json src/forum/edl/highlight.json src/forum/edl/speakers.json
+python3 tools/forum/cut.py ~/footage src/forum/edl/*.json        # clip 으로 가리키는 컷은 다른 버전의 중간본을 재사용
 tools/forum/music.sh                                             # fluidsynth · fluid-soundfont-gm · mido 필요
 npm run render:forum-live && npm run render:forum-highlight && npm run render:forum-speakers   # out/forum-sketch-*-master.mp4 (CRF 17)
+npm run render:forum-sketch60 && npm run render:forum-style && npm run render:forum-short30
 tools/forum/deliver.sh out/forum-sketch-speakers-master.mp4 out/busan-forum-sketch-C-highlight-speakers.mp4 5500
+tools/forum/deliver.sh out/forum-sketch-60s-master.mp4 out/busan-forum-sketch-D-60s.mp4 6000
 ```
 
 `public/forum/`와 마스터 렌더는 용량 때문에 git에서 제외했습니다. 납품용 `out/busan-forum-sketch-*.mp4`는 마스터를 x264 2-pass로 다시 인코딩한 파일입니다.

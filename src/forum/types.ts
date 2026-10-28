@@ -40,6 +40,7 @@ export type PanelSpec = {
   zoom?: number; // 칸 안에서 더 당겨 보기(기본 1)
   delay?: number; // 컷 시작 뒤 이 칸이 열리는 시점(초). 칸 영상은 이때 offset 부터 재생된다
   rate?: number; // 재생 속도(짧은 원본을 늘일 때 0.7 처럼)
+  freeze?: boolean; // offset 프레임에서 멈춘 정지 화면으로 쓴다
   vol?: number; // 이 칸의 현장음(기본 0)
   label?: string; // 칸 아래 이름
   sub?: string;
