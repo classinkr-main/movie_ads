@@ -36,7 +36,7 @@
 | S2 상실 | 120–240 | 2 | 아래 지면으로 휩 팬 → 부산 학원 수업 사진(컷아웃·흑백): ① 판서는, 지워지고(지우개가 칠판을 지움) ② 설명은, 흩어지고(말풍선이 점으로 흩어짐) ③ 노하우는, 퇴근한다(도장) → 소등, "미래의 학원은," 타이핑 |
 | S3 드롭 | 240–270 | 3 | 파스텔 연두 위 "남긴다." 슬램 + 링·스피드 라인, REC 시작 |
 | S4 챈트 | 270–510 | 3–5 | 한 박에 한 단어: 판서는, **파일로.**(EDB 교안 카드) · 설명은, **영상으로.**(녹화 플레이어) · 복습은, **앱으로.**(복습 앱) · 운영은, **데이터로.**(AI 강의 분석 리포트 — 점수 카운트업·역량 레이더·평가 차원 막대) |
-| S5 미래 교실 | 510–600 | 5 | 8분음표 컷 6개(전자칠판·AI 카메라·AI 강의 분석 앱 화면·학원 수업·천안 학원 교실·멀티터치) + FUTURE CLASSROOM 마퀴 |
+| S5 미래 교실 | 510–600 | 5 | 8분음표 컷 6개(전자칠판·AI 카메라 누끼·AI 강의 분석 앱 화면·학원 수업·천안 학원 교실·전자칠판 양방향 수업 시연) + FUTURE CLASSROOM 마퀴(카메라 컷에서는 제품 뒤로 지나감) |
 | S6 시스템 | 600–840 | 6–7 | "수업 시스템 OS" 노선도 — EDB 교안 → 전자칠판 → 수업 녹화 → 복습·LMS → 관리자 데이터(수업 전·중·후), 점선 루프 → "한 흐름으로." → 줌 스루 |
 | S7 지도 | 840–960 | 8 | "서울에서 부산까지, 학원의 교실에서." 한국 지도에 8분음표마다 핀 8개 + 폴라로이드(서울 대치·서울 목동·평택·천안·청주·대구·울산·부산) |
 | S8 글로벌 | 960–1080 | 9 | 점묘 세계지도 + 스톱타임 히트 3번: **160+ 개국 · 6만+ 교육기관 · 5,000만+ 교사·학습자** (EEO 공식 소개 기준 캡션) |
@@ -67,12 +67,13 @@
 | 드라이브 `0. 사진창고/목동_수학의심장을달다` (2026-08-19) | 챈트 판서·운영, 지도 서울 목동, 피날레 | `public/photos/mokdong-*.jpg` |
 | 드라이브 `0. 사진창고/울산 정원준수학` (2026-10-01) | 지도 울산 | `public/photos/ulsan-room.jpg` |
 | 홈페이지 스톡 `classinkr-web/public/images/case-studies` | 상실 장면, 챈트, 지도, 피날레 | `public/photos/case-*.jpg` (+ 하프톤 `case-busan-dots.png`) |
-| 홈페이지 스톡 `classinkr-web/public/images/product/hw` | 미래 교실(9초 교실 컷 `jayscan-room.jpg` = `sizes/room-86-jayescan`), 노선도 카드 | `public/photos/hw-*.jpg`, `jayscan-room.jpg` |
+| 홈페이지 스톡 `classinkr-web/public/images/product/hw` | 미래 교실 — 전자칠판 `hw-board-stand.jpg` = `hero/hero-board-stand.png`, AI 카메라 누끼 `hw-camera-cutout.png` = `camera/camera-dual-premium.png`을 `tools/assets/cutout_dark.py`로 오려냄(저장소의 `camera-dual-premium-cutout.png`는 알파가 뒤집혀 있음), 9.5초 교실 컷 `jayscan-room.jpg` = `sizes/room-86-jayescan` · 노선도 카드 | `public/photos/hw-*`, `jayscan-room.jpg` |
+| 드라이브 `202609_박람회` (2026-09-18, Classin 부스) | 미래 교실 마지막 컷 `06 / INTERACTIVE` — 전자칠판 양방향 수업 시연 | `public/photos/expo-dualscreen.jpg` |
 | 홈페이지 스톡 `classinkr-web/public/video` — `home-hero.mp4`(글로벌), `쿼드러닝 수업_클립1.mp4`(국내 학원) | 녹화 플레이어·노선도 카드(`class`·`phone`), 미래 교실(`quad-board`), 챈트 복습(`quad-tablet`) | `public/clips/*.mp4` (해당 구간만 잘라 재인코딩) |
 | 제공받은 Classin 앱 캡처 — 수업 다시보기 + AI 강의 분석(이름 등 개인정보 모자이크 처리본) | 미래 교실 9.0초 컷 `03 / AI ANALYSIS` | `public/photos/ai-analysis.jpg` |
 | 제공받은 AI 강의 분석 예시 리포트(과학 · 전자기 유도 법칙의 이해와 적용, 93점) | 챈트 "데이터로." 카드의 수치를 코드로 다시 그림 | `src/scenes/Chant.tsx`의 `REPORT` |
 
-- **초상권**: 학원 현장 사진·클립에 학생과 강사 얼굴이 보입니다. 외부 송출 전 해당 학원·인물의 사용 동의 범위를 확인하세요. 지도에는 학원명이 아니라 지역명만 표기했습니다.
+- **초상권**: 학원 현장 사진·클립에 학생과 강사 얼굴이, 박람회 컷(`expo-dualscreen.jpg`)에 부스 직원과 관람객이 보입니다. 외부 송출 전 해당 학원·인물의 사용 동의 범위를 확인하세요. 지도에는 학원명이 아니라 지역명만 표기했습니다.
 - **글로벌 클립**(`class.mp4`·`phone.mp4`)은 홈페이지 히어로 영상(EEO 글로벌 소재)에서, `quad-*.mp4`는 홈페이지의 국내 학원 수업 클립에서 잘랐습니다. 광고 집행 범위가 홈페이지와 다르면 사용 범위를 확인하세요. 하드웨어 이미지 일부는 렌더(생성) 이미지입니다.
 - **수치**: 160+개국 · 6만+ 기관 · 5,000만+ 명은 classinkr-web `docs/active/brand-canon/company-facts.md`의 EEO 공식 소개(classin.com) 기준 전 세계 누적값이며, 화면에 같은 출처 캡션을 넣었습니다. 국내 도입 기관 수는 쓰지 않았습니다.
 - **카피**: 카테고리명 "수업 시스템 OS", 피날레 문장 "좋은 수업을, 강사의 개인기에서 학원의 시스템으로"(홈 히어로 헤드라인), CTA "목동 쇼룸에서 실제 수업 흐름 보기"는 `lib/classin-positioning.ts` 정본을 그대로 따릅니다. 챈트의 EDB 파일명·녹화 시간·복습 앱 목록은 연출용 예시입니다. "데이터로." 카드의 AI 강의 분석 수치(93점·평가 차원 5개·역량 레이더)는 제공받은 예시 리포트 값을 그대로 옮겼고, 레이더 축 이름은 원본에서 잘려 보여 퍼센트만 표기했습니다.
@@ -99,6 +100,7 @@ src/
 public/photos · clips · brand · fonts · textures · audio
 tools/music/compose.py      # 사운드트랙 합성기
 tools/assets/halftone.py    # 사진 → 하프톤 망점 PNG
+tools/assets/cutout_dark.py # 검은 배경 제품 사진 → 알파 누끼 PNG(pymatting)
 tools/stills.mjs            # 검수용 스틸 일괄 렌더
 ```
 
@@ -119,6 +121,6 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 
 - **타이밍** — `src/data/cues.json`만 고친 뒤 `npm run music` → `npm run render`. 1박 = 30f, 1마디 = 120f.
 - **카피** — 각 씬 파일 상단 상수와 JSX 문자열(`PAIRS`, `STATIONS`, `PLACES`, `STATS` 등). 타자기 문장은 `cues.json`의 `typing`.
-- **사진 교체** — `public/photos/`에 넣고 씬의 파일명·`pos`(object-position)를 바꿉니다. 하프톤이 필요하면 `python3 -I tools/assets/halftone.py <입력> <출력.png>`.
+- **사진 교체** — `public/photos/`에 넣고 씬의 파일명·`pos`(object-position)를 바꿉니다. 하프톤이 필요하면 `python3 -I tools/assets/halftone.py <입력> <출력.png>`, 검은 배경 제품 사진의 누끼는 `python3 -I tools/assets/cutout_dark.py <입력> <출력.png> <미리보기.jpg>`(pymatting 필요).
 - **색·서체** — `src/lib/theme.ts`, `src/lib/fonts.ts`.
 - **음악 교체** — 라이선스 음원을 쓰려면 `public/audio/classin-v5.wav`를 같은 길이(22.0s, 120 BPM이면 비트가 맞음)로 덮어쓰면 됩니다.

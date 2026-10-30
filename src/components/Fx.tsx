@@ -84,8 +84,8 @@ export const LightLeak: React.FC<{ start: number; dur?: number; color?: string; 
   );
 };
 
-// 마퀴 — 화면을 가로질러 흐르는 대형 아웃라인 텍스트
-export const Marquee: React.FC<{ text: string; y: number; size?: number; speed?: number; outline?: boolean; color?: string; opacity?: number }> = ({
+// 마퀴 — 화면을 가로질러 흐르는 대형 아웃라인 텍스트. offset은 Sequence 안에서 바깥 마퀴와 위치를 이어 붙일 때의 시작 프레임
+export const Marquee: React.FC<{ text: string; y: number; size?: number; speed?: number; outline?: boolean; color?: string; opacity?: number; offset?: number }> = ({
   text,
   y,
   size = 300,
@@ -93,8 +93,9 @@ export const Marquee: React.FC<{ text: string; y: number; size?: number; speed?:
   outline = true,
   color = C.white,
   opacity = 1,
+  offset = 0,
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useCurrentFrame() + offset;
   const unit = `${text}  `;
   return (
     <div
