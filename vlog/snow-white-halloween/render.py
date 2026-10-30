@@ -1,21 +1,28 @@
 """Render the Snow White vlog from the edit decision list in edl.py.
 
-usage: python render.py <raw_dir> <sfx_dir> <fonts_dir> <work_dir> <out.mp4> [--preview]
+usage: python render.py <raw_dir> <sfx_dir> <fonts_dir> <work_dir> <out.mp4> [--preview] [--edl=edl_shorts]
+
+--edl picks the edit list module: edl (16:9 vlog, default) or edl_shorts (9:16 shorts).
 
 Pipeline
-  1. each shot -> work/seg/NNN.mkv (1920x1080 29.97p H.264 + PCM), exact frame count
+  1. each shot -> work/seg/<hash>.mkv (29.97p H.264 + PCM at the output size), exact frame count
   2. concat segments, burn ASS captions, mix synthesized SFX track
   3. static gain to -15 LUFS integrated, limiter keeps peaks under ~-1.5 dBFS
 """
-import hashlib, json, os, subprocess, sys, wave
+import hashlib, importlib, json, os, subprocess, sys, wave
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from edl import SHOTS, CLIP_GAIN_DB  # noqa: E402
+EDL = importlib.import_module(next((a[6:] for a in sys.argv if a.startswith("--edl=")), "edl"))
+SHOTS, CLIP_GAIN_DB = EDL.SHOTS, EDL.CLIP_GAIN_DB
 
 FPS_NUM, FPS_DEN = 30000, 1001
 FPS = FPS_NUM / FPS_DEN
-W, H = 1920, 1080
+SRC_W, SRC_H = 1920, 1080
+W, H = getattr(EDL, "SIZE", (SRC_W, SRC_H))
+VERTICAL = H > W
+# vertical output: the picture sits in a window (width W, height WIN_H, top WIN_Y) on a black canvas
+WIN_H, WIN_Y = getattr(EDL, "VIDEO_WINDOW", (H, 0))
 SR = 48000
 
 raw_dir, sfx_dir, fonts_dir, work, out_path = sys.argv[1:6]
@@ -89,9 +96,49 @@ def zoom_chain(s, dur):
     return f
 
 
+def piecewise(kfs):
+    """ffmpeg expression for linear interpolation through [(t, value), ...] in shot time."""
+    kfs = sorted(kfs)
+    expr = f"{kfs[-1][1]}"
+    for (t0, x0), (t1, x1) in reversed(list(zip(kfs, kfs[1:]))):
+        if t1 - t0 < 1e-3:
+            continue
+        expr = f"if(lt(t\\,{t1:.3f})\\,{x0}+({x1 - x0})*(t-{t0:.3f})/{t1 - t0:.3f}\\,{expr})"
+    return f"if(lt(t\\,{kfs[0][0]:.3f})\\,{kfs[0][1]}\\,{expr})"
+
+
+def vertical_reframe(s, dur):
+    """crop a WIN-aspect window that follows `vcx` keyframes (source px), scale into the window."""
+    z = s.get("vzoom", 1.0)
+    ch = int(round(SRC_H / z / 2)) * 2
+    cw = int(round(ch * W / WIN_H / 2)) * 2
+    cy = s.get("vcy", 0.5)
+    speed = s.get("speed", 1.0)
+    kfs = s.get("vcx") or [(s.get("a", 0), SRC_W // 2)]
+    if s["kind"] == "clip":
+        kfs = [((t - s["a"]) / speed, x) for t, x in kfs]
+    else:
+        kfs = [(0.0, kfs[0][1])]
+    x = f"max(0\\,min({SRC_W - cw}\\,{piecewise(kfs)}-{cw // 2}))"
+    return [f"crop={cw}:{ch}:x='{x}':y={int((SRC_H - ch) * cy)}", f"scale={W}:{WIN_H}:flags=lanczos", "unsharp=5:5:0.4"]
+
+
+def vertical_graph(inp, s, dur, pre, tail):
+    """full filtergraph for one vertical shot; returns string ending in [v]."""
+    pad = f"pad={W}:{H}:0:{WIN_Y}:black"
+    if s.get("layout") == "fit":  # whole 16:9 frame, blurred fill behind it
+        fit_h = int(round(W * SRC_H / SRC_W / 2)) * 2
+        return (f"{inp}{','.join(pre)},split[bg0][fg0];"
+                f"[bg0]scale=-2:{WIN_H},crop={W}:{WIN_H},gblur=sigma=40,eq=brightness=-0.22:saturation=0.7[bg1];"
+                f"[fg0]scale={W}:{fit_h}:flags=lanczos[fg1];"
+                f"[bg1][fg1]overlay=0:{(WIN_H - fit_h) // 2},{','.join(tail + [pad, 'format=yuv420p'])}[v]")
+    return f"{inp}{','.join(pre + vertical_reframe(s, dur) + tail + [pad, 'format=yuv420p'])}[v]"
+
+
 def video_filters(s, dur):
     f = []
-    f += zoom_chain(s, dur)
+    if not VERTICAL:
+        f += zoom_chain(s, dur)
     if s.get("whip"):
         f.append("gblur=sigma=18:enable='lt(t,0.12)'")
     g = s.get("grade")
@@ -141,7 +188,7 @@ def render_shot(e):
     if s["kind"] == "clip":
         speed = s.get("speed", 1.0)
         a, b = s["a"], s["b"]
-        vf = [f"setpts=(PTS-STARTPTS)/{speed}", f"fps={FPS_NUM}/{FPS_DEN}", f"scale={W}:{H}"] + vf_tail + ["format=yuv420p"]
+        pre = [f"setpts=(PTS-STARTPTS)/{speed}", f"fps={FPS_NUM}/{FPS_DEN}", f"scale={SRC_W}:{SRC_H}"]
         inputs = ["-ss", f"{a:.4f}", "-t", f"{(b - a) + 0.5:.4f}", "-i", src]
         if s.get("mute"):
             af_src = None
@@ -158,7 +205,10 @@ def render_shot(e):
                 fo = s.get("afade_out", 0.03)
                 af.append(f"afade=t=out:st={dur - fo:.5f}:d={fo}")
             af_src = "[0:a:0]" + ",".join(af) + ",aformat=sample_rates=48000:channel_layouts=stereo[a]"
-        fc = "[0:v:0]" + ",".join(vf) + "[v]"
+        if VERTICAL:
+            fc = vertical_graph("[0:v:0]", s, dur, pre, vf_tail)
+        else:
+            fc = "[0:v:0]" + ",".join(pre + vf_tail + ["format=yuv420p"]) + "[v]"
         if af_src:
             fc += ";" + af_src
             amap = ["-map", "[a]"]
@@ -171,11 +221,15 @@ def render_shot(e):
     else:  # freeze
         png = os.path.join(seg_dir, seg_key(e) + ".png")
         run(["ffmpeg", "-y", "-v", "error", "-ss", f"{s['t']:.4f}", "-i", src, "-map", "0:v:0", "-frames:v", "1",
-             "-vf", f"scale={W}:{H}", png])
-        vf = [f"scale={W}:{H}"] + vf_tail + ["format=yuv420p"]
+             "-vf", f"scale={SRC_W}:{SRC_H}", png])
+        pre = [f"scale={SRC_W}:{SRC_H}"]
+        if VERTICAL:
+            fc = vertical_graph("[0:v]", s, dur, pre, vf_tail)
+        else:
+            fc = "[0:v]" + ",".join(pre + vf_tail + ["format=yuv420p"]) + "[v]"
         cmd = ["ffmpeg", "-y", "-v", "error", "-loop", "1", "-framerate", f"{FPS_NUM}/{FPS_DEN}", "-t", f"{dur + 0.2:.4f}", "-i", png,
                "-f", "lavfi", "-t", f"{dur:.5f}", "-i", f"anullsrc=r={SR}:cl=stereo",
-               "-filter_complex", "[0:v]" + ",".join(vf) + "[v]", "-map", "[v]", "-map", "1:a",
+               "-filter_complex", fc, "-map", "[v]", "-map", "1:a",
                "-frames:v", str(n), "-t", f"{dur:.5f}"] + ENC + [out]
     run(cmd)
     return out
@@ -188,7 +242,7 @@ def ass_time(t):
     return f"{cs // 360000}:{(cs // 6000) % 60:02d}:{(cs // 100) % 60:02d}.{cs % 100:02d}"
 
 
-STYLES = """[V4+ Styles]
+DEFAULT_STYLES = """[V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Sub,Jua,66,&H00FFFFFF,&H00FFFFFF,&H00141414,&H96000000,0,0,0,0,100,100,0,0,1,5,2,2,80,80,64,1
 Style: SubSW,Jua,68,&H004DE1FF,&H00FFFFFF,&H00602A0E,&H96000000,0,0,0,0,100,100,0,0,1,6,2,2,80,80,64,1
@@ -203,8 +257,9 @@ Style: Note,Jua,52,&H00E6E6E6,&H00FFFFFF,&H00141414,&H96000000,0,0,0,0,100,100,0
 Style: Draw,Arial,20,&H00FFFFFF,&H00FFFFFF,&H003C3CFF,&H00000000,0,0,0,0,100,100,0,0,1,10,0,7,0,0,0,1
 """
 
-POP = r"{\fscx140\fscy140\t(0,120,\fscx100\fscy100)}"
-POP_SOFT = r"{\fscx118\fscy118\t(0,100,\fscx100\fscy100)}"
+STYLES = getattr(EDL, "STYLES", DEFAULT_STYLES)
+POP = getattr(EDL, "CAP_ANIM", r"{\fscx140\fscy140\t(0,120,\fscx100\fscy100)}")
+POP_SOFT = getattr(EDL, "SUB_ANIM", r"{\fscx118\fscy118\t(0,100,\fscx100\fscy100)}")
 
 
 def build_ass(path):
@@ -241,9 +296,12 @@ def build_ass(path):
             else:
                 layer = 2 if style.startswith(("Big", "Title")) else 1
                 ev.append((oa, ob, layer, style, pre + text))
+    for a, b, text, style, pos in getattr(EDL, "GLOBAL_CAPS", []):  # output time, e.g. a fixed title
+        pre = r"{\pos(" + f"{pos[0]},{pos[1]}" + r")}" if pos else ""
+        ev.append((a, TOTAL if b is None else b, 0, style, pre + text))
     ev.sort(key=lambda x: x[0])
     with open(path, "w", encoding="utf-8") as f:
-        f.write("[Script Info]\nScriptType: v4.00+\nPlayResX: 1920\nPlayResY: 1080\nWrapStyle: 2\nScaledBorderAndShadow: yes\nYCbCr Matrix: TV.709\n\n")
+        f.write(f"[Script Info]\nScriptType: v4.00+\nPlayResX: {W}\nPlayResY: {H}\nWrapStyle: 2\nScaledBorderAndShadow: yes\nYCbCr Matrix: TV.709\n\n")
         f.write(STYLES)
         f.write("\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n")
         for a, b, layer, style, text in ev:
@@ -307,7 +365,7 @@ if __name__ == "__main__":
             "-profile:v", "high", "-pix_fmt", "yuv420p", "-colorspace", "bt709", "-color_primaries", "bt709",
             "-color_trc", "bt709", "-color_range", "tv", "-movflags", "+faststart"]
     if PREVIEW:
-        fc = fc.replace("[v];", ",scale=1280:720[v];", 1)
+        fc = fc.replace("[v];", f",scale={W * 2 // 3}:{H * 2 // 3}[v];", 1)
     run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(work, "concat.txt"),
          "-i", sfxw, "-filter_complex", fc, "-map", "[v]", "-map", "[a]"] + venc +
         ["-c:a", "aac", "-b:a", "192k", "-t", f"{TOTAL:.4f}", out_path])

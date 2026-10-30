@@ -24,7 +24,9 @@ done <<'EOF'
 0530 1W-SmeRbuBSn2gSnusmFUmA5JHlBVTEZl
 EOF
 
-for p in ofl/blackhansans/BlackHanSans-Regular.ttf ofl/jua/Jua-Regular.ttf ofl/dohyeon/DoHyeon-Regular.ttf; do
+for p in ofl/blackhansans/BlackHanSans-Regular.ttf ofl/jua/Jua-Regular.ttf ofl/dohyeon/DoHyeon-Regular.ttf \
+         ofl/nanummyeongjo/NanumMyeongjo-Regular.ttf ofl/nanummyeongjo/NanumMyeongjo-Bold.ttf \
+         ofl/nanummyeongjo/NanumMyeongjo-ExtraBold.ttf; do
   f="fonts/$(basename "$p")"
   [ -s "$f" ] || curl -sSL --retry 4 -o "$f" "https://cdn.jsdelivr.net/gh/google/fonts@main/$p"
 done

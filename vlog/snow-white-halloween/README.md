@@ -1,13 +1,28 @@
-# 할로윈 백설공주 브이로그 (3분 25초)
+# 할로윈 백설공주 브이로그 (가로 3분 25초 · 쇼츠 58초)
 
 **"가위바위보 한 판에 백설공주가 되었다"**: 가위바위보에서 진 카메라맨이 백설공주 분장을 하고 공원 한 바퀴를 돈 뒤,
 건물 학원가와 계단을 거쳐 8층 사무실로 복귀하는 웃긴 브이로그입니다. BGM 없이 효과음, 컷 편집, 전환, 자막만 썼습니다.
 
-| 산출물 | 규격 |
-| --- | --- |
-| 메인 (16:9) | 1920×1080 · 29.97fps · 3:24.9 · H.264 High · yuv420p bt709 · AAC 192k · -15 LUFS |
+| 산출물 | 편집 목록 | 규격 |
+| --- | --- | --- |
+| 쇼츠 (9:16) | `edl_shorts.py` · 20컷 | 1080×1920 · 29.97fps · 0:58.6 · H.264 High · AAC 192k · -15 LUFS · 약 47MB |
+| 가로 (16:9) | `edl.py` · 45컷 | 1920×1080 · 29.97fps · 3:24.9 · H.264 High · AAC 192k · -15 LUFS · 약 190MB |
 
-결과 영상(약 190MB)은 GitHub 용량 제한 때문에 저장소에 올리지 않습니다. 아래 순서대로 원본에서 다시 렌더할 수 있습니다.
+결과 영상은 GitHub 용량 제한 때문에 저장소에 올리지 않습니다. 아래 순서대로 원본에서 다시 렌더할 수 있습니다.
+
+## 쇼츠 버전
+
+가로 버전을 1분 안으로 줄이고 톤을 차분하게 바꾼 세로 영상입니다.
+
+- **화면**: 위쪽 검은 띠(0–360px)에 고정 제목 "할로윈 벌칙 브이로그 / 가위바위보 지면 백설공주", 그 아래 1080×1440(3:4) 영상 창.
+  원본 16:9에서 810×1080 영역을 잘라 1.33배 확대하고, `track.py`가 얼굴(없으면 사람)을 추적해 만든 `vcx` 키프레임을 따라 창이 천천히 따라갑니다
+  (피사체가 110px 이상 벗어날 때만 움직이는 데드존 방식). 가위바위보 두 컷은 손과 두 사람이 모두 보이도록 16:9 원본 전체를 흐린 배경 위에 얹었습니다(`layout="fit"`).
+- **자막**: 나눔명조(ExtraBold/Bold/Regular)만 사용. 백설공주 흰색, 동료 연노랑, 아이들·불분명한 화자 연회색. 등장은 짧은 페이드뿐이고,
+  "NG", "ㅋㅋㅋ", "팩트 폭격" 같은 튀어나오는 강조 자막·버저·뾰잉·바둠츠 효과음은 쓰지 않았습니다.
+- **효과음**: 변신 휘익·반짝, 가위바위보 결과 낮은 쿵, 엘리베이터 정적 귀뚜라미, 계단 빨리감기 휘익, 엔딩 셔터. 모두 작게 깔았습니다.
+- **흐름(20컷)**: 벌칙 제안 → 가위바위보(정지, "가위, 가위, 그리고 보. 카메라맨이 졌다.") → "진짜 해야 돼요?" → 같은 크롭으로 이어 붙인 회전 변신
+  → "독사과 먹고 싶습니다" → "안녕하세요. 백설공주입니다." → 공원 한 바퀴 후 소감 3컷 → "애정 어린 시선… 눈총." → 3층 학원가 아이들
+  → 엘리베이터 정적 → 계단 5배속 → "어쩌면 인생이 이런 거 아닐까요?" → "이리 오너라~!" → "벌칙 수행 완료." 정지 후 페이드아웃.
 
 ## 원본
 
@@ -25,7 +40,7 @@ Google Drive `클래스인사이드` 폴더의 DJI 클립 10개(1920×1080 HEVC 
 | 0529 | 공원(광장) 한 바퀴 뒤 소감 인터뷰 |
 | 0530 | 건물 안 투어: 엘리베이터 독백, 3층 학원가, 엘리베이터 정적, 8층 계단, 사무실 복귀 (4분 35초) |
 
-## 구성 (45컷)
+## 가로 버전 구성 (45컷)
 
 | 구간 | 시간 | 내용 · 편집 포인트 |
 | --- | --- | --- |
@@ -52,7 +67,7 @@ Google Drive `클래스인사이드` 폴더의 DJI 클립 10개(1920×1080 HEVC 
   엘리베이터 칭찬 장면은 화면 오른쪽에 걸리는 학생이 나오지 않도록 왼쪽으로 확대했습니다. 2:25 아이들이 뛰어가는 장면은 모션 블러로 얼굴이 식별되지 않는 컷만 썼습니다.
   광장과 학원 복도 원경에 작게 지나가는 행인은 남아 있습니다. 외부 공개 전 한 번 더 확인해 주세요.
 - **효과음**: 모두 `sfx.py`로 직접 합성한 소리(휘익, 팝, 띵, 반짝, 바둠츠, 드럼롤, 둥둥둥, 귀뚜라미, 심장 박동 등 23종)라 라이선스 이슈가 없습니다.
-- **폰트**: 자막 Jua, 강조 Black Han Sans, 라벨 Do Hyeon (모두 Google Fonts, SIL OFL 1.1).
+- **폰트**: 가로 버전은 자막 Jua, 강조 Black Han Sans, 라벨 Do Hyeon. 쇼츠는 나눔명조. 모두 Google Fonts, SIL OFL 1.1.
 
 ## 다시 렌더하기
 
@@ -60,29 +75,38 @@ ffmpeg 6(libass, libx264 포함)과 Python 3가 필요합니다.
 
 ```bash
 cd vlog/snow-white-halloween
-./fetch.sh                      # raw/ 에 원본 10개, fonts/ 에 폰트 3종 (Drive 폴더 링크 공유가 켜져 있어야 함)
+./fetch.sh                      # raw/ 에 원본 10개, fonts/ 에 폰트 6종 (Drive 폴더 링크 공유가 켜져 있어야 함)
 python3 -m venv .venv && .venv/bin/pip install numpy
 .venv/bin/python sfx.py work/sfx
-.venv/bin/python render.py raw work/sfx fonts work out/snow-white-vlog.mp4
+.venv/bin/python render.py raw work/sfx fonts work out/snow-white-vlog.mp4                             # 가로
+.venv/bin/python render.py raw work/sfx fonts work-shorts out/snow-white-shorts.mp4 --edl=edl_shorts   # 쇼츠
 ```
 
 `--preview`를 붙이면 720p·빠른 인코딩으로 확인용 영상을 만듭니다. 컷 단위 결과는 `work/seg/`에 내용 해시로 캐시되어,
 EDL을 고친 컷만 다시 인코딩합니다. 자막(`work/captions.ass`)과 효과음 트랙(`work/sfx.wav`)은 매번 새로 만듭니다.
+
+쇼츠 크롭 위치를 다시 잡으려면 `pip install "opencv-python-headless<5"` 후
+`python track.py raw <클립> <시작초> <끝초>`가 출력하는 키프레임을 해당 컷의 `vcx`에 넣습니다.
+등만 보이는 컷(계단)은 추적이 흔들려 가운데 고정, 회전 변신 두 컷은 배경이 맞도록 같은 값(880)으로 고정했습니다.
 
 받아쓰기를 다시 하려면 `pip install faster-whisper` 후 원본 오디오를 16kHz 모노 WAV로 뽑아
 `python transcribe.py <wav_dir> transcripts large-v3`를 실행합니다.
 
 ## 수정 가이드
 
-- **컷·순서·길이**: `edl.py`의 `SHOTS`. `clip(src, a, b)`의 a·b는 원본 초, `speed`로 배속, `freeze(src, t, dur)`는 정지 화면입니다.
-- **자막**: 각 컷의 `subs`(원본 초 기준, 스타일 `SubSW`/`SubQ`/`Sub`)와 `caps`(컷 시작 기준 초, `Big`/`BigY`/`BigR`/`Title`/`Label`/`LabelY`/`Note`). 스타일 정의는 `render.py`의 `STYLES`.
+- **컷·순서·길이**: `edl.py`(가로) / `edl_shorts.py`(쇼츠)의 `SHOTS`. `clip(src, a, b)`의 a·b는 원본 초, `speed`로 배속, `freeze(src, t, dur)`는 정지 화면입니다.
+- **자막**: 각 컷의 `subs`(원본 초 기준, 스타일 `SubSW`/`SubQ`/`Sub`)와 `caps`(컷 시작 기준 초). 가로 버전 스타일은 `render.py`의 `DEFAULT_STYLES`,
+  쇼츠는 `edl_shorts.py`의 `STYLES`·`GLOBAL_CAPS`(고정 제목)·`SUB_ANIM`(페이드).
 - **효과음**: 각 컷의 `fx` = `(컷 시작 기준 초, 이름, dB)`. 소리 자체는 `sfx.py`에서 바꿉니다.
 - **화면 효과**: `zoom=(시작배율, 끝배율, cx, cy[, 램프초])`, `whip`(줌 블러 인), `flash`(화이트 플래시 초), `shake`, `grade="bw"`, `fade_out`.
+  쇼츠는 `vcx`(크롭 중심 키프레임), `vzoom`, `vcy`, `layout="fit"`.
 - **음량**: 클립별 기본 게인은 `CLIP_GAIN_DB`, 컷별 보정은 `gain_adj`. 최종 믹스는 컴프레서 → 리미터 → -15 LUFS 정적 게인입니다.
 
 ```
-edl.py         # 45컷 편집 목록 (자막·강조 자막·효과음 포함)
-render.py      # 컷 렌더 → concat → ASS 자막 번인 + 효과음 믹스 → 라우드니스 보정
+edl.py         # 가로 45컷 편집 목록 (자막·강조 자막·효과음 포함)
+edl_shorts.py  # 쇼츠 20컷 편집 목록 (세로 크롭 키프레임·명조 자막 스타일 포함)
+render.py      # 컷 렌더 → concat → ASS 자막 번인 + 효과음 믹스 → 라우드니스 보정 (--edl 로 버전 선택)
+track.py       # 쇼츠 세로 크롭용 얼굴/사람 추적 (OpenCV 4)
 sfx.py         # 효과음 23종 합성 (48kHz 스테레오 WAV)
 transcribe.py  # faster-whisper 받아쓰기 (단어 타임스탬프 포함 JSON)
 fetch.sh       # 원본·폰트 다운로드
