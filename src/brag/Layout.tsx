@@ -1,11 +1,13 @@
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
-import { FONT_FAMILY, MONO, SERIF, SERIF_EN } from "../lib/fonts";
+import { FONT_FAMILY, MONO } from "../lib/fonts";
 import { clamp } from "../lib/motion";
 import { C } from "../lib/theme";
 import { BlurIn, Camera, Float3D, Hud, K, NightStage, timecode, Words } from "./Cinema";
 import { DrawIcon } from "./Icons";
+import { RollingNumber } from "../components/Flourish";
 import { SCENE_FROM } from "./timeline";
+import { useType } from "./typeset";
 
 // 릴스·쇼츠 UI가 덮는 영역을 피한 안전 구역(1080×1920 기준)
 export const SAFE = { top: 200, bottom: 1540, side: 64 } as const;
@@ -22,15 +24,6 @@ export const t = (size: number, weight: number, color: string, extra?: React.CSS
   fontWeight: weight,
   color,
   letterSpacing: "-0.01em",
-  ...extra,
-});
-
-export const serif = (size: number, weight: number, color: string, extra?: React.CSSProperties): React.CSSProperties => ({
-  fontFamily: SERIF,
-  fontSize: size,
-  fontWeight: weight,
-  color,
-  letterSpacing: "-0.03em",
   ...extra,
 });
 
@@ -62,6 +55,7 @@ export const CineFeature: React.FC<{
   const h = HIGHLIGHTS[index];
   const global = SCENE_FROM[h.id] + frame;
   const hudIn = interpolate(frame - titleAt + 10, [0, 10], [0, 1], clamp);
+  const { title, display, ts } = useType();
   return (
     <NightStage beamX={beamX} seed={h.id}>
       <Camera
@@ -74,18 +68,18 @@ export const CineFeature: React.FC<{
       >
         {backdrop}
         <div style={{ position: "absolute", left: SAFE.side, right: SAFE.side, top: SAFE.top + 86 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 20, fontFamily: SERIF_EN, fontStyle: "italic", fontSize: 50, color: C.lime, lineHeight: 1, letterSpacing: "-0.01em" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, ...display(50, C.lime, "text", { lineHeight: 1, ["--tadj" as string]: `${ts.display.track}em` }) }}>
             <DrawIcon kind={h.icon} delay={titleAt - 8} size={64} color={K.paper} accent={C.lime} bg={K.night3} stroke={2.6} />
             <BlurIn delay={titleAt - 4} track={[0.2, 0]}>
               {h.en}
             </BlurIn>
           </div>
-          <div style={{ marginTop: 26, ...serif(122, 500, K.paper, { lineHeight: 1.12, wordBreak: "keep-all" }) }}>
+          <div style={{ marginTop: 26, ...title(122, 500, K.paper, { lineHeight: 1.12, wordBreak: "keep-all" }) }}>
             <BlurIn delay={titleAt} duration={22}>
               {lineA}
             </BlurIn>
             <br />
-            <BlurIn delay={titleAt + 6} duration={22} style={{ color: C.lime, fontWeight: 700 }}>
+            <BlurIn delay={titleAt + 6} duration={22} style={{ color: C.lime, fontWeight: ts.title.weight(700) }}>
               {lineB}
             </BlurIn>
           </div>
@@ -151,28 +145,32 @@ export const ExampleTag: React.FC<{ dark?: boolean }> = ({ dark = false }) => (
   <span style={mono(19, 600, dark ? K.paperDim : C.gray, { background: dark ? "rgba(255,255,255,0.1)" : C.ivory2, borderRadius: 8, padding: "6px 12px", letterSpacing: "0.08em" })}>예시 화면</span>
 );
 
-// 배경의 거대 이탤릭 세리프 — 초점 밖에서 들어와 천천히 흐른다(스케일 대비용)
+// 디스플레이 숫자 — 타입셋의 숫자 폰트로 굴러가는 숫자(자리 높이도 같은 배율로 맞춘다)
+export const DisplayNumber: React.FC<{ to: number; delay: number; duration: number; size: number; color: string }> = ({ to, delay, duration, size, color }) => {
+  const { display } = useType();
+  const s = display(size, color, "number");
+  return <RollingNumber to={to} delay={delay} duration={duration} size={s.fontSize as number} color={color} weight={s.fontWeight as number} style={{ fontFamily: s.fontFamily, fontStyle: s.fontStyle, letterSpacing: s.letterSpacing }} />;
+};
+
+// 배경의 거대 숫자·단어 — 초점 밖에서 들어와 천천히 흐른다(스케일 대비용)
 export const GiantType: React.FC<{ text: string; at: number; size?: number; top: number; left?: number; color?: string; opacity?: number }> = ({ text, at, size = 760, top, left = -40, color = C.lime, opacity = 0.16 }) => {
   const frame = useCurrentFrame();
   const p = interpolate(frame - at, [0, 24], [0, 1], { ...clamp, easing: (x) => 1 - Math.pow(1 - x, 3) });
+  const { display } = useType();
   return (
     <div
       style={{
         position: "absolute",
         top,
         left: left - Math.max(0, frame - at) * 0.6,
-        fontFamily: SERIF_EN,
-        fontStyle: "italic",
-        fontSize: size,
+        ...display(size, color, /^\d+$/.test(text) ? "number" : "text"),
         lineHeight: 0.8,
         whiteSpace: "nowrap",
-        color,
         opacity: opacity * p,
         filter: `blur(${(1 - p) * 30 + 1.5}px)`,
         transform: `scale(${1.15 - p * 0.15})`,
         transformOrigin: "0 50%",
         pointerEvents: "none",
-        letterSpacing: "-0.04em",
       }}
     >
       {text}

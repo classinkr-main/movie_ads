@@ -1,13 +1,12 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { RollingNumber } from "../../components/Flourish";
 import { LogoMark } from "../../components/Ui";
-import { SERIF_EN } from "../../lib/fonts";
 import { clamp, sp } from "../../lib/motion";
 import { C } from "../../lib/theme";
 import { BlurIn, Camera, Flare, Hud, K, Letterbox, NightStage, timecode } from "../Cinema";
-import { mono, SAFE, serif, t } from "../Layout";
+import { DisplayNumber, mono, SAFE, t } from "../Layout";
 import { local } from "../timeline";
+import { useType } from "../typeset";
 
 const L = {
   line1: local("hook", "hook.line1"),
@@ -23,6 +22,7 @@ const BARS = { top: 250, bottom: 330 };
 // S1 콜드 오픈 — 어둠 속 1시간이 흘러가고, 수업이 끝나는 순간 리포트 알림이 도착한다
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
+  const { title, timer, ts } = useType();
   const { fps } = useVideoConfig();
   const roll = interpolate(frame, [L.rollStart, L.rollEnd], [0, 1], { ...clamp, easing: (x) => x * x * (3 - 2 * x) });
   const secs = Math.round(roll * LESSON_MIN * 60);
@@ -39,12 +39,12 @@ export const Hook: React.FC = () => {
       <Camera keys={[{ f: 0, s: 1.0 }, { f: 90, s: 1.07, y: -20 }]} origin="50% 45%" drift={0.6}>
         <div style={{ filter: rack > 0 ? `blur(${rack * 5}px)` : undefined, opacity: 1 - rack * 0.45 }}>
           <AbsoluteFill style={{ alignItems: "center", paddingTop: 380 }}>
-            <div style={serif(108, 400, K.paper, { lineHeight: 1.16, textAlign: "center" })}>
+            <div style={title(108, 400, K.paper, { lineHeight: 1.16, textAlign: "center" })}>
               <BlurIn delay={L.line1} duration={22}>
                 1시간 수업이
               </BlurIn>
               <br />
-              <BlurIn delay={L.line1 + 8} duration={22} style={{ fontWeight: 700 }}>
+              <BlurIn delay={L.line1 + 8} duration={22} style={{ fontWeight: ts.title.weight(700) }}>
                 끝나면,
               </BlurIn>
             </div>
@@ -52,7 +52,7 @@ export const Hook: React.FC = () => {
 
           {/* 타임코드 — 얇은 모노 숫자가 화면의 주인공 */}
           <div style={{ position: "absolute", left: 0, right: 0, top: 690, textAlign: "center", opacity: interpolate(frame - L.rollStart + 6, [0, 8], [0, 1], clamp) }}>
-            <span style={mono(270, 200, ended ? C.lime : K.paper, { letterSpacing: "-0.04em", lineHeight: 1, textShadow: ended ? `0 0 ${40 * endGlow}px rgba(200,240,90,${0.8 * endGlow})` : undefined })}>
+            <span style={timer(270, ended ? C.lime : K.paper, { lineHeight: 1, textShadow: ended ? `0 0 ${40 * endGlow}px rgba(200,240,90,${0.8 * endGlow})` : undefined })}>
               {mm}:{ss}
             </span>
           </div>
@@ -93,7 +93,7 @@ export const Hook: React.FC = () => {
                 <div style={{ ...t(40, 800, C.ink, { letterSpacing: "-0.02em" }), marginTop: 6 }}>강의 평가 리포트 도착</div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginTop: 2 }}>
                   <span style={t(30, 600, C.gray)}>종합</span>
-                  <RollingNumber to={88} delay={L.notify + 6} duration={26} size={58} color={C.forest} weight={400} style={{ fontFamily: SERIF_EN, fontStyle: "italic", letterSpacing: "-0.02em" }} />
+                  <DisplayNumber to={88} delay={L.notify + 6} duration={26} size={58} color={C.forest} />
                   <span style={t(30, 600, C.gray)}>점 · 강점 2 · 개선 1</span>
                 </div>
               </div>
@@ -102,11 +102,11 @@ export const Hook: React.FC = () => {
         </div>
 
         {/* 두 번째 줄 */}
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1392, textAlign: "center", ...serif(66, 500, K.paper) }}>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 1392, textAlign: "center", ...title(66, 500, K.paper) }}>
           <BlurIn delay={L.line2} duration={18}>
             리포트는
           </BlurIn>{" "}
-          <BlurIn delay={L.line2 + 4} duration={18} style={{ color: C.lime, fontWeight: 700 }}>
+          <BlurIn delay={L.line2 + 4} duration={18} style={{ color: C.lime, fontWeight: ts.title.weight(700) }}>
             이미
           </BlurIn>{" "}
           <BlurIn delay={L.line2 + 8} duration={18}>

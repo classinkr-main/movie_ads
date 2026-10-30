@@ -2,10 +2,10 @@ import React from "react";
 import { interpolate, random, useCurrentFrame, useVideoConfig } from "remotion";
 import { RollingNumber } from "../../components/Flourish";
 import { Chip } from "../../components/Ui";
-import { MONO, SERIF_EN } from "../../lib/fonts";
+import { MONO } from "../../lib/fonts";
 import { clamp, SMOOTH, sp } from "../../lib/motion";
 import { C } from "../../lib/theme";
-import { Card, CardTop, CineFeature, ExampleTag, GiantType, mono, t } from "../Layout";
+import { Card, CardTop, CineFeature, DisplayNumber, ExampleTag, GiantType, mono, t } from "../Layout";
 import { local } from "../timeline";
 
 const L = {
@@ -98,7 +98,7 @@ export const Eval: React.FC = () => {
               <circle cx={ringSize / 2} cy={ringSize / 2} r={r} stroke={C.lime} strokeWidth={22} fill="none" strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={circ * (1 - ringP)} />
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-              <RollingNumber to={88} delay={L.ring} duration={28} size={112} color={C.forest} weight={400} style={{ fontFamily: SERIF_EN, fontStyle: "italic", letterSpacing: "-0.02em" }} />
+              <DisplayNumber to={88} delay={L.ring} duration={28} size={112} color={C.forest} />
               <span style={mono(18, 600, C.gray, { letterSpacing: "0.14em" })}>OVERALL</span>
             </div>
           </div>

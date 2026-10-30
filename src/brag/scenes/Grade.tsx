@@ -2,12 +2,11 @@ import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Stamp } from "../../components/Feature";
 import type { StampKind } from "../../components/Feature";
-import { Burst, RollingNumber, TypeText } from "../../components/Flourish";
+import { Burst, TypeText } from "../../components/Flourish";
 import { Chip, Pop } from "../../components/Ui";
-import { SERIF_EN } from "../../lib/fonts";
 import { clamp, SMOOTH, sp } from "../../lib/motion";
 import { C } from "../../lib/theme";
-import { Card, CardTop, CineFeature, ExampleTag, GiantType, mono, t } from "../Layout";
+import { Card, CardTop, CineFeature, DisplayNumber, ExampleTag, GiantType, mono, t } from "../Layout";
 import { local } from "../timeline";
 
 const L = {
@@ -89,7 +88,7 @@ export const Grade: React.FC = () => {
           <Pop delay={L.score} from={0.2} rotate={-14}>
             <div style={{ background: C.forest, borderRadius: 32, padding: "16px 32px 20px", boxShadow: "0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(200,240,90,0.35)" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                <RollingNumber to={90} delay={L.score + 2} duration={22} size={112} weight={400} color={C.lime} style={{ fontFamily: SERIF_EN, fontStyle: "italic", letterSpacing: "-0.02em" }} />
+                <DisplayNumber to={90} delay={L.score + 2} duration={22} size={112} color={C.lime} />
                 <span style={t(36, 800, C.white)}>점</span>
               </div>
               <div style={{ ...t(22, 600, "rgba(255,255,255,0.78)"), marginTop: 2 }}>서술형 부분 점수 반영</div>

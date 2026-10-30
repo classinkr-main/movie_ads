@@ -4,8 +4,9 @@ import { TypeText } from "../../components/Flourish";
 import { clamp, SMOOTH, sp } from "../../lib/motion";
 import { C } from "../../lib/theme";
 import { K } from "../Cinema";
-import { CineFeature, ExampleTag, GiantType, mono, serif, t } from "../Layout";
+import { CineFeature, ExampleTag, GiantType, mono, t } from "../Layout";
 import { local } from "../timeline";
+import { useType } from "../typeset";
 
 const L = {
   title: local("caption", "caption.title"),
@@ -45,6 +46,7 @@ const Chalk: React.FC<{ d: number; children: React.ReactNode }> = ({ d, children
 // 03 — 실시간으로 통역합니다
 export const Caption: React.FC = () => {
   const frame = useCurrentFrame();
+  const { title } = useType();
   const { fps } = useVideoConfig();
   let active = -1;
   LANGS.forEach((l, i) => {
@@ -82,15 +84,15 @@ export const Caption: React.FC = () => {
           <div style={{ position: "absolute", left: 30, right: 30, top: 96, height: 214, borderRadius: 24, background: "rgba(255,255,255,0.05)", border: "1.5px solid rgba(255,255,255,0.1)", padding: "20px 28px", display: "flex", justifyContent: "space-between", boxSizing: "border-box" }}>
             <div>
               <Chalk d={L.card + 6}>
-                <div style={serif(36, 700, C.white)}>
-                  서시 <span style={serif(24, 500, "rgba(255,255,255,0.6)")}>— 윤동주</span>
+                <div style={title(36, 700, C.white)}>
+                  서시 <span style={title(24, 500, "rgba(255,255,255,0.6)")}>— 윤동주</span>
                 </div>
               </Chalk>
               <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
                 {BOARD.map((b, i) => (
                   <Chalk key={b.w} d={L.card + 10 + i * 4}>
                     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                      <span style={{ ...serif(30, 700, C.lime), width: 64 }}>{b.w}</span>
+                      <span style={{ ...title(30, 700, C.lime), width: 64 }}>{b.w}</span>
                       <span style={t(24, 600, "rgba(255,255,255,0.55)")}>→</span>
                       <span style={t(28, 600, "rgba(255,255,255,0.9)")}>{b.m}</span>
                     </div>

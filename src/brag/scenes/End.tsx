@@ -2,12 +2,12 @@ import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { Highlighter } from "../../components/Flourish";
 import { LogoStacked, Pop, Rise } from "../../components/Ui";
-import { SERIF_EN } from "../../lib/fonts";
 import { clamp, easeInOutCubic } from "../../lib/motion";
 import { C } from "../../lib/theme";
 import { BlurIn, Camera, DayStage } from "../Cinema";
-import { mono, SAFE, serif, t } from "../Layout";
+import { mono, SAFE, t } from "../Layout";
 import { local } from "../timeline";
+import { useType } from "../typeset";
 
 const L = {
   line1: local("end", "end.line1"),
@@ -20,6 +20,7 @@ const BTN = { w: 820, h: 150, top: 1190 };
 // S6 펀치라인 + CTA — 어둠에서 빠져나온 빛, 커서가 "지금 문의하기"를 누른다
 export const End: React.FC = () => {
   const frame = useCurrentFrame();
+  const { title, display, ts } = useType();
   const move = interpolate(frame, [L.tap - 22, L.tap - 2], [0, 1], { ...clamp, easing: easeInOutCubic });
   const cx = interpolate(move, [0, 1], [980, 600]);
   const cy = interpolate(move, [0, 1], [1720, BTN.top + BTN.h / 2 + 10]);
@@ -30,13 +31,13 @@ export const End: React.FC = () => {
     <DayStage>
       <Camera keys={[{ f: 0, s: 1.06 }, { f: 40, s: 1.0 }, { f: 104, s: 1.025 }]} origin="50% 40%" drift={0.5}>
         <AbsoluteFill style={{ paddingTop: SAFE.top + 70, alignItems: "center" }}>
-          <div style={serif(148, 500, C.ink, { lineHeight: 1.1, textAlign: "center", letterSpacing: "-0.045em" })}>
+          <div style={title(148, 500, C.ink, { lineHeight: 1.1, textAlign: "center" })}>
             <BlurIn delay={L.line1} duration={20} track={[0.1, -0.045]}>
               선생님은
             </BlurIn>
             <br />
             <Highlighter delay={L.line1 + 16} duration={14} inset={14}>
-              <BlurIn delay={L.line1 + 6} duration={20} track={[0.1, -0.045]} style={{ color: C.forest, fontWeight: 800 }}>
+              <BlurIn delay={L.line1 + 6} duration={20} track={[0.1, -0.045]} style={{ color: C.forest, fontWeight: ts.title.weight(800) }}>
                 가르치기만
               </BlurIn>
             </Highlighter>
@@ -45,7 +46,7 @@ export const End: React.FC = () => {
               하세요.
             </BlurIn>
           </div>
-          <div style={{ marginTop: 26, fontFamily: SERIF_EN, fontStyle: "italic", fontSize: 58, color: C.limeInk, letterSpacing: "-0.01em" }}>
+          <div style={{ marginTop: 26, ...display(58, C.limeInk, "text", { ["--tadj" as string]: `${ts.display.track}em` }) }}>
             <BlurIn delay={L.line1 + 22} duration={18} track={[0.2, 0]}>
               — just teach.
             </BlurIn>

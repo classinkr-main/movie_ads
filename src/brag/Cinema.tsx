@@ -140,7 +140,7 @@ export const BlurIn: React.FC<{ delay?: number; duration?: number; children: Rea
         display: "inline-block",
         opacity: interpolate(p, [0, 0.6], [0, 1], clamp),
         filter: p < 0.99 ? `blur(${(1 - p) * blur}px)` : undefined,
-        letterSpacing: `${interpolate(p, [0, 1], track)}em`,
+        letterSpacing: `calc(${interpolate(p, [0, 1], track)}em + var(--tadj, 0em))`,
         transform: `translateY(${(1 - p) * rise}px)`,
         ...style,
       }}
