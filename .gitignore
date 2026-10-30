@@ -5,3 +5,9 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+vlog/*/raw
+vlog/*/fonts
+vlog/*/work
+vlog/*/out
+vlog/*/.venv
+__pycache__

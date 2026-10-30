@@ -93,3 +93,7 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 
 - **Remotion 4.0.533** — 프레임 결정론적 React 렌더, `spring`/`interpolate`, `@remotion/fonts`, `@remotion/transitions`(TransitionSeries + 커스텀 프레젠테이션).
 - **HyperFrames**(`hyperframes` npm, HeyGen) — HTML/GSAP 타임라인 기반 영상 합성 CLI. 검토했으나 한글 폰트 번들과 스프링 물리 기반 키네틱 타이포에 Remotion이 더 직접적이라 엔진으로 채택하지 않았습니다.
+
+## 다른 영상
+
+- [`vlog/snow-white-halloween`](vlog/snow-white-halloween/README.md) — 할로윈 백설공주 브이로그(3분 25초). 촬영 원본을 ffmpeg로 컷 편집하고 자막·효과음을 입히는 Python 파이프라인입니다.
