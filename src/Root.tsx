@@ -7,12 +7,14 @@ import { edlFrames } from "./forum/ForumEdit";
 import {
   ForumHighlight,
   ForumLive,
+  ForumPeople,
   ForumShort30,
   ForumSketch60,
   ForumSpeakers,
   ForumStyle,
   HIGHLIGHT_EDL,
   LIVE_EDL,
+  PEOPLE_EDL,
   SHORT_EDL,
   SKETCH_EDL,
   SPEAKERS_EDL,
@@ -28,5 +30,6 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="ForumSketch60" component={ForumSketch60} durationInFrames={edlFrames(SKETCH_EDL)} fps={FPS} width={1920} height={1080} />
     <Composition id="ForumStyle" component={ForumStyle} durationInFrames={edlFrames(STYLE_EDL)} fps={FPS} width={1920} height={1080} />
     <Composition id="ForumShort30" component={ForumShort30} durationInFrames={edlFrames(SHORT_EDL)} fps={FPS} width={1920} height={1080} />
+    <Composition id="ForumPeople" component={ForumPeople} durationInFrames={edlFrames(PEOPLE_EDL)} fps={FPS} width={1920} height={1080} />
   </>
 );

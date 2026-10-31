@@ -1,0 +1,324 @@
+{
+ "name": "ForumPeople",
+ "duration": 62.4,
+ "music": [
+  {
+   "src": "music-people.wav",
+   "at": 0,
+   "gain": [
+    [
+     0,
+     0.0
+    ],
+    [
+     0.3,
+     0.85
+    ],
+    [
+     52.8,
+     0.85
+    ],
+    [
+     53.2,
+     0.7
+    ],
+    [
+     61.199999999999996,
+     0.7
+    ],
+    [
+     62.4,
+     0.0
+    ]
+   ]
+  }
+ ],
+ "duck": {
+  "nat": 0.35,
+  "music": 0.4
+ },
+ "hud": false,
+ "shots": [
+  {
+   "id": "G01",
+   "src": "cn/DJI_20260529094825_0533_D.MP4",
+   "in": 0.4,
+   "crop": [
+    0,
+    0.38,
+    1
+   ],
+   "vol": 0.6,
+   "lufs": -24,
+   "push": 0.03,
+   "dur": 4.8
+  },
+  {
+   "id": "G02",
+   "img": "CSJ01338.jpg",
+   "focus": [
+    50,
+    50
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G03",
+   "img": "CSJ01751.jpg",
+   "focus": [
+    50,
+    45
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G04",
+   "src": "cn/DJI_20260529100110_0537_D.MP4",
+   "in": 0.5,
+   "crop": [
+    0,
+    0.22,
+    1
+   ],
+   "vol": 0.6,
+   "lufs": -24,
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "G05",
+   "img": "CSJ01562.jpg",
+   "focus": [
+    45,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G06",
+   "src": "main/DJI_20260529125250_0054_D.MP4",
+   "in": 0.2,
+   "vol": 0.6,
+   "lufs": -24,
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "G07",
+   "img": "CSJ01236.jpg",
+   "focus": [
+    50,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G08",
+   "img": "CSJ01360.jpg",
+   "focus": [
+    45,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G09",
+   "src": "kakao/KakaoTalk_20260528_193901524.mp4",
+   "in": 1.0,
+   "vol": 0.4,
+   "lufs": -24,
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "G10",
+   "img": "CSJ01430.jpg",
+   "focus": [
+    55,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G11",
+   "img": "CSJ01904.jpg",
+   "focus": [
+    50,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G12",
+   "panels": [
+    {
+     "img": "CSJ01522.jpg",
+     "focus": [
+      36.9,
+      40
+     ],
+     "delay": 0
+    },
+    {
+     "img": "CSJ01434.jpg",
+     "focus": [
+      50.0,
+      40
+     ],
+     "delay": 0.4
+    },
+    {
+     "img": "CSJ01533.jpg",
+     "focus": [
+      41.8,
+      40
+     ],
+     "delay": 0.8
+    }
+   ],
+   "dur": 2.4
+  },
+  {
+   "id": "G13",
+   "img": "CSJ01513.jpg",
+   "focus": [
+    50,
+    50
+   ],
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "G14",
+   "img": "CSJ01818.jpg",
+   "focus": [
+    40,
+    45
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G15",
+   "clip": "A06",
+   "offset": 0.4,
+   "vol": 0.5,
+   "dur": 2.4
+  },
+  {
+   "id": "G16",
+   "img": "CSJ01997.jpg",
+   "focus": [
+    50,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G17",
+   "clip": "A14",
+   "vol": 0.5,
+   "dur": 2.4
+  },
+  {
+   "id": "G18",
+   "img": "CSJ02455.jpg",
+   "focus": [
+    45,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G19",
+   "img": "CSJ02632.jpg",
+   "focus": [
+    45,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "G20",
+   "src": "main/DJI_20260529162009_0057_D.MP4",
+   "in": 2.0,
+   "vol": 0.6,
+   "lufs": -24,
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "G21",
+   "img": "CSJ02660.jpg",
+   "focus": [
+    50,
+    50
+   ],
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "G22",
+   "clip": "A25",
+   "offset": 4.2,
+   "vol": 1.0,
+   "xfade": 0.2,
+   "dur": 5.0
+  },
+  {
+   "id": "G23",
+   "clip": "A27",
+   "vol": 0.5,
+   "xfade": 0.3,
+   "dur": 5.1
+  }
+ ],
+ "texts": [
+  {
+   "kind": "title",
+   "at": 0.5,
+   "dur": 4.2,
+   "eyebrow": "2026 ASIA AI EDUCATION FORUM · BUSAN",
+   "title": "함께한 사람들",
+   "sub": "2026. 05. 28 – 29  ·  부산"
+  },
+  {
+   "kind": "chapter",
+   "at": 5.0,
+   "dur": 4.4,
+   "index": "01",
+   "label": "입장"
+  },
+  {
+   "kind": "chapter",
+   "at": 17.0,
+   "dur": 4.4,
+   "index": "02",
+   "label": "만남"
+  },
+  {
+   "kind": "chapter",
+   "at": 38.6,
+   "dur": 4.4,
+   "index": "03",
+   "label": "함께"
+  },
+  {
+   "kind": "end",
+   "at": 58.0,
+   "dur": 4.4,
+   "title": "2026 ASIA AI EDUCATION FORUM IN BUSAN",
+   "sub": "함께해 주셔서 감사합니다"
+  }
+ ]
+}

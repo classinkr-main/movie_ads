@@ -12,6 +12,7 @@
     "render:forum-sketch60": "remotion render ForumSketch60 out/forum-sketch-60s-master.mp4 --crf=17",
     "render:forum-style": "remotion render ForumStyle out/forum-sketch-style-master.mp4 --crf=17",
     "render:forum-short30": "remotion render ForumShort30 out/forum-sketch-30s-master.mp4 --crf=17",
+    "render:forum-people": "remotion render ForumPeople out/forum-sketch-people-master.mp4 --crf=17",
     "typecheck": "tsc --noEmit"
   },
   "repository": {

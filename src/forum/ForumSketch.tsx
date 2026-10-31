@@ -2,6 +2,7 @@ import React from "react";
 import { ForumEdit } from "./ForumEdit";
 import highlight from "./edl/highlight.json";
 import live from "./edl/live.json";
+import people from "./edl/people.json";
 import short from "./edl/short.json";
 import sketch from "./edl/sketch.json";
 import speakers from "./edl/speakers.json";
@@ -14,6 +15,7 @@ export const SPEAKERS_EDL = speakers as unknown as Edl;
 export const SKETCH_EDL = sketch as unknown as Edl;
 export const STYLE_EDL = style as unknown as Edl;
 export const SHORT_EDL = short as unknown as Edl;
+export const PEOPLE_EDL = people as unknown as Edl;
 
 // A안 — 실황편: 현장음과 연설 사운드바이트로 흐름을 끌고 가는 2분 33초
 export const ForumLive: React.FC = () => <ForumEdit edl={LIVE_EDL} />;
@@ -32,3 +34,6 @@ export const ForumStyle: React.FC = () => <ForumEdit edl={STYLE_EDL} />;
 
 // F안 — 30초편: 스타일편 문법으로 탐방·포럼·단체 사진만 남긴 30초
 export const ForumShort30: React.FC = () => <ForumEdit edl={SHORT_EDL} />;
+
+// G안 — 사람편: 입장·만남(네트워킹)·함께, 사진과 현장 영상에 로비 웅성거림을 깔아 사람 위주로 엮은 1분 2초
+export const ForumPeople: React.FC = () => <ForumEdit edl={PEOPLE_EDL} />;
