@@ -35,8 +35,8 @@ export const Eval: React.FC = () => {
   const gap = 5;
   const barW = (inner - gap * (bars - 1)) / bars;
   const scanT = interpolate(frame, [L.scanStart, L.scanEnd], [0, 1], clamp);
-  const ringSize = 250;
-  const r = 104;
+  const ringSize = 256;
+  const r = 98;
   const circ = 2 * Math.PI * r;
   const ringP = sp(frame - L.ring, fps, SMOOTH, 30) * 0.88;
   const ins = sp(frame - L.insight, fps, SMOOTH, 14);
@@ -94,8 +94,24 @@ export const Eval: React.FC = () => {
         <div style={{ display: "flex", gap: 36, marginTop: 22, alignItems: "center" }}>
           <div style={{ position: "relative", width: ringSize, height: ringSize, flexShrink: 0 }}>
             <svg width={ringSize} height={ringSize} style={{ transform: "rotate(-90deg)" }}>
-              <circle cx={ringSize / 2} cy={ringSize / 2} r={r} stroke={C.ivory2} strokeWidth={22} fill="none" />
-              <circle cx={ringSize / 2} cy={ringSize / 2} r={r} stroke={C.lime} strokeWidth={22} fill="none" strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={circ * (1 - ringP)} />
+              {/* 다이얼과 같은 게이지 언어 — 바깥 분 눈금이 채워진 만큼 켜지고, 아크 끝에 빛나는 캡 */}
+              {Array.from({ length: 60 }).map((_, i) => {
+                const a = (i / 60) * Math.PI * 2;
+                const major = i % 5 === 0;
+                const r0 = r + 15;
+                const r1 = r + (major ? 22 : 18);
+                const on = i / 60 <= ringP;
+                return <line key={i} x1={ringSize / 2 + Math.cos(a) * r0} y1={ringSize / 2 + Math.sin(a) * r0} x2={ringSize / 2 + Math.cos(a) * r1} y2={ringSize / 2 + Math.sin(a) * r1} stroke={on ? C.forest : C.gray300} strokeOpacity={on ? 0.9 : 0.45} strokeWidth={major ? 2 : 1.1} />;
+              })}
+              <circle cx={ringSize / 2} cy={ringSize / 2} r={r} stroke={C.ivory2} strokeWidth={20} fill="none" />
+              <circle cx={ringSize / 2} cy={ringSize / 2} r={r} stroke={`url(#eval-arc)`} strokeWidth={20} fill="none" strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={circ * (1 - ringP)} />
+              {ringP > 0.01 && <circle cx={ringSize / 2 + Math.cos(ringP * Math.PI * 2) * r} cy={ringSize / 2 + Math.sin(ringP * Math.PI * 2) * r} r={7} fill={C.white} stroke={C.forest} strokeWidth={3} />}
+              <defs>
+                <linearGradient id="eval-arc" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor={C.lime} />
+                  <stop offset="1" stopColor={C.limeDeep} />
+                </linearGradient>
+              </defs>
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
               <DisplayNumber to={88} delay={L.ring} duration={28} size={112} color={C.forest} />

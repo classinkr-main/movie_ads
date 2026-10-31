@@ -5,6 +5,7 @@ import { clamp, sp } from "../../lib/motion";
 import { C } from "../../lib/theme";
 import { BlurIn, Camera, Flare, Hud, K, Letterbox, NightStage, timecode } from "../Cinema";
 import { DisplayNumber, mono, SAFE, t } from "../Layout";
+import { ChronoDial } from "../Dial";
 import { local } from "../timeline";
 import { useType } from "../typeset";
 
@@ -17,20 +18,20 @@ const L = {
   line2: local("hook", "hook.line2"),
 };
 const LESSON_MIN = 60;
+const DIAL = 600;
+const DIAL_TOP = 650;
 const BARS = { top: 250, bottom: 330 };
 
-// S1 콜드 오픈 — 어둠 속 1시간이 흘러가고, 수업이 끝나는 순간 리포트 알림이 도착한다
+// S1 콜드 오픈 — 어둠 속 다이얼 바늘이 1시간을 한 바퀴 돌고, 수업이 끝나는 순간 리포트 알림이 도착한다
 export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
-  const { title, timer, ts } = useType();
+  const { title, ts } = useType();
   const { fps } = useVideoConfig();
   const roll = interpolate(frame, [L.rollStart, L.rollEnd], [0, 1], { ...clamp, easing: (x) => x * x * (3 - 2 * x) });
   const secs = Math.round(roll * LESSON_MIN * 60);
   const mm = String(Math.floor(secs / 60)).padStart(2, "0");
   const ss = String(secs % 60).padStart(2, "0");
-  const ended = frame >= L.ended;
-  const endGlow = interpolate(frame - L.ended, [0, 4, 30], [0, 1, 0.45], clamp);
-  // 랙 포커스 — 알림이 오면 뒤쪽(타이틀·타임코드)이 흐려지고 어두워진다
+  // 랙 포커스 — 알림이 오면 뒤쪽(타이틀·다이얼)이 흐려지고 어두워진다
   const rack = interpolate(frame - L.notify, [0, 12], [0, 1], clamp);
   const notif = sp(frame - L.notify, fps, { damping: 16, stiffness: 120, mass: 0.9 });
 
@@ -38,7 +39,7 @@ export const Hook: React.FC = () => {
     <NightStage beamX={50} beamAngle={0} seed="hook">
       <Camera keys={[{ f: 0, s: 1.0 }, { f: 90, s: 1.07, y: -20 }]} origin="50% 45%" drift={0.6}>
         <div style={{ filter: rack > 0 ? `blur(${rack * 5}px)` : undefined, opacity: 1 - rack * 0.45 }}>
-          <AbsoluteFill style={{ alignItems: "center", paddingTop: 380 }}>
+          <AbsoluteFill style={{ alignItems: "center", paddingTop: 352 }}>
             <div style={title(108, 400, K.paper, { lineHeight: 1.16, textAlign: "center" })}>
               <BlurIn delay={L.line1} duration={22}>
                 1시간 수업이
@@ -50,26 +51,13 @@ export const Hook: React.FC = () => {
             </div>
           </AbsoluteFill>
 
-          {/* 타임코드 — 얇은 모노 숫자가 화면의 주인공 */}
-          <div style={{ position: "absolute", left: 0, right: 0, top: 690, textAlign: "center", opacity: interpolate(frame - L.rollStart + 6, [0, 8], [0, 1], clamp) }}>
-            <span style={timer(270, ended ? C.lime : K.paper, { lineHeight: 1, textShadow: ended ? `0 0 ${40 * endGlow}px rgba(200,240,90,${0.8 * endGlow})` : undefined })}>
-              {mm}:{ss}
-            </span>
-          </div>
-          <div style={{ position: "absolute", left: 100, right: 100, top: 1010 }}>
-            <div style={{ position: "relative", height: 3, background: K.paperFaint }}>
-              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${roll * 100}%`, background: C.lime, boxShadow: `0 0 18px ${C.lime}` }} />
-              <div style={{ position: "absolute", left: `${roll * 100}%`, top: -7, width: 17, height: 17, borderRadius: 999, background: C.limeBright, transform: "translateX(-50%)", boxShadow: `0 0 24px 6px rgba(216,255,92,0.7)`, opacity: frame >= L.rollStart ? 1 : 0 }} />
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 18, ...mono(22, 500, K.paperFaint, { letterSpacing: "0.12em" }) }}>
-              <span>00:00</span>
-              <span style={{ color: C.lime, opacity: ended ? 1 : 0 }}>SESSION END</span>
-              <span>60:00</span>
-            </div>
+          {/* 크로노그래프 다이얼 — 바늘이 1시간을 한 바퀴 돈다 */}
+          <div style={{ position: "absolute", left: (1080 - DIAL) / 2, top: DIAL_TOP }}>
+            <ChronoDial progress={roll} settleAt={L.rollEnd} endAt={L.ended} appearAt={L.rollStart - 8} size={DIAL} readout={`${mm}:${ss}`} />
           </div>
         </div>
 
-        <Flare at={L.ended} y={830} duration={20} />
+        <Flare at={L.ended} y={DIAL_TOP + DIAL / 2} duration={20} />
 
         {/* 리포트 알림 */}
         <div style={{ position: "absolute", left: SAFE.side, right: SAFE.side, top: 1110, perspective: 1600 }}>

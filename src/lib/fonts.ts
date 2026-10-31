@@ -40,20 +40,13 @@ export const cinematicFontsReady: Promise<void> = Promise.all([
   loadFont({ family: "JetBrains Mono", url: staticFile("fonts/JetBrainsMono.woff2"), weight: "100 800", format: "woff2", display: "block" }),
 ]).then(() => undefined);
 
-// 브래그컷 타입셋 비교 후보(src/brag/typeset.tsx) — 모두 SIL OFL 1.1
+// 브래그컷 본편 타입셋 B(src/brag/typeset.tsx) — Noto Serif KR(한글·라틴 서브셋) + Bodoni Moda, SIL OFL 1.1
 export const typesetFontsReady: Promise<void> = Promise.all(
   (
     [
-      ["Black Han Sans", "BlackHanSans", "400", "normal"],
-      ["Bebas Neue", "BebasNeue", "400", "normal"],
       ["Noto Serif KR", "NotoSerifKR", "200 900", "normal"],
       ["Bodoni Moda", "BodoniModa", "400 900", "normal"],
       ["Bodoni Moda", "BodoniModa-Italic", "400 900", "italic"],
-      ["IBM Plex Sans KR", "IBMPlexSansKR-ExtraLight", "200", "normal"],
-      ["IBM Plex Sans KR", "IBMPlexSansKR-Medium", "500", "normal"],
-      ["Song Myung", "SongMyung", "400", "normal"],
-      ["Cormorant Garamond", "CormorantGaramond", "300 700", "normal"],
-      ["Cormorant Garamond", "CormorantGaramond-Italic", "300 700", "italic"],
     ] as const
   ).map(([family, file, weight, style]) => loadFont({ family, url: staticFile(`fonts/${file}.woff2`), weight, style, format: "woff2", display: "block" })),
 ).then(() => undefined);

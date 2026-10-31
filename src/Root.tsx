@@ -9,6 +9,6 @@ import { BRAG } from "./brag/timeline";
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="Showreel" component={Showreel} durationInFrames={DURATION_FRAMES} fps={FPS} width={1920} height={1080} />
-    <Composition id="Brag" component={Brag} defaultProps={{ typeset: "current" as const }} durationInFrames={BRAG.frames} fps={BRAG.fps} width={1080} height={1920} />
+    <Composition id="Brag" component={Brag} defaultProps={{ typeset: "couture" as const }} durationInFrames={BRAG.frames} fps={BRAG.fps} width={1080} height={1920} />
   </>
 );

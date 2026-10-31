@@ -329,10 +329,54 @@ for j, m in enumerate([77, 81, 84, 88, 84, 81]):
     place(SEND, b, T_END + j * BEAT / 2, 0.06)
 
 # ---------- 효과음 ----------
+def mech_tick(pitch=1.0, weight=1.0):
+    """기계식 시계 이스케이프먼트 — 잠금·충격 두 번의 금속 트랜지언트 + 공명 모드 3개 + 아주 작은 케이스 몸통음."""
+    nn = int(0.07 * SR)
+    t = tt(nn)
+    def strike(amp):
+        click = fft_filter(noise(nn), 2500, 12000) * np.exp(-t / 0.0011)
+        modes = (
+            0.55 * np.sin(2 * np.pi * 3150 * pitch * t) * np.exp(-t / 0.011)
+            + 0.38 * np.sin(2 * np.pi * 5230 * pitch * t + 0.7) * np.exp(-t / 0.006)
+            + 0.30 * np.sin(2 * np.pi * 1180 * pitch * t) * np.exp(-t / 0.018)
+        )
+        body = 0.3 * weight * np.sin(2 * np.pi * 210 * pitch * t) * np.exp(-t / 0.012)
+        return amp * (0.8 * click + modes + body)
+    x = strike(1.0)
+    lag = int(0.0055 * SR)
+    x[lag:] += strike(0.42)[: nn - lag]
+    return x * (1 - np.exp(-t / 0.0002))
+
+
+def chrono_click():
+    """크로노그래프 푸셔 — 눌림(묵직한 톡) 뒤 스프링 복귀(맑은 틱)."""
+    nn = int(0.12 * SR)
+    t = tt(nn)
+    press = np.sin(2 * np.pi * 170 * t) * np.exp(-t / 0.02) * 0.6 + fft_filter(noise(nn), 800, 4000) * np.exp(-t / 0.002) * 0.5
+    x = press
+    rel = int(0.045 * SR)
+    tk = mech_tick(1.35, 0.3)
+    m = min(len(tk), nn - rel)
+    x[rel : rel + m] += tk[:m] * 0.8
+    return x
+
+
+def fine_bell(freq, n, decay=1.6):
+    """고급 차임 — 튜블러 벨 배음비(1 · 2.76 · 5.40)에 옥타브 온기, 살짝 어긋난 쌍으로 쉬머를 준다."""
+    t = tt(n)
+    out = np.zeros(n)
+    for ratio, amp, dk in [(1.0, 1.0, 1.0), (2.0, 0.22, 0.7), (2.76, 0.42, 0.55), (5.40, 0.16, 0.28), (8.93, 0.05, 0.15)]:
+        for det in (-0.35, 0.35):
+            out += 0.5 * amp * np.sin(2 * np.pi * (freq * ratio + det) * t) * np.exp(-t / (decay * dk))
+    return out * (1 - np.exp(-t / 0.003))
+
+
 def sfx_ticks(t0, t1, g):
-    # 타임코드 롤과 같은 이징(smoothstep)으로 24번 — 가운데에서 가장 빠르다
-    for i in range(1, 25):
-        u = i / 25
+    # 크로노 시작 푸셔 → 바늘이 5분 눈금을 지날 때마다 이스케이프먼트 틱(다이얼과 같은 smoothstep) + 바늘 아래 공기 스윕
+    place(SFX, chrono_click(), t0 - 0.06, g * 0.5, pan=-0.1)
+    place(SEND, chrono_click(), t0 - 0.06, g * 0.12)
+    for i in range(1, 13):
+        u = i / 12
         lo, hi = 0.0, 1.0
         for _ in range(30):
             mid = (lo + hi) / 2
@@ -341,27 +385,34 @@ def sfx_ticks(t0, t1, g):
             else:
                 hi = mid
         ts = t0 + (t1 - t0) * lo
-        nn = int(0.03 * SR)
-        x = (np.sin(2 * np.pi * midi(93) * tt(nn)) + 0.4 * np.sin(2 * np.pi * midi(100) * tt(nn))) * np.exp(-tt(nn) / 0.006)
-        place(SFX, x, ts, g * 0.38, pan=0.2 if i % 2 else -0.2)
+        x = mech_tick(1.0 if i % 2 else 0.94, 1.0)
+        place(SFX, x, ts, g * (0.5 if i % 3 == 0 else 0.38), pan=0.12 if i % 2 else -0.12)
+        place(SEND, x, ts, g * 0.06)
+    nn = int((t1 - t0) * SR)
+    u = tt(nn) / (t1 - t0)
+    air = stft_filter(noise(nn), bandpass_gain(lambda tc: 1200 * 3 ** np.clip(tc / (t1 - t0), 0, 1), 0.6)) * np.sin(np.pi * u) ** 1.2
+    place(SFX, np.stack([air, np.roll(air, 600)], 1), t0, g * 0.08)
 
 
 def sfx_boom(t0, g):
+    # 세션 종료 — 크로노 정지 푸셔 + 낮고 따뜻한 케이스 톡 + 서브
+    place(SFX, chrono_click(), t0 - 0.03, g * 0.55, pan=0.1)
+    place(SEND, chrono_click(), t0 - 0.03, g * 0.15)
     nn = int(1.6 * SR)
     t = tt(nn)
     f = 34 + 50 * np.exp(-t / 0.12)
     x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t / 0.45)
     x += fft_filter(noise(nn), 60, 500) * np.exp(-t / 0.08) * 0.4
-    place(SFX, np.tanh(1.3 * x), t0, g * 0.4)
-    place(SEND, x, t0, g * 0.2)
+    place(SFX, np.tanh(1.3 * x), t0, g * 0.3)
+    place(SEND, x, t0, g * 0.16)
     KICKS.append(t0)
 
 
 def sfx_chime(t0, g):
     for j, m in enumerate([81, 86]):
-        b = bell(midi(m), int(1.6 * SR), decay=0.8)
-        place(SFX, b, t0 + j * 0.09, g * 0.16, pan=0.15)
-        place(SEND, b, t0 + j * 0.09, g * 0.12)
+        b = fine_bell(midi(m), int(2.4 * SR), decay=1.1)
+        place(SFX, b, t0 + j * 0.11, g * 0.13, pan=-0.12 + j * 0.24)
+        place(SEND, b, t0 + j * 0.11, g * 0.14)
 
 
 def sfx_riser(t0, t1, g):
@@ -408,22 +459,20 @@ def sfx_scan(t0, t1, g):
     nn = int((t1 - t0) * SR)
     t = tt(nn)
     u = t / (t1 - t0)
-    x = np.sin(2 * np.pi * np.cumsum(midi(69) * 2 ** (u * 1.0)) / SR) * 0.3
-    x += stft_filter(noise(nn), bandpass_gain(lambda tc: 1500 * 2 ** np.clip(tc / (t1 - t0), 0, 1) * 2, 0.5)) * 0.4
-    x *= np.sin(np.pi * u) ** 1.5
-    place(SFX, x, t0, g * 0.09, pan=-0.2)
+    x = stft_filter(noise(nn), bandpass_gain(lambda tc: 900 * 4.5 ** np.clip(tc / (t1 - t0), 0, 1), 0.55)) * np.sin(np.pi * u) ** 1.5
+    place(SFX, np.stack([x, np.roll(x, 500)], 1), t0, g * 0.07)
 
 
 def sfx_roll(t0, t1, g):
-    # 숫자 롤 — 점점 느려지는 작은 틱
+    # 숫자 롤 — 다이얼과 같은 기계식 틱이 점점 느려진다
     ts = t0
     step = 0.035
+    k = 0
     while ts < t1:
-        nn = int(0.02 * SR)
-        x = np.sin(2 * np.pi * midi(98) * tt(nn)) * np.exp(-tt(nn) / 0.004)
-        place(SFX, x, ts, g * 0.05, pan=0.25)
+        place(SFX, mech_tick(1.25 if k % 2 else 1.18, 0.35), ts, g * 0.11, pan=0.2)
         ts += step
         step *= 1.12
+        k += 1
 
 
 def sfx_pop(t0, g, pitch):
