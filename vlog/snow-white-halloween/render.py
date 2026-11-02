@@ -148,6 +148,10 @@ def video_filters(s, dur):
         f.append("gblur=sigma=2,eq=brightness=0.06:saturation=1.25")
     elif g == "dark":
         f.append("eq=brightness=-0.08:saturation=0.6,vignette=PI/3.2")
+    elif g == "princess":  # soft bloom (screen-blended blur) + pastel pink lift
+        f.append("format=gbrp,split[pg1][pg2];[pg2]gblur=sigma=24[pg3];"
+                 "[pg1][pg3]blend=all_mode=screen:all_opacity=0.42,format=yuv420p,"
+                 "colorbalance=rs=0.06:gs=-0.01:bs=0.05:rm=0.05:bm=0.04,eq=brightness=0.02:saturation=1.1")
     if s.get("vignette"):
         f.append("vignette=PI/4")
     f.append("eq=saturation=1.08:contrast=1.03")
@@ -188,11 +192,12 @@ def render_shot(e):
     if s["kind"] == "clip":
         speed = s.get("speed", 1.0)
         a, b = s["a"], s["b"]
-        pre = [f"setpts=(PTS-STARTPTS)/{speed}", f"fps={FPS_NUM}/{FPS_DEN}", f"scale={SRC_W}:{SRC_H}"]
+        # slow motion blends neighbouring frames instead of repeating them
+        retime = f"framerate=fps={FPS_NUM}/{FPS_DEN}" if speed < 1.0 else f"fps={FPS_NUM}/{FPS_DEN}"
+        pre = [f"setpts=(PTS-STARTPTS)/{speed}", retime, f"scale={SRC_W}:{SRC_H}"]
         inputs = ["-ss", f"{a:.4f}", "-t", f"{(b - a) + 0.5:.4f}", "-i", src]
-        if s.get("mute"):
-            af_src = None
-        else:
+        audio_parts, audio_labels = [], []
+        if not s.get("mute"):
             gain = s.get("gain_db", CLIP_GAIN_DB.get(s["src"], 0)) + s.get("gain_adj", 0)
             af = ["asetpts=PTS-STARTPTS"]
             if speed != 1.0:
@@ -204,18 +209,31 @@ def render_shot(e):
             if s.get("afade_out", 0.03):
                 fo = s.get("afade_out", 0.03)
                 af.append(f"afade=t=out:st={dur - fo:.5f}:d={fo}")
-            af_src = "[0:a:0]" + ",".join(af) + ",aformat=sample_rates=48000:channel_layouts=stereo[a]"
+            audio_parts.append("[0:a:0]" + ",".join(af) + ",aformat=sample_rates=48000:channel_layouts=stereo[a0]")
+            audio_labels.append("[a0]")
+        # voice-over: (src, a, b, at_seconds_in_shot[, gain_adj]) lines lifted from elsewhere
+        extra_in = []
+        for k, (vsrc, va, vb, at, *vg) in enumerate(s.get("vo", [])):
+            extra_in += ["-ss", f"{va:.4f}", "-t", f"{vb - va:.4f}", "-i", os.path.join(raw_dir, vsrc + ".mp4")]
+            vgain = CLIP_GAIN_DB.get(vsrc, 0) + (vg[0] if vg else 0)
+            ms = int(round(at * 1000))
+            audio_parts.append(
+                f"[{k + 1}:a:0]asetpts=PTS-STARTPTS,highpass=f=80,volume={vgain}dB,afade=t=in:d=0.03,"
+                f"afade=t=out:st={max(0, vb - va - 0.06):.3f}:d=0.06,adelay={ms}|{ms},apad,atrim=0:{dur:.5f},"
+                f"aformat=sample_rates=48000:channel_layouts=stereo[vo{k}]")
+            audio_labels.append(f"[vo{k}]")
         if VERTICAL:
             fc = vertical_graph("[0:v:0]", s, dur, pre, vf_tail)
         else:
             fc = "[0:v:0]" + ",".join(pre + vf_tail + ["format=yuv420p"]) + "[v]"
-        if af_src:
-            fc += ";" + af_src
+        if audio_labels:
+            fc += ";" + ";".join(audio_parts) + ";"
+            fc += (f"{audio_labels[0]}anull[a]" if len(audio_labels) == 1 else
+                   "".join(audio_labels) + f"amix=inputs={len(audio_labels)}:normalize=0:duration=first[a]")
             amap = ["-map", "[a]"]
-            extra_in = []
         else:
-            extra_in = ["-f", "lavfi", "-t", f"{dur:.5f}", "-i", f"anullsrc=r={SR}:cl=stereo"]
-            amap = ["-map", "1:a"]
+            extra_in += ["-f", "lavfi", "-t", f"{dur:.5f}", "-i", f"anullsrc=r={SR}:cl=stereo"]
+            amap = ["-map", f"{len(s.get('vo', [])) + 1}:a"]
         cmd = ["ffmpeg", "-y", "-v", "error"] + inputs + extra_in + ["-filter_complex", fc, "-map", "[v]"] + amap + \
               ["-frames:v", str(n), "-t", f"{dur:.5f}"] + ENC + [out]
     else:  # freeze
