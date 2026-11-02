@@ -54,6 +54,8 @@ t_out = 0.0
 for i, s in enumerate(SHOTS):
     if s["kind"] == "clip":
         dur = (s["b"] - s["a"]) / s.get("speed", 1.0)
+    elif s["kind"] == "stills":
+        dur = sum(it["dur"] for it in s["items"]) - s.get("xfade", 0) * (len(s["items"]) - 1)
     else:
         dur = s["dur"]
     n = nframes(dur)
@@ -120,7 +122,12 @@ def vertical_reframe(s, dur):
     else:
         kfs = [(0.0, kfs[0][1])]
     x = f"max(0\\,min({SRC_W - cw}\\,{piecewise(kfs)}-{cw // 2}))"
-    return [f"crop={cw}:{ch}:x='{x}':y={int((SRC_H - ch) * cy)}", f"scale={W}:{WIN_H}:flags=lanczos", "unsharp=5:5:0.4"]
+    f = [f"crop={cw}:{ch}:x='{x}':y={int((SRC_H - ch) * cy)}", f"scale={W}:{WIN_H}:flags=lanczos", "unsharp=5:5:0.4"]
+    if s.get("kenburns"):  # slow push-in over the whole shot, (start_zoom, end_zoom)
+        z0, z1 = s["kenburns"]
+        z = f"({z0}+({z1 - z0})*min(t/{dur:.3f}\\,1))"
+        f += ["format=rgb24", f"scale=w='{W}*{z}':h='{WIN_H}*{z}':eval=frame:flags=bicubic", f"crop={W}:{WIN_H}"]
+    return f
 
 
 def vertical_graph(inp, s, dur, pre, tail):
@@ -152,9 +159,13 @@ def video_filters(s, dur):
         f.append("format=gbrp,split[pg1][pg2];[pg2]gblur=sigma=24[pg3];"
                  "[pg1][pg3]blend=all_mode=screen:all_opacity=0.42,format=yuv420p,"
                  "colorbalance=rs=0.06:gs=-0.01:bs=0.05:rm=0.05:bm=0.04,eq=brightness=0.02:saturation=1.1")
+    elif g == "docu":  # warm, slightly faded documentary-ending look
+        f.append("eq=contrast=0.93:brightness=0.015:saturation=0.8,"
+                 "colorbalance=rs=0.05:gs=0.01:bs=-0.05:rm=0.03:bm=-0.03,vignette=PI/4.5,noise=alls=5:allf=t")
     if s.get("vignette"):
         f.append("vignette=PI/4")
-    f.append("eq=saturation=1.08:contrast=1.03")
+    if g != "docu":
+        f.append("eq=saturation=1.08:contrast=1.03")
     if s.get("flash"):
         f.append(f"fade=t=in:st=0:d={s['flash']}:color=white")
     if s.get("fade_out"):
@@ -236,6 +247,32 @@ def render_shot(e):
             amap = ["-map", f"{len(s.get('vo', [])) + 1}:a"]
         cmd = ["ffmpeg", "-y", "-v", "error"] + inputs + extra_in + ["-filter_complex", fc, "-map", "[v]"] + amap + \
               ["-frames:v", str(n), "-t", f"{dur:.5f}"] + ENC + [out]
+    elif s["kind"] == "stills":
+        assert VERTICAL, "stills sequences are only used in the vertical cut"
+        X = s.get("xfade", 0)
+        inputs, parts = [], []
+        for k, it in enumerate(s["items"]):
+            png = os.path.join(seg_dir, f"{seg_key(e)}_{k}.png")
+            run(["ffmpeg", "-y", "-v", "error", "-ss", f"{it['t']:.4f}", "-i", os.path.join(raw_dir, it["src"] + ".mp4"),
+                 "-map", "0:v:0", "-frames:v", "1", "-vf", f"scale={SRC_W}:{SRC_H}", png])
+            inputs += ["-loop", "1", "-framerate", f"{FPS_NUM}/{FPS_DEN}", "-t", f"{it['dur'] + 0.2:.4f}", "-i", png]
+            item = {"kind": "freeze", "vcx": [(0, it["vcx"])], "kenburns": it.get("kenburns", s.get("kenburns")),
+                    "vcy": it.get("vcy", 0.5), "vzoom": it.get("vzoom", 1.0)}
+            tail = video_filters({"grade": s.get("grade")}, it["dur"])
+            parts.append(f"[{k}:v]scale={SRC_W}:{SRC_H},{','.join(vertical_reframe(item, it['dur']) + tail)},"
+                         f"pad={W}:{H}:0:{WIN_Y}:black,format=yuv420p,trim=duration={it['dur']:.4f},setpts=PTS-STARTPTS[s{k}]")
+        prev, offset = "[s0]", 0.0
+        for k in range(1, len(s["items"])):
+            offset += s["items"][k - 1]["dur"] - X
+            parts.append(f"{prev}[s{k}]xfade=transition=fade:duration={X}:offset={offset:.4f}[x{k}]")
+            prev = f"[x{k}]"
+        end = [f"fade=t=out:st={dur - s['fade_out']:.3f}:d={s['fade_out']}"] if s.get("fade_out") else []
+        parts.append(f"{prev}{','.join(end + ['format=yuv420p'])}[v]")
+        n_in = len(s["items"])
+        cmd = (["ffmpeg", "-y", "-v", "error"] + inputs +
+               ["-f", "lavfi", "-t", f"{dur:.5f}", "-i", f"anullsrc=r={SR}:cl=stereo",
+                "-filter_complex", ";".join(parts), "-map", "[v]", "-map", f"{n_in}:a",
+                "-frames:v", str(n), "-t", f"{dur:.5f}"] + ENC + [out])
     else:  # freeze
         png = os.path.join(seg_dir, seg_key(e) + ".png")
         run(["ffmpeg", "-y", "-v", "error", "-ss", f"{s['t']:.4f}", "-i", src, "-map", "0:v:0", "-frames:v", "1",
@@ -307,6 +344,8 @@ def build_ass(path):
             oa = st + a
             ob = st + (b if b is not None else dur)
             pre = POP if style.startswith(("Big", "Title")) else POP_SOFT
+            if text.startswith("{\\fad"):  # caption brings its own fade
+                pre = ""
             if pos:
                 pre = r"{\pos(" + f"{pos[0]},{pos[1]}" + r")}" + pre
             if style == "Draw":
@@ -355,6 +394,16 @@ def build_sfx(path):
             t, name = fx[0], fx[1]
             db = fx[2] if len(fx) > 2 else -6
             x = load_sfx(name) * (10 ** (db / 20))
+            if len(fx) > 3:
+                g = np.zeros(len(x), dtype=np.float32)
+                for d0, d1, ddb in fx[3]:
+                    a0, a1, r = int(d0 * SR), int(d1 * SR), int(0.15 * SR)
+                    env = np.zeros(len(x), dtype=np.float32)
+                    env[max(0, a0):max(0, a1)] = 1.0
+                    ramp = np.ones(r, dtype=np.float32) / r
+                    env = np.convolve(env, ramp, mode="same")
+                    g += env * (10 ** (ddb / 20) - 1)
+                x = x * (1 + g)[:, None]
             i = int((e["start"] + t) * SR)
             j = min(len(buf), i + len(x))
             buf[i:j] += x[: j - i]

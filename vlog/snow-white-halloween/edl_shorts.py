@@ -143,8 +143,18 @@ SHOTS = [
          vcx=[(256.2, 883), (257.4, 868), (257.8, 831), (258.2, 767), (258.6, 704), (259.2, 670)],
          caps=[(0.0, None, "사무실 복귀", "Note")],
          subs=[(256.4, 259.0, "이리 오너라~!", SW)]),
-    clip("0530", 273.1, 274.55, label="last-look", vcx=[(273.1, 760)]),
-    freeze("0530", 274.55, 1.6, label="end", vcx=[(274.55, 760)], fade_out=0.6,
-           caps=[(0.1, None, "벌칙 수행 완료.", "SubSW")],
-           fx=[(0.0, "shutter", -12)]),
+    # ending, documentary style: the music (ending_music) starts on the last live shot, the frame freezes for
+    # the voice line (ending_voice), then three stills dissolve on the music's accents (4.69s, 5.89s, 7.05s
+    # after it starts) and fade out with it. The two sounds are user-supplied files placed in the sfx dir.
+    clip("0530", 273.1, 274.55, label="last-look", vcx=[(273.1, 760)], grade="docu", gain_adj=-12,
+         fx=[(0.0, "ending_music", -10, [(2.2, 4.7, -8)])]),
+    {"kind": "stills", "src": "0530", "label": "ending", "grade": "docu", "xfade": 0.35, "fade_out": 0.9,
+     "kenburns": (1.0, 1.06),
+     "items": [{"src": "0530", "t": 274.55, "vcx": 760, "dur": 3.435, "kenburns": (1.0, 1.08)},  # last frame
+               {"src": "0528", "t": 87.0, "vcx": 800, "dur": 1.55},    # skirt-run across the crosswalk
+               {"src": "0528", "t": 270.0, "vcx": 600, "dur": 1.51},   # autumn path, from behind
+               {"src": "0528", "t": 561.0, "vcx": 890, "dur": 2.265}], # alone on the plaza
+     "caps": [(0.92, 3.08, "돈 벌기 참 힘들다.", "SubSW"),
+              (5.75, None, "{\\fad(250,850)}벌칙 수행 완료.", "SubSW")],  # fades out with the picture
+     "fx": [(0.47, "ending_voice", 5)]},
 ]
