@@ -66,6 +66,105 @@ def sparkles(t0, t1, n, seed, x=(90, 990), y=(450, 1680), size=(18, 46)):
     return out
 
 
+# ── transformation light show (ASS vector drawings, clipped to the picture window) ──────────────
+WIN_CLIP = r"\clip(0,360,1080,1800)"
+GLITTER = ["&HFFFFFF&", "&H9CE8FF&", "&HD9C2FF&", "&HFFE0C8&", "&H80F0FF&"]  # white, gold, pink, lavender, yellow
+
+
+def _star(r, waist=6):
+    w, c = max(2, r // waist), r
+    return (f"m {c} 0 b {c + w} {c - w} {c + w} {c - w} {2 * r} {c} b {c + w} {c + w} {c + w} {c + w} {c} {2 * r} "
+            f"b {c - w} {c + w} {c - w} {c + w} 0 {c} b {c - w} {c - w} {c - w} {c - w} {c} 0")
+
+
+def _disc(r):
+    k = 0.5523 * r
+    return (f"m {r} 0 b {r + k:.0f} 0 {2 * r} {r - k:.0f} {2 * r} {r} b {2 * r} {r + k:.0f} {r + k:.0f} {2 * r} {r} {2 * r} "
+            f"b {r - k:.0f} {2 * r} 0 {r + k:.0f} 0 {r} b 0 {r - k:.0f} {r - k:.0f} 0 {r} 0")
+
+
+def burst(t, cx, cy, n, seed, dist=(240, 560), life=(0.55, 1.05), size=(10, 28)):
+    """Glitter exploding outward from (cx, cy)."""
+    import math, random
+    rnd = random.Random(seed)
+    out = []
+    for i in range(n):
+        a = 2 * math.pi * i / n + rnd.uniform(-0.2, 0.2)
+        d, life_s, r = rnd.uniform(*dist), rnd.uniform(*life), rnd.randint(*size)
+        x2, y2 = int(cx + d * math.cos(a)), int(cy + d * math.sin(a))
+        ms = int(life_s * 1000)
+        tag = (f"{{\\an5\\move({cx},{cy},{x2},{y2},0,{ms}){WIN_CLIP}\\bord0\\shad0\\blur2\\1c{rnd.choice(GLITTER)}"
+               f"\\fad(0,{ms // 2})\\frz{rnd.randint(0, 45)}\\t(\\frz{rnd.randint(90, 200)})\\p1}}")
+        st = t + rnd.uniform(0, 0.08)
+        out.append((round(st, 3), round(st + life_s, 3), tag + _star(r) + "{\\p0}", "Draw"))
+    return out
+
+
+def rays(t, cx, cy, dur, n=16, radius=900, seed=1, color="&H9CE8FF&", alpha="&H50&", spin=28):
+    """Thin light rays fanning out from (cx, cy), spinning slowly while they swell and fade."""
+    import math, random
+    rnd = random.Random(seed)
+    R = radius
+    path = []
+    for i in range(n):
+        a = 2 * math.pi * i / n + rnd.uniform(-0.08, 0.08)
+        w = rnd.uniform(0.025, 0.06)
+        L = R * rnd.uniform(0.6, 1.0)
+        p1 = (R + L * math.cos(a - w), R + L * math.sin(a - w))
+        p2 = (R + L * math.cos(a + w), R + L * math.sin(a + w))
+        path.append(f"m {R} {R} l {p1[0]:.0f} {p1[1]:.0f} {p2[0]:.0f} {p2[1]:.0f}")
+    # invisible corner points pin the drawing's box to 0..2R so \an5 centres it on (cx, cy)
+    path.append(f"m 0 0 l 1 0 1 1 m {2 * R} {2 * R} l {2 * R - 1} {2 * R} {2 * R - 1} {2 * R - 1}")
+    ms = int(dur * 1000)
+    tag = (f"{{\\an5\\pos({cx},{cy}){WIN_CLIP}\\bord0\\shad0\\blur10\\1c{color}\\1a{alpha}\\fscx35\\fscy35"
+           f"\\t(0,{int(ms * 0.35)},\\fscx115\\fscy115)\\t(0,{ms},\\frz{spin})\\fad(60,{int(ms * 0.55)})\\p1}}")
+    return [(round(t, 3), round(t + dur, 3), tag + " ".join(path) + "{\\p0}", "Draw")]
+
+
+def glow(t, cx, cy, dur, r=300, color="&HC8F4FF&"):
+    """Soft radial bloom that blooms out of the flash."""
+    ms = int(dur * 1000)
+    tag = (f"{{\\an5\\pos({cx},{cy}){WIN_CLIP}\\bord0\\shad0\\blur60\\1c{color}\\1a&H40&\\fscx50\\fscy50"
+           f"\\t(0,{ms},\\fscx170\\fscy170\\1a&HFF&)\\p1}}")
+    return [(round(t, 3), round(t + dur, 3), tag + _disc(r) + "{\\p0}", "Draw")]
+
+
+def glitter_rain(t0, t1, n, seed, x=(40, 1040)):
+    """Fine glitter drifting down through the window."""
+    import random
+    rnd = random.Random(seed)
+    out = []
+    for i in range(n):
+        life_s = rnd.uniform(1.2, 2.2)
+        st = t0 + (t1 - t0 - life_s) * i / max(1, n - 1) + rnd.uniform(-0.1, 0.1)
+        st = min(max(t0, st), t1 - life_s)
+        x1 = rnd.randint(*x)
+        y1 = rnd.randint(360, 900)
+        ms = int(life_s * 1000)
+        r = rnd.randint(4, 11)
+        shape = _star(r * 2) if rnd.random() < 0.4 else _disc(r)
+        tag = (f"{{\\an5\\move({x1},{y1},{x1 + rnd.randint(-60, 60)},{y1 + rnd.randint(380, 700)},0,{ms}){WIN_CLIP}"
+               f"\\bord0\\shad0\\blur1\\1c{rnd.choice(GLITTER)}\\fad(150,{ms // 2})\\p1}}")
+        out.append((round(st, 3), round(st + life_s, 3), tag + shape + "{\\p0}", "Draw"))
+    return out
+
+
+def rise(t0, t1, n, seed, x=(260, 800), y=(1250, 1700)):
+    """Sparkles spiralling up around the figure before the change."""
+    import random
+    rnd = random.Random(seed)
+    out = []
+    for i in range(n):
+        st = t0 + (t1 - t0) * i / max(1, n) + rnd.uniform(0, 0.05)
+        life_s = min(t1 - st + 0.05, rnd.uniform(0.35, 0.6))
+        x1, y1 = rnd.randint(*x), rnd.randint(*y)
+        ms = int(life_s * 1000)
+        tag = (f"{{\\an5\\move({x1},{y1},{x1 + rnd.randint(-120, 120)},{y1 - rnd.randint(350, 700)},0,{ms}){WIN_CLIP}"
+               f"\\bord0\\shad0\\blur2\\1c{rnd.choice(GLITTER)}\\fad(60,{ms // 3})\\frz{rnd.randint(0, 45)}\\p1}}")
+        out.append((round(st, 3), round(st + life_s, 3), tag + _star(rnd.randint(12, 26)) + "{\\p0}", "Draw"))
+    return out
+
+
 SHOTS = [
     # "bored?" -> the bet
     clip("0520", 33.55, 36.85, label="bored",
@@ -82,13 +181,20 @@ SHOTS = [
     clip("0523", 0.4, 4.3, label="costume",
          vcx=[(0.4, 1405), (1.6, 1394), (2.0, 1350), (2.4, 1297), (2.8, 1241), (3.2, 1209), (3.6, 1188), (4.0, 1174), (4.3, 1169)],
          subs=[(0.5, 2.86, "진짜 해야 돼요?", SW), (2.86, 4.26, "아 무조건 해야죠", Q)]),
-    clip("0522", 0.35, 1.62, label="turn-before", vcx=[(0.35, 880)],
-         caps=sparkles(0.7, 1.27, 8, seed=3),
-         fx=[(0.45, "whoosh", -10)]),
-    clip("0524", 0.92, 4.85, speed=0.82, label="turn-after", flash=0.25, grade="princess", vcx=[(0.92, 880)],
-         caps=sparkles(0.0, 4.75, 44, seed=7) + sparkles(3.2, 4.75, 10, seed=11, size=(40, 64))
-              + [(3.4, None, "{\\blur3}백설공주 등장", "Princess")],
-         fx=[(0.0, "magic", -6), (3.4, "twinkle", -11)]),
+    # turn: glitter spirals up and the picture whites out, then the princess half bursts in with rays, a bloom,
+    # an outward glitter burst and falling glitter; a second smaller burst lands on the final pose
+    clip("0522", 0.35, 1.62, label="turn-before", vcx=[(0.35, 880)], flash_out=0.32,
+         caps=rise(0.45, 1.27, 22, seed=5) + sparkles(0.7, 1.27, 8, seed=3),
+         fx=[(0.45, "whoosh", -10), (0.75, "swoosh_in", -9)]),
+    clip("0524", 0.92, 4.85, speed=0.82, label="turn-after", flash=0.45, grade="dazzle", vcx=[(0.92, 880)],
+         caps=(glow(0.0, 520, 900, 1.0) + rays(0.0, 520, 900, 1.5, seed=2)
+               + rays(0.05, 520, 900, 1.2, n=10, radius=650, seed=4, color="&HFFFFFF&", alpha="&H70&", spin=-22)
+               + burst(0.05, 520, 900, 34, seed=8) + glitter_rain(0.3, 4.75, 46, seed=12)
+               + sparkles(0.0, 4.75, 44, seed=7) + sparkles(3.2, 4.75, 12, seed=11, size=(40, 70))
+               + burst(3.35, 520, 620, 18, seed=13, dist=(160, 380), size=(8, 20))
+               + rays(3.3, 520, 620, 1.4, n=12, radius=520, seed=6, alpha="&H80&", spin=18)
+               + [(3.4, None, "{\\blur3}백설공주 등장", "Princess")]),
+         fx=[(0.0, "magic", -4), (0.05, "twinkle", -9), (3.35, "twinkle", -9), (3.35, "ding", -18)]),
 
     # first words as Snow White
     clip("0525", 0.0, 3.4, label="how-feel",
@@ -143,18 +249,18 @@ SHOTS = [
          vcx=[(256.2, 883), (257.4, 868), (257.8, 831), (258.2, 767), (258.6, 704), (259.2, 670)],
          caps=[(0.0, None, "사무실 복귀", "Note")],
          subs=[(256.4, 259.0, "이리 오너라~!", SW)]),
-    # ending, documentary style: the music (ending_music) starts on the last live shot, the frame freezes for
-    # the voice line (ending_voice), then three stills dissolve on the music's accents (4.69s, 5.89s, 7.05s
-    # after it starts) and fade out with it. The two sounds are user-supplied files placed in the sfx dir.
-    clip("0530", 273.1, 274.55, label="last-look", vcx=[(273.1, 760)], grade="docu", gain_adj=-12,
-         fx=[(0.0, "ending_music", -10, [(2.2, 4.7, -8)])]),
+    # ending, documentary style: right after "이리 오너라~!" the voice line (ending_voice) plays over the walk into
+    # the office, then the ending music (ending_music) runs under four stills that dissolve on its accents
+    # (2.35s, 4.69s, 7.05s) and fade out with it. Both sounds are user-supplied files placed in the sfx dir.
+    clip("0530", 259.2, 261.95, label="office-voice", vcx=[(259.2, 420)], grade="docu", gain_adj=-12,
+         caps=[(0.25, 2.55, "돈 벌기 참 힘들다.", "SubSW")],
+         fx=[(-0.2, "ending_voice", 5)]),
     {"kind": "stills", "src": "0530", "label": "ending", "grade": "docu", "xfade": 0.35, "fade_out": 0.9,
      "kenburns": (1.0, 1.06),
-     "items": [{"src": "0530", "t": 274.55, "vcx": 760, "dur": 3.435, "kenburns": (1.0, 1.08)},  # last frame
-               {"src": "0528", "t": 87.0, "vcx": 800, "dur": 1.55},    # skirt-run across the crosswalk
-               {"src": "0528", "t": 270.0, "vcx": 600, "dur": 1.51},   # autumn path, from behind
+     "items": [{"src": "0530", "t": 274.55, "vcx": 760, "dur": 2.525, "kenburns": (1.0, 1.08)},  # last frame
+               {"src": "0528", "t": 87.0, "vcx": 800, "dur": 2.69},    # skirt-run across the crosswalk
+               {"src": "0528", "t": 270.0, "vcx": 600, "dur": 2.71},   # autumn path, from behind
                {"src": "0528", "t": 561.0, "vcx": 890, "dur": 2.265}], # alone on the plaza
-     "caps": [(0.92, 3.08, "돈 벌기 참 힘들다.", "SubSW"),
-              (5.75, None, "{\\fad(250,850)}벌칙 수행 완료.", "SubSW")],  # fades out with the picture
-     "fx": [(0.47, "ending_voice", 5)]},
+     "caps": [(7.05, None, "{\\fad(250,850)}벌칙 수행 완료.", "SubSW")],  # fades out with the picture
+     "fx": [(0.0, "ending_music", -10)]},
 ]

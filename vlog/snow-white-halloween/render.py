@@ -159,6 +159,10 @@ def video_filters(s, dur):
         f.append("format=gbrp,split[pg1][pg2];[pg2]gblur=sigma=24[pg3];"
                  "[pg1][pg3]blend=all_mode=screen:all_opacity=0.42,format=yuv420p,"
                  "colorbalance=rs=0.06:gs=-0.01:bs=0.05:rm=0.05:bm=0.04,eq=brightness=0.02:saturation=1.1")
+    elif g == "dazzle":  # stronger bloom + brighter pastel for the transformation
+        f.append("format=gbrp,split[pg1][pg2];[pg2]gblur=sigma=30[pg3];"
+                 "[pg1][pg3]blend=all_mode=screen:all_opacity=0.55,format=yuv420p,"
+                 "colorbalance=rs=0.06:gs=-0.01:bs=0.06:rm=0.05:bm=0.05,eq=brightness=0.035:saturation=1.15")
     elif g == "docu":  # warm, slightly faded documentary-ending look
         f.append("eq=contrast=0.93:brightness=0.015:saturation=0.8,"
                  "colorbalance=rs=0.05:gs=0.01:bs=-0.05:rm=0.03:bm=-0.03,vignette=PI/4.5,noise=alls=5:allf=t")
@@ -168,6 +172,8 @@ def video_filters(s, dur):
         f.append("eq=saturation=1.08:contrast=1.03")
     if s.get("flash"):
         f.append(f"fade=t=in:st=0:d={s['flash']}:color=white")
+    if s.get("flash_out"):  # white-out at the end of the shot
+        f.append(f"fade=t=out:st={dur - s['flash_out']:.3f}:d={s['flash_out']}:color=white")
     if s.get("fade_out"):
         f.append(f"fade=t=out:st={dur - s['fade_out']:.3f}:d={s['fade_out']}")
     if s.get("fade_in"):
