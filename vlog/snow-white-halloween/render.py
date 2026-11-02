@@ -318,6 +318,16 @@ def build_ass(path):
         pre = r"{\pos(" + f"{pos[0]},{pos[1]}" + r")}" if pos else ""
         ev.append((a, TOTAL if b is None else b, 0, style, pre + text))
     ev.sort(key=lambda x: x[0])
+    # one caption repeated on back-to-back shots (e.g. a location label) stays up instead of re-fading at each cut
+    merged, last = [], {}
+    for a, b, layer, style, text in ev:
+        k = (layer, style, text)
+        if k in last and abs(merged[last[k]][1] - a) < 0.06:
+            merged[last[k]] = (merged[last[k]][0], b, layer, style, text)
+            continue
+        last[k] = len(merged)
+        merged.append((a, b, layer, style, text))
+    ev = merged
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"[Script Info]\nScriptType: v4.00+\nPlayResX: {W}\nPlayResY: {H}\nWrapStyle: 2\nScaledBorderAndShadow: yes\nYCbCr Matrix: TV.709\n\n")
         f.write(STYLES)

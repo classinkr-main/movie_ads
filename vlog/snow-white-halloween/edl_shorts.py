@@ -9,7 +9,7 @@ Captions are Nanum Myeongjo only, with plain fades: no pop-up stickers or gag so
 SIZE = (1080, 1920)
 VIDEO_WINDOW = (1440, 360)  # picture height and top offset; title sits in the band above
 
-CLIP_GAIN_DB = {"0520": 5, "0521": 5, "0523": 7, "0525": 3, "0526": 7, "0527": 3, "0529": 0, "0530": 4}
+CLIP_GAIN_DB = {"0520": 5, "0521": 5, "0523": 7, "0525": 3, "0526": 7, "0527": 3, "0528": 0, "0529": 0, "0530": 4}
 
 SW = "SubSW"  # Snow White
 Q = "SubQ"    # crew
@@ -74,11 +74,9 @@ SHOTS = [
     clip("0520", 37.55, 42.24, label="bet", vcx=[(37.55, 858)],
          subs=[(37.6, 39.6, "어 그러면\\N가위바위보 진 사람이", Q), (39.6, 41.62, "공주님 분장하고\\N공원 한 바퀴 돌기", Q),
                (41.62, 42.24, "어 좋은데요?", Q)]),
-    clip("0520", 42.24, 43.55, label="rps", layout="fit",
-         subs=[(42.24, 43.55, "안 내면 진다 가위바위보!", Q)]),
-    freeze("0520", 43.55, 1.7, label="rps-result", layout="fit",
-           caps=[(0.12, None, "가위, 가위, 그리고 보.\\N카메라맨이 졌다.", "SubSW")],
-           fx=[(0.0, "impact", -16)]),
+    # the throw itself: 0.7s, no caption
+    clip("0520", 43.0, 43.7, label="rps", layout="fit",
+         fx=[(0.42, "impact", -16)]),
 
     # costume, then the turn: same crop on both sides of the match cut, the princess half in soft bloom
     clip("0523", 0.4, 4.3, label="costume",
@@ -99,15 +97,27 @@ SHOTS = [
     clip("0527", 37.9, 39.6, label="hello", vcx=[(37.9, 1145)],
          subs=[(38.15, 39.55, "안녕하세요. 백설공주입니다.", SW)]),
 
-    # park: one look at the plaza, two lines
-    clip("0529", 0.2, 2.4, speed=1.5, gain_adj=-6, label="park", vcx=[(0.2, 1200)],
-         caps=[(0.0, None, "공원 한 바퀴", "Note")]),
-    clip("0529", 5.2, 7.05, label="kids-avoid", vcx=[(5.2, 1084), (6.0, 1089), (7.05, 1094)],
+    # park lap (0528, 17:20): skirt-run across the crosswalk, a traffic tip, a curtsy, then the plaza verdict
+    clip("0528", 81.75, 84.2, gain_adj=6, label="park-ask",
+         vcx=[(81.75, 1450), (82.5, 1330), (83.0, 1120), (83.5, 880), (84.2, 700)],
+         caps=[(0.0, None, "공원 한 바퀴", "Note")],
+         subs=[(81.85, 83.25, "치마 잡고 뛰어주세요", Q)]),
+    clip("0528", 85.3, 88.6, speed=1.5, gain_adj=-4, label="park-run", vcx=[(85.3, 720)],
+         caps=[(0.0, None, "공원 한 바퀴", "Note")],
+         fx=[(0.0, "whoosh", -14)]),
+    clip("0528", 442.45, 443.98, label="park-cars", vcx=[(442.45, 700), (443.5, 860), (443.98, 860)],
+         caps=[(0.0, None, "공원 한 바퀴", "Note")],
+         subs=[(442.5, 443.05, "장점이 있습니다.", SW), (443.05, 443.98, "차들이 절대 먼저", SW)]),
+    clip("0528", 444.82, 445.65, label="park-cars2", vcx=[(444.82, 800), (445.65, 700)],
+         caps=[(0.0, None, "공원 한 바퀴", "Note")],
+         subs=[(444.82, 445.65, "멈춰줍니다.", SW)]),
+    clip("0528", 597.3, 599.3, label="park-curtsy", vcx=[(597.3, 1150), (597.9, 1010), (598.3, 960), (599.3, 960)],
+         caps=[(0.0, None, "공원 한 바퀴", "Note")] + sparkles(0.55, 1.95, 9, seed=21),
+         subs=[(597.35, 598.5, "감사합니다", SW)],
+         fx=[(0.6, "twinkle", -14)]),
+    clip("0529", 16.1, 17.95, label="boy-princess", vcx=[(16.1, 1021)],
          caps=[(0.0, None, "공원 한 바퀴 후", "Note")],
-         subs=[(5.2, 7.0, "일단 애들이 피합니다", SW)]),
-    clip("0529", 16.1, 19.98, label="boy-princess", vcx=[(16.1, 1021)],
-         caps=[(0.0, None, "공원 한 바퀴 후", "Note")],
-         subs=[(16.14, 17.85, "“어떻게 공주가 남자야~”", SW), (17.85, 19.95, "“어떻게 공주가 저래~”", SW)]),
+         subs=[(16.14, 17.9, "“어떻게 공주가 남자야~”", SW)]),
 
     # back in the building
     clip("0530", 15.4, 20.0, label="looks",
