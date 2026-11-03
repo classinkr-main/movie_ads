@@ -766,10 +766,49 @@ def chart_segments(b0: float, b1: float) -> list[tuple[float, float, dict]]:
     return out
 
 
+# ───────────────────────── 화면 효과음 ─────────────────────────
+def foley_bus() -> Bus:
+    """화면과 1:1로 붙는 효과음 — 타자기·형광펜·지우개·도장·소등 스위치·숨·휙·지도 핀·저장 비프. 음악과 따로 만들어 어느 음원에도 얹는다."""
+    foley = Bus("foley")
+    loss = CUES["loss"]
+    for line in CUES["typing"].values():
+        for i, ch in enumerate(line["text"]):
+            vel = 0.55 if ch == " " else rng.uniform(0.8, 1.0)
+            foley.add(type_key(vel), fs(line["start"] + i * line["step"]), -12, pan=rng.uniform(-0.25, 0.25))
+    hook = CUES["hook"]
+    foley.add(ding(), fs(hook["ding"]), -25, pan=0.3)
+    foley.add(marker(0.2, 1.1), fs(hook["highlight"]), -19)
+    foley.add(marker(0.24, 0.9), fs(hook["circle"]), -21, pan=0.3)
+    foley.add(whoosh(0.42, 250, 3800), fs(loss["whip"]) - secs(0.1), -16)
+    foley.add(stamp() * 0.6, fs(loss["land"]), -16)
+    foley.add(marker(0.26), fs(loss["circle"]), -19, pan=-0.2)
+    for k in ("label1", "label2", "label3"):
+        foley.add(pop(), fs(loss[k]), -20, pan=0.15)
+    e0, e1 = loss["erase"]
+    foley.add(eraser((e1 - e0) / FPS), fs(e0), -17, pan=-0.1)
+    foley.add(marker(0.18, 1.2), fs(loss["arrow"]), -20, pan=0.25)
+    foley.add(sparkle(), fs(loss["scatter"]), -22, pan=0.3)
+    foley.add(stamp(), fs(loss["stamp"]), -10)
+    foley.add(switch_click(), fs(loss["lightsOff"]), -12)
+    breath = filt(noise(secs(0.3)), "bp", 1800, 0.7) * np.linspace(0, 1, secs(0.3)) ** 2
+    foley.add(breath, fs(CUES["scenes"]["drop"][0]) - secs(0.3), -26)  # 소등 뒤 침묵 속 숨 들이쉬기
+    l0, l1 = CUES["system"]["loop"]
+    foley.add(whoosh((l1 - l0) / FPS, 400, 4500), fs(l0), -18)
+    foley.add(marker(0.2, 1.1), fs(CUES["system"]["flow"]) + secs(0.05), -20)
+    foley.add(whoosh(0.35, 500, 6000), fs(CUES["system"]["zoom"][1]) - secs(0.2), -16)
+    for f in CUES["map"]["pins"]:
+        foley.add(pop(900, 260), fs(f), -28)
+    for k in range(2):
+        n = secs(0.07)
+        beep = fade(sine(1760, n) * np.minimum(1, tvec(n) / 0.003), 0.002, 0.01)
+        foley.add(beep, fs(CUES["end"]["saved"]) + secs(k * 0.11), -24)
+    return foley
+
+
 # ───────────────────────── 편곡 ─────────────────────────
 def compose() -> dict[str, np.ndarray]:
-    names = ("drums", "bass", "gtr", "clav", "keys", "organ", "horns", "intro", "fx", "foley")
-    drums, bass, gtr, clav, keys, organ, horns, intro, fx, foley = (Bus(n) for n in names)
+    names = ("drums", "bass", "gtr", "clav", "keys", "organ", "horns", "intro", "fx")
+    drums, bass, gtr, clav, keys, organ, horns, intro, fx = (Bus(n) for n in names)
     plate = Bus("plate")  # 혼·건반 플레이트 잔향
     loss = CUES["loss"]
     LIGHTS_OFF = fs(loss["lightsOff"])
@@ -938,29 +977,9 @@ def compose() -> dict[str, np.ndarray]:
     intro.x = svf(intro.x, 1300 * (5200 / 1300) ** ramp, 0.9, "lp") * (10 ** ((-11 + 7 * ramp) / 20))[:, None]
     intro.x = tape_stop(intro.x, LIGHTS_OFF, secs(0.32))
 
-    # ── 인트로 폴리: 타자기·형광펜·지우개·도장 (cues.json과 1:1)
-    for line in CUES["typing"].values():
-        for i, ch in enumerate(line["text"]):
-            vel = 0.55 if ch == " " else rng.uniform(0.8, 1.0)
-            foley.add(type_key(vel), fs(line["start"] + i * line["step"]), -12, pan=rng.uniform(-0.25, 0.25))
-    hook = CUES["hook"]
-    foley.add(ding(), fs(hook["ding"]), -25, pan=0.3)
-    foley.add(marker(0.2, 1.1), fs(hook["highlight"]), -19)
-    foley.add(marker(0.24, 0.9), fs(hook["circle"]), -21, pan=0.3)
-    foley.add(whoosh(0.42, 250, 3800), fs(loss["whip"]) - secs(0.1), -16)
-    foley.add(stamp() * 0.6, fs(loss["land"]), -16)
-    foley.add(marker(0.26), fs(loss["circle"]), -19, pan=-0.2)
-    for k in ("label1", "label2", "label3"):
-        foley.add(pop(), fs(loss[k]), -20, pan=0.15)
-    e0, e1 = loss["erase"]
-    foley.add(eraser((e1 - e0) / FPS), fs(e0), -17, pan=-0.1)
-    foley.add(marker(0.18, 1.2), fs(loss["arrow"]), -20, pan=0.25)
-    foley.add(sparkle(), fs(loss["scatter"]), -22, pan=0.3)
-    foley.add(stamp(), stamp_at, -10)
-    foley.add(switch_click(), LIGHTS_OFF, -12)
+    # ── 화면 효과음은 foley_bus()에서 따로 만든다(외부 음원에도 그대로 얹는다)
+    foley = foley_bus()
     fx.add(reverse_crash(0.42), DROP - secs(0.42), -14)
-    breath = filt(noise(secs(0.3)), "bp", 1800, 0.7) * np.linspace(0, 1, secs(0.3)) ** 2
-    foley.add(breath, DROP - secs(0.3), -26)
     for k, b in enumerate((7.75, 7.875)):  # 드롭 직전 스네어 픽업 "다-당"
         drums.add(snare(0.6 + 0.25 * k, tone=205), bs(b), -11)
 
@@ -1016,19 +1035,16 @@ def compose() -> dict[str, np.ndarray]:
     clav_part(24, 27, clav, -15)
     bass_part(24.5, 26, bass)
     l0, l1 = CUES["system"]["loop"]
-    foley.add(whoosh((l1 - l0) / FPS, 400, 4500), fs(l0), -18)
     horn_hit(l0 / 30, "B:7#9", hold=(l1 - l0) / FPS * 0.8, vel=0.85, gain=-10, at=fs(l0), scoop=12.0, scoop_t=0.18)  # 점선 루프를 따라 올라가는 립
     flow = CUES["system"]["flow"]
     fx.add(crash(), fs(flow), -12)
     band_hit(flow / 30, "E:m9", fs(flow), hold=0.4, gain=-4, fall=4.0)
-    foley.add(marker(0.2, 1.1), fs(flow) + secs(0.05), -20)
     bass_part(26.5, 27, bass)
     keys_part(26, 27, keys)
     z0, z1 = CUES["system"]["zoom"]
     tom_fill(z0 / 30, 1.0)
     fx.add(riser((z1 - z0) / FPS, 500, 10000, (220, 880)), fs(z0), -18)
     horn_hit(z0 / 30, "D#:9", hold=0.42, vel=0.8, gain=-11, at=fs(z0), attack=0.4)  # 줌과 함께 부풀어 오르는 스웰
-    foley.add(whoosh(0.35, 500, 6000), fs(z1) - secs(0.2), -16)
 
     # ── 8마디 지도: 핀마다 반음씩 오르는 9화음 스탭(G#9 → D#9) — 혼 + 클라비넷, 베이스는 근음·옥타브
     fx.add(crash(), bs(28), -13)
@@ -1040,7 +1056,6 @@ def compose() -> dict[str, np.ndarray]:
         clav.add(clav_chord(ch["gtr"][-3:], 0.08, 0.9), fs(f), -13, pan=0.45)
         bass.add(slap_bass(mhz(ch["root"]), 0.11, "slap"), fs(f), -7)
         bass.add(slap_bass(mhz(ch["root"] + 12), 0.06, "pop", 0.8), hum(b + 0.25 + SWING), -11)
-        foley.add(pop(900, 260), fs(f), -28)
     gtr_part(28, 32, gtr, -17)
     snare_fill(31, 1.0, -15)
 
@@ -1098,10 +1113,6 @@ def compose() -> dict[str, np.ndarray]:
     organ.add(organ_chord(ch["keys"], 2.2, 1.6, 0.9), logo, -14)
     gtr.add(guitar_chop(ch["gtr"], 1.2, 1.0), logo, -11, pan=-0.45)
     bass.add(slap_bass(mhz(ch["root"]), 1.0, "slap"), logo, -6)
-    for k in range(2):
-        n = secs(0.07)
-        beep = fade(sine(1760, n) * np.minimum(1, tvec(n) / 0.003), 0.002, 0.01)
-        foley.add(beep, fs(end["saved"]) + secs(k * 0.11), -24)
 
     # ── 버스 처리 · 센드(펑크답게 펌핑 없이 건조하게, 혼·건반만 플레이트)
     drums.x = compress(drums.x, -16, 3.0, att=0.004, rel=0.09, makeup_db=2.0)

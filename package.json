@@ -7,7 +7,8 @@
     "render": "remotion render Showreel out/classin-showreel-v5.mp4",
     "still": "remotion still Showreel out/still.png --frame=262",
     "stills": "node tools/stills.mjs --every 60",
-    "music": "python3 tools/music/compose.py",
+    "music": "python3 tools/music/fit_bgm.py",
+    "music:synth": "python3 tools/music/compose.py",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
