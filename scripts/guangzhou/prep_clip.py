@@ -1,9 +1,12 @@
-"""Retime + grade one shot for the Guangzhou vlog.
+"""Retime + grade one shot for the Guangzhou videos.
 
-Decodes the source (HLG iPhone or SDR Samsung), tone maps to BT.709, applies the
-look LUT, crops to 9:16 and scales to OUT_W x OUT_H, then builds every output
-frame from a time-remap curve with shutter blending (frame averaging over the
-source frames the virtual shutter was open for).
+Decodes the source (HLG iPhone, SDR Samsung or DJI), tone maps to BT.709, applies
+the look LUT, crops the largest OUT_W:OUT_H window and scales to OUT_W x OUT_H,
+then builds every output frame from a time-remap curve with shutter blending
+(frame averaging over the source frames the virtual shutter was open for).
+
+Spec-level out_w/out_h/fps set the format (default 1440x2560 @30 for the 9:16 vlog);
+a shot may override w/h (e.g. split-screen panels).
 
 Usage (repo 루트에서): python3 scripts/guangzhou/prep_clip.py scripts/guangzhou/shots.json shot_id
 """
@@ -17,13 +20,14 @@ OUT_W, OUT_H, OUT_FPS = 1440, 2560, 30
 def build_filter(shot, src_w, src_h, hdr, lut):
     z = shot.get("zoom", 1.0)
     cx, cy = shot.get("cx", 0.5), shot.get("cy", 0.5)
-    # largest 9:16 window inside the (rotated) source, then zoom
-    if src_w / src_h > 9 / 16:
+    # largest OUT_W:OUT_H window inside the (rotated) source, then zoom
+    aspect = OUT_W / OUT_H
+    if src_w / src_h > aspect:
         ch = src_h
-        cw = src_h * 9 / 16
+        cw = src_h * aspect
     else:
         cw = src_w
-        ch = src_w * 16 / 9
+        ch = src_w / aspect
     cw, ch = cw / z, ch / z
     x = min(max(cx * src_w - cw / 2, 0), src_w - cw)
     y = min(max(cy * src_h - ch / 2, 0), src_h - ch)
@@ -39,13 +43,19 @@ def build_filter(shot, src_w, src_h, hdr, lut):
         ]
     else:
         chain += [f"scale={OUT_W}:{OUT_H}:flags=lanczos"]
+    if shot.get("pre"):  # 컷별 사전 보정(커브 등) — LUT 앞에 RGB로 건다
+        chain += ["format=rgb24", shot["pre"]]
     chain += [f"lut3d=file={lut}", "format=rgb24"]
     return ",".join(chain)
 
 
 def main():
+    global OUT_W, OUT_H, OUT_FPS
     spec = json.load(open(sys.argv[1]))
     shot = next(s for s in spec["shots"] if s["id"] == sys.argv[2])
+    OUT_W = int(shot.get("w", spec.get("out_w", OUT_W)))
+    OUT_H = int(shot.get("h", spec.get("out_h", OUT_H)))
+    OUT_FPS = int(spec.get("fps", OUT_FPS))
     src = os.path.join(spec["src_dir"], shot["src"])
     out = os.path.join(spec["out_dir"], f"{shot['id']}.mp4")
     lut = os.path.join(spec["lut_dir"], shot.get("lut", "look.cube"))
@@ -62,7 +72,8 @@ def main():
     hdr = info.get("color_transfer") == "arib-std-b67"
     dur = float(json.loads(subprocess.check_output(["ffprobe", "-v", "error", "-print_format", "json", "-show_format", src]))["format"]["duration"])
     n, d = info["avg_frame_rate"].split("/")
-    src_fps = 120 if float(n) / float(d) > 90 else 30
+    fr = float(n) / float(d)
+    src_fps = 120 if fr > 90 else 30 if fr > 26 else 24
 
     # time remap: keyframes [[out_frame, src_seconds], ...] (monotone cubic)
     keys = np.array(shot["map"], dtype=float)
@@ -101,7 +112,7 @@ def main():
         "-s", f"{OUT_W}x{OUT_H}", "-r", str(OUT_FPS), "-i", "-",
         "-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p",
         "-c:v", "libx264", "-preset", "slow", "-crf", str(spec.get("crf", 15)),
-        "-x264-params", "keyint=15:min-keyint=1",
+        "-x264-params", f"keyint={OUT_FPS // 2}:min-keyint=1",
         "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709",
         "-movflags", "+faststart", out], stdin=subprocess.PIPE)
 

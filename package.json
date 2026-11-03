@@ -8,7 +8,8 @@
     "still": "remotion still Showreel out/still.png --frame=300",
     "typecheck": "tsc --noEmit",
     "render:guangzhou": "remotion render GuangzhouVlog out/guangzhou-vlog-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh",
-    "still:guangzhou": "remotion still GuangzhouVlog out/guangzhou-still.png --frame=180"
+    "still:guangzhou": "remotion still GuangzhouVlog out/guangzhou-still.png --frame=180",
+    "render:guangzhou-film": "remotion render GuangzhouEventFilm out/guangzhou-event-film-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh film"
   },
   "repository": {
     "type": "git",
