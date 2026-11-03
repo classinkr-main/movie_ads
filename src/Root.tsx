@@ -5,6 +5,8 @@ import { DURATION_FRAMES, FPS } from "./lib/theme";
 import { Showreel } from "./Showreel";
 import { edlFrames } from "./forum/ForumEdit";
 import {
+  EVENT_EDL,
+  ForumEvent,
   ForumHighlight,
   ForumLive,
   ForumPeople,
@@ -31,5 +33,6 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="ForumStyle" component={ForumStyle} durationInFrames={edlFrames(STYLE_EDL)} fps={FPS} width={1920} height={1080} />
     <Composition id="ForumShort30" component={ForumShort30} durationInFrames={edlFrames(SHORT_EDL)} fps={FPS} width={1920} height={1080} />
     <Composition id="ForumPeople" component={ForumPeople} durationInFrames={edlFrames(PEOPLE_EDL)} fps={FPS} width={1920} height={1080} />
+    <Composition id="ForumEvent" component={ForumEvent} durationInFrames={edlFrames(EVENT_EDL)} fps={FPS} width={1920} height={1080} />
   </>
 );

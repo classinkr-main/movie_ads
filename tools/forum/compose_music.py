@@ -5,6 +5,7 @@ usage: compose_music.py <highlight|live|speakers|sketch> <out.mid>   (pip instal
   live        84 BPM, 피아노·현악·벨만 쓰는 잔잔한 28마디(80초)
   speakers   100 BPM, 50마디(120초): 인트로 4 · 연설 8 · 발표 8 · 발표 10 · 빌드 2 · 몽타주 6 · 피날레 8 · 아웃트로 4
   sketch     100 BPM, 24마디(57.6초): 타이틀 2 · 탐방 9 · 포럼 2 · 연사 5 · 바이트 2 · 단체 사진 2 · 아웃트로 2
+  event      100 BPM, 38마디(91.2초): 타이틀 2 · 탐방 4 · 입장 4 · 개회 4 · 발표 10 · 네트워킹 5 · 질의응답 3 · 바이트 2 · 단체 사진 2 · 아웃트로 2
   people     100 BPM, 26마디(62.4초): 타이틀 2 · 입장 5 · 만남 9 · 함께 6 · 단체 사진 2 · 아웃트로 2
   style      120 BPM, B단조 vi–IV–I–V 하우스 그루브, 29마디(58초): 인트로 2 · 탐방 11 · 포럼 9 · 빌드 1 · 드롭 3 · 아웃트로 3
   short      120 BPM, style 과 같은 재료로 15마디(30초): 인트로 2 · 탐방 5 · 포럼 4 · 빌드 1 · 드롭 2 · 아웃트로 1
@@ -149,6 +150,40 @@ elif variant == "sketch":
         bar += 1
     note(drums, 9, CRASH, bar * 4, 2, 96)
     for i, c in enumerate(["D", "A"]):  # 단체 사진
+        piano_arp(bar, c, 76); pad(bar, c, 62); bassline(bar, c, 92); drum_bar(bar, 3); melody_bar(bar, motif[c], 78); bar += 1
+    note(drums, 9, CRASH, bar * 4, 3, 80)
+    piano_arp(bar, "G", 62, 8); pad(bar, "G", 50); bassline(bar, "G", 74, "long"); bar += 1
+    piano_block(bar, "D", 60); pad(bar, "D", 46); bassline(bar, "D", 72, "long"); bar += 1
+elif variant == "event":
+    # 행사 전체편: 발표 바이트가 들어가는 구간(개회·발표·마무리 한 줄)은 멜로디·드럼을 빼고 낮게 깔아 말이 잘 들리게 한다
+    bar = 0
+    def shaker(b, v=42):
+        for k in range(8): note(drums, 9, SHAKER, b * 4 + k * 0.5, 0.15, v + (8 if k % 2 == 0 else 0))
+    for c in ["D", "A"]:  # 타이틀
+        piano_arp(bar, c, 58, 8); pad(bar, c, 40); bar += 1
+    for i in range(4):  # 탐방
+        c = prog_a[i % 4]; piano_arp(bar, c, 62); pad(bar, c, 48); bassline(bar, c, 76, "long"); drum_bar(bar, 1)
+        if i >= 2: melody_bar(bar, motif[c], 60)
+        bar += 1
+    note(drums, 9, CRASH, bar * 4, 2, 84)
+    for i in range(4):  # 입장
+        c = prog_a[i % 4]; piano_arp(bar, c, 68); pad(bar, c, 54); bassline(bar, c, 86); drum_bar(bar, 2); melody_bar(bar, motif[c], 68); bar += 1
+    for i in range(4):  # 개회 · 축사
+        c = ["G", "A", "Bm", "G"][i]; piano_arp(bar, c, 56, 4); pad(bar, c, 46); bassline(bar, c, 70, "long"); bar += 1
+    for i in range(10):  # 발표
+        c = (prog_a * 3)[i]; piano_arp(bar, c, 58, 8); pad(bar, c, 44); bassline(bar, c, 72, "long"); shaker(bar)
+        bar += 1
+    note(drums, 9, CRASH, bar * 4, 2, 88)
+    for i in range(5):  # 네트워킹
+        c = (prog_a * 2)[i]; piano_arp(bar, c, 70); pad(bar, c, 56); bassline(bar, c, 88); drum_bar(bar, 2); melody_bar(bar, motif[c], 72); bar += 1
+    for i in range(3):  # 질의응답
+        c = prog_b[i]; piano_arp(bar, c, 70); pad(bar, c, 58); bassline(bar, c, 88); drum_bar(bar, 3 if i < 2 else 2); melody_bar(bar, motif[c], 72); bar += 1
+    for i, c in enumerate(["G", "A"]):  # 마무리 한 줄
+        piano_arp(bar, c, 54, 4); pad(bar, c, 46); bassline(bar, c, 68, "long")
+        if i: [note(drums, 9, SNARE, bar * 4 + 2 + k * 0.25, 0.2, 44 + k * 6) for k in range(8)]
+        bar += 1
+    note(drums, 9, CRASH, bar * 4, 3, 98)
+    for c in ["D", "A"]:  # 단체 사진
         piano_arp(bar, c, 76); pad(bar, c, 62); bassline(bar, c, 92); drum_bar(bar, 3); melody_bar(bar, motif[c], 78); bar += 1
     note(drums, 9, CRASH, bar * 4, 3, 80)
     piano_arp(bar, "G", 62, 8); pad(bar, "G", 50); bassline(bar, "G", 74, "long"); bar += 1

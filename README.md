@@ -96,7 +96,7 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 
 ---
 
-# 2026 아시아 AI 교육 포럼(부산) 스케치 영상 — 7개 버전
+# 2026 아시아 AI 교육 포럼(부산) 스케치 영상 — 8개 버전
 
 2026년 5월 29일 부산 WP과사람에서 열린 **2026 Asia AI Education Forum in Busan** 촬영본(Google Drive `260529 부산 포럼(영상)`, 한국팀 DJI + 중국 본사 촬영본)과
 전날 **5월 28일 부산 학원 탐방** 자료(`260528 학원 탐방`의 카메라 사진·핸드폰 영상)로 만든 현장 영상입니다.
@@ -109,6 +109,7 @@ A–C안은 **실황 톤**(현장음·실제 연설 음성 중심, 과한 그래
 | C안 · 하이라이트편(연사) | 사회 → 축사 → 세션 01–06을 순서대로, 연사마다 3.6–7초 컷 1–2개와 한 줄 사운드바이트(한국어 자막)만. 세션 라벨·이름 자막은 공식 아젠다 표기. 몽타주 → 단체 사진 "茄子!" → 엔드 카드 | 1920×1080 · 30fps · 2:00 · H.264/AAC | `out/busan-forum-sketch-C-highlight-speakers.mp4` |
 | D안 · 1분 스케치 | **DAY 1 학원 탐방(약 22초)** → DAY 2 WP과사람·포럼. 탐방은 카메라 사진(천천히 밀고 당기기)과 현장 영상, 연사는 한 컷(2.4초)씩 이름만, 객석 위에 사회자 한 줄 바이트, 단체 사진 구호로 마무리. 100 BPM 마디에 맞춘 2.4–4.8초 컷 | 1920×1080 · 30fps · 0:57.6 · H.264/AAC | `out/busan-forum-sketch-D-60s.mp4` |
 | E안 · 스타일편 | D안 구성을 더 세련되게: 레터박스(섹션·날짜 표기, 진행 막대) · 그레인·비네트·색보정, 박자에 맞춰 들어오는 큰 타이포, DAY 01/02 외곽선 숫자, 세로 영상·사진 3분할, 연사 5인 라인업 분할, 플래시·펀치 줌. 120 BPM 하우스 그루브 | 1920×1080 · 30fps · 0:58 · H.264/AAC | `out/busan-forum-sketch-E-style.mp4` |
+| H안 · 행사 전체편 | 이틀 일정을 순서대로: DAY 1 학원 탐방 → DAY 2 입장 → 개회·축사 → 세션 발표(연사 5인 이름 자막, 축사·곽정율·지우유·안도 다이사쿠의 3–6초 바이트) → 네트워킹 → 질의응답 → 사회자 마무리 한 줄 → 단체 사진 구호. 100 BPM 2.4–4.8초 컷, 바이트 구간은 음악을 낮춘다 | 1920×1080 · 30fps · 1:31 · H.264/AAC | `out/busan-forum-sketch-H-event.mp4` |
 | G안 · 사람편 | 연사·강연 없이 **사람**만: 01 입장(행사장으로 들어서는 발걸음, 로비 사인, 등록 데스크, 입구 인사, 꽉 찬 홀) → 02 만남(복도·라이브러리 대화, 원로 인사, 간식 테이블, VIP 기념 촬영, 5.28 탐방 복도 대화) → 03 함께(사진 찍는 객석, 질문하는 참가자, 객석 전경) → 단체 사진 구호. 포럼 당일 카메라 사진 + 현장 영상, 100 BPM 2.4초 컷 | 1920×1080 · 30fps · 1:02 · H.264/AAC | `out/busan-forum-sketch-G-people.mp4` |
 | F안 · 30초편 | E안 문법으로 탐방 5마디 · 포럼 4마디 · 단체 사진 드롭만 남긴 30초. 컷은 2초(1마디) 이상 | 1920×1080 · 30fps · 0:30 · H.264/AAC | `out/busan-forum-sketch-F-30s.mp4` |
 
@@ -143,7 +144,8 @@ A–C안은 **실황 톤**(현장음·실제 연설 음성 중심, 과한 그래
 | C 세션 05 | 지우유 (중국어) | 피드백할 때도 어느 단계에서 문제가 생겼는지 보입니다. / 앞으로 AI가 들어와도 마찬가지입니다. |
 | C 세션 06 | 안도 다이사쿠 (일본어) | 아이 수는 계속 줄고 있지만 / 1.2조 엔이라는 시장 규모는 변하지 않았습니다. (화면의 '1.2兆円' 슬라이드와 동기) |
 | A 06 함께 | 설동근 전 교육부 차관 | 아시아 교육의 미래를 함께 여는 소중한 출발점이 되기를 기원합니다. / 감사합니다. |
-| D 객석 컷 | 김정무 (사회) | 교육은 결국, 사람이 사람을 성장시키는 일입니다. |
+| D 객석 컷 · H 마무리 | 김정무 (사회) | 교육은 결국, 사람이 사람을 성장시키는 일입니다. |
+| H 개회·축사 / 세션 발표 | 설동근 · 곽정율 · 지우유 · 안도 다이사쿠 | A·C안과 같은 바이트(지우유는 첫 문장만) |
 
 단체 사진 컷은 촬영자의 "一、二、三 — 茄子!" 구호와 웃음을 그대로 살렸습니다.
 
@@ -180,12 +182,13 @@ src/forum/edl/sketch.json      # D안 EDL — 탐방 사진(img)·영상 + A–C
 src/forum/edl/style.json       # E안 EDL — style(레터박스·그레인·색보정) · panels(분할 화면) · words/stamp/lockup 텍스트
 src/forum/edl/short.json       # F안 EDL
 src/forum/edl/people.json      # G안 EDL — 포럼 당일 사진 + 입장·객석 영상
+src/forum/edl/event.json       # H안 EDL — D·G안 사진·컷과 C안 바이트를 하루 흐름으로 재구성
 src/forum/ForumEdit.tsx        # EDL 렌더러 — 디졸브, 사진 켄번스, 세로 영상(tall), 분할 화면, 플래시·펀치, 덕킹, 자막
 src/forum/Overlays.tsx         # 타이틀 · 챕터/세션 라벨 · LIVE HUD · 로워서드 · 자막 · 키 카피 · 엔드 카드
 src/forum/Style.tsx            # E·F안 — 레터박스 틀 · 그레인 · 비네트 · 분할 화면 · 박자 타이포 · DAY 스탬프 · 락업
 tools/forum/fetch.sh           # Drive 원본 내려받기(footage.tsv = EDL이 쓰는 클립·탐방 사진)
 tools/forum/cut.py             # EDL → public/forum/clips/*.mp4(1080p30 중간본) · stills/*.jpg(사진) · audio/*.wav(사운드바이트)
-tools/forum/compose_music.py   # 오리지널 음악 MIDI (highlight · live · speakers · sketch · people · style · short)
+tools/forum/compose_music.py   # 오리지널 음악 MIDI (highlight · live · speakers · sketch · event · people · style · short)
 tools/forum/music.sh           # MIDI → public/forum/audio/music-*.wav
 tools/forum/deliver.sh         # 마스터 → 납품본(-16 LUFS, x264 2-pass)
 ```
@@ -195,12 +198,13 @@ tools/forum/fetch.sh ~/footage
 python3 tools/forum/cut.py ~/footage src/forum/edl/*.json        # clip 으로 가리키는 컷은 다른 버전의 중간본을 재사용
 tools/forum/music.sh                                             # fluidsynth · fluid-soundfont-gm · mido 필요
 npm run render:forum-live && npm run render:forum-highlight && npm run render:forum-speakers   # out/forum-sketch-*-master.mp4 (CRF 17)
-npm run render:forum-sketch60 && npm run render:forum-style && npm run render:forum-short30 && npm run render:forum-people
+npm run render:forum-sketch60 && npm run render:forum-style && npm run render:forum-short30 && npm run render:forum-people && npm run render:forum-event
 tools/forum/deliver.sh out/forum-sketch-speakers-master.mp4 out/busan-forum-sketch-C-highlight-speakers.mp4 5500
 tools/forum/deliver.sh out/forum-sketch-60s-master.mp4 out/busan-forum-sketch-D-60s.mp4 6000
 tools/forum/deliver.sh out/forum-sketch-style-master.mp4 out/busan-forum-sketch-E-style.mp4 7000
 tools/forum/deliver.sh out/forum-sketch-30s-master.mp4 out/busan-forum-sketch-F-30s.mp4 7000
 tools/forum/deliver.sh out/forum-sketch-people-master.mp4 out/busan-forum-sketch-G-people.mp4 6500
+tools/forum/deliver.sh out/forum-sketch-event-master.mp4 out/busan-forum-sketch-H-event.mp4 6500
 ```
 
 `public/forum/`와 마스터 렌더는 용량 때문에 git에서 제외했습니다. 납품용 `out/busan-forum-sketch-*.mp4`는 마스터를 x264 2-pass로 다시 인코딩한 파일입니다.
