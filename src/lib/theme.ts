@@ -1,4 +1,3 @@
-import cues from "../data/cues.json";
 
 // v5 팔레트 — 파스텔 연두 지면 + 잉크 글자. 포인트는 코발트(UI·블록)와 시그널 오렌지(손그림 첨삭).
 export const C = {
@@ -32,16 +31,6 @@ export const FONT = {
   mono: `"${FAMILY.mono}", "${FAMILY.sans}"`,
 } as const;
 
-export const FPS = cues.fps; // 60
-export const BEAT = cues.beat; // 30f = 120 BPM
-export const BAR = BEAT * 4;
-export const DURATION_FRAMES = cues.durationInFrames; // 1320f = 22s
+export const FPS = 60; // 버전별 길이·타이밍은 lib/timing.tsx
 export const W = 1920;
 export const H = 1080;
-
-export const CUES = cues;
-export type SceneId = keyof typeof cues.scenes;
-export const scene = (id: SceneId) => {
-  const [from, to] = cues.scenes[id];
-  return { from, to, len: to - from };
-};

@@ -4,16 +4,18 @@ import { Camera, GraphPaper } from "../components/Stage";
 import { Cutout, Tape } from "../components/Media";
 import { HandArrow, HandCircle, Highlighter, Stamp, Tag } from "../components/Marks";
 import { Caption, Typewriter } from "../components/Type";
-import { C, CUES, FONT, H } from "../lib/theme";
+import { C, FONT, H } from "../lib/theme";
+import { useCues } from "../lib/timing";
 import { clamp, ease, prog } from "../lib/motion";
 
-// S1 훅 + S2 상실 (0–240f) — 파스텔 연두 모눈종이 지면 위 Vox식 해설.
+// S1 훅 + S2 상실 (드롭 전까지 — 22초판 0–240f · 30초판 0–360f) — 파스텔 연두 모눈종이 지면 위 Vox식 해설.
 // 위쪽 지면(0–1080)에 질문을 타이핑하고, 카메라가 아래 지면(1080–2160)으로 휩 팬해 실제 학원 사진에 주석을 단다.
-// 206f에 불이 꺼지고 "미래의 학원은,"이 찍힌 뒤 240f 드롭으로 넘어간다.
+// 소등(loss.lightsOff)에 불이 꺼지고 "미래의 학원은,"이 찍힌 뒤 드롭으로 넘어간다.
 
-const T = CUES.typing;
-const L = CUES.loss;
-const HK = CUES.hook;
+const useIntroCues = () => {
+  const c = useCues();
+  return { T: c.typing, L: c.loss, HK: c.hook };
+};
 
 // 사진 컷아웃 배치(지면 좌표). 사진 원본 1800×811
 const PHOTO = { x: 300, y: H + 170, w: 1320, border: 16 };
@@ -43,9 +45,10 @@ const Header: React.FC = () => {
 };
 
 const Question: React.FC = () => {
+  const { T, HK } = useIntroCues();
   const frame = useCurrentFrame();
   const base: React.CSSProperties = { fontFamily: FONT.display, fontSize: 138, lineHeight: 1.18, letterSpacing: "-0.035em", color: C.ink };
-  // 2행을 세 토막으로 나눠 "어디로"에 형광펜, "?"에 동그라미를 단다(타이밍은 cues.json 그대로)
+  // 2행을 세 토막으로 나눠 "어디로"에 형광펜, "?"에 동그라미를 단다(타이밍은 큐 시트 그대로)
   const s1 = "수업은 ";
   const s2 = "어디로";
   const s3 = " 갈까";
@@ -96,6 +99,7 @@ const Ruler: React.FC = () => (
 
 // 왼쪽 칠판을 지우개가 훑고 지나가며 판서를 지운다
 const Eraser: React.FC = () => {
+  const { L } = useIntroCues();
   const frame = useCurrentFrame();
   const [e0, e1] = L.erase;
   const p = prog(frame, e0, e1, ease.inOut);
@@ -141,6 +145,7 @@ const Eraser: React.FC = () => {
 
 // 선생님 옆 말풍선 — 설명이 점으로 흩어져 날아간다
 const Bubble: React.FC = () => {
+  const { L } = useIntroCues();
   const frame = useCurrentFrame();
   const start = L.label2 - 6;
   if (frame < start) return null;
@@ -195,6 +200,7 @@ const Bubble: React.FC = () => {
 };
 
 const LossBoard: React.FC = () => {
+  const { L } = useIntroCues();
   const frame = useCurrentFrame();
   const land = interpolate(frame, [L.whip + 4, L.land], [1, 0], { ...clamp, easing: ease.out });
   const vanish = prog(frame, L.stamp + 4, L.lightsOff + 6, ease.in);
@@ -229,6 +235,7 @@ const LossBoard: React.FC = () => {
 
 // 소등 → 잉크 화면 위에 "미래의 학원은," 타이핑
 const LightsOff: React.FC = () => {
+  const { T, L } = useIntroCues();
   const frame = useCurrentFrame();
   const p = prog(frame, L.lightsOff, L.lightsOff + 8, ease.inExpo);
   if (frame < L.lightsOff) return null;
@@ -244,6 +251,7 @@ const LightsOff: React.FC = () => {
 };
 
 export const Intro: React.FC = () => {
+  const { L } = useIntroCues();
   const frame = useCurrentFrame();
   // 카메라: 시작 줌아웃 → 휩 팬(아래 지면) → 천천히 밀고 들어감
   const settle = interpolate(frame, [0, 54], [1.12, 1], { ...clamp, easing: ease.outQuint });

@@ -1,6 +1,7 @@
 // 검수용 스틸 일괄 렌더 — 번들은 한 번만 만들고 지정한 프레임들을 JPEG로 뽑는다.
 //   node tools/stills.mjs 30 120 245 ...        → out/preview-0030.jpg …
 //   node tools/stills.mjs --every 30            → 0, 30, 60 … 전 구간
+//   COMP=Showreel30 node tools/stills.mjs 600   → 30초 여유판(out/preview-showreel30-0600.jpg)
 import { bundle } from "@remotion/bundler";
 import { renderStill, selectComposition, openBrowser } from "@remotion/renderer";
 import path from "node:path";
@@ -12,11 +13,13 @@ const every = args[0] === "--every" ? Number(args[1]) : 0;
 
 const serveUrl = await bundle({ entryPoint: path.join(root, "src/index.ts"), publicDir: path.join(root, "public") });
 const browser = await openBrowser("chrome", { browserExecutable: process.env.REMOTION_BROWSER_EXECUTABLE ?? null, chromiumOptions: { gl: "angle" } });
-const composition = await selectComposition({ serveUrl, id: "Showreel", puppeteerInstance: browser });
+const comp = process.env.COMP ?? "Showreel";
+const tag = comp === "Showreel" ? "" : `${comp.toLowerCase()}-`;
+const composition = await selectComposition({ serveUrl, id: comp, puppeteerInstance: browser });
 const frames = every ? Array.from({ length: Math.ceil(composition.durationInFrames / every) }, (_, i) => i * every) : args.map(Number);
 
 for (const frame of frames) {
-  const output = path.join(root, `out/preview-${String(frame).padStart(4, "0")}.jpg`);
+  const output = path.join(root, `out/preview-${tag}${String(frame).padStart(4, "0")}.jpg`);
   await renderStill({
     serveUrl,
     composition,

@@ -3,19 +3,17 @@ import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from "rem
 import { Flash, Rings } from "../components/Fx";
 import { LimeStage } from "../components/Stage";
 import { MaskUp } from "../components/Type";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { clamp, ease, prog } from "../lib/motion";
 
 // S10 엔드 (1200–1320f) — 파스텔 연두 위 공식 컬러 로고 → "수업 자동 녹화 · 학습 관리 솔루션" → 쇼룸 CTA. HUD가 SAVED로 바뀐다.
-const { from } = scene("end");
-const E = {
-  logo: CUES.end.logo - from,
-  tagline: CUES.end.tagline - from,
-  cta: CUES.end.cta - from,
-};
 
 export const End: React.FC = () => {
   const frame = useCurrentFrame();
+  const cues = useCues();
+  const { from } = sceneSpan(cues, "end");
+  const E = { logo: cues.end.logo - from, tagline: cues.end.tagline - from, cta: cues.end.cta - from };
   const mark = prog(frame, E.logo, E.logo + 14, ease.outQuint);
   const rule = prog(frame, E.tagline + 10, E.tagline + 26, ease.outQuint);
   const cta = prog(frame, E.cta, E.cta + 12, ease.outBack);

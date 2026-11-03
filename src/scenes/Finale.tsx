@@ -4,26 +4,27 @@ import { Photo } from "../components/Media";
 import { HandLine } from "../components/Marks";
 import { Flash } from "../components/Fx";
 import { Slam } from "../components/Type";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { clamp, ease, prog } from "../lib/motion";
 
 // S9 피날레 (1080–1200f) — 실제 학원 사진이 8분음표로 바뀌는 위로 브랜드 문장을 첨삭한다.
 // "좋은 수업을, / 강사의 개인기에서 → (취소선) / 학원의 시스템으로."
-const { from } = scene("finale");
-const LINES = CUES.finale.lines.map((f) => f - from);
-const STRIKE = CUES.finale.strike - from;
-const STEP = CUES.finale.strobe;
-
 const STROBE = ["case-busan.jpg", "mokdong-point.jpg", "case-daechi.jpg", "case-pyeongtaek.jpg", "hw-room86.jpg", "mokdong-dual.jpg", "case-daegu.jpg", "mokdong-grid.jpg"];
 
 export const Finale: React.FC = () => {
   const frame = useCurrentFrame();
+  const cues = useCues();
+  const { from, len } = sceneSpan(cues, "finale");
+  const LINES = cues.finale.lines.map((f) => f - from);
+  const STRIKE = cues.finale.strike - from;
+  const STEP = cues.finale.strobe; // 사진이 바뀌는 간격(22초판 8분음표, 30초판 4분음표)
   const idx = Math.min(STROBE.length - 1, Math.floor(frame / STEP));
   const local = frame - idx * STEP;
   const z = interpolate(local, [0, STEP], [1.1, 1.04], { ...clamp, easing: ease.out });
   const block = prog(frame, STRIKE, STRIKE + 7, ease.outExpo);
   const struck = prog(frame, STRIKE, STRIKE + 10);
-  const push = interpolate(frame, [STRIKE, 120], [1, 1.05], { ...clamp, easing: ease.inOut });
+  const push = interpolate(frame, [STRIKE, len], [1, 1.05], { ...clamp, easing: ease.inOut });
   const line: React.CSSProperties = { fontFamily: FONT.display, fontSize: 150, lineHeight: 1.12, letterSpacing: "-0.05em", color: C.white, whiteSpace: "nowrap" };
   return (
     <AbsoluteFill style={{ background: C.ink, overflow: "hidden" }}>

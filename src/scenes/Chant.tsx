@@ -6,7 +6,8 @@ import { HandCircle, Tag } from "../components/Marks";
 import { Flash } from "../components/Fx";
 import { Counter, Slam } from "../components/Type";
 import { IconRec } from "../components/Icons";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { POP, clamp, ease, prog, shake, sp } from "../lib/motion";
 
 // S4 챈트 (270–510f) — 단어 하나에 한 박. "판서는, 파일로. / 설명은, 영상으로. / 복습은, 앱으로. / 운영은, 데이터로."
@@ -24,9 +25,12 @@ type Pair = {
   Panel: React.FC;
 };
 
-const { from: FROM, to: TO } = scene("chant");
-const A_BEATS = CUES.chant.filter((_, i) => i % 2 === 0).map((f) => f - FROM); // 쌍마다 A박(로컬)
-const B = CUES.chant[1] - CUES.chant[0]; // 쌍 안에서 B박까지의 거리(30f)
+// 쌍마다 A박(로컬), 쌍 안에서 B박까지의 거리, 장면 길이 — 버전별 cues에서 온다
+const useChantCues = () => {
+  const c = useCues();
+  const { from, len } = sceneSpan(c, "chant");
+  return { A_BEATS: c.chant.filter((_, i) => i % 2 === 0).map((f) => f - from), B: c.chant[1] - c.chant[0], LEN: len };
+};
 const PANEL_X = 900; // 패널 왼쪽 경계(px)
 const PANEL_W = 1920 - PANEL_X;
 
@@ -305,6 +309,7 @@ const PAIRS: Pair[] = [
 
 const PairShot: React.FC<{ pair: Pair; index: number }> = ({ pair, index }) => {
   const frame = useCurrentFrame();
+  const { B } = useChantCues();
   const punch = interpolate(frame, [0, 8], [1.16, 1.08], { ...clamp, easing: ease.outExpo });
   const drift = interpolate(frame, [8, 60], [0, 0.04], clamp);
   const panel = prog(frame, B, B + 8, ease.outExpo);
@@ -349,12 +354,15 @@ const PairShot: React.FC<{ pair: Pair; index: number }> = ({ pair, index }) => {
   );
 };
 
-export const Chant: React.FC = () => (
-  <AbsoluteFill style={{ background: C.ink }}>
-    {PAIRS.map((pair, i) => (
-      <Sequence key={pair.a} from={A_BEATS[i]} durationInFrames={(A_BEATS[i + 1] ?? TO - FROM) - A_BEATS[i]}>
-        <PairShot pair={pair} index={i} />
-      </Sequence>
-    ))}
-  </AbsoluteFill>
-);
+export const Chant: React.FC = () => {
+  const { A_BEATS, LEN } = useChantCues();
+  return (
+    <AbsoluteFill style={{ background: C.ink }}>
+      {PAIRS.map((pair, i) => (
+        <Sequence key={pair.a} from={A_BEATS[i]} durationInFrames={(A_BEATS[i + 1] ?? LEN) - A_BEATS[i]}>
+          <PairShot pair={pair} index={i} />
+        </Sequence>
+      ))}
+    </AbsoluteFill>
+  );
+};

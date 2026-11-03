@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import pathlib
 
 import numpy as np
@@ -39,7 +40,8 @@ from scipy.io import wavfile
 from scipy.ndimage import minimum_filter1d, uniform_filter1d
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-CUES = json.loads((ROOT / "src/data/cues.json").read_text())
+# 버전별 큐 시트 — 기본 22초판. CLASSIN_CUES=src/data/cues-30s.json이면 30초 여유판(합성 편곡 CHART는 22초판 전용, 화면 효과음은 두 판 모두)
+CUES = json.loads((ROOT / os.environ.get("CLASSIN_CUES", "src/data/cues.json")).read_text())
 
 SR = 48000
 FPS = CUES["fps"]

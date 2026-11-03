@@ -5,15 +5,18 @@ import { Clip, Cutout, Tape } from "../components/Media";
 import { HandCircle, HandLine, Highlighter } from "../components/Marks";
 import { Caption, MaskUp, Slam } from "../components/Type";
 import { IconBoard, IconChart, IconFile, IconPhone, IconRec } from "../components/Icons";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { POP, clamp, ease, prog, sp } from "../lib/motion";
 
 // S6 시스템 흐름 (600–840f) — "수업 자동 녹화 · 학습 관리 솔루션": 수업 전·중·후가 한 줄로 이어지는 노선도. 역은 박마다 하나씩 켜진다.
-const { from } = scene("system");
-const ST = CUES.system.stations.map((f) => f - from);
-const LOOP = CUES.system.loop.map((f) => f - from);
-const FLOW = CUES.system.flow - from;
-const ZOOM = CUES.system.zoom.map((f) => f - from);
+// 역·루프·"한 흐름으로."·줌 프레임(장면 기준) — 버전별 cues에서 온다
+const useSystemCues = () => {
+  const c = useCues();
+  const { from } = sceneSpan(c, "system");
+  const s = c.system;
+  return { ST: s.stations.map((f) => f - from), LOOP: s.loop.map((f) => f - from), FLOW: s.flow - from, ZOOM: s.zoom.map((f) => f - from) };
+};
 
 const X = [230, 595, 960, 1325, 1690];
 const LINE_Y = 610;
@@ -283,14 +286,16 @@ const STATIONS: Array<{ title: string; sub: string; Icon: React.FC<{ size?: numb
   { title: "관리자 데이터", sub: "출결·참여·운영", Icon: IconChart, card: <AdminDash /> },
 ];
 
+// 수업 전·중·후 괄호 — 묶음의 첫 역이 켜질 때 그어진다(at = 역 번호)
 const GROUPS: Array<{ label: string; x0: number; x1: number; at: number }> = [
-  { label: "수업 전", x0: X[0] - CARD.w / 2, x1: X[0] + CARD.w / 2, at: ST[0] },
-  { label: "수업 중", x0: X[1] - CARD.w / 2, x1: X[2] + CARD.w / 2, at: ST[1] },
-  { label: "수업 후", x0: X[3] - CARD.w / 2, x1: X[4] + CARD.w / 2, at: ST[3] },
+  { label: "수업 전", x0: X[0] - CARD.w / 2, x1: X[0] + CARD.w / 2, at: 0 },
+  { label: "수업 중", x0: X[1] - CARD.w / 2, x1: X[2] + CARD.w / 2, at: 1 },
+  { label: "수업 후", x0: X[3] - CARD.w / 2, x1: X[4] + CARD.w / 2, at: 3 },
 ];
 
 const Station: React.FC<{ i: number }> = ({ i }) => {
   const frame = useCurrentFrame();
+  const { ST } = useSystemCues();
   const at = ST[i];
   if (frame < at - 1) return null;
   const s = sp(frame - at, POP);
@@ -342,6 +347,7 @@ const Station: React.FC<{ i: number }> = ({ i }) => {
 
 const Track: React.FC = () => {
   const frame = useCurrentFrame();
+  const { ST, LOOP } = useSystemCues();
   const p = interpolate(frame, [ST[0], ST[4]], [0, 1], clamp);
   const x1 = X[0] + (X[4] - X[0]) * p;
   // 되돌아오는 점선 루프: 마지막 역 → 아래로 → 왼쪽 → 첫 역
@@ -367,13 +373,15 @@ const Track: React.FC = () => {
 
 const Groups: React.FC = () => {
   const frame = useCurrentFrame();
+  const { ST } = useSystemCues();
   return (
     <>
       {GROUPS.map((g) => {
-        const a = prog(frame, g.at, g.at + 10);
+        const at = ST[g.at];
+        const a = prog(frame, at, at + 10);
         return (
           <React.Fragment key={g.label}>
-            <HandLine from={[g.x0, BRACKET_Y]} to={[g.x1, BRACKET_Y]} start={g.at} dur={10} color={C.ink} width={3} wobble={2} seed={g.label} />
+            <HandLine from={[g.x0, BRACKET_Y]} to={[g.x1, BRACKET_Y]} start={at} dur={10} color={C.ink} width={3} wobble={2} seed={g.label} />
             <div style={{ position: "absolute", left: g.x0, top: BRACKET_Y, width: 3, height: 16, background: C.ink, opacity: a }} />
             <div style={{ position: "absolute", left: g.x1 - 3, top: BRACKET_Y, width: 3, height: 16, background: C.ink, opacity: a }} />
             <div style={{ position: "absolute", left: (g.x0 + g.x1) / 2 - 100, width: 200, top: BRACKET_Y - 40, textAlign: "center", opacity: a }}>
@@ -388,6 +396,7 @@ const Groups: React.FC = () => {
 
 export const System: React.FC = () => {
   const frame = useCurrentFrame();
+  const { FLOW, ZOOM } = useSystemCues();
   const drift = interpolate(frame, [0, ZOOM[0]], [1, 1.03], clamp);
   const zoom = interpolate(frame, [ZOOM[0], ZOOM[1]], [1, 3.4], { ...clamp, easing: ease.inExpo });
   const blur = interpolate(frame, [ZOOM[0] + 10, ZOOM[1]], [0, 14], clamp);

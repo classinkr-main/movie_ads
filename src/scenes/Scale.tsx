@@ -3,15 +3,19 @@ import { AbsoluteFill, interpolate, random, useCurrentFrame } from "remotion";
 import { LimeStage } from "../components/Stage";
 import { Flash, Rings } from "../components/Fx";
 import { Caption, Counter, MaskUp } from "../components/Type";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { SLAM, clamp, ease, prog, shake, sp } from "../lib/motion";
 import geo from "../data/geo.json";
 
 // S8 글로벌 수치 (960–1080f) — 드럼이 멎는 스톱타임 히트 3번에 맞춰 숫자가 박힌다.
 // 수치는 EEO 공식 소개(classin.com) 기준 전 세계 누적값 — classinkr-web docs/active/brand-canon/company-facts.md
-const { from } = scene("scale");
-const HITS = CUES.scale.hits.map((f) => f - from);
-const CAPTION = CUES.scale.caption - from;
+// 스톱타임 히트·출처 캡션 프레임(장면 기준)과 장면 길이 — 버전별 cues에서 온다
+const useScaleCues = () => {
+  const c = useCues();
+  const { from, len } = sceneSpan(c, "scale");
+  return { HITS: c.scale.hits.map((f) => f - from), CAPTION: c.scale.caption - from, LEN: len };
+};
 
 const STATS: Array<{ value: number; unit?: string; label: string; format?: (n: number) => string }> = [
   { value: 160, label: "개국" },
@@ -43,6 +47,7 @@ const WorldDots: React.FC = () => {
 
 const Stat: React.FC<{ i: number }> = ({ i }) => {
   const frame = useCurrentFrame();
+  const { HITS } = useScaleCues();
   const at = HITS[i];
   if (frame < at) return null;
   const t = frame - at;
@@ -74,8 +79,9 @@ const Stat: React.FC<{ i: number }> = ({ i }) => {
 
 export const Scale: React.FC = () => {
   const frame = useCurrentFrame();
+  const { HITS, CAPTION, LEN } = useScaleCues();
   const cap = prog(frame, CAPTION, CAPTION + 10);
-  const out = interpolate(frame, [104, 120], [1, 1.06], { ...clamp, easing: ease.in });
+  const out = interpolate(frame, [LEN - 16, LEN], [1, 1.06], { ...clamp, easing: ease.in });
   return (
     <LimeStage grid={false}>
       <AbsoluteFill style={{ transform: `scale(${out})` }}>

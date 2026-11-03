@@ -3,7 +3,8 @@ import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame }
 import { Clip, Photo } from "../components/Media";
 import { Flash, Marquee } from "../components/Fx";
 import { LimeStage } from "../components/Stage";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { clamp, ease, shake } from "../lib/motion";
 
 // S5 미래 교실 (510–600f) — 8분음표마다 컷. 전자칠판·AI 카메라·AI 강의 분석·학원 현장·학원 교실·양방향 수업 시연을 스트로브로.
@@ -67,8 +68,9 @@ const Shot: React.FC<{ i: number; at: number }> = ({ i, at }) => {
 
 export const Future: React.FC = () => {
   const frame = useCurrentFrame();
-  const { from, len } = scene("future");
-  const cuts = CUES.future.map((f) => f - from);
+  const cues = useCues();
+  const { from, len } = sceneSpan(cues, "future");
+  const cuts = cues.future.map((f) => f - from);
   const chip = interpolate(frame, [0, 6], [0, 1], { ...clamp, easing: ease.outBack });
   // 흰 앱 화면 위에선 흰 윤곽선이 배경에 묻히고 글자 획만 깎아 보이므로 옅은 잉크로,
   // 누끼 컷에선 마퀴를 컷 안(제품 뒤)에서 이어 그리므로 바깥 마퀴는 숨긴다

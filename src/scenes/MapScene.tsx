@@ -2,13 +2,18 @@ import React from "react";
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { LimeStage } from "../components/Stage";
 import { Caption, MaskUp } from "../components/Type";
-import { C, CUES, FONT, scene } from "../lib/theme";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
 import { POP, clamp, ease, prog, sp } from "../lib/motion";
 import geo from "../data/geo.json";
 
 // S7 지도 (840–960f) — 파스텔 연두 지면 위 한국 지도. 8분음표마다 핀이 하나씩 꽂히고, 같은 박에 그 학원의 사진이 붙는다.
-const { from } = scene("map");
-const PINS = CUES.map.pins.map((f) => f - from);
+// 핀이 꽂히는 프레임(장면 기준) — 버전별 cues에서 온다
+const usePins = () => {
+  const c = useCues();
+  const { from } = sceneSpan(c, "map");
+  return c.map.pins.map((f) => f - from);
+};
 
 const PLACES: Array<{ key: keyof typeof geo.korea.pins; name: string; photo: string; pos?: string }> = [
   { key: "daechi", name: "서울 대치", photo: "case-daechi.jpg", pos: "50% 45%" },
@@ -25,6 +30,7 @@ const MAP = { x: 1010, y: 46, scale: 0.98 };
 
 const Polaroid: React.FC<{ i: number }> = ({ i }) => {
   const frame = useCurrentFrame();
+  const PINS = usePins();
   const at = PINS[i];
   if (frame < at) return null;
   const s = sp(frame - at, POP);
@@ -59,6 +65,7 @@ const Polaroid: React.FC<{ i: number }> = ({ i }) => {
 
 const KoreaMap: React.FC = () => {
   const frame = useCurrentFrame();
+  const PINS = usePins();
   const draw = prog(frame, 0, 18, ease.out);
   return (
     <div style={{ position: "absolute", left: MAP.x, top: MAP.y, transform: `scale(${MAP.scale})`, transformOrigin: "0 0" }}>

@@ -1,4 +1,4 @@
-# Classin 쇼릴 v5 — "남는 수업" (22초 · 60fps)
+# Classin 쇼릴 v5 — "남는 수업" (22초 · 30초 여유판 · 60fps)
 
 **"수업이 끝나면, 수업은 어디로 갈까?"** 라는 Vox식 질문으로 열고, 비트 드롭과 함께 **"미래의 학원은, 남긴다."** 로 뒤집은 뒤
 **"좋은 수업을, 학원의 시스템으로."** 와 Classin 로고·쇼룸 CTA로 끝나는 22초 가로(16:9) 브랜드 쇼릴입니다.
@@ -8,7 +8,8 @@
 | 산출물 | 규격 | 경로 |
 | --- | --- | --- |
 | 메인 (16:9) | 1920×1080 · **60fps** · **22.0s (1320f)** · H.264 yuv420p bt709 · AAC 스테레오 | `out/classin-showreel-v5.mp4` |
-| 사운드트랙 | 제미나이로 만든 펑크곡 "Breakthrough at the Board"를 큐에 맞춰 22초로 편집 + 화면 효과음 · 120 BPM · 48kHz 16bit 스테레오 WAV · −14 LUFS · 트루피크 −1 dBTP 이하 | `public/audio/classin-v5.wav` |
+| **30초 여유판** (16:9) | 같은 규격 · **30.0s (1800f)** — 장면이 머무는 시간을 늘린 판(아래 '30초 여유판') | `out/classin-showreel-v5-30s.mp4` |
+| 사운드트랙 | 제미나이로 만든 펑크곡 "Breakthrough at the Board"를 큐에 맞춰 편집 + 화면 효과음 · 120 BPM · 48kHz 16bit 스테레오 WAV · −14 LUFS · 트루피크 −1 dBTP 이하 | `public/audio/classin-v5.wav` · `classin-v5-30s.wav` |
 
 > v1(20초 다크 톤 · 9:16 포함), v2(23초 AI 강의 분석 단독), v3(25초 5개 기능 · 스켈레톤 UI), v4(30초 Classin AI 5개 기능 · 중2 국어 예시 수업, 커밋 `692395e`)는 git 히스토리에 남아 있습니다.
 
@@ -28,7 +29,7 @@
 
 ## 스토리 (10씬 · 1320f · 11마디)
 
-모든 씬 경계와 히트 프레임은 `src/data/cues.json` 한 곳에 있고, 영상과 사운드트랙이 함께 읽습니다.
+모든 씬 경계와 히트 프레임은 버전별 큐 시트 한 곳(22초판 `src/data/cues.json`, 30초판 `src/data/cues-30s.json`)에 있고, 영상과 사운드트랙이 함께 읽습니다. 아래 표는 22초판 기준입니다.
 
 | # | 프레임 | 마디 | 화면 |
 | --- | --- | --- | --- |
@@ -42,6 +43,22 @@
 | S8 글로벌 | 960–1080 | 9 | 점묘 세계지도 + 스톱타임 히트 3번: **160+ 개국 · 6만+ 교육기관 · 5,000만+ 교사·학습자** (EEO 공식 소개 기준 캡션) |
 | S9 피날레 | 1080–1200 | 10 | 실제 학원 사진 8분음표 스트로브 위 "좋은 수업을, ~~강사의 개인기에서~~ **학원의 시스템으로.**" |
 | S10 엔드 | 1200–1320 | 11 | Classin 로고 + 수업 자동 녹화 · 학습 관리 솔루션 + "목동 쇼룸에서 실제 수업 흐름 보기 →" + classin.co.kr, HUD SAVED |
+
+## 30초 여유판 — 천천히 읽히는 버전
+
+22초판이 빨라 어른 시청자가 따라가기 어렵다는 피드백에 맞춰, 같은 장면·카피·음악(120 BPM)으로 **화면이 머무는 시간만 늘린** 30초판입니다. 장면 코드는 같고 큐 시트(`src/data/cues-30s.json`)만 다릅니다.
+
+| 장면 | 22초판 | 30초 여유판 |
+| --- | --- | --- |
+| 질문 타이핑 | 글자당 5·4f, 다 쓴 질문을 0.2초 보여 줌 | 글자당 7·6f, 다 쓴 질문을 0.65초 보여 줌(형광펜·동그라미 포함) |
+| 상실(판서·설명·노하우) | 라벨 간격 약 0.2–0.5초 | 약 1.5배 간격 |
+| 드롭 "남긴다." | 0.5초 | 1초 |
+| 챈트 단어 쌍 | 쌍마다 1초(결과 카드 0.5초) | 쌍마다 1.5초(결과 카드 1초) |
+| 미래 교실 컷 6개 | 컷당 0.25초 | 컷당 0.5초 |
+| 노선도 | 4초 · 카드 다섯 장이 다 뜬 채 1.5초 | 5초 · 카드 다섯 장이 다 뜬 채 2.5초 |
+| 지도 · 통계 | 핀 뒤 0.25초 · 통계 0.5초 간격 | 핀 뒤 0.75초 · 통계 0.75초 간격 |
+| 피날레 배경 사진 | 0.25초마다 교체 | 0.5초마다 교체 |
+| 피날레 · 엔드 | 2초 · 2초 | 2초 · 2초(같음) |
 
 ## 사운드트랙 — 제미나이 곡을 큐에 맞춰 편집
 
@@ -57,7 +74,7 @@
 | 18.0–20.0s | 92.05–94.05s | 피날레 — 곡의 재진입 |
 | 20.0–22.0s | 115.05–117.05s | 로고 — 곡의 마지막 히트와 울림, 21.1s부터 페이드 |
 
-- 큐를 바꾸면 `fit_bgm.py`의 `EDL`(원곡 마디선 · 영상 시작 · 길이)을 고친 뒤 `npm run music` → `npm run render`.
+- 편집표는 `fit_bgm.py`의 `edl()`이 큐 시트에서 계산합니다(원곡 쪽 지점은 `SONG`). 30초 여유판은 같은 구성으로 도입 0–6s, 드롭 6s부터 지도까지 원곡 17.5s, 통계 23.5 · 24.25 · 25s, 피날레 26s, 엔드 28s에 맞춰집니다.
 - **사용 범위**: 제미나이(구글) 생성 음원입니다. 광고 집행 전 구글의 생성형 AI 이용약관에서 상업적 사용 조건을 확인하세요(구글 생성 음원에는 SynthID 워터마크가 들어갈 수 있습니다).
 - **합성 대안**: 외부 음원 없이 numpy로 합성한 펑크 편곡도 남겨 두었습니다 — `npm run music:synth`(`tools/music/compose.py`, 슬랩 베이스·클라비넷·펑크 기타·3성부 혼·로즈·오르간, E 도리안 · 블루 노트, 장조 펜타토닉 선율·플럭·벨 없음). 같은 WAV 경로에 쓰므로 둘 중 마지막에 돌린 것이 영상에 들어갑니다.
 
@@ -87,7 +104,8 @@
 src/
   Root.tsx                  # Showreel(16:9 · 60fps · 1320f) 컴포지션
   Showreel.tsx              # 씬 시퀀스 + REC HUD · 그레인 · 비네트 + 사운드트랙
-  data/cues.json            # 타이밍 SSOT(씬 경계 · 타자기 · 히트 프레임) — 사운드트랙과 공유
+  data/cues.json            # 22초판 타이밍 SSOT(씬 경계 · 타자기 · 히트 프레임) — 사운드트랙과 공유
+  data/cues-30s.json        # 30초 여유판 타이밍(같은 구조)
   data/geo.json             # 한국 시도 경계 path · 핀 좌표 · 점묘 세계지도 좌표
   scenes/Intro(S1–2) · Drop · Chant · Future · System · MapScene · Scale · Finale · End
   components/Stage.tsx      # GraphPaper · LimeStage · Grain · Vignette · Camera
@@ -97,6 +115,7 @@ src/
   components/Fx.tsx         # Flash · Rings · SpeedLines · LightLeak · Marquee
   components/Hud.tsx        # 캠코더 REC HUD(타임코드 → SAVED)
   components/Icons.tsx      # 노선도 역 아이콘
+  lib/timing.tsx            # 버전(큐 시트 + 사운드트랙) · useCues() — 장면은 타이밍을 여기서만 읽는다
   lib/theme.ts · motion.ts · fonts.ts
 public/photos · clips · brand · fonts · textures · audio
 tools/music/fit_bgm.py      # 제미나이 원곡을 큐에 맞춰 편집 + 효과음 → 사운드트랙
@@ -113,8 +132,10 @@ tools/stills.mjs            # 검수용 스틸 일괄 렌더
 npm install
 npm run dev        # Remotion Studio — 타임라인에서 씬·히트 확인
 npm run render     # out/classin-showreel-v5.mp4
-npm run stills     # 1초 간격 검수 스틸 → out/preview-*.jpg
+npm run render:30  # 30초 여유판 → out/classin-showreel-v5-30s.mp4
+npm run stills     # 1초 간격 검수 스틸 → out/preview-*.jpg (30초판은 COMP=Showreel30)
 npm run music      # 제미나이 원곡 편집 → public/audio/classin-v5.wav (ffmpeg · numpy · scipy · numba · pyloudnorm 필요)
+npm run music:30   # 30초 여유판 사운드트랙 → public/audio/classin-v5-30s.wav
 npm run music:synth  # 대안: 합성 펑크 편곡으로 같은 WAV를 다시 만듦
 npm run typecheck
 ```
@@ -123,7 +144,7 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 
 ## 수정 가이드
 
-- **타이밍** — `src/data/cues.json`을 고치면 효과음은 자동으로 따라옵니다. 음악은 `fit_bgm.py`의 `EDL`도 함께 맞춘 뒤 `npm run music` → `npm run render`. 1박 = 30f, 1마디 = 120f.
+- **타이밍** — 버전별 큐 시트(`src/data/cues.json` · `cues-30s.json`)를 고치면 화면과 효과음이 함께 따라오고, 음악 편집표도 큐 시트에서 다시 계산됩니다. `npm run music`(30초판은 `music:30`) → `npm run render`(`render:30`). 1박 = 30f, 1마디 = 120f.
 - **카피** — 각 씬 파일 상단 상수와 JSX 문자열(`PAIRS`, `STATIONS`, `PLACES`, `STATS` 등). 타자기 문장은 `cues.json`의 `typing`.
 - **사진 교체** — `public/photos/`에 넣고 씬의 파일명·`pos`(object-position)를 바꿉니다. 하프톤이 필요하면 `python3 -I tools/assets/halftone.py <입력> <출력.png>`, 검은 배경 제품 사진의 누끼는 `python3 -I tools/assets/cutout_dark.py <입력> <출력.png> <미리보기.jpg>`(pymatting 필요).
 - **색·서체** — `src/lib/theme.ts`, `src/lib/fonts.ts`.

@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-showreel-v5.mp4",
+    "render:30": "remotion render Showreel30 out/classin-showreel-v5-30s.mp4",
     "still": "remotion still Showreel out/still.png --frame=262",
     "stills": "node tools/stills.mjs --every 60",
     "music": "python3 tools/music/fit_bgm.py",
+    "music:30": "python3 tools/music/fit_bgm.py --cues src/data/cues-30s.json --out public/audio/classin-v5-30s.wav",
     "music:synth": "python3 tools/music/compose.py",
     "typecheck": "tsc --noEmit"
   },
