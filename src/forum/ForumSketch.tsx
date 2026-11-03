@@ -3,6 +3,7 @@ import { ForumEdit } from "./ForumEdit";
 import event from "./edl/event.json";
 import highlight from "./edl/highlight.json";
 import live from "./edl/live.json";
+import move from "./edl/move.json";
 import people from "./edl/people.json";
 import short from "./edl/short.json";
 import sketch from "./edl/sketch.json";
@@ -18,6 +19,7 @@ export const STYLE_EDL = style as unknown as Edl;
 export const SHORT_EDL = short as unknown as Edl;
 export const PEOPLE_EDL = people as unknown as Edl;
 export const EVENT_EDL = event as unknown as Edl;
+export const MOVE_EDL = move as unknown as Edl;
 
 // A안 — 실황편: 현장음과 연설 사운드바이트로 흐름을 끌고 가는 2분 33초
 export const ForumLive: React.FC = () => <ForumEdit edl={LIVE_EDL} />;
@@ -42,3 +44,6 @@ export const ForumPeople: React.FC = () => <ForumEdit edl={PEOPLE_EDL} />;
 
 // H안 — 행사 전체편: 탐방·입장·개회·세션 발표(짧은 바이트)·네트워킹·질의응답·단체 사진을 하루 흐름대로 담은 1분 31초
 export const ForumEvent: React.FC = () => <ForumEdit edl={EVENT_EDL} />;
+
+// I안 — 현장편: 행사 전체 흐름에서 방문·입장·대화처럼 사람이 움직이는 영상 비중을 높인 1분 31초
+export const ForumMove: React.FC = () => <ForumEdit edl={MOVE_EDL} />;

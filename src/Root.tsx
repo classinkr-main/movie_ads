@@ -9,6 +9,7 @@ import {
   ForumEvent,
   ForumHighlight,
   ForumLive,
+  ForumMove,
   ForumPeople,
   ForumShort30,
   ForumSketch60,
@@ -16,6 +17,7 @@ import {
   ForumStyle,
   HIGHLIGHT_EDL,
   LIVE_EDL,
+  MOVE_EDL,
   PEOPLE_EDL,
   SHORT_EDL,
   SKETCH_EDL,
@@ -34,5 +36,6 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="ForumShort30" component={ForumShort30} durationInFrames={edlFrames(SHORT_EDL)} fps={FPS} width={1920} height={1080} />
     <Composition id="ForumPeople" component={ForumPeople} durationInFrames={edlFrames(PEOPLE_EDL)} fps={FPS} width={1920} height={1080} />
     <Composition id="ForumEvent" component={ForumEvent} durationInFrames={edlFrames(EVENT_EDL)} fps={FPS} width={1920} height={1080} />
+    <Composition id="ForumMove" component={ForumMove} durationInFrames={edlFrames(MOVE_EDL)} fps={FPS} width={1920} height={1080} />
   </>
 );
