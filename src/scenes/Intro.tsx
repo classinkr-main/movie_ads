@@ -34,7 +34,7 @@ const Header: React.FC = () => {
         <span style={{ fontFamily: FONT.sans, fontWeight: 700, fontSize: 24, color: C.ink, marginLeft: 10 }}>학원 편</span>
       </div>
       <Caption size={20} style={{ position: "absolute", right: 120, top: 80, color: C.ink, opacity: 0.55 }}>
-        CLASSIN · 수업 시스템 OS
+        CLASSIN · 수업 자동 녹화 · 학습 관리 솔루션
       </Caption>
       <div style={{ position: "absolute", left: 120, right: 120, top: 128, height: 2, background: C.ink, opacity: 0.85 }} />
       <div style={{ position: "absolute", left: 120, right: 120, top: 136, height: 1, background: C.ink, opacity: 0.35 }} />

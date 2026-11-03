@@ -6,7 +6,7 @@ import { MaskUp } from "../components/Type";
 import { C, CUES, FONT, scene } from "../lib/theme";
 import { clamp, ease, prog } from "../lib/motion";
 
-// S10 엔드 (1200–1320f) — 파스텔 연두 위 공식 컬러 로고 → "수업 시스템 OS" → 쇼룸 CTA. HUD가 SAVED로 바뀐다.
+// S10 엔드 (1200–1320f) — 파스텔 연두 위 공식 컬러 로고 → "수업 자동 녹화 · 학습 관리 솔루션" → 쇼룸 CTA. HUD가 SAVED로 바뀐다.
 const { from } = scene("end");
 const E = {
   logo: CUES.end.logo - from,
@@ -34,10 +34,10 @@ export const End: React.FC = () => {
       </div>
       <div style={{ position: "absolute", left: 0, right: 0, top: 560, display: "flex", justifyContent: "center" }}>
         <MaskUp start={E.tagline} dur={12}>
-          <div style={{ fontFamily: FONT.sans, fontWeight: 700, fontSize: 54, letterSpacing: "0.02em", color: C.ink }}>수업 시스템 OS</div>
+          <div style={{ fontFamily: FONT.sans, fontWeight: 700, fontSize: 50, letterSpacing: "0.01em", color: C.ink, whiteSpace: "nowrap" }}>수업 자동 녹화 · 학습 관리 솔루션</div>
         </MaskUp>
       </div>
-      <div style={{ position: "absolute", left: 760, width: 400, top: 668, height: 3, background: C.ink, opacity: 0.3, transform: `scaleX(${rule})` }} />
+      <div style={{ position: "absolute", left: 700, width: 520, top: 668, height: 3, background: C.ink, opacity: 0.3, transform: `scaleX(${rule})` }} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 712, display: "flex", flexDirection: "column", alignItems: "center", gap: 26, opacity: Math.min(1, cta * 1.5) }}>
         <div
           style={{
