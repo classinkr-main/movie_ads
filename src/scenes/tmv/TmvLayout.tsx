@@ -34,7 +34,7 @@ export const TmvLayout: React.FC<{
         style={{
           position: "absolute",
           left: -36,
-          top: -200,
+          top: -135, // 번호가 2/3쯤 보이도록(절반에서 조금 내림)
           fontFamily: FONT_FAMILY,
           fontSize: 400,
           fontWeight: 900,
