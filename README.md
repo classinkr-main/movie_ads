@@ -6,7 +6,7 @@ Classin AI 기능을 에디토리얼 톤의 키네틱 모션그래픽으로 소�
 | 편 | 컴포지션 ID | 규격 | 경로 |
 | --- | --- | --- | --- |
 | **AI 강의 평가 → 강사 관리 · A 라이트 편** (22초) | `TeacherMgmt` | 1920×1080 · 30fps · 22s(660f) · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-teacher-mgmt.mp4` |
-| **AI 강의 평가 → 강사 관리 · B 다크 가치 편** (26초) | `TeacherMgmtDark` | 1920×1080 · 30fps · 26s(780f) · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-teacher-mgmt-dark.mp4` |
+| **AI 강의 평가 → 강사 관리 · B 가치 편** (26초) | `TeacherMgmtValue` | 1920×1080 · 30fps · 26s(780f) · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-teacher-mgmt-value.mp4` |
 | Classin AI 5개 기능 쇼릴 (30초, v4) | `Showreel` | 1920×1080 · 30fps · 30s(900f) · H.264 · yuv420p bt709 · 무음 | `out/classin-ai-showreel.mp4` |
 
 ---
@@ -61,51 +61,58 @@ node scripts/preview-frames.mjs TeacherMgmt 90,250,460,600   # out/preview-Teach
 
 ---
 
-## 1-B. AI 강의 평가 → 강사 관리 · B 다크 가치 편 (26초 · `TeacherMgmtDark`)
+## 1-B. AI 강의 평가 → 강사 관리 · B 가치 편 (26초 · `TeacherMgmtValue`)
 
-**"원장은 편하게, 강사는 객관적으로."** — A편과 같은 주제를 **가치 중심**으로 다시 쓴 두 번째 스타일입니다. 문제 제기(참관 못 함) 대신
-"매 수업 옆에 코치를"이라는 약속에서 출발해, 자동 피드백 루프 → 원장이 얻는 것 → 강사가 얻는 것 → 두 사람이 같은 데이터로 대화한다는 흐름으로 4초 더 깁니다.
+**"원장님은 편하게, 강사는 객관적으로."** — A편과 같은 주제를 **가치 중심**으로 다시 쓴 두 번째 편입니다. 디자인 테마는 A편·쇼릴과 같은
+화이트·아이보리 + 연두이고, 문제 제기 대신 "매 수업 옆에 코치를"이라는 약속에서 출발해 자동 피드백 루프 → 연두 포인트 → 원장님이 얻는 것 →
+강사가 얻는 것 → 두 사람이 같은 데이터로 대화한다는 흐름으로 A편보다 4초 깁니다. 타이틀은 모든 씬에서 **2줄 고정**(각 줄 `nowrap`)입니다.
 
-### 스타일 — 딥 포레스트 다크
+### 씬마다 다른 모션 · 포인트
 
-- **베이스**: 딥 포레스트 그라데이션(`#0E2219` → `#0A1A14`), 헤어라인 그리드, 느리게 떠다니는 연두·브랜드 그린 빛, 비네트, 그레인 (`src/lib/themeDark.ts`, `src/components/Dark.tsx`)
-- **표면**: 반투명 유리 카드(상단 하이라이트 라인 + 깊은 그림자 + 미세 3D 틸트), 흰 글자 · 연두 포인트 · 연두 솔리드 CTA
-- **모션 장치**: 흰 글자 위로 연두 빛이 한 번 스치는 `Shine`, 블러가 걷히며 올라오는 `Reveal`, 플레어 디졸브 · 슬라이드 업 전환(`src/components/TransitionsDark.tsx`), 마지막은 연두 아이리스
-- **로고**: CTA의 스택 로고는 다크 배경용 **흰색 반전**(`filter: brightness(0) invert(1)`)입니다. 브랜드 가이드의 리버스 로고 규정과 맞는지 확인이 필요합니다.
+| 씬 | 모션 장치 | 포인트 |
+| --- | --- | --- |
+| S1 훅 | 동심 궤도 3개가 그려지고 빛점이 서로 반대 방향으로 공전, 중앙 코어 펄스 | "코치를" 형광펜 |
+| 01 루프 | 원형 루프를 빛이 한 바퀴 돌며 노드를 하나씩 켬, 이후 계속 회전 | 중앙 "전부 자동" + "강사 추가 업무 0" |
+| **포인트** | **연두 풀블리드** 키네틱 타이포 "원장님도, 강사도." — 글자 회전 스태거, 손그림 동그라미, 버스트, 배경 아웃라인 워드 흐름, 좌우에서 02·03 예고 라벨 | 영상 한가운데의 색 반전 |
+| 02 원장님 | **카드가 왼쪽**에 놓이고 오른쪽에서 열림(레이아웃 반전), 숫자 롤링, "2시간" 취소선 → "10분" 손그림 동그라미, 프리셋 토글로 가중치 막대 재배치, 알림 행 슬라이드 | "참관 0회" 스티커 |
+| 03 강사 | 카드가 아래에서 열림, 8주 라인 차트 드로잉 + 영역 채움, 끝점 펄스, 체크박스 튕김 | "8주 +12점" 스티커, 서브 카피 "내 리포트는 내가 먼저 보고" 형광펜 |
+| S6 CTA | 글자 스태거 + 형광펜 + 버스트 + 버튼 링 | — |
 
-### 스토리 (5씬 · 780f)
+전환도 씬마다 다릅니다: 연두 스윕 →(01) 연두 스윕 역방향 →(포인트) 푸시 →(02) 푸시 →(03) 연두 아이리스 →(CTA).
+
+### 스토리 (6씬 · 780f)
 
 | # | 글로벌 프레임 | 길이 | 화면 |
 | --- | --- | --- | --- |
-| S1 훅 | 0–140 | 4.7s | "매 수업 옆에, 코치를 둘 수 있다면?" + 우측에 AI 코치 동심 궤도(세 링이 그려지고 빛점이 공전) · "최고의 전문가도 코치와 함께 성장합니다. 이제 수업에도, AI 코치가 붙습니다." |
-| 01 피드백 루프 | 118–278 | 5.3s | "매 수업, 피드백 루프가 돕니다" — 수업 → 자동 녹화 → AI 강의 평가 → 면담·개선 원형 루프. 빛이 한 바퀴 돌며 노드를 켜고 중앙에 "전부 자동 · 강사 추가 업무 0" |
-| 02 원장 | 260–460 | 6.7s | "원장은, 편해집니다" — 원장 대시보드: 확인한 수업 36/36(참관 0회), 면담 준비 2시간 → 10분, 이번 주 할 일 3건, 우리 학원 기준 가중치(입시 수학 ↔ 초등 영어 프리셋 전환), 이번 주 알림(칭찬 · 면담 추천) |
-| 03 강사 | 442–642 | 6.7s | "강사는, 객관적으로 성장합니다" — 내 수업 리포트(나만 보기): 8주 종합 점수 추이 74 → 86 라인 차트, 이번 주 강점, 다음 수업에서 해볼 한 가지(체크), 근거 장면 · 목표, "내 리포트는 내가 먼저 봅니다" |
-| S5 CTA | 618–780 | 5.4s | "원장은 편하게, 강사는 객관적으로." + 3개 칩 + "AI 강의 평가 하나로, 두 사람이 같은 데이터로 대화합니다." + 흰 로고 + 연두 '지금 문의하기' + classin.co.kr/contact |
+| S1 훅 | 0–138 | 4.6s | "매 수업 옆에, 코치를 둘 수 있다면?" + AI 코치 궤도 · "최고의 전문가도 코치와 함께 성장합니다. 이제 수업에도, AI 코치가 붙습니다." |
+| 01 피드백 루프 | 118–266 | 4.9s | "매 수업, 피드백 루프가 돕니다" — 수업 → 자동 녹화 → AI 강의 평가 → 면담·개선 |
+| 포인트 | 248–324 | 2.5s | 연두 풀블리드 "원장님도, 강사도." + "같은 데이터로, 두 사람 모두 얻습니다." + 02·03 예고 |
+| 02 원장님 | 306–490 | 6.1s | "원장님은, 편해집니다" — 원장님 대시보드: 확인한 수업 36/36(참관 0회), 면담 준비 2시간 → 10분, 이번 주 할 일 3건, 우리 학원 기준 가중치(입시 수학 ↔ 초등 영어), 이번 주 알림(칭찬 · 면담 추천) |
+| 03 강사 | 472–656 | 6.1s | "강사는, 객관적으로 성장합니다" — 내 수업 리포트(나만 보기): 8주 추이 74 → 86, 이번 주 강점, 다음 수업에서 해볼 한 가지(체크), 근거 장면 · 목표, "내 리포트는 내가 먼저 봅니다" |
+| S6 CTA | 632–780 | 4.9s | "원장님은 편하게, 강사는 객관적으로." + 3개 칩 + "AI 강의 평가 하나로, 두 사람이 같은 데이터로 대화합니다." + 지금 문의하기 + classin.co.kr/contact |
 
-전환: 플레어 디졸브(S1→01) → 슬라이드 업 ×2 → 연두 아이리스(03→CTA). 01–03 동안 상단 "Classin AI · 강의 평가 · 원장과 강사" 라벨, 3단 진행 표시와 "01 — 03" 카운터, 우하단 예시 고지가 고정됩니다.
+01 · 02 · 03 동안 상단 "Classin AI · 강의 평가 · 원장님과 강사" 라벨, 3단 진행 표시와 "01 — 03" 카운터, 우하단 예시 고지가 고정됩니다(훅·포인트·CTA에서는 숨김).
 
 ### 카피 근거와 검수 참고
 
 - "강사에게도 코치가 필요합니다 — 매 수업 옆에 둘 수 없을 뿐", "수업 → 기록 → 피드백 → 개선 루프가 매 수업 돈다, 녹화도 분석도 자동이라 강사 일이 늘지 않는다",
   "기준은 우리 학원이 정합니다(입시 수학 vs 초등 영어 프리셋)", "점수가 아니라 자기 수업을 보여줬을 뿐", "강사가 먼저 본인 리포트 확인 · 열람 권한은 좁게 · 점수가 아니라 추이로"는
-  세미나 기획 v3의 12·13·14·15·22장을 옮긴 것입니다.
-- **원장 대시보드와 내 수업 리포트 화면, 학원 기준 가중치 프리셋은 콘셉트 목업**입니다. 수업 수·시간·점수·추이·알림 문장은 모두 가상 예시이며 화면에 고지를 넣었습니다.
+  세미나 기획 v3의 12·13·14·15·22장을 옮긴 것입니다. 호칭은 모두 "원장님"입니다.
+- **원장님 대시보드와 내 수업 리포트 화면, 학원 기준 가중치 프리셋은 콘셉트 목업**입니다. 수업 수·시간·점수·추이·알림 문장은 모두 가상 예시이며 화면에 고지를 넣었습니다.
   특히 "면담 준비 2시간 → 10분", "강사 추가 업무 0", 가중치 조정 기능은 실제 제품 범위·표현 가능 여부를 제품팀과 확인한 뒤 써야 합니다.
+- 같은 스토리의 **다크 포레스트 톤 시안**(`TeacherMgmtDark`, 26초)은 git 히스토리 `a0d4625`에 남아 있습니다.
 
 ### 파일 · 실행
 
 ```
-src/TeacherMgmtDark.tsx          # 타임라인(TMB_TIMELINE · TMB_TRANSITIONS) + 오버레이
-src/lib/themeDark.ts             # 다크 팔레트 D
-src/components/Dark.tsx          # DarkStage · GlassDark · CardHeaderDark · Shine · ChipDark · Reveal · LogoStackedWhite
-src/components/TransitionsDark.tsx # flare · slideUp
-src/scenes/tmb/TmbLayout · HookB · LoopB · DirectorB · TeacherB · CtaB
+src/TeacherMgmtValue.tsx         # 타임라인(TMV_TIMELINE · TMV_TRANSITIONS) + 오버레이
+src/scenes/tmv/TmvLayout.tsx     # 2줄 고정 타이틀 레이아웃(side로 카드 좌/우 선택)
+src/scenes/tmv/HookV · LoopV · PointV · DirectorV · TeacherV · CtaV
 ```
 
 ```bash
-npm run render:tmd                                       # out/classin-ai-teacher-mgmt-dark.mp4
-node scripts/preview-frames.mjs TeacherMgmtDark 115,258,410,592,708
+npm run render:tmv                                       # out/classin-ai-teacher-mgmt-value.mp4
+node scripts/preview-frames.mjs TeacherMgmtValue 115,200,285,420,600,720
 ```
 
 ---
@@ -163,12 +170,10 @@ src/
   Root.tsx                  # Showreel · TeacherMgmt 컴포지션 등록
   Showreel.tsx              # TransitionSeries 타임라인 + 챕터 레일 오버레이
   TeacherMgmt.tsx           # 강사 관리 A 라이트 편 타임라인(1절)
-  TeacherMgmtDark.tsx       # 강사 관리 B 다크 가치 편 타임라인(1-B절)
+  TeacherMgmtValue.tsx      # 강사 관리 B 가치 편 타임라인(1-B절)
   scenes/Opening · F01Eval · F02Script · F03Homework · F04Subtitle · F05Agent · Cta
   scenes/tm/                # 강사 관리 A편 씬
-  scenes/tmb/               # 강사 관리 B편 씬
-  components/Dark.tsx       # 다크 스테이지 · 유리 카드 · Shine 등 (B편)
-  components/TransitionsDark.tsx # 플레어 디졸브 · 슬라이드 업 (B편)
+  scenes/tmv/               # 강사 관리 B편 씬
   components/Transitions.tsx# 연두 스윕 · 패럴랙스 푸시 · 연두 아이리스 (두 편 공용)
   components/Feature.tsx    # FEATURES 목록 · FeatureLayout(텍스트 컬럼 + 카드 컬럼) · ChapterRail · UiCard · CardHeader · Stamp
   components/Flourish.tsx   # Highlighter · Chars · RollingNumber · Burst · Dots · GlassCard · GhostWord · TypeText · ClipReveal · SkeletonLine
@@ -189,7 +194,7 @@ npm install
 npm run dev        # Remotion Studio — 두 컴포지션을 타임라인에서 확인
 npm run render     # out/classin-ai-showreel.mp4 (30초 쇼릴)
 npm run render:tm  # out/classin-ai-teacher-mgmt.mp4 (22초 강사 관리 A 라이트 편)
-npm run render:tmd # out/classin-ai-teacher-mgmt-dark.mp4 (26초 강사 관리 B 다크 가치 편)
+npm run render:tmv # out/classin-ai-teacher-mgmt-value.mp4 (26초 강사 관리 B 가치 편)
 npm run typecheck
 ```
 

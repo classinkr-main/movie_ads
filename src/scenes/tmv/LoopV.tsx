@@ -1,11 +1,12 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { ChipDark, td } from "../../components/Dark";
+import { Chip } from "../../components/Ui";
 import { clamp, SMOOTH, sp } from "../../lib/motion";
-import { D } from "../../lib/themeDark";
-import { TmbLayout } from "./TmbLayout";
+import { C } from "../../lib/theme";
+import { tx } from "../tm/TmLayout";
+import { TmvLayout } from "./TmvLayout";
 
-// 01 — 피드백 루프: 수업 → 녹화 → AI 강의 평가 → 면담·개선. 빛이 한 바퀴 돌며 노드를 켜고, 이후 계속 돈다. 강사 일은 늘지 않는다.
+// 01 — 피드백 루프: 수업 → 자동 녹화 → AI 강의 평가 → 면담·개선. 빛이 한 바퀴 돌며 노드를 켜고, 이후 계속 돈다. 강사 일은 늘지 않는다.
 const NODES = [
   { label: "수업", sub: "온라인 · 대면", glyph: "▶" },
   { label: "자동 녹화", sub: "칠판 · 음성", glyph: "REC" },
@@ -14,17 +15,16 @@ const NODES = [
 ];
 const SIZE = 640;
 const R = 232;
-const LOOP_START = 36;
-const LOOP_LEN = 84; // 첫 바퀴
-const DRAW = 20;
+const LOOP_START = 34;
+const LOOP_LEN = 80;
+const DRAW = 16;
 
-export const LoopB: React.FC = () => {
+export const LoopV: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const ring = sp(frame - DRAW, fps, SMOOTH, 40);
   const cx = SIZE / 2;
   const cy = SIZE / 2;
-  // 빛의 각도(도) — 첫 바퀴는 LOOP_LEN 프레임, 이후 조금 느리게 계속
   const t = frame - LOOP_START;
   const turns = t < 0 ? 0 : t <= LOOP_LEN ? t / LOOP_LEN : 1 + (t - LOOP_LEN) / 110;
   const angle = -90 + turns * 360;
@@ -34,18 +34,12 @@ export const LoopB: React.FC = () => {
   const center = sp(frame - (LOOP_START + LOOP_LEN - 10), fps, SMOOTH, 22);
 
   return (
-    <TmbLayout
+    <TmvLayout
       step={0}
-      title={
-        <>
-          매 수업,
-          <br />
-          피드백 루프가 돕니다
-        </>
-      }
+      lines={["매 수업,", "피드백 루프가 돕니다"]}
       sub={
         <>
-          수업 → 자동 녹화 → AI 강의 평가 → 면담. 참관할 때만 가끔 돌던 루프가 매 수업 돕니다. <span style={{ color: D.ink, fontWeight: 700 }}>녹화도 분석도 자동이라, 강사의 일은 늘지 않습니다.</span>
+          수업 → 자동 녹화 → AI 강의 평가 → 면담. 참관할 때만 가끔 돌던 루프가 매 수업 돕니다. <span style={{ color: C.ink, fontWeight: 700 }}>녹화도 분석도 자동이라, 강사의 일은 늘지 않습니다.</span>
         </>
       }
       bullets={["자동 녹화", "수업 끝나면 리포트", "강사 일 +0"]}
@@ -53,31 +47,24 @@ export const LoopB: React.FC = () => {
       <div style={{ position: "relative", width: SIZE, height: SIZE, opacity: interpolate(frame - 6, [0, 10], [0, 1], clamp) }}>
         <svg width={SIZE} height={SIZE} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
           <defs>
-            <linearGradient id="arcGrad" gradientUnits="userSpaceOnUse" x1={cx + Math.cos(rad(angle - 40)) * R} y1={cy + Math.sin(rad(angle - 40)) * R} x2={cx + Math.cos(rad(angle)) * R} y2={cy + Math.sin(rad(angle)) * R}>
-              <stop offset="0%" stopColor={D.lime} stopOpacity={0} />
-              <stop offset="100%" stopColor={D.lime} stopOpacity={1} />
+            <linearGradient id="arcGradV" gradientUnits="userSpaceOnUse" x1={cx + Math.cos(rad(angle - 40)) * R} y1={cy + Math.sin(rad(angle - 40)) * R} x2={cx + Math.cos(rad(angle)) * R} y2={cy + Math.sin(rad(angle)) * R}>
+              <stop offset="0%" stopColor={C.limeDeep} stopOpacity={0} />
+              <stop offset="100%" stopColor={C.limeDeep} stopOpacity={1} />
             </linearGradient>
           </defs>
-          {/* 베이스 링 */}
-          <circle cx={cx} cy={cy} r={R} stroke={D.line2} strokeWidth={2} fill="none" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - ring} transform={`rotate(-90 ${cx} ${cy})`} strokeLinecap="round" />
-          {/* 지나간 구간(첫 바퀴) */}
-          {t >= 0 && (
-            <circle cx={cx} cy={cy} r={R} stroke={D.limeDeep} strokeWidth={2} fill="none" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - Math.min(1, turns)} transform={`rotate(-90 ${cx} ${cy})`} strokeLinecap="round" opacity={0.7} />
-          )}
-          {/* 달리는 빛 */}
+          <circle cx={cx} cy={cy} r={R} stroke="rgba(28,27,23,0.14)" strokeWidth={2} fill="none" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - ring} transform={`rotate(-90 ${cx} ${cy})`} strokeLinecap="round" />
+          {t >= 0 && <circle cx={cx} cy={cy} r={R} stroke={C.lime} strokeWidth={4} fill="none" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - Math.min(1, turns)} transform={`rotate(-90 ${cx} ${cy})`} strokeLinecap="round" />}
           {t >= 0 && (
             <>
-              <circle cx={cx} cy={cy} r={R} stroke="url(#arcGrad)" strokeWidth={6} fill="none" pathLength={1} strokeDasharray={`${arcLen} ${1 - arcLen}`} strokeDashoffset={-(turns % 1) + arcLen} transform={`rotate(-90 ${cx} ${cy})`} strokeLinecap="round" />
-              <circle cx={cx + Math.cos(rad(angle)) * R} cy={cy + Math.sin(rad(angle)) * R} r={9} fill={D.lime} style={{ filter: "drop-shadow(0 0 14px rgba(200,240,90,0.9))" }} />
+              <circle cx={cx} cy={cy} r={R} stroke="url(#arcGradV)" strokeWidth={7} fill="none" pathLength={1} strokeDasharray={`${arcLen} ${1 - arcLen}`} strokeDashoffset={-(turns % 1) + arcLen} transform={`rotate(-90 ${cx} ${cy})`} strokeLinecap="round" />
+              <circle cx={cx + Math.cos(rad(angle)) * R} cy={cy + Math.sin(rad(angle)) * R} r={10} fill={C.forest} style={{ filter: "drop-shadow(0 0 12px rgba(200,240,90,0.9))" }} />
             </>
           )}
-          {/* 화살 표시(방향) */}
           {[45, 135, 225, 315].map((a) => (
-            <polygon key={a} points="0,-5 8,0 0,5" fill={D.faint} transform={`translate(${cx + Math.cos(rad(a)) * R} ${cy + Math.sin(rad(a)) * R}) rotate(${a + 90})`} opacity={ring} />
+            <polygon key={a} points="0,-5 8,0 0,5" fill={C.gray300} transform={`translate(${cx + Math.cos(rad(a)) * R} ${cy + Math.sin(rad(a)) * R}) rotate(${a + 90})`} opacity={ring} />
           ))}
         </svg>
 
-        {/* 노드 */}
         {NODES.map((n, i) => {
           const a = -90 + i * 90;
           const x = cx + Math.cos(rad(a)) * R;
@@ -96,11 +83,11 @@ export const LoopB: React.FC = () => {
                   borderRadius: 999,
                   display: "grid",
                   placeItems: "center",
-                  background: lit ? D.lime : "#0F2A20",
-                  border: `2px solid ${lit ? D.lime : D.line2}`,
-                  boxShadow: lit ? `0 0 ${30 + litS * 10}px rgba(200,240,90,${0.45 * litS})` : "none",
+                  background: lit ? C.lime : C.white,
+                  border: `2px solid ${lit ? C.limeDeep : C.hairline}`,
+                  boxShadow: lit ? `0 ${12 + litS * 6}px ${30 + litS * 10}px rgba(139,201,38,${0.35 * litS})` : "0 10px 30px rgba(28,27,23,0.08)",
                   transform: `scale(${0.7 + s * 0.3 + litS * 0.08})`,
-                  ...td(n.glyph.length > 1 ? 16 : 24, 900, lit ? "#0A1A14" : D.mute),
+                  ...tx(n.glyph.length > 1 ? 16 : 24, 900, lit ? C.forest : C.gray300),
                   letterSpacing: n.glyph.length > 1 ? "0.06em" : "0",
                 }}
               >
@@ -113,24 +100,23 @@ export const LoopB: React.FC = () => {
                   ...(labelSide === "right" ? { left: 112, top: "50%", transform: "translateY(-50%)", textAlign: "left" as const } : labelSide === "left" ? { right: 112, top: "50%", transform: "translateY(-50%)", textAlign: "right" as const } : labelSide === "top" ? { bottom: 108, left: "50%", transform: "translateX(-50%)", textAlign: "center" as const } : { top: 108, left: "50%", transform: "translateX(-50%)", textAlign: "center" as const }),
                 }}
               >
-                <div style={td(21, 800, lit ? D.ink : D.mute)}>{n.label}</div>
-                <div style={{ ...td(14, 600, D.faint), marginTop: 3 }}>{n.sub}</div>
+                <div style={tx(21, 800, lit ? C.ink : C.gray)}>{n.label}</div>
+                <div style={{ ...tx(14, 600, C.gray300), marginTop: 3 }}>{n.sub}</div>
               </div>
             </div>
           );
         })}
 
-        {/* 중앙 */}
         <div style={{ position: "absolute", left: "50%", top: "50%", transform: `translate(-50%,-50%) scale(${0.85 + center * 0.15})`, textAlign: "center", opacity: center }}>
-          <div style={td(18, 700, D.faint, { letterSpacing: "0.2em" })}>AUTOMATIC</div>
-          <div style={{ ...td(64, 900, D.ink), letterSpacing: "-0.04em", marginTop: 2 }}>전부 자동</div>
+          <div style={tx(16, 800, C.limeInk, { letterSpacing: "0.2em" })}>AUTOMATIC</div>
+          <div style={{ ...tx(64, 900, C.ink), letterSpacing: "-0.04em", marginTop: 2 }}>전부 자동</div>
           <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
-            <ChipDark delay={LOOP_START + LOOP_LEN} tone="solid" size={15}>
+            <Chip delay={LOOP_START + LOOP_LEN} size={15} bg={C.forest} color={C.white}>
               강사 추가 업무 0
-            </ChipDark>
+            </Chip>
           </div>
         </div>
       </div>
-    </TmbLayout>
+    </TmvLayout>
   );
 };
