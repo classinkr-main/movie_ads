@@ -1,12 +1,14 @@
 {
   "name": "classin-ai-showreel",
   "version": "1.0.0",
-  "description": "Classin AI 강의 분석 커머셜 쇼릴 (23s) — Remotion 기반 키네틱 모션그래픽",
+  "description": "Classin 커머셜 영상 모음 (Remotion) — AI 쇼릴(30s) · Board 하드웨어 광고(45s)",
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render:hw": "remotion render Hardware out/classin-board-hardware.mp4",
+    "still:hw": "remotion still Hardware out/hw-still.png --frame=300"
   },
   "repository": {
     "type": "git",
