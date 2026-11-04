@@ -1,9 +1,11 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { IvoryStage } from "../../components/Backgrounds";
 import { Burst, Chars, Dots, Highlighter } from "../../components/Flourish";
+import { AuroraOrbs, GlassButton } from "../../components/Glass";
 import { Chip, LogoStacked, Pop, Rise } from "../../components/Ui";
 import { FONT_FAMILY } from "../../lib/fonts";
+import { clamp } from "../../lib/motion";
 import { C } from "../../lib/theme";
 
 const CTA_URL = "classin.co.kr/contact";
@@ -14,15 +16,7 @@ export const CtaV: React.FC = () => {
   const frame = useCurrentFrame();
   const btnW = 680;
   const btnH = 128;
-  const nudge = Math.max(0, Math.sin(frame / 5)) * 10;
-
-  const ring = (i: number) => {
-    const period = 34;
-    const f = frame - 32 - i * (period / 2);
-    if (f < 0) return null;
-    const t = (f % period) / period;
-    return <div key={i} style={{ position: "absolute", left: "50%", top: "50%", width: btnW, height: btnH, borderRadius: 999, border: `4px solid ${C.limeDeep}`, opacity: (1 - t) * 0.55, transform: `translate(-50%,-50%) scale(${1 + t * 0.3}, ${1 + t * 1.0})` }} />;
-  };
+  const haloSpin = (frame * 0.4) % 360;
 
   return (
     <IvoryStage variant="white">
@@ -51,7 +45,9 @@ export const CtaV: React.FC = () => {
           </Rise>
         </div>
 
-        <div style={{ width: 740, flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+        <div style={{ width: 740, flexShrink: 0, position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+          {/* 유리 뒤로 흐르는 오로라 — 버튼 영역을 중심으로 깔린다 */}
+          <AuroraOrbs width={900} height={520} delay={18} style={{ left: -80, top: 150 }} />
           <div style={{ position: "relative", display: "grid", placeItems: "center" }}>
             <Burst delay={12} size={640} color={C.limeDeep} lines={18} style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)" }} />
             <Pop delay={4} from={0.4} y={30}>
@@ -59,17 +55,12 @@ export const CtaV: React.FC = () => {
             </Pop>
           </div>
           <div style={{ position: "relative", width: btnW, height: btnH }}>
-            {ring(0)}
-            {ring(1)}
-            <Pop delay={26} from={0.6} y={40}>
-              <div style={{ width: btnW, height: btnH, borderRadius: 999, background: C.forest, color: C.white, fontFamily: FONT_FAMILY, fontSize: 52, fontWeight: 800, letterSpacing: "-0.02em", display: "flex", alignItems: "center", justifyContent: "center", gap: 22, boxShadow: "0 26px 70px rgba(8,71,52,0.32)" }}>
-                지금 문의하기
-                <span style={{ display: "inline-block", transform: `translateX(${nudge}px)`, fontWeight: 500 }}>→</span>
-              </div>
-            </Pop>
+            {/* 회전하는 그라데이션 헤일로 */}
+            <div style={{ position: "absolute", inset: -3, borderRadius: 999, background: `conic-gradient(from ${haloSpin}deg, rgba(200,240,90,0) 0deg, rgba(200,240,90,0.9) 70deg, rgba(0,144,96,0.6) 150deg, rgba(200,240,90,0) 230deg, rgba(216,255,92,0.8) 320deg, rgba(200,240,90,0) 360deg)`, filter: "blur(6px)", opacity: interpolate(frame - 30, [0, 12], [0, 0.9], clamp) }} />
+            <GlassButton label="지금 문의하기" width={btnW} height={btnH} delay={26} fontSize={50} />
           </div>
           <Rise delay={40} distance={18}>
-            <div style={{ fontFamily: FONT_FAMILY, fontSize: 38, fontWeight: 700, color: C.forest }}>{CTA_URL}</div>
+            <div style={{ fontFamily: FONT_FAMILY, fontSize: 36, fontWeight: 700, color: C.forest, letterSpacing: "-0.01em" }}>{CTA_URL}</div>
           </Rise>
         </div>
       </AbsoluteFill>
