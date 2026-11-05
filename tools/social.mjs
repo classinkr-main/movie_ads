@@ -1,7 +1,7 @@
 // 인스타그램 광고용 비율판 — 16:9 마스터를 자르지 않고 폭 1080에 맞춰 줄여 세로 가운데에 놓는다(장면·소리·프레임레이트 그대로).
-//   node tools/social.mjs                               → out/classin-showreel-v5-30s-{1x1,4x5}.mp4 + -9x16-{a,b,c}.mp4(타이틀 시안별)
+//   node tools/social.mjs                               → out/classin-showreel-v5-30s-{1x1,4x5,9x16}.mp4(9:16 타이틀 = social-titles.json의 default)
 //   node tools/social.mjs out/classin-showreel-v5.mp4   → 22초판도 같은 규칙으로
-//   node tools/social.mjs --titles b                    → 9:16 타이틀 시안을 골라서(src/data/social-titles.json의 id, 쉼표로 여러 개)
+//   node tools/social.mjs --titles a,b,c                → 9:16 타이틀 시안별 파일 -9x16-<id>.mp4(src/data/social-titles.json의 id)
 //   node tools/social.mjs --fps 30                      → 30fps를 요구하는 매체용(파일명에 -30fps, 마스터 60fps에서 한 프레임씩 건너뜀)
 // 1:1·4:5는 위아래를 브랜드 연두로만 채운다. 9:16은 위아래 여백에 타이틀을 넣은 프레임(src/SocialFrame.tsx)을
 // Remotion으로 PNG로 뽑아 바탕에 깔고 그 위에 영상을 얹는다. 영상 안에 같은 문구가 나오는 동안에는 그 요소를 뺀 프레임으로
@@ -19,13 +19,14 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const TITLES = JSON.parse(readFileSync(path.join(root, "src/data/social-titles.json"), "utf8"));
 const { values, positionals } = parseArgs({
   allowPositionals: true,
-  options: { fps: { type: "string", default: "60" }, titles: { type: "string", default: TITLES.drafts.join(",") } },
+  options: { fps: { type: "string", default: "60" }, titles: { type: "string" } },
 });
 const input = path.resolve(root, positionals[0] ?? "out/classin-showreel-v5-30s.mp4");
 if (!existsSync(input)) throw new Error(`no master video: ${input}`);
 const FPS = Number(values.fps);
 if (!(FPS >= 24 && FPS <= 60)) throw new Error(`--fps must be 24–60, got ${values.fps}`);
-const titleIds = values.titles.split(",").map((s) => s.trim()).filter(Boolean);
+// --titles가 없으면 확정 타이틀(default) 하나를 -9x16.mp4로, 있으면 시안마다 -9x16-<id>.mp4로 만든다
+const titleIds = values.titles ? values.titles.split(",").map((s) => s.trim()).filter(Boolean) : [TITLES.default];
 for (const id of titleIds) if (!TITLES.titles[id]) throw new Error(`unknown title "${id}" — see src/data/social-titles.json`);
 
 const W = 1080;
@@ -132,7 +133,7 @@ for (const f of FORMATS) {
       `[${n}:v]${video}[v]`,
       `[bg][v]overlay=0:${top}:shortest=1:format=gbrp,${toYuv}[out]`,
     ].join(";");
-    const out = input.replace(/\.mp4$/, `-${f.tag}-${titleId}${suffix}.mp4`);
+    const out = input.replace(/\.mp4$/, `-${f.tag}${values.titles ? `-${titleId}` : ""}${suffix}.mp4`);
     const note = ` · ${title.name} "${title.lines.join(" / ")}" · 상태 전환 ${states.slice(1).map((s) => `${s.at.toFixed(2)}s`).join(" · ")}`;
     run([...inputs, "-i", input, "-filter_complex", graph, "-map", "[out]", "-map", `${n}:a`], out, head + note);
   }
