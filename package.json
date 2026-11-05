@@ -6,6 +6,8 @@
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-showreel-v5.mp4",
     "render:30": "remotion render Showreel30 out/classin-showreel-v5-30s.mp4",
+    "social": "node tools/social.mjs out/classin-showreel-v5.mp4",
+    "social:30": "node tools/social.mjs",
     "still": "remotion still Showreel out/still.png --frame=262",
     "stills": "node tools/stills.mjs --every 60",
     "music": "python3 tools/music/fit_bgm.py",
