@@ -33,6 +33,7 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 | 갈매기 드로잉 쇼릴 — 손그림 애니메이션, 49초 · 16:9 · BGM·효과음 | [src/gull](src/gull/README.md) | `GullReel` · `GullThumb` · `GullSheet` | `out/classin-gull-showreel.mp4` · 섬네일 `out/classin-gull-thumbnail*.{png,jpg}` |
 | 선생님들은 멘탈이 나가 버렸습니다 — 자동 녹화 스토리 3D 쇼릴, 2분 11초 · 16:9/9:16 · 무음(더빙 별도) | [projects/teachers-lost-their-minds](projects/teachers-lost-their-minds/README.md) | `TeachersMental` · `TeachersMentalVertical` (별도 엔트리 — `npm run mental:dev`) | `projects/teachers-lost-their-minds/renders/final.mp4` · `final-vertical.mp4` |
 | 할로윈 백설공주 브이로그 — 가로 3분 25초 · 쇼츠 68초 | [vlog/snow-white-halloween](vlog/snow-white-halloween) | – (Python·ffmpeg 파이프라인) | 용량 때문에 커밋하지 않음 — 원본에서 다시 렌더 |
+| BrandReel v8 — 학원 대상 다크 시네마틱 브랜드 쇼릴, 24초 · 60fps | [src/reel](src/reel/README.md) | `BrandReel` | `out/classin-brand-reel-60fps.mp4`(무음) · `out/classin-brand-reel-60fps-guide-sfx.mp4`(가이드 사운드) |
 
 ## 아이디어
 

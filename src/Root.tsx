@@ -9,6 +9,8 @@ import { GullSheet } from "./gull/Sheet";
 import { GullReel } from "./gull/GullReel";
 import { GullThumb } from "./gull/Thumb";
 import { G_DURATION, G_FPS } from "./gull/theme";
+import { BrandReel } from "./reel/BrandReel";
+import { DURATION_FRAMES as REEL_FRAMES, FPS as REEL_FPS } from "./reel/theme";
 
 // 폴더는 Drive "영상_ai_프로젝트" 번호를 따른다(src/projects/<번호>_<이름>/).
 // Remotion의 Folder 이름·컴포지션 id는 한글을 받지 않아 "p<번호>-<영문 이름>"으로 쓴다.
@@ -28,6 +30,9 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="GullReel" component={GullReel} durationInFrames={G_DURATION} fps={G_FPS} width={1920} height={1080} />
       <Composition id="GullThumb" component={GullThumb} durationInFrames={1} fps={G_FPS} width={1920} height={1080} />
       <Composition id="GullSheet" component={GullSheet} durationInFrames={90} fps={G_FPS} width={1920} height={1080} />
+    </Folder>
+    <Folder name="brand-reel">
+      <Composition id="BrandReel" component={BrandReel} durationInFrames={REEL_FRAMES} fps={REEL_FPS} width={1920} height={1080} />
     </Folder>
   </>
 );
