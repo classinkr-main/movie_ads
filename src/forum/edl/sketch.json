@@ -1,0 +1,305 @@
+{
+ "name": "ForumSketch60",
+ "duration": 57.6,
+ "music": [
+  {
+   "src": "music-sketch.wav",
+   "at": 0,
+   "gain": [
+    [
+     0,
+     0.0
+    ],
+    [
+     0.3,
+     0.9
+    ],
+    [
+     48.0,
+     0.9
+    ],
+    [
+     48.4,
+     0.7
+    ],
+    [
+     56.4,
+     0.7
+    ],
+    [
+     57.6,
+     0.0
+    ]
+   ]
+  }
+ ],
+ "duck": {
+  "nat": 0.35,
+  "music": 0.4
+ },
+ "hud": false,
+ "shots": [
+  {
+   "id": "D01",
+   "img": "CSJ00892.jpg",
+   "scale": 1.04,
+   "push": 0.06,
+   "pan": [
+    -40,
+    0
+   ],
+   "focus": [
+    50,
+    45
+   ],
+   "dur": 4.8
+  },
+  {
+   "id": "D02",
+   "img": "CSJ00998.jpg",
+   "focus": [
+    50,
+    0
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "D03",
+   "img": "CSJ00888.jpg",
+   "focus": [
+    45,
+    40
+   ],
+   "pan": [
+    30,
+    0
+   ],
+   "scale": 1.04,
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "D04",
+   "src": "kakao/KakaoTalk_20260528_194215173.mp4",
+   "in": 1.6,
+   "vol": 0.55,
+   "lufs": -22,
+   "push": 0.03,
+   "dur": 4.8
+  },
+  {
+   "id": "D05",
+   "img": "CSJ00880.jpg",
+   "focus": [
+    45,
+    45
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "D06",
+   "img": "CSJ00440.jpg",
+   "focus": [
+    45,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "D07",
+   "src": "kakao/KakaoTalk_20260528_193134372.mp4",
+   "in": 1.0,
+   "vol": 0.5,
+   "lufs": -22,
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "D08",
+   "img": "CSJ00819.jpg",
+   "focus": [
+    55,
+    40
+   ],
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "D09",
+   "img": "CSJ00811.jpg",
+   "focus": [
+    50,
+    35
+   ],
+   "pan": [
+    0,
+    -20
+   ],
+   "scale": 1.03,
+   "push": 0.05,
+   "dur": 2.4
+  },
+  {
+   "id": "D10",
+   "clip": "B01",
+   "vol": 0.35,
+   "push": 0.03,
+   "dur": 2.4
+  },
+  {
+   "id": "D11",
+   "clip": "A11",
+   "offset": 0.5,
+   "vol": 0.35,
+   "dur": 2.4
+  },
+  {
+   "id": "D12",
+   "clip": "C_JO",
+   "offset": 0.6,
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D13",
+   "clip": "A13",
+   "offset": 0.6,
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D14",
+   "clip": "C_HE",
+   "offset": 0.0,
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D15",
+   "clip": "C13",
+   "offset": 0.6,
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D16",
+   "clip": "C15",
+   "offset": 1.0,
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D17",
+   "clip": "A14",
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D18",
+   "clip": "A19",
+   "vol": 0.3,
+   "dur": 2.4
+  },
+  {
+   "id": "D19",
+   "clip": "A25",
+   "offset": 4.2,
+   "vol": 1.0,
+   "xfade": 0.2,
+   "dur": 5.0
+  },
+  {
+   "id": "D20",
+   "clip": "A27",
+   "vol": 0.5,
+   "xfade": 0.3,
+   "dur": 5.1
+  }
+ ],
+ "bites": [
+  {
+   "id": "D_SB1",
+   "src": "bite:SB1.wav",
+   "in": 7.0,
+   "dur": 5.4,
+   "at": 43.4,
+   "vol": 1.0,
+   "subs": [
+    {
+     "s": 0.2,
+     "e": 5.2,
+     "t": "교육은 결국, 사람이 사람을 성장시키는 일입니다."
+    }
+   ]
+  }
+ ],
+ "texts": [
+  {
+   "kind": "title",
+   "at": 0.5,
+   "dur": 4.2,
+   "eyebrow": "ASIA AI EDUCATION FORUM",
+   "title": "2026 아시아 AI 교육 포럼",
+   "sub": "2026. 05. 28 – 29  ·  부산"
+  },
+  {
+   "kind": "chapter",
+   "at": 5.0,
+   "dur": 4.4,
+   "index": "DAY 1",
+   "label": "부산 학원 탐방 · 5.28"
+  },
+  {
+   "kind": "chapter",
+   "at": 26.599999999999998,
+   "dur": 4.4,
+   "index": "DAY 2",
+   "label": "WP과사람 · 포럼 · 5.29"
+  },
+  {
+   "kind": "lower",
+   "at": 31.35,
+   "dur": 2.15,
+   "name": "조규성",
+   "role": "WP과사람 교육기업 이사장"
+  },
+  {
+   "kind": "lower",
+   "at": 33.75,
+   "dur": 2.15,
+   "name": "곽정율",
+   "role": "정률사관학원 대표"
+  },
+  {
+   "kind": "lower",
+   "at": 36.15,
+   "dur": 2.15,
+   "name": "허첸 He Qian",
+   "role": "클래스인 CTO"
+  },
+  {
+   "kind": "lower",
+   "at": 38.55,
+   "dur": 2.15,
+   "name": "지우유 左佑",
+   "role": "항저우 A+ 심화교육 창립자"
+  },
+  {
+   "kind": "lower",
+   "at": 40.95,
+   "dur": 2.15,
+   "name": "안도 다이사쿠",
+   "role": "일본 전국학원협회 회장"
+  },
+  {
+   "kind": "end",
+   "at": 53.3,
+   "dur": 4.3,
+   "title": "2026 ASIA AI EDUCATION FORUM IN BUSAN",
+   "sub": "함께해 주셔서 감사합니다"
+  }
+ ]
+}

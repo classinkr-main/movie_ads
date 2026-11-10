@@ -1,0 +1,453 @@
+{
+  "version": "1.0",
+  "style_playbook": "custom-atelier",
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "animation",
+      "description": "전시대 — 옛날 선생님들 — ‘멘탈이’에서 나선 눈·식은땀·영혼 가출, 큰 글자 강타",
+      "start_seconds": 0,
+      "end_seconds": 4.4,
+      "script_section_id": "b01",
+      "framing": "정면 와이드 → 구절 2에서 펀치 인, 약한 더치 앵글",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "하드 컷",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "박물관 전시대 위 선생님 피규어 3명",
+      "narrative_role": "introduce_subject",
+      "information_role": "주 피사체: 박물관 전시대 위 선생님 피규어 3명",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s02",
+      "type": "animation",
+      "description": "교실 — 끝나지 않는 일 — 종이 울리고 학생이 빠지자 교탁에 일 더미 5개 낙하 → 칠판 내용이 카드로 떠서 ‘보존’ 상자로",
+      "start_seconds": 4.4,
+      "end_seconds": 11.033,
+      "script_section_id": "b02",
+      "framing": "아이소메트릭 와이드 → 교탁 미디엄 → 칠판",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "교실 디오라마와 교탁 위로 떨어지는 일 더미",
+      "narrative_role": "establish_context",
+      "information_role": "주 피사체: 교실 디오라마와 교탁 위로 떨어지는 일 더미",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s03",
+      "type": "animation",
+      "description": "교실 — 직접 촬영 — 세우기 → 기울기 맞추기 → 저장 공간 97% 경고 → 원본 파일 큐브 낙하",
+      "start_seconds": 11.033,
+      "end_seconds": 21.033,
+      "script_section_id": "b04",
+      "framing": "미디엄 → 휴대폰 클로즈업 → 풀백",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "하드 컷",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "삼각대 위 휴대폰",
+      "narrative_role": "build_tension",
+      "information_role": "주 피사체: 삼각대 위 휴대폰",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s05",
+      "type": "animation",
+      "description": "밤 책상 — 편집 — 칼날로 자르기 → 붙이기 → 프레스로 용량 줄이기 → 자막 띠 → 최종 파일",
+      "start_seconds": 21.033,
+      "end_seconds": 29.567,
+      "script_section_id": "b07",
+      "framing": "야간 미디엄 와이드, 타임라인에 시선",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "책상 위에 떠 있는 편집 타임라인",
+      "narrative_role": "build_tension",
+      "information_role": "주 피사체: 책상 위에 떠 있는 편집 타임라인",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s06",
+      "type": "animation",
+      "description": "업로드 — 구름·폴더·링크 — 어디에 올릴지 헤맴 → 폴더 4단 → 휴대폰 5대로 링크 → 안 읽음 3명",
+      "start_seconds": 29.567,
+      "end_seconds": 38.467,
+      "script_section_id": "b09",
+      "framing": "로우 앵글 수직 구도 → 휴대폰 줄 하이 앵글",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "하드 컷",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "구름 세 개 사이를 헤매는 파일 큐브",
+      "narrative_role": "build_tension",
+      "information_role": "주 피사체: 구름 세 개 사이를 헤매는 파일 큐브",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s08",
+      "type": "animation",
+      "description": "시청 체크 — 명단 확인 — 시청/미시청 판별 → 돋보기로 찾기 → 말풍선 안내 → 한 명씩 확인",
+      "start_seconds": 38.467,
+      "end_seconds": 45.033,
+      "script_section_id": "b12",
+      "framing": "하이 앵글 군중 와이드",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "계단석의 학생 12명과 머리 위 표시등",
+      "narrative_role": "build_tension",
+      "information_role": "주 피사체: 계단석의 학생 12명과 머리 위 표시등",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s09",
+      "type": "animation",
+      "description": "에너지 방전 — 촬영·편집·업로드·시청 체크 블록이 차례로 쌓임 → 배터리 3% → 납작",
+      "start_seconds": 45.033,
+      "end_seconds": 50.867,
+      "script_section_id": "b14",
+      "framing": "정면 와이드, 세로 스택",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "선생님 머리 위 작업 블록 4단과 배터리",
+      "narrative_role": "emotional_beat",
+      "information_role": "주 피사체: 선생님 머리 위 작업 블록 4단과 배터리",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s10",
+      "type": "animation",
+      "description": "에듀테크 업체 — 첫 번째 계획 — 전구 → 목록 중 ‘촬영’만 동그라미 → 설계도 펼침",
+      "start_seconds": 50.867,
+      "end_seconds": 58.133,
+      "script_section_id": "b15",
+      "framing": "미디엄 와이드 → 코르크 보드",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "사선 색면 와이프(막 전환)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "연구원 2명과 코르크 보드의 할 일 목록",
+      "narrative_role": "transition",
+      "information_role": "주 피사체: 연구원 2명과 코르크 보드의 할 일 목록",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s11",
+      "type": "animation",
+      "description": "교실 — 장비 3종과 설계도 — 카메라 낙하 → 마이크 → 저장 장치 5단 → 화면 전체가 청사진으로",
+      "start_seconds": 58.133,
+      "end_seconds": 65.233,
+      "script_section_id": "b17",
+      "framing": "아이소메트릭 와이드(청사진 후처리)",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "천장 카메라·마이크·저장 장치 탑",
+      "narrative_role": "evidence",
+      "information_role": "주 피사체: 천장 카메라·마이크·저장 장치 탑",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s12",
+      "type": "animation",
+      "description": "교실 — 그래도 전부 선생님 손 — 버튼 → 파일 → 업로드 → 체크를 직접 뛰며 처리 → 다시 영혼 가출",
+      "start_seconds": 65.233,
+      "end_seconds": 75.2,
+      "script_section_id": "b19",
+      "framing": "정면 로우 와이드 → 인물 미디엄",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "하드 컷",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "스테이션 4곳을 뛰어다니는 선생님",
+      "narrative_role": "emotional_beat",
+      "information_role": "주 피사체: 스테이션 4곳을 뛰어다니는 선생님",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s13",
+      "type": "animation",
+      "description": "공사팀 — 통째로 시스템이 받자 — 크레인이 작업 블록 4단을 통째로 들어 시스템 상자에 넣음",
+      "start_seconds": 75.2,
+      "end_seconds": 82.6,
+      "script_section_id": "b22",
+      "framing": "가장 넓은 와이드(크레인 전체)",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "사선 색면 와이프(막 전환)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "타워 크레인과 ‘시스템’ 상자",
+      "narrative_role": "deliver_payload",
+      "information_role": "주 피사체: 타워 크레인과 ‘시스템’ 상자",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s14",
+      "type": "animation",
+      "description": "녹화 버튼 하나 — ‘누르면’에서 점프해 버튼을 누름 → 바닥 파동",
+      "start_seconds": 82.6,
+      "end_seconds": 85.833,
+      "script_section_id": "b24",
+      "framing": "가장 가까운 클로즈업",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "빨간 녹화 버튼",
+      "narrative_role": "deliver_payload",
+      "information_role": "주 피사체: 빨간 녹화 버튼",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s15",
+      "type": "animation",
+      "description": "자동 네 단계 — 펄스가 촬영 → 업로드 → 시청 체크 → 관리 기계를 차례로 켬",
+      "start_seconds": 85.833,
+      "end_seconds": 93.667,
+      "script_section_id": "b25",
+      "framing": "측면 트래킹 → 풀 와이드",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "하드 컷",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "레일 위 자동화 기계 4대",
+      "narrative_role": "evidence",
+      "information_role": "주 피사체: 레일 위 자동화 기계 4대",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s16",
+      "type": "animation",
+      "description": "나무 구조 — 흔들릴수록 단단하게 — 줄기가 솟고 가지·잎·팻말 → 선생님이 흔들리자 뿌리가 넓고 굵어짐",
+      "start_seconds": 93.667,
+      "end_seconds": 101.233,
+      "script_section_id": "b26",
+      "framing": "지면 로우 → 로우 앵글 히어로",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "땅에서 솟아 수업 받침을 떠받치는 나무",
+      "narrative_role": "deliver_payload",
+      "information_role": "주 피사체: 땅에서 솟아 수업 받침을 떠받치는 나무",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s17",
+      "type": "animation",
+      "description": "수업 후 작업 — 소멸 — 위에서부터 하나씩 터져 사라짐, 할 일 메모가 날아감",
+      "start_seconds": 101.233,
+      "end_seconds": 106.1,
+      "script_section_id": "b28",
+      "framing": "와이드, 스택 쪽으로 팬",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "사선 색면 와이프(막 전환)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "나무 옆에 남은 작업 블록 4단",
+      "narrative_role": "resolution",
+      "information_role": "주 피사체: 나무 옆에 남은 작업 블록 4단",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s18",
+      "type": "animation",
+      "description": "옛날 방식 전시대 — 전시품마다 유리 덮개가 내려오고 ‘은퇴’ 도장",
+      "start_seconds": 106.1,
+      "end_seconds": 118.733,
+      "script_section_id": "b29",
+      "framing": "전시품별 달리 숏",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "유리 덮개 속 전시품 4점(장비·밤샘·링크·명단)",
+      "narrative_role": "comparison",
+      "information_role": "주 피사체: 유리 덮개 속 전시품 4점(장비·밤샘·링크·명단)",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s19",
+      "type": "animation",
+      "description": "교실 — 맘 편한 수업, 진짜 끝 — 영혼 귀환 → 종 → 이번엔 교탁에 잎 하나만 → 노을 속 퇴근",
+      "start_seconds": 118.733,
+      "end_seconds": 127.1,
+      "script_section_id": "b33",
+      "framing": "아이소메트릭 → 교탁 미디엄, 노을 조명",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "영혼이 돌아온 선생님과 빈 교탁",
+      "narrative_role": "resolution",
+      "information_role": "주 피사체: 영혼이 돌아온 선생님과 빈 교탁",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    },
+    {
+      "id": "s21",
+      "type": "animation",
+      "description": "엔드카드 — 요즘 선생님 — ‘요즘 선생님’ 명판, 로고·URL",
+      "start_seconds": 127.1,
+      "end_seconds": 131.3,
+      "script_section_id": "b35",
+      "framing": "정면 와이드, 느린 푸시인",
+      "movement": "느린 푸시인 + 미세한 손떨림. 낙하·착지 순간 카메라 셰이크.",
+      "transition_in": "휩 팬(6프레임 + 블러)",
+      "overlay_notes": "하단 구절 자막(형광펜), 좌상단 '수업 끝나고 할 일' 메모, 우상단 막 레일. 3D 물체에 투영한 꼬리표 주석.",
+      "shot_intent": "전시대 위 웃는 선생님 3명과 ClassIn 로고",
+      "narrative_role": "call_to_action",
+      "information_role": "주 피사체: 전시대 위 웃는 선생님 3명과 ClassIn 로고",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "animation",
+          "description": "코드로 조립한 Three.js 블록 디오라마 — scenes/*.tsx (생성 에셋 없음)",
+          "source": "provided"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "animation_mode": "bespoke_threejs_remotion",
+    "transition_rules": "컷(같은 세트 안), 휩 팬(세트가 바뀔 때), 색면 와이프(막이 바뀔 때 — 코발트 / 그린 / 라임)의 세 가지만 쓴다.",
+    "hold_rules": "큰 글자 장면과 막 끝에는 대사 뒤 0.2~0.45초를 붙잡는다.",
+    "animatic_rules": "모든 동작의 기준점은 구절 시작 프레임(story/beats.ts). 쉼표 하나 = 동작 하나.",
+    "reusable_motifs": [
+      "영혼 가출(4회)",
+      "'수업 끝나고 할 일' 메모",
+      "작업 블록 4단(촬영·편집·업로드·시청 체크)",
+      "전시대 명판(옛날 선생님 → 요즘 선생님)"
+    ],
+    "scene_distinctness": {
+      "s01": "박물관 전시대 위 선생님 피규어 3명",
+      "s02": "교실 디오라마와 교탁 위로 떨어지는 일 더미",
+      "s03": "삼각대 위 휴대폰",
+      "s05": "책상 위에 떠 있는 편집 타임라인",
+      "s06": "구름 세 개 사이를 헤매는 파일 큐브",
+      "s08": "계단석의 학생 12명과 머리 위 표시등",
+      "s09": "선생님 머리 위 작업 블록 4단과 배터리",
+      "s10": "연구원 2명과 코르크 보드의 할 일 목록",
+      "s11": "천장 카메라·마이크·저장 장치 탑",
+      "s12": "스테이션 4곳을 뛰어다니는 선생님",
+      "s13": "타워 크레인과 ‘시스템’ 상자",
+      "s14": "빨간 녹화 버튼",
+      "s15": "레일 위 자동화 기계 4대",
+      "s16": "땅에서 솟아 수업 받침을 떠받치는 나무",
+      "s17": "나무 옆에 남은 작업 블록 4단",
+      "s18": "유리 덮개 속 전시품 4점(장비·밤샘·링크·명단)",
+      "s19": "영혼이 돌아온 선생님과 빈 교탁",
+      "s21": "전시대 위 웃는 선생님 3명과 ClassIn 로고"
+    },
+    "five_aspect_note": "Subject/Subject Motion 은 description, Spatial Framing 은 framing, Camera 는 movement, Scene 은 art-direction.md, 오버레이는 overlay_notes 에 분리 기재."
+  }
+}

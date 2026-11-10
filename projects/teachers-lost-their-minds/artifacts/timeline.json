@@ -1,0 +1,1180 @@
+{
+  "fps": 30,
+  "total_frames": 3939,
+  "total_seconds": 131.3,
+  "pace_syllables_per_second": 6.3,
+  "beats": [
+    {
+      "id": "b01",
+      "act": "problem",
+      "text": "옛날 선생님들은 완전히 멘탈이 나가 버렸습니다.",
+      "syllables": 20,
+      "start_frame": 15,
+      "end_frame": 132,
+      "start_seconds": 0.5,
+      "end_seconds": 4.4,
+      "speech_end_seconds": 3.7,
+      "phrases": [
+        {
+          "text": "옛날 선생님들은",
+          "start_seconds": 0.5,
+          "end_seconds": 1.667
+        },
+        {
+          "text": "완전히 멘탈이 나가 버렸습니다.",
+          "start_seconds": 1.667,
+          "end_seconds": 3.7
+        }
+      ]
+    },
+    {
+      "id": "b02",
+      "act": "problem",
+      "text": "수업을 해야 하는데 수업이 끝나면 일이 끝나질 않았거든요.",
+      "syllables": 24,
+      "start_frame": 132,
+      "end_frame": 259,
+      "start_seconds": 4.4,
+      "end_seconds": 8.633,
+      "speech_end_seconds": 8.3,
+      "phrases": [
+        {
+          "text": "수업을 해야 하는데",
+          "start_seconds": 4.4,
+          "end_seconds": 5.7
+        },
+        {
+          "text": "수업이 끝나면",
+          "start_seconds": 5.7,
+          "end_seconds": 6.7
+        },
+        {
+          "text": "일이 끝나질 않았거든요.",
+          "start_seconds": 6.7,
+          "end_seconds": 8.3
+        }
+      ]
+    },
+    {
+      "id": "b03",
+      "act": "problem",
+      "text": "수업 내용을 보존해야 하니까요.",
+      "syllables": 13,
+      "start_frame": 259,
+      "end_frame": 331,
+      "start_seconds": 8.633,
+      "end_seconds": 11.033,
+      "speech_end_seconds": 10.7,
+      "phrases": [
+        {
+          "text": "수업 내용을 보존해야 하니까요.",
+          "start_seconds": 8.633,
+          "end_seconds": 10.7
+        }
+      ]
+    },
+    {
+      "id": "b04",
+      "act": "problem",
+      "text": "그래서 선생님들이 직접 촬영을 시작했습니다.",
+      "syllables": 19,
+      "start_frame": 331,
+      "end_frame": 433,
+      "start_seconds": 11.033,
+      "end_seconds": 14.433,
+      "speech_end_seconds": 14.1,
+      "phrases": [
+        {
+          "text": "그래서 선생님들이",
+          "start_seconds": 11.033,
+          "end_seconds": 12.333
+        },
+        {
+          "text": "직접 촬영을 시작했습니다.",
+          "start_seconds": 12.333,
+          "end_seconds": 14.1
+        }
+      ]
+    },
+    {
+      "id": "b05",
+      "act": "problem",
+      "text": "핸드폰을 세우고, 각도를 맞추고, 저장 공간을 확인하고요.",
+      "syllables": 23,
+      "start_frame": 433,
+      "end_frame": 562,
+      "start_seconds": 14.433,
+      "end_seconds": 18.733,
+      "speech_end_seconds": 18.4,
+      "phrases": [
+        {
+          "text": "핸드폰을 세우고,",
+          "start_seconds": 14.433,
+          "end_seconds": 15.7
+        },
+        {
+          "text": "각도를 맞추고,",
+          "start_seconds": 15.7,
+          "end_seconds": 16.833
+        },
+        {
+          "text": "저장 공간을 확인하고요.",
+          "start_seconds": 16.833,
+          "end_seconds": 18.4
+        }
+      ]
+    },
+    {
+      "id": "b06",
+      "act": "problem",
+      "text": "그런데 이게 문제였습니다.",
+      "syllables": 11,
+      "start_frame": 562,
+      "end_frame": 631,
+      "start_seconds": 18.733,
+      "end_seconds": 21.033,
+      "speech_end_seconds": 20.5,
+      "phrases": [
+        {
+          "text": "그런데 이게 문제였습니다.",
+          "start_seconds": 18.733,
+          "end_seconds": 20.5
+        }
+      ]
+    },
+    {
+      "id": "b07",
+      "act": "problem",
+      "text": "촬영이 끝나면 이제 편집을 해야 했거든요.",
+      "syllables": 17,
+      "start_frame": 631,
+      "end_frame": 723,
+      "start_seconds": 21.033,
+      "end_seconds": 24.1,
+      "speech_end_seconds": 23.767,
+      "phrases": [
+        {
+          "text": "촬영이 끝나면",
+          "start_seconds": 21.033,
+          "end_seconds": 22.033
+        },
+        {
+          "text": "이제 편집을 해야 했거든요.",
+          "start_seconds": 22.033,
+          "end_seconds": 23.767
+        }
+      ]
+    },
+    {
+      "id": "b08",
+      "act": "problem",
+      "text": "자르고, 붙이고, 용량을 줄이고, 자막을 넣고요.",
+      "syllables": 18,
+      "start_frame": 723,
+      "end_frame": 834,
+      "start_seconds": 24.1,
+      "end_seconds": 27.8,
+      "speech_end_seconds": 27.433,
+      "phrases": [
+        {
+          "text": "자르고,",
+          "start_seconds": 24.1,
+          "end_seconds": 24.733
+        },
+        {
+          "text": "붙이고,",
+          "start_seconds": 24.733,
+          "end_seconds": 25.367
+        },
+        {
+          "text": "용량을 줄이고,",
+          "start_seconds": 25.367,
+          "end_seconds": 26.5
+        },
+        {
+          "text": "자막을 넣고요.",
+          "start_seconds": 26.5,
+          "end_seconds": 27.433
+        }
+      ]
+    },
+    {
+      "id": "b09",
+      "act": "problem",
+      "text": "그렇게 겨우 파일을 만들면 또 업로드를 해야 했습니다.",
+      "syllables": 22,
+      "start_frame": 834,
+      "end_frame": 950,
+      "start_seconds": 27.8,
+      "end_seconds": 31.667,
+      "speech_end_seconds": 31.333,
+      "phrases": [
+        {
+          "text": "그렇게 겨우 파일을 만들면",
+          "start_seconds": 27.8,
+          "end_seconds": 29.567
+        },
+        {
+          "text": "또 업로드를 해야 했습니다.",
+          "start_seconds": 29.567,
+          "end_seconds": 31.333
+        }
+      ]
+    },
+    {
+      "id": "b10",
+      "act": "problem",
+      "text": "어디에 올릴지 정하고, 폴더를 만들고, 링크를 공유하고요.",
+      "syllables": 23,
+      "start_frame": 950,
+      "end_frame": 1079,
+      "start_seconds": 31.667,
+      "end_seconds": 35.967,
+      "speech_end_seconds": 35.633,
+      "phrases": [
+        {
+          "text": "어디에 올릴지 정하고,",
+          "start_seconds": 31.667,
+          "end_seconds": 33.233
+        },
+        {
+          "text": "폴더를 만들고,",
+          "start_seconds": 33.233,
+          "end_seconds": 34.367
+        },
+        {
+          "text": "링크를 공유하고요.",
+          "start_seconds": 34.367,
+          "end_seconds": 35.633
+        }
+      ]
+    },
+    {
+      "id": "b11",
+      "act": "problem",
+      "text": "그런데 또 끝이 아니었습니다.",
+      "syllables": 12,
+      "start_frame": 1079,
+      "end_frame": 1154,
+      "start_seconds": 35.967,
+      "end_seconds": 38.467,
+      "speech_end_seconds": 37.9,
+      "phrases": [
+        {
+          "text": "그런데 또",
+          "start_seconds": 35.967,
+          "end_seconds": 36.633
+        },
+        {
+          "text": "끝이 아니었습니다.",
+          "start_seconds": 36.633,
+          "end_seconds": 37.9
+        }
+      ]
+    },
+    {
+      "id": "b12",
+      "act": "problem",
+      "text": "누가 시청했는지 체크해야 했거든요.",
+      "syllables": 15,
+      "start_frame": 1154,
+      "end_frame": 1236,
+      "start_seconds": 38.467,
+      "end_seconds": 41.2,
+      "speech_end_seconds": 40.867,
+      "phrases": [
+        {
+          "text": "누가 시청했는지",
+          "start_seconds": 38.467,
+          "end_seconds": 39.6
+        },
+        {
+          "text": "체크해야 했거든요.",
+          "start_seconds": 39.6,
+          "end_seconds": 40.867
+        }
+      ]
+    },
+    {
+      "id": "b13",
+      "act": "problem",
+      "text": "미시청 학생을 찾고, 다시 안내하고, 확인을 받고요.",
+      "syllables": 20,
+      "start_frame": 1236,
+      "end_frame": 1351,
+      "start_seconds": 41.2,
+      "end_seconds": 45.033,
+      "speech_end_seconds": 44.7,
+      "phrases": [
+        {
+          "text": "미시청 학생을 찾고,",
+          "start_seconds": 41.2,
+          "end_seconds": 42.633
+        },
+        {
+          "text": "다시 안내하고,",
+          "start_seconds": 42.633,
+          "end_seconds": 43.767
+        },
+        {
+          "text": "확인을 받고요.",
+          "start_seconds": 43.767,
+          "end_seconds": 44.7
+        }
+      ]
+    },
+    {
+      "id": "b14",
+      "act": "problem",
+      "text": "결국 선생님들이 수업하는 시간 외에 너무 많은 에너지를 낭비하게 된 겁니다.",
+      "syllables": 31,
+      "start_frame": 1351,
+      "end_frame": 1526,
+      "start_seconds": 45.033,
+      "end_seconds": 50.867,
+      "speech_end_seconds": 50.1,
+      "phrases": [
+        {
+          "text": "결국 선생님들이",
+          "start_seconds": 45.033,
+          "end_seconds": 46.2
+        },
+        {
+          "text": "수업하는 시간 외에",
+          "start_seconds": 46.2,
+          "end_seconds": 47.5
+        },
+        {
+          "text": "너무 많은 에너지를",
+          "start_seconds": 47.5,
+          "end_seconds": 48.833
+        },
+        {
+          "text": "낭비하게 된 겁니다.",
+          "start_seconds": 48.833,
+          "end_seconds": 50.1
+        }
+      ]
+    },
+    {
+      "id": "b15",
+      "act": "attempt",
+      "text": "그래서 똑똑한 에듀테크 업체가 이 문제를 해결하려고 했습니다.",
+      "syllables": 26,
+      "start_frame": 1526,
+      "end_frame": 1662,
+      "start_seconds": 50.867,
+      "end_seconds": 55.4,
+      "speech_end_seconds": 55.033,
+      "phrases": [
+        {
+          "text": "그래서 똑똑한 에듀테크 업체가",
+          "start_seconds": 50.867,
+          "end_seconds": 52.967
+        },
+        {
+          "text": "이 문제를 해결하려고 했습니다.",
+          "start_seconds": 52.967,
+          "end_seconds": 55.033
+        }
+      ]
+    },
+    {
+      "id": "b16",
+      "act": "attempt",
+      "text": "처음에는 촬영을 쉽게 해 보자고 했죠.",
+      "syllables": 15,
+      "start_frame": 1662,
+      "end_frame": 1744,
+      "start_seconds": 55.4,
+      "end_seconds": 58.133,
+      "speech_end_seconds": 57.8,
+      "phrases": [
+        {
+          "text": "처음에는",
+          "start_seconds": 55.4,
+          "end_seconds": 56.067
+        },
+        {
+          "text": "촬영을 쉽게 해 보자고 했죠.",
+          "start_seconds": 56.067,
+          "end_seconds": 57.8
+        }
+      ]
+    },
+    {
+      "id": "b17",
+      "act": "attempt",
+      "text": "좋은 카메라를 달고, 마이크를 붙이고, 저장 장치를 늘렸습니다.",
+      "syllables": 25,
+      "start_frame": 1744,
+      "end_frame": 1883,
+      "start_seconds": 58.133,
+      "end_seconds": 62.767,
+      "speech_end_seconds": 62.433,
+      "phrases": [
+        {
+          "text": "좋은 카메라를 달고,",
+          "start_seconds": 58.133,
+          "end_seconds": 59.567
+        },
+        {
+          "text": "마이크를 붙이고,",
+          "start_seconds": 59.567,
+          "end_seconds": 60.833
+        },
+        {
+          "text": "저장 장치를 늘렸습니다.",
+          "start_seconds": 60.833,
+          "end_seconds": 62.433
+        }
+      ]
+    },
+    {
+      "id": "b18",
+      "act": "attempt",
+      "text": "그림으로는 가능해 보였습니다.",
+      "syllables": 13,
+      "start_frame": 1883,
+      "end_frame": 1957,
+      "start_seconds": 62.767,
+      "end_seconds": 65.233,
+      "speech_end_seconds": 64.867,
+      "phrases": [
+        {
+          "text": "그림으로는",
+          "start_seconds": 62.767,
+          "end_seconds": 63.6
+        },
+        {
+          "text": "가능해 보였습니다.",
+          "start_seconds": 63.6,
+          "end_seconds": 64.867
+        }
+      ]
+    },
+    {
+      "id": "b19",
+      "act": "attempt",
+      "text": "문제는 선생님이 계속 신경 써야 했다는 겁니다.",
+      "syllables": 19,
+      "start_frame": 1957,
+      "end_frame": 2058,
+      "start_seconds": 65.233,
+      "end_seconds": 68.6,
+      "speech_end_seconds": 68.267,
+      "phrases": [
+        {
+          "text": "문제는 선생님이",
+          "start_seconds": 65.233,
+          "end_seconds": 66.367
+        },
+        {
+          "text": "계속 신경 써야 했다는 겁니다.",
+          "start_seconds": 66.367,
+          "end_seconds": 68.267
+        }
+      ]
+    },
+    {
+      "id": "b20",
+      "act": "attempt",
+      "text": "버튼을 누르고, 파일을 옮기고, 업로드하고, 체크까지…",
+      "syllables": 21,
+      "start_frame": 2058,
+      "end_frame": 2183,
+      "start_seconds": 68.6,
+      "end_seconds": 72.767,
+      "speech_end_seconds": 72.433,
+      "phrases": [
+        {
+          "text": "버튼을 누르고,",
+          "start_seconds": 68.6,
+          "end_seconds": 69.733
+        },
+        {
+          "text": "파일을 옮기고,",
+          "start_seconds": 69.733,
+          "end_seconds": 70.833
+        },
+        {
+          "text": "업로드하고,",
+          "start_seconds": 70.833,
+          "end_seconds": 71.8
+        },
+        {
+          "text": "체크까지…",
+          "start_seconds": 71.8,
+          "end_seconds": 72.433
+        }
+      ]
+    },
+    {
+      "id": "b21",
+      "act": "attempt",
+      "text": "결국 멘탈은 그대로였죠.",
+      "syllables": 10,
+      "start_frame": 2183,
+      "end_frame": 2256,
+      "start_seconds": 72.767,
+      "end_seconds": 75.2,
+      "speech_end_seconds": 74.4,
+      "phrases": [
+        {
+          "text": "결국 멘탈은",
+          "start_seconds": 72.767,
+          "end_seconds": 73.6
+        },
+        {
+          "text": "그대로였죠.",
+          "start_seconds": 73.6,
+          "end_seconds": 74.4
+        }
+      ]
+    },
+    {
+      "id": "b22",
+      "act": "solution",
+      "text": "그때 공사팀이 완전히 새로운 방법을 생각했는데요.",
+      "syllables": 21,
+      "start_frame": 2256,
+      "end_frame": 2367,
+      "start_seconds": 75.2,
+      "end_seconds": 78.9,
+      "speech_end_seconds": 78.567,
+      "phrases": [
+        {
+          "text": "그때 공사팀이",
+          "start_seconds": 75.2,
+          "end_seconds": 76.167
+        },
+        {
+          "text": "완전히 새로운 방법을 생각했는데요.",
+          "start_seconds": 76.167,
+          "end_seconds": 78.567
+        }
+      ]
+    },
+    {
+      "id": "b23",
+      "act": "solution",
+      "text": "“선생님이 해야 하는 일을 통째로 시스템이 받자.”",
+      "syllables": 19,
+      "start_frame": 2367,
+      "end_frame": 2478,
+      "start_seconds": 78.9,
+      "end_seconds": 82.6,
+      "speech_end_seconds": 81.967,
+      "phrases": [
+        {
+          "text": "“선생님이 해야 하는 일을",
+          "start_seconds": 78.9,
+          "end_seconds": 80.533
+        },
+        {
+          "text": "통째로 시스템이 받자.”",
+          "start_seconds": 80.533,
+          "end_seconds": 81.967
+        }
+      ]
+    },
+    {
+      "id": "b24",
+      "act": "solution",
+      "text": "그래서 클래스인은 녹화 버튼 하나만 누르면",
+      "syllables": 18,
+      "start_frame": 2478,
+      "end_frame": 2575,
+      "start_seconds": 82.6,
+      "end_seconds": 85.833,
+      "speech_end_seconds": 85.5,
+      "phrases": [
+        {
+          "text": "그래서 클래스인은",
+          "start_seconds": 82.6,
+          "end_seconds": 83.9
+        },
+        {
+          "text": "녹화 버튼 하나만 누르면",
+          "start_seconds": 83.9,
+          "end_seconds": 85.5
+        }
+      ]
+    },
+    {
+      "id": "b25",
+      "act": "solution",
+      "text": "자동으로 촬영하고, 자동으로 업로드하고, 자동으로 시청을 체크하고, 자동으로 관리까지 해 주게 만든 겁니다.",
+      "syllables": 44,
+      "start_frame": 2575,
+      "end_frame": 2810,
+      "start_seconds": 85.833,
+      "end_seconds": 93.667,
+      "speech_end_seconds": 93.333,
+      "phrases": [
+        {
+          "text": "자동으로 촬영하고,",
+          "start_seconds": 85.833,
+          "end_seconds": 87.267
+        },
+        {
+          "text": "자동으로 업로드하고,",
+          "start_seconds": 87.267,
+          "end_seconds": 88.867
+        },
+        {
+          "text": "자동으로 시청을 체크하고,",
+          "start_seconds": 88.867,
+          "end_seconds": 90.767
+        },
+        {
+          "text": "자동으로 관리까지",
+          "start_seconds": 90.767,
+          "end_seconds": 92.067
+        },
+        {
+          "text": "해 주게 만든 겁니다.",
+          "start_seconds": 92.067,
+          "end_seconds": 93.333
+        }
+      ]
+    },
+    {
+      "id": "b26",
+      "act": "solution",
+      "text": "마치 땅에서 쭉 올라온 나무처럼 말이죠.",
+      "syllables": 16,
+      "start_frame": 2810,
+      "end_frame": 2898,
+      "start_seconds": 93.667,
+      "end_seconds": 96.6,
+      "speech_end_seconds": 96.267,
+      "phrases": [
+        {
+          "text": "마치 땅에서 쭉 올라온",
+          "start_seconds": 93.667,
+          "end_seconds": 95.133
+        },
+        {
+          "text": "나무처럼 말이죠.",
+          "start_seconds": 95.133,
+          "end_seconds": 96.267
+        }
+      ]
+    },
+    {
+      "id": "b27",
+      "act": "solution",
+      "text": "선생님이 흔들릴수록 더 단단하게 받쳐 주는 구조였습니다.",
+      "syllables": 24,
+      "start_frame": 2898,
+      "end_frame": 3037,
+      "start_seconds": 96.6,
+      "end_seconds": 101.233,
+      "speech_end_seconds": 100.5,
+      "phrases": [
+        {
+          "text": "선생님이 흔들릴수록",
+          "start_seconds": 96.6,
+          "end_seconds": 98.067
+        },
+        {
+          "text": "더 단단하게 받쳐 주는",
+          "start_seconds": 98.067,
+          "end_seconds": 99.533
+        },
+        {
+          "text": "구조였습니다.",
+          "start_seconds": 99.533,
+          "end_seconds": 100.5
+        }
+      ]
+    },
+    {
+      "id": "b28",
+      "act": "result",
+      "text": "이렇게 하니까 걱정거리였던 ‘수업 후 작업’이 완벽하게 사라졌습니다.",
+      "syllables": 28,
+      "start_frame": 3037,
+      "end_frame": 3183,
+      "start_seconds": 101.233,
+      "end_seconds": 106.1,
+      "speech_end_seconds": 105.767,
+      "phrases": [
+        {
+          "text": "이렇게 하니까",
+          "start_seconds": 101.233,
+          "end_seconds": 102.233
+        },
+        {
+          "text": "걱정거리였던 ‘수업 후 작업’이",
+          "start_seconds": 102.233,
+          "end_seconds": 104.167
+        },
+        {
+          "text": "완벽하게 사라졌습니다.",
+          "start_seconds": 104.167,
+          "end_seconds": 105.767
+        }
+      ]
+    },
+    {
+      "id": "b29",
+      "act": "result",
+      "text": "선생님들은 더 이상 촬영 장비에 신경 쓰지 않아도 됐고,",
+      "syllables": 22,
+      "start_frame": 3183,
+      "end_frame": 3299,
+      "start_seconds": 106.1,
+      "end_seconds": 109.967,
+      "speech_end_seconds": 109.633,
+      "phrases": [
+        {
+          "text": "선생님들은 더 이상",
+          "start_seconds": 106.1,
+          "end_seconds": 107.4
+        },
+        {
+          "text": "촬영 장비에 신경 쓰지 않아도 됐고,",
+          "start_seconds": 107.4,
+          "end_seconds": 109.633
+        }
+      ]
+    },
+    {
+      "id": "b30",
+      "act": "result",
+      "text": "편집 때문에 밤을 새우지 않아도 됐고,",
+      "syllables": 15,
+      "start_frame": 3299,
+      "end_frame": 3382,
+      "start_seconds": 109.967,
+      "end_seconds": 112.733,
+      "speech_end_seconds": 112.367,
+      "phrases": [
+        {
+          "text": "편집 때문에",
+          "start_seconds": 109.967,
+          "end_seconds": 110.8
+        },
+        {
+          "text": "밤을 새우지 않아도 됐고,",
+          "start_seconds": 110.8,
+          "end_seconds": 112.367
+        }
+      ]
+    },
+    {
+      "id": "b31",
+      "act": "result",
+      "text": "업로드 링크를 찾아 헤매지 않아도 됐고,",
+      "syllables": 16,
+      "start_frame": 3382,
+      "end_frame": 3469,
+      "start_seconds": 112.733,
+      "end_seconds": 115.633,
+      "speech_end_seconds": 115.3,
+      "phrases": [
+        {
+          "text": "업로드 링크를",
+          "start_seconds": 112.733,
+          "end_seconds": 113.7
+        },
+        {
+          "text": "찾아 헤매지 않아도 됐고,",
+          "start_seconds": 113.7,
+          "end_seconds": 115.3
+        }
+      ]
+    },
+    {
+      "id": "b32",
+      "act": "result",
+      "text": "시청 체크로 마음 졸이지 않아도 됐습니다.",
+      "syllables": 17,
+      "start_frame": 3469,
+      "end_frame": 3562,
+      "start_seconds": 115.633,
+      "end_seconds": 118.733,
+      "speech_end_seconds": 118.367,
+      "phrases": [
+        {
+          "text": "시청 체크로",
+          "start_seconds": 115.633,
+          "end_seconds": 116.467
+        },
+        {
+          "text": "마음 졸이지 않아도 됐습니다.",
+          "start_seconds": 116.467,
+          "end_seconds": 118.367
+        }
+      ]
+    },
+    {
+      "id": "b33",
+      "act": "result",
+      "text": "결국 선생님들은 맘 편히 수업할 수 있게 됐습니다.",
+      "syllables": 20,
+      "start_frame": 3562,
+      "end_frame": 3668,
+      "start_seconds": 118.733,
+      "end_seconds": 122.267,
+      "speech_end_seconds": 121.933,
+      "phrases": [
+        {
+          "text": "결국 선생님들은",
+          "start_seconds": 118.733,
+          "end_seconds": 119.867
+        },
+        {
+          "text": "맘 편히 수업할 수 있게 됐습니다.",
+          "start_seconds": 119.867,
+          "end_seconds": 121.933
+        }
+      ]
+    },
+    {
+      "id": "b34",
+      "act": "result",
+      "text": "이제 수업은 수업답게, 수업이 끝나면 진짜로 끝나게 된 겁니다.",
+      "syllables": 25,
+      "start_frame": 3668,
+      "end_frame": 3813,
+      "start_seconds": 122.267,
+      "end_seconds": 127.1,
+      "speech_end_seconds": 126.433,
+      "phrases": [
+        {
+          "text": "이제 수업은 수업답게,",
+          "start_seconds": 122.267,
+          "end_seconds": 123.867
+        },
+        {
+          "text": "수업이 끝나면",
+          "start_seconds": 123.867,
+          "end_seconds": 124.867
+        },
+        {
+          "text": "진짜로 끝나게 된 겁니다.",
+          "start_seconds": 124.867,
+          "end_seconds": 126.433
+        }
+      ]
+    },
+    {
+      "id": "b35",
+      "act": "result",
+      "text": "클래스인 하나로요!",
+      "syllables": 8,
+      "start_frame": 3813,
+      "end_frame": 3861,
+      "start_seconds": 127.1,
+      "end_seconds": 128.7,
+      "speech_end_seconds": 128.367,
+      "phrases": [
+        {
+          "text": "클래스인 하나로요!",
+          "start_seconds": 127.1,
+          "end_seconds": 128.367
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s01",
+      "act": 1,
+      "name": "전시대 — 옛날 선생님들",
+      "beats": [
+        "b01"
+      ],
+      "start": 0,
+      "end": 132,
+      "subject": "박물관 전시대 위 선생님 피규어 3명",
+      "action": "‘멘탈이’에서 나선 눈·식은땀·영혼 가출, 큰 글자 강타",
+      "enter": "cut",
+      "hero": true,
+      "start_seconds": 0,
+      "end_seconds": 4.4
+    },
+    {
+      "id": "s02",
+      "act": 1,
+      "name": "교실 — 끝나지 않는 일",
+      "beats": [
+        "b02",
+        "b03"
+      ],
+      "start": 132,
+      "end": 331,
+      "subject": "교실 디오라마와 교탁 위로 떨어지는 일 더미",
+      "action": "종이 울리고 학생이 빠지자 교탁에 일 더미 5개 낙하 → 칠판 내용이 카드로 떠서 ‘보존’ 상자로",
+      "enter": "whip",
+      "start_seconds": 4.4,
+      "end_seconds": 11.033
+    },
+    {
+      "id": "s03",
+      "act": 1,
+      "name": "교실 — 직접 촬영",
+      "beats": [
+        "b04",
+        "b05",
+        "b06"
+      ],
+      "start": 331,
+      "end": 631,
+      "subject": "삼각대 위 휴대폰",
+      "action": "세우기 → 기울기 맞추기 → 저장 공간 97% 경고 → 원본 파일 큐브 낙하",
+      "enter": "cut",
+      "start_seconds": 11.033,
+      "end_seconds": 21.033
+    },
+    {
+      "id": "s05",
+      "act": 1,
+      "name": "밤 책상 — 편집",
+      "beats": [
+        "b07",
+        "b08",
+        "b09(앞)"
+      ],
+      "start": 631,
+      "end": 887,
+      "subject": "책상 위에 떠 있는 편집 타임라인",
+      "action": "칼날로 자르기 → 붙이기 → 프레스로 용량 줄이기 → 자막 띠 → 최종 파일",
+      "enter": "whip",
+      "start_seconds": 21.033,
+      "end_seconds": 29.567
+    },
+    {
+      "id": "s06",
+      "act": 1,
+      "name": "업로드 — 구름·폴더·링크",
+      "beats": [
+        "b09(뒤)",
+        "b10",
+        "b11"
+      ],
+      "start": 887,
+      "end": 1154,
+      "subject": "구름 세 개 사이를 헤매는 파일 큐브",
+      "action": "어디에 올릴지 헤맴 → 폴더 4단 → 휴대폰 5대로 링크 → 안 읽음 3명",
+      "enter": "cut",
+      "start_seconds": 29.567,
+      "end_seconds": 38.467
+    },
+    {
+      "id": "s08",
+      "act": 1,
+      "name": "시청 체크 — 명단 확인",
+      "beats": [
+        "b12",
+        "b13"
+      ],
+      "start": 1154,
+      "end": 1351,
+      "subject": "계단석의 학생 12명과 머리 위 표시등",
+      "action": "시청/미시청 판별 → 돋보기로 찾기 → 말풍선 안내 → 한 명씩 확인",
+      "enter": "whip",
+      "start_seconds": 38.467,
+      "end_seconds": 45.033
+    },
+    {
+      "id": "s09",
+      "act": 1,
+      "name": "에너지 방전",
+      "beats": [
+        "b14"
+      ],
+      "start": 1351,
+      "end": 1526,
+      "subject": "선생님 머리 위 작업 블록 4단과 배터리",
+      "action": "촬영·편집·업로드·시청 체크 블록이 차례로 쌓임 → 배터리 3% → 납작",
+      "enter": "whip",
+      "hero": true,
+      "start_seconds": 45.033,
+      "end_seconds": 50.867
+    },
+    {
+      "id": "s10",
+      "act": 2,
+      "name": "에듀테크 업체 — 첫 번째 계획",
+      "beats": [
+        "b15",
+        "b16"
+      ],
+      "start": 1526,
+      "end": 1744,
+      "subject": "연구원 2명과 코르크 보드의 할 일 목록",
+      "action": "전구 → 목록 중 ‘촬영’만 동그라미 → 설계도 펼침",
+      "enter": "wipe",
+      "start_seconds": 50.867,
+      "end_seconds": 58.133
+    },
+    {
+      "id": "s11",
+      "act": 2,
+      "name": "교실 — 장비 3종과 설계도",
+      "beats": [
+        "b17",
+        "b18"
+      ],
+      "start": 1744,
+      "end": 1957,
+      "subject": "천장 카메라·마이크·저장 장치 탑",
+      "action": "카메라 낙하 → 마이크 → 저장 장치 5단 → 화면 전체가 청사진으로",
+      "enter": "whip",
+      "hero": true,
+      "start_seconds": 58.133,
+      "end_seconds": 65.233
+    },
+    {
+      "id": "s12",
+      "act": 2,
+      "name": "교실 — 그래도 전부 선생님 손",
+      "beats": [
+        "b19",
+        "b20",
+        "b21"
+      ],
+      "start": 1957,
+      "end": 2256,
+      "subject": "스테이션 4곳을 뛰어다니는 선생님",
+      "action": "버튼 → 파일 → 업로드 → 체크를 직접 뛰며 처리 → 다시 영혼 가출",
+      "enter": "cut",
+      "start_seconds": 65.233,
+      "end_seconds": 75.2
+    },
+    {
+      "id": "s13",
+      "act": 3,
+      "name": "공사팀 — 통째로 시스템이 받자",
+      "beats": [
+        "b22",
+        "b23"
+      ],
+      "start": 2256,
+      "end": 2478,
+      "subject": "타워 크레인과 ‘시스템’ 상자",
+      "action": "크레인이 작업 블록 4단을 통째로 들어 시스템 상자에 넣음",
+      "enter": "wipe",
+      "hero": true,
+      "start_seconds": 75.2,
+      "end_seconds": 82.6
+    },
+    {
+      "id": "s14",
+      "act": 3,
+      "name": "녹화 버튼 하나",
+      "beats": [
+        "b24"
+      ],
+      "start": 2478,
+      "end": 2575,
+      "subject": "빨간 녹화 버튼",
+      "action": "‘누르면’에서 점프해 버튼을 누름 → 바닥 파동",
+      "enter": "whip",
+      "hero": true,
+      "start_seconds": 82.6,
+      "end_seconds": 85.833
+    },
+    {
+      "id": "s15",
+      "act": 3,
+      "name": "자동 네 단계",
+      "beats": [
+        "b25"
+      ],
+      "start": 2575,
+      "end": 2810,
+      "subject": "레일 위 자동화 기계 4대",
+      "action": "펄스가 촬영 → 업로드 → 시청 체크 → 관리 기계를 차례로 켬",
+      "enter": "cut",
+      "start_seconds": 85.833,
+      "end_seconds": 93.667
+    },
+    {
+      "id": "s16",
+      "act": 3,
+      "name": "나무 구조 — 흔들릴수록 단단하게",
+      "beats": [
+        "b26",
+        "b27"
+      ],
+      "start": 2810,
+      "end": 3037,
+      "subject": "땅에서 솟아 수업 받침을 떠받치는 나무",
+      "action": "줄기가 솟고 가지·잎·팻말 → 선생님이 흔들리자 뿌리가 넓고 굵어짐",
+      "enter": "whip",
+      "hero": true,
+      "start_seconds": 93.667,
+      "end_seconds": 101.233
+    },
+    {
+      "id": "s17",
+      "act": 4,
+      "name": "수업 후 작업 — 소멸",
+      "beats": [
+        "b28"
+      ],
+      "start": 3037,
+      "end": 3183,
+      "subject": "나무 옆에 남은 작업 블록 4단",
+      "action": "위에서부터 하나씩 터져 사라짐, 할 일 메모가 날아감",
+      "enter": "wipe",
+      "start_seconds": 101.233,
+      "end_seconds": 106.1
+    },
+    {
+      "id": "s18",
+      "act": 4,
+      "name": "옛날 방식 전시대",
+      "beats": [
+        "b29",
+        "b30",
+        "b31",
+        "b32"
+      ],
+      "start": 3183,
+      "end": 3562,
+      "subject": "유리 덮개 속 전시품 4점(장비·밤샘·링크·명단)",
+      "action": "전시품마다 유리 덮개가 내려오고 ‘은퇴’ 도장",
+      "enter": "whip",
+      "start_seconds": 106.1,
+      "end_seconds": 118.733
+    },
+    {
+      "id": "s19",
+      "act": 4,
+      "name": "교실 — 맘 편한 수업, 진짜 끝",
+      "beats": [
+        "b33",
+        "b34"
+      ],
+      "start": 3562,
+      "end": 3813,
+      "subject": "영혼이 돌아온 선생님과 빈 교탁",
+      "action": "영혼 귀환 → 종 → 이번엔 교탁에 잎 하나만 → 노을 속 퇴근",
+      "enter": "whip",
+      "start_seconds": 118.733,
+      "end_seconds": 127.1
+    },
+    {
+      "id": "s21",
+      "act": 4,
+      "name": "엔드카드 — 요즘 선생님",
+      "beats": [
+        "b35"
+      ],
+      "start": 3813,
+      "end": 3939,
+      "subject": "전시대 위 웃는 선생님 3명과 ClassIn 로고",
+      "action": "‘요즘 선생님’ 명판, 로고·URL",
+      "enter": "whip",
+      "hero": true,
+      "start_seconds": 127.1,
+      "end_seconds": 131.3
+    }
+  ]
+}

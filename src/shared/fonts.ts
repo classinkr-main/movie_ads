@@ -1,0 +1,85 @@
+import { loadFont } from "@remotion/fonts";
+import { staticFile } from "remotion";
+
+export const FONT_FAMILY = "Pretendard";
+// 시네마틱 타입 시스템(브래그컷) — 국문 세리프 헤드라인 · 영문 이탤릭 세리프 · 모노 HUD. 없는 글리프는 Pretendard로 대체.
+export const SERIF = `"Nanum Myeongjo", "Pretendard", serif`;
+export const SERIF_EN = `"Instrument Serif", "Nanum Myeongjo", serif`;
+export const MONO = `"JetBrains Mono", "Pretendard", monospace`;
+
+const WEIGHTS: Array<[string, string]> = [
+  ["900", "Pretendard-Black.woff2"],
+  ["800", "Pretendard-ExtraBold.woff2"],
+  ["700", "Pretendard-Bold.woff2"],
+  ["600", "Pretendard-SemiBold.woff2"],
+  ["500", "Pretendard-Medium.woff2"],
+  ["400", "Pretendard-Regular.woff2"],
+];
+
+// 드로잉 쇼릴용 손글씨 서체(SIL OFL 1.1) — Jua: 둥근 제목, Gaegu: 손메모
+const HAND: Array<[string, string, string]> = [
+  ["Jua", "400", "Jua-Regular.woff2"],
+  ["Gaegu", "700", "Gaegu-Bold.woff2"],
+  ["Gaegu", "400", "Gaegu-Regular.woff2"],
+];
+
+// 숏폼 원어(중국어) 자막용 — Noto Sans SC를 GB2312 상용 한자 범위로 서브셋한 파일(SIL OFL 1.1)
+export const FONT_FAMILY_ZH = "Noto Sans SC";
+
+const ZH_WEIGHTS: Array<[string, string]> = [
+  ["700", "NotoSansSC-Bold.woff2"],
+  ["500", "NotoSansSC-Medium.woff2"],
+];
+
+// 모듈 로드 시점에 모든 굵기를 등록한다. loadFont는 내부에서 delayRender/continueRender를 처리한다.
+export const fontsReady: Promise<void> = Promise.all([
+  ...WEIGHTS.map(([weight, file]) =>
+    loadFont({
+      family: FONT_FAMILY,
+      url: staticFile(`00_공통에셋/fonts/${file}`),
+      weight,
+      format: "woff2",
+      display: "block",
+    }),
+  ),
+  ...HAND.map(([family, weight, file]) =>
+    loadFont({
+      family,
+      url: staticFile(`fonts/${file}`),
+      weight,
+      format: "woff2",
+      display: "block",
+    }),
+  ),
+  ...ZH_WEIGHTS.map(([weight, file]) =>
+    loadFont({
+      family: FONT_FAMILY_ZH,
+      url: staticFile(`fonts/${file}`),
+      weight,
+      format: "woff2",
+      display: "block",
+    }),
+  ),
+]).then(() => undefined);
+
+export const cinematicFontsReady: Promise<void> = Promise.all([
+  ...([
+    ["400", "Regular"],
+    ["700", "Bold"],
+    ["800", "ExtraBold"],
+  ] as const).map(([weight, name]) => loadFont({ family: "Nanum Myeongjo", url: staticFile(`fonts/NanumMyeongjo-${name}.woff2`), weight, format: "woff2", display: "block" })),
+  loadFont({ family: "Instrument Serif", url: staticFile("fonts/InstrumentSerif-Regular.woff2"), weight: "400", style: "normal", format: "woff2", display: "block" }),
+  loadFont({ family: "Instrument Serif", url: staticFile("fonts/InstrumentSerif-Italic.woff2"), weight: "400", style: "italic", format: "woff2", display: "block" }),
+  loadFont({ family: "JetBrains Mono", url: staticFile("fonts/JetBrainsMono.woff2"), weight: "100 800", format: "woff2", display: "block" }),
+]).then(() => undefined);
+
+// 브래그컷 본편 타입셋 B(src/brag/typeset.tsx) — Noto Serif KR(한글·라틴 서브셋) + Bodoni Moda, SIL OFL 1.1
+export const typesetFontsReady: Promise<void> = Promise.all(
+  (
+    [
+      ["Noto Serif KR", "NotoSerifKR", "200 900", "normal"],
+      ["Bodoni Moda", "BodoniModa", "400 900", "normal"],
+      ["Bodoni Moda", "BodoniModa-Italic", "400 900", "italic"],
+    ] as const
+  ).map(([family, file, weight, style]) => loadFont({ family, url: staticFile(`fonts/${file}.woff2`), weight, style, format: "woff2", display: "block" })),
+).then(() => undefined);
