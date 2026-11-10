@@ -21,3 +21,8 @@ projects/*/renders/segments/
 projects/*/renders/*-draft.mp4
 projects/*/renders/.remotion*
 projects/*/renders/.final_review_frames/
+
+# 갈매기 쇼릴 — 합성 중간 파일(wav)은 빼고 m4a만 커밋, 섬네일은 커밋
+public/audio/gull-reel.wav
+!out/classin-gull-thumbnail.png
+!out/classin-gull-thumbnail-1280.jpg

@@ -17,7 +17,11 @@
     "mental:timeline": "node --experimental-strip-types --no-warnings projects/teachers-lost-their-minds/scripts/timeline.ts",
     "mental:sync": "node --experimental-strip-types --no-warnings projects/teachers-lost-their-minds/scripts/sync-from-srt.ts",
     "mental:snapshots": "bash projects/teachers-lost-their-minds/scripts/snapshots.sh",
-    "mental:render:draft": "node projects/teachers-lost-their-minds/scripts/render-segments.mjs --draft"
+    "mental:render:draft": "node projects/teachers-lost-their-minds/scripts/render-segments.mjs --draft",
+    "render:gull": "remotion render GullReel out/classin-gull-showreel.mp4 --crf=21",
+    "still:gull": "remotion still GullSheet out/gull-sheet.png --frame=40",
+    "thumb:gull": "remotion still GullThumb out/classin-gull-thumbnail.png",
+    "audio:gull": "node scripts/make-audio.mjs && ffmpeg -y -loglevel error -i public/audio/gull-reel.wav -c:a aac -b:a 192k public/audio/gull-reel.m4a"
   },
   "repository": {
     "type": "git",
@@ -34,6 +38,7 @@
     "@react-three/fiber": "^9.8.2",
     "@remotion/cli": "^4.0.533",
     "@remotion/fonts": "^4.0.533",
+    "@remotion/paths": "^4.0.533",
     "@remotion/three": "^4.0.533",
     "@remotion/transitions": "^4.0.533",
     "@types/three": "^0.187.0",
