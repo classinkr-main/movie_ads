@@ -1,0 +1,368 @@
+import React from "react";
+import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
+import { Clip, Photo } from "../components/Media";
+import { limeGrid } from "../components/Stage";
+import { HandCircle, Tag } from "../components/Marks";
+import { Flash } from "../components/Fx";
+import { Counter, Slam } from "../components/Type";
+import { IconRec } from "../components/Icons";
+import { C, FONT } from "../lib/theme";
+import { sceneSpan, useCues } from "../lib/timing";
+import { POP, clamp, ease, prog, shake, sp } from "../lib/motion";
+
+// S4 챈트 (270–510f) — 단어 하나에 한 박. "판서는, 파일로. / 설명은, 영상으로. / 복습은, 앱으로. / 운영은, 데이터로."
+// A박: 실제 학원 사진·영상 + 첫 단어 / B박: 오른쪽 파스텔 연두 패널이 밀려 들어오며 두 번째 단어와 결과물.
+
+type Pair = {
+  a: string;
+  b: string;
+  photo?: string;
+  clip?: string;
+  pos: string;
+  tag: string;
+  btag: string;
+  circle?: { cx: number; cy: number; rx: number; ry: number };
+  Panel: React.FC;
+};
+
+// 쌍마다 A박(로컬), 쌍 안에서 B박까지의 거리, 장면 길이 — 버전별 cues에서 온다
+const useChantCues = () => {
+  const c = useCues();
+  const { from, len } = sceneSpan(c, "chant");
+  return { A_BEATS: c.chant.filter((_, i) => i % 2 === 0).map((f) => f - from), B: c.chant[1] - c.chant[0], LEN: len };
+};
+const PANEL_X = 900; // 패널 왼쪽 경계(px)
+const PANEL_W = 1920 - PANEL_X;
+
+// ── B 패널 비주얼 ─────────────────────────────
+
+const Check: React.FC<{ size?: number }> = ({ size = 24 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3.2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4.5 12.5l4.8 4.6L19.5 7" />
+  </svg>
+);
+
+// EDB 교안 카드 — 판서가 파일로 저장된다
+const EdbCard: React.FC = () => {
+  const frame = useCurrentFrame();
+  const s = sp(frame, POP);
+  const check = prog(frame, 10, 18, ease.outBack);
+  return (
+    <div style={{ position: "absolute", left: 140, top: 150, transform: `rotate(${-4 + (1 - s) * 8}deg) scale(${0.7 + 0.3 * s})`, transformOrigin: "50% 60%", opacity: Math.min(1, s * 2) }}>
+      {[2, 1].map((k) => (
+        <div key={k} style={{ position: "absolute", left: k * 18, top: k * -16, width: 640, height: 420, background: C.white, opacity: 0.35 + 0.2 * (2 - k), borderRadius: 14 }} />
+      ))}
+      <div style={{ position: "relative", width: 640, height: 420, background: C.white, borderRadius: 14, boxShadow: `0 30px 60px ${C.shadow}`, overflow: "hidden" }}>
+        <div style={{ position: "absolute", left: 24, top: 24, width: 592, height: 270, borderRadius: 8, overflow: "hidden", background: "#22252B" }}>
+          <Img src={staticFile("photos/mokdong-point.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "30% 22%", transform: "scale(1.9)", transformOrigin: "30% 22%", filter: "contrast(1.1)" }} />
+        </div>
+        <div style={{ position: "absolute", left: 28, top: 318, fontFamily: FONT.mono, fontWeight: 600, fontSize: 30, color: C.ink }}>심화_3step_02.edb</div>
+        <div style={{ position: "absolute", left: 28, top: 364, fontFamily: FONT.mono, fontWeight: 500, fontSize: 20, color: C.muted, letterSpacing: "0.06em" }}>EDB · 판서 12p · 교안 포함</div>
+        <div
+          style={{
+            position: "absolute",
+            right: 26,
+            top: 326,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 20px",
+            borderRadius: 999,
+            background: C.cobalt,
+            color: C.white,
+            fontFamily: FONT.sans,
+            fontWeight: 700,
+            fontSize: 26,
+            transform: `scale(${check})`,
+          }}
+        >
+          저장됨 <Check />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 녹화 플레이어 — 수업이 영상으로 남는다
+const VideoPlayer: React.FC = () => {
+  const frame = useCurrentFrame();
+  const s = sp(frame, POP);
+  const bar = interpolate(frame, [0, 30], [0.18, 0.62], { ...clamp, easing: ease.out });
+  return (
+    <div style={{ position: "absolute", left: 100, top: 150, width: 820, height: 461, transform: `scale(${0.75 + 0.25 * s}) rotate(${2 - 2 * s}deg)`, opacity: Math.min(1, s * 2), borderRadius: 18, overflow: "hidden", boxShadow: `0 30px 60px ${C.shadow}`, background: C.ink }}>
+      <Clip src="class.mp4" style={{ filter: "contrast(1.05) saturate(0.9)" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,11,20,0.45) 0%, rgba(10,11,20,0) 30%, rgba(10,11,20,0) 65%, rgba(10,11,20,0.7) 100%)" }} />
+      <div style={{ position: "absolute", left: 24, top: 20, display: "flex", alignItems: "center", gap: 10, fontFamily: FONT.mono, fontWeight: 600, fontSize: 22, color: C.white, letterSpacing: "0.1em" }}>
+        <IconRec size={30} />
+        녹화 · 3단원 심화
+      </div>
+      <div style={{ position: "absolute", left: 24, right: 24, bottom: 30, height: 8, borderRadius: 8, background: "rgba(255,255,255,0.3)" }}>
+        <div style={{ width: `${bar * 100}%`, height: "100%", borderRadius: 8, background: C.signal }} />
+        <div style={{ position: "absolute", left: `calc(${bar * 100}% - 11px)`, top: -7, width: 22, height: 22, borderRadius: 99, background: C.white }} />
+      </div>
+      <div style={{ position: "absolute", right: 24, bottom: 52, fontFamily: FONT.mono, fontWeight: 500, fontSize: 20, color: C.white, opacity: 0.85 }}>
+        {`${String(Math.floor(bar * 45)).padStart(2, "0")}:${String(Math.floor((bar * 45 * 60) % 60)).padStart(2, "0")} / 45:00`}
+      </div>
+      <div style={{ position: "absolute", left: 24, bottom: 52, padding: "6px 14px", borderRadius: 999, background: C.white, color: C.ink, fontFamily: FONT.sans, fontWeight: 700, fontSize: 20 }}>다시보기</div>
+    </div>
+  );
+};
+
+// 복습 앱 — 휴대폰 화면
+const PhoneApp: React.FC = () => {
+  const frame = useCurrentFrame();
+  const s = sp(frame, POP);
+  const rows: Array<[string, string, boolean]> = [
+    ["3단원 다시보기", "45:00", false],
+    ["판서 교안 (EDB)", "12p", false],
+    ["오늘 과제", "제출", true],
+  ];
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 540,
+        top: 120,
+        width: 330,
+        height: 650,
+        borderRadius: 52,
+        background: C.ink,
+        padding: 14,
+        boxSizing: "border-box",
+        boxShadow: `0 40px 70px ${C.shadow}`,
+        transform: `translateY(${(1 - s) * 140}px) rotate(${-6 + (1 - s) * -6}deg)`,
+      }}
+    >
+      <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: 40, background: C.limeLight, overflow: "hidden" }}>
+        <div style={{ position: "absolute", left: 24, top: 40, fontFamily: FONT.sans, fontWeight: 700, fontSize: 30, color: C.ink }}>오늘의 복습</div>
+        <div style={{ position: "absolute", left: 16, right: 16, top: 96, height: 170, borderRadius: 16, overflow: "hidden" }}>
+          <Img src={staticFile("photos/hw-room86.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.9)" }} />
+          <div style={{ position: "absolute", left: "50%", top: "50%", width: 58, height: 58, marginLeft: -29, marginTop: -29, borderRadius: 99, background: "rgba(255,255,255,0.92)" }}>
+            <div style={{ position: "absolute", left: 22, top: 17, width: 0, height: 0, borderLeft: "20px solid #2F3CFF", borderTop: "12px solid transparent", borderBottom: "12px solid transparent" }} />
+          </div>
+        </div>
+        {rows.map(([t, v, done], i) => {
+          const a = prog(frame, 6 + i * 4, 14 + i * 4);
+          return (
+            <div
+              key={t}
+              style={{
+                position: "absolute",
+                left: 16,
+                right: 16,
+                top: 290 + i * 104,
+                height: 88,
+                borderRadius: 16,
+                background: C.white,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 18px",
+                boxSizing: "border-box",
+                opacity: a,
+                transform: `translateX(${(1 - a) * 40}px)`,
+                boxShadow: "0 4px 12px rgba(10,11,20,0.06)",
+              }}
+            >
+              <span style={{ fontFamily: FONT.sans, fontWeight: 700, fontSize: 21, color: C.ink }}>{t}</span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: FONT.mono, fontWeight: 600, fontSize: 18, color: done ? C.white : C.cobalt, background: done ? C.cobalt : "transparent", padding: done ? "4px 10px" : 0, borderRadius: 8 }}>
+                {v}
+                {done && <Check size={16} />}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// AI 강의 분석 리포트 — Classin 앱의 AI 강의 분석 화면을 데이터 모션으로 옮긴 카드.
+// 수치는 제공받은 예시 리포트(과학 · 전자기 유도 법칙의 이해와 적용) 값 그대로다.
+const REPORT = {
+  subject: "과학",
+  title: "전자기 유도 법칙의 이해와 적용",
+  meta: "강사 A · 고2 물리Ⅰ · 개념 · 2시간 16분",
+  score: 93,
+  radar: [0.8, 0.85, 0.9, 0.75, 0.85], // 역량 레이더 5축(위에서 시계 방향)
+  dims: [
+    ["지식 설명 품질", 28, 30],
+    ["사고 수준과 방법 정리", 23, 25],
+    ["학생 학습 품질", 18, 20],
+    ["교수 구조와 효율", 14, 15],
+    ["수업 분위기와 리스크 통제", 10, 10],
+  ] as Array<[string, number, number]>,
+};
+const CARD = { x: 92, y: 146, w: 850, h: 524 };
+
+// 점수 옆 월계수 가지 — 앱의 AI Eval. 배지처럼 통통한 잎 4장 + 아래로 말린 줄기
+const Laurel: React.FC<{ flip?: boolean; color: string }> = ({ flip, color }) => (
+  <svg width={30} height={64} viewBox="0 0 30 64" style={{ transform: flip ? "scaleX(-1)" : undefined }}>
+    <path d="M23,59 C14,55 9,46 10,35" fill="none" stroke={color} strokeWidth={2.6} strokeLinecap="round" />
+    <path d="M23,59 C26,59 27,56 25,55" fill="none" stroke={color} strokeWidth={2.4} strokeLinecap="round" />
+    {[
+      [15, 10, 12],
+      [10, 21, -18],
+      [9, 32, -38],
+      [12, 43, -60],
+    ].map(([x, y, r]) => (
+      <ellipse key={y} cx={x} cy={y} rx={5.4} ry={8.8} transform={`rotate(${r} ${x} ${y})`} fill={color} />
+    ))}
+  </svg>
+);
+
+// 역량 레이더 — 격자가 먼저 깔리고 다각형이 중심에서 튀어나온다
+const Radar: React.FC<{ values: number[]; p: number; grid: number }> = ({ values, p, grid }) => {
+  const cx = 160;
+  const cy = 160;
+  const R = 108;
+  const pt = (i: number, r: number) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / values.length;
+    return [cx + Math.cos(a) * r, cy + Math.sin(a) * r] as const;
+  };
+  const ring = (r: (i: number) => number) => values.map((_, i) => pt(i, r(i)).map((n) => n.toFixed(1)).join(",")).join(" ");
+  return (
+    <svg width={320} height={320} viewBox="0 0 320 320">
+      <g opacity={grid}>
+        {[0.25, 0.5, 0.75, 1].map((k) => (
+          <polygon key={k} points={ring(() => R * k)} fill="none" stroke={C.olive} strokeOpacity={0.22} strokeWidth={1.5} />
+        ))}
+        {values.map((_, i) => {
+          const [x, y] = pt(i, R);
+          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke={C.olive} strokeOpacity={0.2} strokeWidth={1.5} />;
+        })}
+        {values.map((v, i) => {
+          const [x, y] = pt(i, R + 28);
+          return (
+            <text key={i} x={x} y={y + 6} textAnchor="middle" fontFamily={FONT.mono} fontWeight={600} fontSize={17} fill={C.olive}>
+              {Math.round(v * 100)}%
+            </text>
+          );
+        })}
+      </g>
+      {p > 0 && (
+        <>
+          <polygon points={ring((i) => R * values[i] * p)} fill={C.cobalt} fillOpacity={0.16} stroke={C.cobalt} strokeWidth={4} strokeLinejoin="round" />
+          {values.map((v, i) => {
+            const [x, y] = pt(i, R * v * p);
+            return <circle key={i} cx={x} cy={y} r={6} fill={C.cobalt} />;
+          })}
+        </>
+      )}
+    </svg>
+  );
+};
+
+const AiReport: React.FC = () => {
+  const frame = useCurrentFrame();
+  const s = sp(frame, POP);
+  const grid = prog(frame, 0, 6);
+  const radar = prog(frame, 4, 16, ease.outBack);
+  return (
+    <div style={{ position: "absolute", left: CARD.x, top: CARD.y, width: CARD.w, height: CARD.h, transform: `scale(${0.75 + 0.25 * s})`, opacity: Math.min(1, s * 2) }}>
+      <div style={{ position: "absolute", inset: 0, borderRadius: 18, background: C.white, boxShadow: `0 30px 60px ${C.shadow}`, overflow: "hidden" }}>
+        <div style={{ position: "absolute", left: 32, top: 28, padding: "4px 14px", borderRadius: 8, background: C.limeLight, fontFamily: FONT.sans, fontWeight: 700, fontSize: 19, color: C.olive }}>{REPORT.subject}</div>
+        <div style={{ position: "absolute", left: 32, top: 72, fontFamily: FONT.sans, fontWeight: 700, fontSize: 36, letterSpacing: "-0.02em", color: C.ink }}>{REPORT.title}</div>
+        <div style={{ position: "absolute", left: 32, top: 126, fontFamily: FONT.sans, fontWeight: 600, fontSize: 19, color: C.muted }}>{REPORT.meta}</div>
+        <div style={{ position: "absolute", right: 30, top: 16, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <Laurel color={C.ink} />
+            <div style={{ width: 122, textAlign: "center", fontFamily: FONT.num, fontSize: 112, lineHeight: 1, color: C.ink }}>
+              <Counter value={REPORT.score} start={3} dur={16} />
+            </div>
+            <Laurel color={C.ink} flip />
+          </div>
+          <div style={{ fontFamily: FONT.mono, fontWeight: 500, fontSize: 18, letterSpacing: "0.12em", color: C.muted, marginTop: 2 }}>AI Eval.</div>
+        </div>
+        <div style={{ position: "absolute", left: 32, right: 32, top: 178, height: 2, background: C.ink, opacity: 0.1 }} />
+        <div style={{ position: "absolute", left: 18, top: 192 }}>
+          <Radar values={REPORT.radar} p={radar} grid={grid} />
+        </div>
+        {REPORT.dims.map(([name, got, max], i) => {
+          const g = prog(frame, 5 + i * 2, 17 + i * 2, ease.outQuint);
+          return (
+            <div key={name} style={{ position: "absolute", left: 372, right: 34, top: 202 + i * 60 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <span style={{ fontFamily: FONT.sans, fontWeight: 700, fontSize: 20, color: C.ink }}>{name}</span>
+                <span style={{ fontFamily: FONT.mono, fontWeight: 600, fontSize: 17, color: C.muted, fontVariantNumeric: "tabular-nums" }}>
+                  <span style={{ color: C.cobalt }}>{Math.round((got / max) * 100 * g)}%</span> {Math.round(got * g)}/{max}
+                </span>
+              </div>
+              <div style={{ marginTop: 9, height: 10, borderRadius: 6, background: "rgba(10,11,20,0.07)" }}>
+                <div style={{ width: `${(got / max) * g * 100}%`, height: "100%", borderRadius: 6, background: C.cobalt }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <HandCircle cx={CARD.w - 122} cy={88} rx={122} ry={80} start={14} dur={10} width={6} seed="eval" w={CARD.w} h={CARD.h} />
+    </div>
+  );
+};
+
+const PAIRS: Pair[] = [
+  { a: "판서는,", b: "파일로.", photo: "mokdong-point.jpg", pos: "62% 40%", tag: "전자칠판 판서", btag: "EDB 교안", circle: { cx: 575, cy: 150, rx: 345, ry: 112 }, Panel: EdbCard },
+  { a: "설명은,", b: "영상으로.", photo: "case-daegu.jpg", pos: "55% 40%", tag: "수업 중 설명", btag: "자동 녹화 · 다시보기", circle: { cx: 1545, cy: 480, rx: 165, ry: 285 }, Panel: VideoPlayer },
+  { a: "복습은,", b: "앱으로.", clip: "quad-tablet.mp4", pos: "50% 45%", tag: "수업 후 복습", btag: "LMS · 과제", Panel: PhoneApp },
+  { a: "운영은,", b: "데이터로.", photo: "mokdong-wide.jpg", pos: "50% 45%", tag: "학원 운영", btag: "AI 강의 분석", Panel: AiReport },
+];
+
+const PairShot: React.FC<{ pair: Pair; index: number }> = ({ pair, index }) => {
+  const frame = useCurrentFrame();
+  const { B } = useChantCues();
+  const punch = interpolate(frame, [0, 8], [1.16, 1.08], { ...clamp, easing: ease.outExpo });
+  const drift = interpolate(frame, [8, 60], [0, 0.04], clamp);
+  const panel = prog(frame, B, B + 8, ease.outExpo);
+  const dim = interpolate(frame, [B, B + 6], [1, 0.5], clamp);
+  const sh = shake(frame, B, 10, 12, `p${index}`);
+  const { Panel } = pair;
+  return (
+    <AbsoluteFill style={{ background: C.ink, overflow: "hidden" }}>
+      <AbsoluteFill style={{ transform: `translateX(${-panel * 260}px)` }}>
+        {pair.clip ? (
+          <Clip src={pair.clip} pos={pair.pos} scale={punch + drift} filter={`contrast(1.12) saturate(0.82) brightness(${dim})`} />
+        ) : (
+          <Photo src={pair.photo ?? ""} pos={pair.pos} scale={punch + drift} filter={`contrast(1.12) saturate(0.82) brightness(${dim})`} />
+        )}
+        <AbsoluteFill style={{ background: "linear-gradient(20deg, rgba(10,11,20,0.82) 0%, rgba(10,11,20,0.35) 42%, rgba(10,11,20,0) 70%)" }} />
+        {pair.circle && <HandCircle {...pair.circle} start={3} dur={12} width={8} seed={`pc${index}`} />}
+      </AbsoluteFill>
+      <div style={{ position: "absolute", left: 110, bottom: 130, transform: `translateX(${-panel * 40}px)` }}>
+        <Slam start={0} from={1.45} origin="0% 100%" style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 230, lineHeight: 1, letterSpacing: "-0.05em", color: C.white }}>
+          {pair.a}
+        </Slam>
+      </div>
+      <Tag x={118} y={700} start={2} index={`0${index + 1}`} text={pair.tag} size={34} rotate={-1.5} />
+      {frame >= B && (
+        <div style={{ position: "absolute", left: PANEL_X, top: 0, width: PANEL_W, height: 1080, transform: `translateX(${(1 - panel) * PANEL_W}px) translate(${sh.x}px, ${sh.y}px)` }}>
+          <div style={{ position: "absolute", inset: 0, background: C.lime, clipPath: "polygon(6% 0, 100% 0, 100% 100%, 0 100%)" }}>
+            <div style={{ position: "absolute", inset: 0, ...limeGrid(40) }} />
+          </div>
+          <Sequence from={B} layout="none">
+            <Panel />
+          </Sequence>
+          <Tag x={160} y={96} start={B + 2} index="→" text={pair.btag} size={30} rotate={1.5} dark />
+          <div style={{ position: "absolute", left: 150, bottom: 130 }}>
+            <Slam start={B} from={1.5} origin="0% 100%" style={{ fontFamily: FONT.display, fontWeight: 900, fontSize: 200, lineHeight: 1, letterSpacing: "-0.05em", color: C.ink }}>
+              {pair.b}
+            </Slam>
+          </div>
+        </div>
+      )}
+      <Flash at={0} dur={5} max={0.35} />
+    </AbsoluteFill>
+  );
+};
+
+export const Chant: React.FC = () => {
+  const { A_BEATS, LEN } = useChantCues();
+  return (
+    <AbsoluteFill style={{ background: C.ink }}>
+      {PAIRS.map((pair, i) => (
+        <Sequence key={pair.a} from={A_BEATS[i]} durationInFrames={(A_BEATS[i + 1] ?? LEN) - A_BEATS[i]}>
+          <PairShot pair={pair} index={i} />
+        </Sequence>
+      ))}
+    </AbsoluteFill>
+  );
+};

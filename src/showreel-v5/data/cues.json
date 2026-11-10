@@ -1,0 +1,50 @@
+{
+  "_comment": "v5 타이밍 SSOT — 영상(src/)과 사운드트랙(tools/music/compose.py)이 함께 읽는다. 단위는 60fps 프레임, 120 BPM = 1박 30f · 1마디 120f.",
+  "fps": 60,
+  "bpm": 120,
+  "beat": 30,
+  "durationInFrames": 1320,
+  "scenes": {
+    "hook": [0, 120],
+    "loss": [120, 240],
+    "drop": [240, 270],
+    "chant": [270, 510],
+    "future": [510, 600],
+    "system": [600, 840],
+    "map": [840, 960],
+    "scale": [960, 1080],
+    "finale": [1080, 1200],
+    "end": [1200, 1320]
+  },
+  "typing": {
+    "hook1": { "text": "수업이 끝나면,", "start": 10, "step": 5 },
+    "hook2": { "text": "수업은 어디로 갈까?", "start": 58, "step": 4 },
+    "pre": { "text": "미래의 학원은,", "start": 212, "step": 2 }
+  },
+  "hook": { "highlight": 100, "circle": 104, "ding": 99 },
+  "loss": {
+    "whip": 114,
+    "land": 128,
+    "circle": 134,
+    "label1": 146,
+    "erase": [150, 176],
+    "arrow": 164,
+    "label2": 174,
+    "scatter": 178,
+    "label3": 190,
+    "stamp": 196,
+    "lightsOff": 206
+  },
+  "chant": [270, 300, 330, 360, 390, 420, 450, 480],
+  "future": [510, 525, 540, 555, 570, 585],
+  "system": {
+    "stations": [600, 630, 660, 690, 720],
+    "loop": [744, 774],
+    "flow": 780,
+    "zoom": [810, 840]
+  },
+  "map": { "pins": [840, 855, 870, 885, 900, 915, 930, 945] },
+  "scale": { "hits": [960, 990, 1020], "caption": 1050 },
+  "finale": { "lines": [1080, 1110, 1140], "strike": 1140, "strobe": 15 },
+  "end": { "logo": 1200, "tagline": 1212, "saved": 1230, "cta": 1236 }
+}

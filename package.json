@@ -46,7 +46,16 @@
     "still:tm": "remotion still TeacherMgmt out/still-tm.png --frame=400",
     "still:tmv": "remotion still TeacherMgmtValue out/still-tmv.png --frame=400",
     "render:hw": "remotion render Hardware out/classin-board-hardware.mp4",
-    "still:hw": "remotion still Hardware out/hw-still.png --frame=300"
+    "still:hw": "remotion still Hardware out/hw-still.png --frame=300",
+    "render:v5": "remotion render Showreel out/classin-showreel-v5.mp4",
+    "render:v5-30": "remotion render Showreel30 out/classin-showreel-v5-30s.mp4",
+    "social:v5": "node tools/social.mjs out/classin-showreel-v5.mp4",
+    "social:v5-30": "node tools/social.mjs",
+    "still:v5": "remotion still Showreel out/still.png --frame=262",
+    "stills:v5": "node tools/stills.mjs --every 60",
+    "music:v5": "python3 tools/music/fit_bgm.py",
+    "music:v5-30": "python3 tools/music/fit_bgm.py --cues src/showreel-v5/data/cues-30s.json --out public/audio/classin-v5-30s.wav",
+    "music:v5-synth": "python3 tools/music/compose.py"
   },
   "repository": {
     "type": "git",

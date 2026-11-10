@@ -40,6 +40,7 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 | 브래그컷 v5 — 시네마틱 숏폼 런칭 컷(분석 · 채점 · 통역), 20초 · 9:16 · 음악·효과음 | [src/brag](src/brag/README.md) | `Brag` | `out/brag/brag.mp4` · 포스터 `out/brag/brag.jpg` |
 | AI 강의 평가 → 강사 관리 — A 라이트 편 22초 · B 가치 편 26초 · 16:9 · 무음 | [src/teacher-mgmt](src/teacher-mgmt/README.md) | `TeacherMgmt` · `TeacherMgmtValue` | `out/classin-ai-teacher-mgmt.mp4` · `out/classin-ai-teacher-mgmt-value.mp4` |
 | Classin Board 하드웨어 광고 — 시네마틱 제품 광고, 45초 · 16:9 · 무음 | [src/hardware](src/hardware/README.md) | `Hardware` | `out/classin-board-hardware.mp4` |
+| 쇼릴 v5 "남는 수업" — 뮤직비디오 × Vox 해설 브랜드 쇼릴, 22초 · 30초 여유판 · 60fps + 인스타 1:1·4:5·9:16 · 썸네일 시안 4종 | [src/showreel-v5](src/showreel-v5/README.md) | `Showreel` · `Showreel30` · `SocialFrame916` · `Thumb-a`…`d` | `out/classin-showreel-v5.mp4` · `out/classin-showreel-v5-30s*.mp4` · `out/thumbs/` |
 
 ## 아이디어
 
