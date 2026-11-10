@@ -5,3 +5,11 @@ out/**/frames
 .remotion
 .DS_Store
 out/**/preview-*
+__pycache__
+
+# vlog/ — 촬영 원본·작업 파일·결과물은 용량이 커서 커밋하지 않는다
+vlog/*/raw
+vlog/*/fonts
+vlog/*/work
+vlog/*/out
+vlog/*/.venv
