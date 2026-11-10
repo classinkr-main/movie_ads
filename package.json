@@ -44,7 +44,9 @@
     "render:tm": "remotion render TeacherMgmt out/classin-ai-teacher-mgmt.mp4",
     "render:tmv": "remotion render TeacherMgmtValue out/classin-ai-teacher-mgmt-value.mp4",
     "still:tm": "remotion still TeacherMgmt out/still-tm.png --frame=400",
-    "still:tmv": "remotion still TeacherMgmtValue out/still-tmv.png --frame=400"
+    "still:tmv": "remotion still TeacherMgmtValue out/still-tmv.png --frame=400",
+    "render:hw": "remotion render Hardware out/classin-board-hardware.mp4",
+    "still:hw": "remotion still Hardware out/hw-still.png --frame=300"
   },
   "repository": {
     "type": "git",
