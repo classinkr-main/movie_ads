@@ -16,4 +16,7 @@ const executable = process.env.REMOTION_BROWSER_EXECUTABLE;
 if (executable) {
   Config.setBrowserExecutable(executable);
 }
-Config.setChromiumOpenGlRenderer("angle");
+// '멘탈' 쇼릴은 실제 3D(WebGL)를 씁니다. GPU 가 없는 리눅스(클라우드·CI)에서는 소프트웨어 GL(swangle)이어야
+// WebGL 컨텍스트가 만들어집니다. REMOTION_GL 로 직접 지정할 수 있습니다(angle · angle-egl · swangle · vulkan).
+type Gl = Parameters<typeof Config.setChromiumOpenGlRenderer>[0];
+Config.setChromiumOpenGlRenderer((process.env.REMOTION_GL as Gl | undefined) ?? (process.platform === "linux" ? "swangle" : "angle"));

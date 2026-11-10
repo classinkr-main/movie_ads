@@ -1,0 +1,190 @@
+{
+  "version": "1.0",
+  "project_id": "teachers-lost-their-minds",
+  "pipeline_type": "animation",
+  "stage": "research",
+  "status": "completed",
+  "timestamp": "2026-11-10T04:04:33.206691+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": false,
+  "human_approved": false,
+  "artifacts": {
+    "research_brief": {
+      "version": "1.0",
+      "topic": "\u2018~\ub4e4\uc740 \uc644\uc804\ud788 \uba58\ud0c8\uc774 \ub098\uac00 \ubc84\ub838\uc2b5\ub2c8\ub2e4\u2019 \ubc08 \ud615\uc2dd\uc73c\ub85c \ud478\ub294 ClassIn \uc790\ub3d9 \ub179\ud654 \uc2a4\ud1a0\ub9ac \uc1fc\ub9b4 (3D Vox \uc2a4\ud0c0\uc77c)",
+      "research_date": "2026-11-10",
+      "landscape": {
+        "existing_content": [
+          {
+            "title": "Replicating the Vox motion graphic look",
+            "url": "https://www.premiumbeat.com/blog/replicating-vox-motion-graphic/",
+            "source": "PremiumBeat",
+            "angle": "Vox \ud574\uc124 \uc601\uc0c1\uc758 \ubaa8\uc158 \uadf8\ub798\ud53d \ubb38\ubc95\uc744 \uc694\uc18c\ubcc4\ub85c \ubd84\ud574",
+            "what_it_covers": "\uc791\uc740 \ubaa8\uc158 \uc694\uc18c\uac00 \uc601\uc0c1\uc758 \ub9ac\ub4ec\uc744 \ub9cc\ub4e0\ub2e4\ub294 \uc810, 12fps \uc758 \uc77c\ubd80\ub7ec \ub04a\uae30\ub294 \uc6c0\uc9c1\uc784",
+            "what_it_misses": "3D \uc7a5\uba74\uc5d0 \uac19\uc740 \ubb38\ubc95\uc744 \uc5b9\ub294 \ubc29\ubc95"
+          },
+          {
+            "title": "How to Make Vox-Style Animations (Step-by-Step Guide)",
+            "url": "https://www.kapwing.com/resources/how-to-make-informational-videos-like-vox/",
+            "source": "Kapwing",
+            "angle": "Vox \uc2a4\ud0c0\uc77c\uc744 '\uacb9\uacb9\uc774 \uc313\uc740 \ub2e4\ud050 \ubaa8\uc158 \uadf8\ub798\ud53d'\uc73c\ub85c \uc815\uc758",
+            "what_it_covers": "\ub808\uc774\uc5b4\ub4dc \ucf5c\ub77c\uc8fc, \uc124\uba85\uc744 \ub530\ub77c\uac00\ub294 \ud654\uba74 \uad6c\uc131",
+            "what_it_misses": "\ub0b4\ub808\uc774\uc158 \uad6c\uc808\uacfc \ub3d9\uc791\uc744 \ud504\ub808\uc784 \ub2e8\uc704\ub85c \ub9de\ucd94\ub294 \ubc29\ubc95"
+          },
+          {
+            "title": "vox-director",
+            "url": "https://github.com/Alisa0808/vox-director",
+            "source": "GitHub",
+            "angle": "\uc885\uc774 \ucf5c\ub77c\uc8fc\ud615 Vox \uc2a4\ud0c0\uc77c \ud574\uc124\u00b7\uad11\uace0 \uc601\uc0c1\uc758 \uc790\ub3d9 \uc81c\uc791",
+            "what_it_covers": "\uc885\uc774 \ucf5c\ub77c\uc8fc\uac00 Vox \uc2a4\ud0c0\uc77c\uc758 \ub300\ud45c \uc811\uadfc\uc774\ub77c\ub294 \ubc29\uc99d",
+            "what_it_misses": "3D"
+          }
+        ],
+        "saturated_angles": [
+          "\ud3c9\uba74 2D \uc885\uc774 \ucf5c\ub77c\uc8fc + \uc9c0\ub3c4\u00b7\ucc28\ud2b8 \uc911\uc2ec\uc758 \uc815\ud1b5 Vox \ubaa8\uc0ac",
+          "\uc81c\ud488 \ud654\uba74 \ub179\ud654\uc5d0 \uc790\ub9c9\ub9cc \uc5b9\uc740 \uae30\ub2a5 \uc18c\uac1c"
+        ],
+        "underserved_gaps": [
+          "\uc2e4\uc81c 3D \ub514\uc624\ub77c\ub9c8\uc5d0 Vox \uc2dd \uc8fc\uc11d(\ud615\uad11\ud39c\u00b7\uaf2c\ub9ac\ud45c)\uc744 \ud22c\uc601\ud574 \ubd99\uc774\ub294 \ud63c\ud569 \ubb38\ubc95",
+          "\ubc08 \ub0b4\ub808\uc774\uc158\uc758 \uc27c\ud45c \ud558\ub098\ud558\ub098\uc5d0 \ubb3c\ub9ac\uc801 \ub3d9\uc791\uc744 \uac70\ub294 \uad6c\uc131"
+        ]
+      },
+      "data_points": [
+        {
+          "claim": "\uc758\ub8b0 \ub300\ubcf8\uc740 35\ubb38\uc7a5 \u00b7 \ud55c\uae00 690\uc74c\uc808\uc774\ub2e4. \ucd08\ub2f9 6.3\uc74c\uc808 \uae30\uc900 \uc57d 2\ubd84 11\ucd08.",
+          "source_url": "local://story/beats.ts",
+          "source_name": "\uc758\ub8b0 \uc6d0\ubb38 \ub300\ubcf8",
+          "credibility": "primary_source",
+          "surprise_factor": "expected",
+          "usable_as": "\uae38\uc774\u00b7\ucef7 \uc218 \uc0b0\uc815\uc758 \uadfc\uac70"
+        },
+        {
+          "claim": "Vox \uc2a4\ud0c0\uc77c \ubaa8\uc158 \uadf8\ub798\ud53d\uc5d0\uc11c\ub294 \uc791\uc740 \ubaa8\uc158 \uc694\uc18c\ub4e4\uc774 \uc601\uc0c1\uc758 \ub9ac\ub4ec\uc744 \ub9cc\ub4e4\uace0, 12fps \uc758 \ub04a\uae30\ub294 \uc6c0\uc9c1\uc784\uc744 \uc77c\ubd80\ub7ec \uc4f0\uae30\ub3c4 \ud55c\ub2e4.",
+          "source_url": "https://www.premiumbeat.com/blog/replicating-vox-motion-graphic/",
+          "source_name": "PremiumBeat",
+          "credibility": "secondary_source",
+          "surprise_factor": "notable",
+          "usable_as": "\uc27c\ud45c\ub9c8\ub2e4 \uc791\uc740 \ub3d9\uc791 \ud558\ub098\ub97c \uac70\ub294 \uc124\uacc4\uc758 \uadfc\uac70"
+        },
+        {
+          "claim": "Vox \uc2a4\ud0c0\uc77c\uc740 \uc774\uc57c\uae30\ub97c \uc124\uba85\ud558\uae30 \uc704\ud574 \uc2dc\uac01 \uc694\uc18c\ub97c \uacb9\uacb9\uc774 \uc313\ub294 \ub2e4\ud050 \ubaa8\uc158 \uadf8\ub798\ud53d\uc758 \ud55c \ud615\ud0dc\ub85c \uc815\uc758\ub41c\ub2e4.",
+          "source_url": "https://www.kapwing.com/resources/how-to-make-informational-videos-like-vox/",
+          "source_name": "Kapwing",
+          "credibility": "secondary_source",
+          "surprise_factor": "expected",
+          "usable_as": "3D \uc7a5\uba74 \uc704\uc5d0 \uc8fc\uc11d \ub808\uc774\uc5b4\ub97c \ub530\ub85c \ub450\ub294 \uad6c\uc870\uc758 \uadfc\uac70"
+        },
+        {
+          "claim": "Vox \ubbf8\ub514\uc5b4\uc758 \ubaa8\uc158 \uadf8\ub798\ud53d \ub514\uc790\uc774\ub108 \ucc44\uc6a9 \uacf5\uace0\ub294 \ubaa8\uc158 \ub514\uc790\uc778\uc774 \uc790\uc0ac \ud574\uc124 \uc2a4\ud0c0\uc77c\uc758 \ud575\uc2ec\uc774\ub77c\uace0 \uc801\ub294\ub2e4.",
+          "source_url": "https://startup.jobs/motion-graphics-designer-at-voxmedia-2",
+          "source_name": "startup.jobs (Vox Media \ucc44\uc6a9 \uacf5\uace0 \uc804\uc7ac)",
+          "credibility": "secondary_source",
+          "surprise_factor": "expected",
+          "usable_as": "\uc2a4\ud0c0\uc77c \uc815\uc758 \ubcf4\uac15"
+        }
+      ],
+      "audience_insights": {
+        "common_questions": [
+          "\uc218\uc5c5 \ub179\ud654\ub97c \ub0a8\uae30\ub824\uba74 \uc120\uc0dd\ub2d8\uc774 \uc9c1\uc811 \ubb58 \ud574\uc57c \ud558\ub098?",
+          "\ucd2c\uc601 \uc7a5\ube44\ub97c \uc88b\uac8c \ubc14\uafb8\uba74 \ud574\uacb0\ub418\uc9c0 \uc54a\ub098?",
+          "ClassIn \uc740 \uc5b4\ub514\uae4c\uc9c0 \uc790\ub3d9\uc73c\ub85c \ud574 \uc8fc\ub098?"
+        ],
+        "misconceptions": [
+          {
+            "myth": "\uc88b\uc740 \uce74\uba54\ub77c\u00b7\ub9c8\uc774\ud06c\u00b7\uc800\uc7a5 \uc7a5\uce58\ub97c \uac16\ucd94\uba74 \uc218\uc5c5 \ud6c4 \uc791\uc5c5\uc774 \uc904\uc5b4\ub4e0\ub2e4",
+            "reality": "\uc7a5\ube44\uac00 \ub298\uba74 \ucc59\uae38 \uac83\ub3c4 \ub298 \ubfd0, \ub204\ub974\uace0\u00b7\uc62e\uae30\uace0\u00b7\uc62c\ub9ac\uace0\u00b7\uccb4\ud06c\ud558\ub294 \uc77c\uc740 \uadf8\ub300\ub85c \uc120\uc0dd\ub2d8 \ubaab\uc774\ub2e4(\ub300\ubcf8 2\ub9c9)."
+          },
+          {
+            "myth": "\uc218\uc5c5 \ub179\ud654\uc758 \uc77c\uc740 \ucd2c\uc601\uc5d0\uc11c \ub05d\ub09c\ub2e4",
+            "reality": "\ucd2c\uc601 \ub4a4\uc5d0 \ud3b8\uc9d1\u00b7\uc5c5\ub85c\ub4dc\u00b7\uc2dc\uccad \uccb4\ud06c\uac00 \uc904\uc904\uc774 \uc774\uc5b4\uc9c4\ub2e4(\ub300\ubcf8 1\ub9c9)."
+          }
+        ],
+        "knowledge_level": "\ud559\uc6d0\u00b7\ud559\uad50 \uc120\uc0dd\ub2d8\uacfc \uc6b4\uc601\uc790. \ub179\ud654\u00b7\uc5c5\ub85c\ub4dc\uc758 \ubc88\uac70\ub85c\uc6c0\uc740 \ubab8\uc73c\ub85c \uc54c\uc9c0\ub9cc '\uc2dc\uc2a4\ud15c\uc774 \ud1b5\uc9f8\ub85c \ubc1b\ub294' \ubc29\uc2dd\uc740 \ub0af\uc124\ub2e4.",
+        "pain_points": [
+          "\uc218\uc5c5 \uc678 \uc2dc\uac04\uc758 \uc18c\ubaa8",
+          "\ubc24\uc0d8 \ud3b8\uc9d1",
+          "\ub9c1\ud06c \uacf5\uc720\uc640 \ubbf8\uc2dc\uccad \ud559\uc0dd \uc7ac\uc548\ub0b4"
+        ]
+      },
+      "angles_discovered": [
+        {
+          "name": "\ubbf8\ub2c8\uc5b4\ucc98 \ub514\uc624\ub77c\ub9c8 \uc0ac\uac74 \ubcf4\uace0\uc11c",
+          "hook": "\uc804\uc2dc\ub300 \uc704 '\uc61b\ub0a0 \uc120\uc0dd\ub2d8' \ud53c\uaddc\uc5b4\ub4e4\uc774 \uc77c\uc81c\ud788 \uba58\ud0c8\uc774 \ub098\uac04\ub2e4",
+          "type": "narrative",
+          "why_now": "\ubc08 \ud615\uc2dd\uc774 \uc775\uc219\ud55c \uc9c0\uae08, 3D \uc7a5\ub09c\uac10 \ubb38\ubc95\uc774 2D \ucf5c\ub77c\uc8fc\ubcf4\ub2e4 \ub208\uc5d0 \ub748\ub2e4",
+          "grounded_in": [
+            "\uc758\ub8b0 \uc6d0\ubb38 \ub300\ubcf8",
+            "PremiumBeat",
+            "Kapwing"
+          ]
+        },
+        {
+          "name": "\uc815\ud1b5 2D \uc885\uc774 \ucf5c\ub77c\uc8fc",
+          "hook": "\uc624\ub824 \ubd99\uc778 \uc0ac\uc9c4\u00b7\uc2e0\ubb38 \uc870\uac01\uc73c\ub85c \uc7ac\uad6c\uc131\ud55c \uc120\uc0dd\ub2d8\uc758 \ud558\ub8e8",
+          "type": "evergreen",
+          "why_now": "Vox \uc2a4\ud0c0\uc77c\uc758 \uac00\uc7a5 \uc548\uc804\ud55c \ud574\uc11d",
+          "grounded_in": [
+            "Kapwing",
+            "vox-director"
+          ]
+        },
+        {
+          "name": "\uad6c\uc870\ubb3c \ubc08 \uc9c1\uc5ed \u2014 \ud754\ub4e4\ub9ac\ub294 \ud0d1",
+          "hook": "\uc218\uc5c5 \uc704\uc5d0 \uc62c\ub77c\uac04 \uc791\uc5c5 \ud0d1\uc774 \ud754\ub4e4\ub9b0\ub2e4",
+          "type": "contrarian",
+          "why_now": "\uc6d0\ubcf8 \ubc08\uc758 \uad6c\uc870 \uacf5\ud559 \ud654\uba74\uc744 \uadf8\ub300\ub85c \ub4a4\uc9d1\uc5b4 \uc4f4\ub2e4",
+          "grounded_in": [
+            "\uc758\ub8b0 \uc6d0\ubb38 \ub300\ubcf8(\u2018\ub098\ubb34\ucc98\ub7fc\u2019, \u2018\ubc1b\uccd0 \uc8fc\ub294 \uad6c\uc870\u2019)"
+          ]
+        }
+      ],
+      "visual_references": [],
+      "sources": [
+        {
+          "url": "https://www.premiumbeat.com/blog/replicating-vox-motion-graphic/",
+          "title": "Replicating the Vox motion graphic look",
+          "used_for": "\ubaa8\uc158 \ub9ac\ub4ec\u00b7\ub04a\uae30\ub294 \uc6c0\uc9c1\uc784",
+          "reliability": "secondary"
+        },
+        {
+          "url": "https://www.kapwing.com/resources/how-to-make-informational-videos-like-vox/",
+          "title": "How to Make Vox-Style Animations",
+          "used_for": "Vox \uc2a4\ud0c0\uc77c \uc815\uc758",
+          "reliability": "secondary"
+        },
+        {
+          "url": "https://github.com/Alisa0808/vox-director",
+          "title": "vox-director",
+          "used_for": "\uc885\uc774 \ucf5c\ub77c\uc8fc \uc811\uadfc\uc758 \ubc29\uc99d",
+          "reliability": "secondary"
+        },
+        {
+          "url": "https://startup.jobs/motion-graphics-designer-at-voxmedia-2",
+          "title": "Motion Graphics Designer at Vox Media",
+          "used_for": "\ubaa8\uc158 \ub514\uc790\uc778\uc774 \uc2a4\ud0c0\uc77c\uc758 \ud575\uc2ec\uc774\ub77c\ub294 \uc9c4\uc220",
+          "reliability": "secondary"
+        },
+        {
+          "url": "https://contra.com/s/WZggPY3k-vox-style-motion-graphics-modern-journalism",
+          "title": "Vox Style motion graphics \u2014 Modern journalism",
+          "used_for": "Vox \uc2a4\ud0c0\uc77c \ud3ec\ud2b8\ud3f4\ub9ac\uc624 \uc0ac\ub840",
+          "reliability": "anecdotal"
+        },
+        {
+          "url": "https://fiverr.com/vossvisuals/create-vox-style-motion-graphics-maps-and-documentary-visuals",
+          "title": "Vox style motion graphics, maps and documentary visuals",
+          "used_for": "\ud615\uad11\ud39c \ud6a8\uacfc\u00b7\ud0a4\ub124\ud2f1 \ud0c0\uc774\ud3ec\uac00 \ud1b5\uc6a9 \uc694\uc18c\ub77c\ub294 \ubc29\uc99d",
+          "reliability": "anecdotal"
+        }
+      ],
+      "research_summary": "\ubc08\uc758 \uc6d0\ubcf8 \uc601\uc0c1\uacfc \uc720\ub798\ub294 \uac80\uc0c9\uc73c\ub85c \ud655\uc778\ud558\uc9c0 \ubabb\ud588\ub2e4(\uacb0\uacfc\uac00 \ubb34\uad00\ud55c \uac74\ucd95 \uc2dc\uac01\ud654\u00b7\uc678\uc8fc \uad11\uace0\ubfd0). \uadf8\ub798\uc11c \ud615\uc2dd\uc740 \uc758\ub8b0 \ub300\ubcf8 \uc790\uccb4\uc5d0\uc11c \uc77d\uc5c8\ub2e4: \uac74\uc870\ud55c \ub2e4\ud050 \ub0b4\ub808\uc774\uc158, \ubb38\uc81c \u2192 \uadf8\ub7f4\ub4ef\ud55c \uccab \uc2dc\ub3c4 \u2192 '\uacf5\uc0ac\ud300'\uc758 \uc0c8 \ubc29\ubc95 \u2192 \uacb0\uacfc, \uc27c\ud45c\ub85c \uc774\uc5b4\uc9c0\ub294 \ub098\uc5f4. Vox \uc2a4\ud0c0\uc77c\uc740 2\ucc28 \uc790\ub8cc \uae30\uc900\uc73c\ub85c '\uacb9\uacb9\uc758 2D \ubaa8\uc158 \uadf8\ub798\ud53d\u00b7\ucf5c\ub77c\uc8fc\u00b7\ud615\uad11\ud39c\u00b7\ud0a4\ub124\ud2f1 \ud0c0\uc774\ud3ec'\ub85c \uc694\uc57d\ub418\uba70, \uc885\uc774 \uc9c8\uac10\u00b7\uc8fc\uc11d\u00b73D \uc0ac\uc6a9\uc744 \uc9c1\uc811 \ub2e4\ub8ec \uc790\ub8cc\ub294 \ucc3e\uc9c0 \ubabb\ud588\ub2e4. \ub530\ub77c\uc11c '3D Vox'\ub294 3D \ub514\uc624\ub77c\ub9c8 + Vox \uc2dd \ud3b8\uc9d1 \uc8fc\uc11d\uc758 \ud63c\ud569\uc73c\ub85c \ud574\uc11d\ud588\uace0, \uc774 \ud574\uc11d\uc740 \uc758\ub8b0\uc790 \ud655\uc778\uc774 \ud544\uc694\ud558\ub2e4.",
+      "metadata": {
+        "limits": [
+          "\ubc08 \uc6d0\ubcf8 \ubbf8\ud655\uc778",
+          "Vox 1\ucc28 \uc790\ub8cc \uc5c6\uc74c"
+        ],
+        "script_supplied_by_user": true
+      }
+    }
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "version": "1.0",
+  "project_id": "teachers-lost-their-minds",
+  "decisions": [
+    {
+      "decision_id": "d01",
+      "stage": "proposal",
+      "category": "pipeline_selection",
+      "subject": "제작 파이프라인",
+      "options_considered": [
+        {
+          "option_id": "animation",
+          "label": "animation",
+          "score": 0.9,
+          "reason": "모션그래픽·명시적 Three.js 장면 중심"
+        },
+        {
+          "option_id": "animated-explainer",
+          "label": "animated-explainer",
+          "score": 0.5,
+          "reason": "생성 이미지·TTS 전제",
+          "rejected_because": "생성 에셋·TTS 를 쓰지 않음"
+        },
+        {
+          "option_id": "character-animation",
+          "label": "character-animation",
+          "score": 0.4,
+          "reason": "리깅 캐릭터 연기 중심",
+          "rejected_because": "SVG 리그 기반 — 3D 블록 피규어와 맞지 않음"
+        }
+      ],
+      "selected": "animation",
+      "reason": "대본이 주어진 모션 중심 작품이고 3D 장면을 코드로 조립한다.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d02",
+      "stage": "proposal",
+      "category": "render_runtime_selection",
+      "subject": "컴포지션 런타임",
+      "options_considered": [
+        {
+          "option_id": "remotion",
+          "label": "Remotion",
+          "score": 0.9,
+          "reason": "프레임 결정론적 React 장면. 구절 시작 프레임을 그대로 props 로 써서 쉼표 싱크가 직접적. @remotion/three 로 실제 3D."
+        },
+        {
+          "option_id": "hyperframes",
+          "label": "HyperFrames",
+          "score": 0.6,
+          "reason": "HTML/GSAP 키네틱 타이포에 강하고 Three.js 어댑터도 있음",
+          "rejected_because": "의뢰자가 Remotion 을 지정. 이 머신에서 사용 가능했으나 선택하지 않음."
+        },
+        {
+          "option_id": "ffmpeg",
+          "label": "FFmpeg",
+          "score": 0.1,
+          "reason": "단순 이어 붙이기",
+          "rejected_because": "모션이 핵심인 의뢰에 부적합"
+        }
+      ],
+      "selected": "remotion",
+      "reason": "의뢰 문장에 'remotion … 사용해서'가 명시되어 있다.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d03",
+      "stage": "proposal",
+      "category": "composition_mode",
+      "subject": "작성 방식",
+      "options_considered": [
+        {
+          "option_id": "atelier",
+          "label": "아틀리에(직접 작성)",
+          "score": 0.95,
+          "reason": "히어로 작품. 3D 디오라마는 스톡 scene-type 으로 만들 수 없음."
+        },
+        {
+          "option_id": "templated",
+          "label": "템플릿(cut.type 조립)",
+          "score": 0.1,
+          "reason": "빠르고 싸지만 text_card·stat_card 조합으로는 3D·구절 싱크 불가",
+          "rejected_because": "요청한 룩을 만들 수 없음"
+        }
+      ],
+      "selected": "atelier",
+      "reason": "쇼릴은 단일 납품물 히어로 작업이고 3D 장면이 필요하다. 토큰·반복 비용이 템플릿보다 크다는 점은 감수.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d04",
+      "stage": "proposal",
+      "category": "playbook_selection",
+      "subject": "스타일",
+      "options_considered": [
+        {
+          "option_id": "custom",
+          "label": "커스텀 아트 디렉션(art-direction.md)",
+          "score": 0.9,
+          "reason": "‘3D Vox’에 맞는 프리셋이 없음"
+        },
+        {
+          "option_id": "flat-motion-graphics",
+          "label": "flat-motion-graphics",
+          "score": 0.4,
+          "reason": "소셜용 평면 모션",
+          "rejected_because": "3D 아님"
+        },
+        {
+          "option_id": "clean-professional",
+          "label": "clean-professional",
+          "score": 0.2,
+          "reason": "기업용 정돈된 톤",
+          "rejected_because": "밈 톤과 충돌"
+        }
+      ],
+      "selected": "custom",
+      "reason": "styles/ 에 'vox' 프리셋이 없어 taste_profile 을 직접 썼다. ‘3D Vox’는 3D 디오라마 + Vox 식 편집 주석으로 해석했다.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d05",
+      "stage": "proposal",
+      "category": "concept_selection",
+      "subject": "콘셉트",
+      "options_considered": [
+        {
+          "option_id": "A",
+          "label": "미니어처 사건 보고서",
+          "score": 0.9,
+          "reason": "3D·Vox·쉼표 싱크를 모두 수용"
+        },
+        {
+          "option_id": "B",
+          "label": "2D 종이 콜라주",
+          "score": 0.5,
+          "reason": "정통 Vox",
+          "rejected_because": "3D 요청과 불일치"
+        },
+        {
+          "option_id": "C",
+          "label": "흔들리는 탑 원테이크",
+          "score": 0.6,
+          "reason": "원본 밈과 가장 유사",
+          "rejected_because": "세부 동작을 그릴 자리가 없음 — A 에 흡수"
+        }
+      ],
+      "selected": "A",
+      "reason": "proposal_packet.selected_concept 참조.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d06",
+      "stage": "proposal",
+      "category": "voice_selection",
+      "subject": "내레이션",
+      "options_considered": [
+        {
+          "option_id": "user_recorded",
+          "label": "의뢰자 직접 녹음",
+          "score": 1.0,
+          "reason": "의뢰에 명시('따로 녹음 할거야')"
+        },
+        {
+          "option_id": "tts",
+          "label": "TTS 가이드 트랙",
+          "score": 0.2,
+          "reason": "타이밍 확인용 임시 음성",
+          "rejected_because": "TTS 제공자 0/19 설정 — 사용 불가, 의뢰 범위도 아님"
+        }
+      ],
+      "selected": "user_recorded",
+      "reason": "영상은 무음. 초당 6.3음절 추정 타이밍으로 그림을 잠그고, 녹음 후 SRT 로 재정렬할 수 있게 했다.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d07",
+      "stage": "proposal",
+      "category": "music_source",
+      "subject": "음악",
+      "options_considered": [
+        {
+          "option_id": "none",
+          "label": "렌더에 음악 없음",
+          "score": 0.8,
+          "reason": "더빙 믹스 단계에서 얹는 편이 안전"
+        },
+        {
+          "option_id": "library",
+          "label": "music_library/ 트랙",
+          "score": 0.0,
+          "reason": "보유 트랙 사용",
+          "rejected_because": "폴더가 비어 있음"
+        },
+        {
+          "option_id": "generate",
+          "label": "음악 생성 API",
+          "score": 0.0,
+          "reason": "생성 음악",
+          "rejected_because": "제공자 0/8 설정"
+        },
+        {
+          "option_id": "pixabay",
+          "label": "Pixabay 무료 음원 검색",
+          "score": 0.3,
+          "reason": "키 없이 검색 가능",
+          "rejected_because": "저작권·톤 확인을 의뢰자가 직접 하는 편이 안전해 이번 렌더에는 넣지 않음"
+        }
+      ],
+      "selected": "none",
+      "reason": "음악 없이 납품한다는 점을 명시적으로 알린다. 원하면 트랙을 받아 얹을 수 있다.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d08",
+      "stage": "proposal",
+      "category": "motion_commitment",
+      "subject": "모션 약속",
+      "options_considered": [
+        {
+          "option_id": "real_3d",
+          "label": "실제 3D 모션",
+          "score": 1.0,
+          "reason": "Three.js 장면을 프레임마다 렌더"
+        },
+        {
+          "option_id": "stills",
+          "label": "스틸 + 켄 번스",
+          "score": 0.0,
+          "reason": "정지 이미지",
+          "rejected_because": "금지된 대체"
+        }
+      ],
+      "selected": "real_3d",
+      "reason": "WebGL 은 이 컨테이너에서 swangle 로 확인(1080p 프레임당 약 0.3초).",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d09",
+      "stage": "proposal",
+      "category": "approval_policy",
+      "subject": "승인 게이트 처리",
+      "options_considered": [
+        {
+          "option_id": "first_cut_ahead",
+          "label": "게이트 앞질러 1차 완성본 제작",
+          "score": 0.7,
+          "reason": "비용 0, 되돌리기 쉬움, 의뢰가 구체적인 제작 요청"
+        },
+        {
+          "option_id": "stop_at_each_gate",
+          "label": "게이트마다 멈춤",
+          "score": 0.5,
+          "reason": "OpenMontage 기본 규약",
+          "rejected_because": "자리를 비운 의뢰자에게 제안서만 남기는 것보다 볼 수 있는 결과물이 낫다고 판단"
+        }
+      ],
+      "selected": "first_cut_ahead",
+      "reason": "에이전트 판단이며 의뢰자의 명시적 사전 승인이 아니다. 그래서 proposal 은 awaiting_human, 이후 단계는 in_progress(초안)로만 기록했다. 어느 단계든 수정 요청 가능.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    },
+    {
+      "decision_id": "d10",
+      "stage": "compose",
+      "category": "visual_accuracy_check",
+      "subject": "제품 표현의 정확성",
+      "options_considered": [
+        {
+          "option_id": "script_only",
+          "label": "대본이 말한 것만 블록 은유로 표현",
+          "score": 0.9,
+          "reason": "버튼 하나 → 자동 촬영·업로드·시청 체크·관리"
+        },
+        {
+          "option_id": "ui_mock",
+          "label": "제품 화면 목업",
+          "score": 0.2,
+          "reason": "구체적이지만 실제 UI 와 다를 위험",
+          "rejected_because": "기능을 화면으로 단정하게 됨"
+        }
+      ],
+      "selected": "script_only",
+      "reason": "화면에 추가한 수치(저장 공간 97%, 8.4GB→0.9GB, 시청 7명·미시청 5명, 에너지 3%)는 모두 '옛날 방식'의 고충을 그린 연출용 예시이며 제품 성능 수치가 아니다. ‘편집’은 대본에 자동화 항목으로 없으므로 '자동' 대신 취소선(안 해도 됨)으로 처리했다.",
+      "user_visible": true,
+      "user_approved": false,
+      "confidence": 0.8
+    }
+  ]
+}

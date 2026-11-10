@@ -30,6 +30,7 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 
 | 영상 | 폴더 | 컴포지션 id | 결과물 |
 | --- | --- | --- | --- |
+| 선생님들은 멘탈이 나가 버렸습니다 — 자동 녹화 스토리 3D 쇼릴, 2분 11초 · 16:9/9:16 · 무음(더빙 별도) | [projects/teachers-lost-their-minds](projects/teachers-lost-their-minds/README.md) | `TeachersMental` · `TeachersMentalVertical` (별도 엔트리 — `npm run mental:dev`) | `projects/teachers-lost-their-minds/renders/final.mp4` · `final-vertical.mp4` |
 | 할로윈 백설공주 브이로그 — 가로 3분 25초 · 쇼츠 68초 | [vlog/snow-white-halloween](vlog/snow-white-halloween) | – (Python·ffmpeg 파이프라인) | 용량 때문에 커밋하지 않음 — 원본에서 다시 렌더 |
 
 ## 아이디어

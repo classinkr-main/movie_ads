@@ -1,0 +1,177 @@
+{
+  "version": "1.0",
+  "topic": "‘~들은 완전히 멘탈이 나가 버렸습니다’ 밈 형식으로 푸는 ClassIn 자동 녹화 스토리 쇼릴 (3D Vox 스타일)",
+  "research_date": "2026-11-10",
+  "landscape": {
+    "existing_content": [
+      {
+        "title": "Replicating the Vox motion graphic look",
+        "url": "https://www.premiumbeat.com/blog/replicating-vox-motion-graphic/",
+        "source": "PremiumBeat",
+        "angle": "Vox 해설 영상의 모션 그래픽 문법을 요소별로 분해",
+        "what_it_covers": "작은 모션 요소가 영상의 리듬을 만든다는 점, 12fps 의 일부러 끊기는 움직임",
+        "what_it_misses": "3D 장면에 같은 문법을 얹는 방법"
+      },
+      {
+        "title": "How to Make Vox-Style Animations (Step-by-Step Guide)",
+        "url": "https://www.kapwing.com/resources/how-to-make-informational-videos-like-vox/",
+        "source": "Kapwing",
+        "angle": "Vox 스타일을 '겹겹이 쌓은 다큐 모션 그래픽'으로 정의",
+        "what_it_covers": "레이어드 콜라주, 설명을 따라가는 화면 구성",
+        "what_it_misses": "내레이션 구절과 동작을 프레임 단위로 맞추는 방법"
+      },
+      {
+        "title": "vox-director",
+        "url": "https://github.com/Alisa0808/vox-director",
+        "source": "GitHub",
+        "angle": "종이 콜라주형 Vox 스타일 해설·광고 영상의 자동 제작",
+        "what_it_covers": "종이 콜라주가 Vox 스타일의 대표 접근이라는 방증",
+        "what_it_misses": "3D"
+      }
+    ],
+    "saturated_angles": [
+      "평면 2D 종이 콜라주 + 지도·차트 중심의 정통 Vox 모사",
+      "제품 화면 녹화에 자막만 얹은 기능 소개"
+    ],
+    "underserved_gaps": [
+      "실제 3D 디오라마에 Vox 식 주석(형광펜·꼬리표)을 투영해 붙이는 혼합 문법",
+      "밈 내레이션의 쉼표 하나하나에 물리적 동작을 거는 구성"
+    ]
+  },
+  "data_points": [
+    {
+      "claim": "의뢰 대본은 35문장 · 한글 690음절이다. 초당 6.3음절 기준 약 2분 11초.",
+      "source_url": "local://story/beats.ts",
+      "source_name": "의뢰 원문 대본",
+      "credibility": "primary_source",
+      "surprise_factor": "expected",
+      "usable_as": "길이·컷 수 산정의 근거"
+    },
+    {
+      "claim": "Vox 스타일 모션 그래픽에서는 작은 모션 요소들이 영상의 리듬을 만들고, 12fps 의 끊기는 움직임을 일부러 쓰기도 한다.",
+      "source_url": "https://www.premiumbeat.com/blog/replicating-vox-motion-graphic/",
+      "source_name": "PremiumBeat",
+      "credibility": "secondary_source",
+      "surprise_factor": "notable",
+      "usable_as": "쉼표마다 작은 동작 하나를 거는 설계의 근거"
+    },
+    {
+      "claim": "Vox 스타일은 이야기를 설명하기 위해 시각 요소를 겹겹이 쌓는 다큐 모션 그래픽의 한 형태로 정의된다.",
+      "source_url": "https://www.kapwing.com/resources/how-to-make-informational-videos-like-vox/",
+      "source_name": "Kapwing",
+      "credibility": "secondary_source",
+      "surprise_factor": "expected",
+      "usable_as": "3D 장면 위에 주석 레이어를 따로 두는 구조의 근거"
+    },
+    {
+      "claim": "Vox 미디어의 모션 그래픽 디자이너 채용 공고는 모션 디자인이 자사 해설 스타일의 핵심이라고 적는다.",
+      "source_url": "https://startup.jobs/motion-graphics-designer-at-voxmedia-2",
+      "source_name": "startup.jobs (Vox Media 채용 공고 전재)",
+      "credibility": "secondary_source",
+      "surprise_factor": "expected",
+      "usable_as": "스타일 정의 보강"
+    }
+  ],
+  "audience_insights": {
+    "common_questions": [
+      "수업 녹화를 남기려면 선생님이 직접 뭘 해야 하나?",
+      "촬영 장비를 좋게 바꾸면 해결되지 않나?",
+      "ClassIn 은 어디까지 자동으로 해 주나?"
+    ],
+    "misconceptions": [
+      {
+        "myth": "좋은 카메라·마이크·저장 장치를 갖추면 수업 후 작업이 줄어든다",
+        "reality": "장비가 늘면 챙길 것도 늘 뿐, 누르고·옮기고·올리고·체크하는 일은 그대로 선생님 몫이다(대본 2막)."
+      },
+      {
+        "myth": "수업 녹화의 일은 촬영에서 끝난다",
+        "reality": "촬영 뒤에 편집·업로드·시청 체크가 줄줄이 이어진다(대본 1막)."
+      }
+    ],
+    "knowledge_level": "학원·학교 선생님과 운영자. 녹화·업로드의 번거로움은 몸으로 알지만 '시스템이 통째로 받는' 방식은 낯설다.",
+    "pain_points": [
+      "수업 외 시간의 소모",
+      "밤샘 편집",
+      "링크 공유와 미시청 학생 재안내"
+    ]
+  },
+  "angles_discovered": [
+    {
+      "name": "미니어처 디오라마 사건 보고서",
+      "hook": "전시대 위 '옛날 선생님' 피규어들이 일제히 멘탈이 나간다",
+      "type": "narrative",
+      "why_now": "밈 형식이 익숙한 지금, 3D 장난감 문법이 2D 콜라주보다 눈에 띈다",
+      "grounded_in": [
+        "의뢰 원문 대본",
+        "PremiumBeat",
+        "Kapwing"
+      ]
+    },
+    {
+      "name": "정통 2D 종이 콜라주",
+      "hook": "오려 붙인 사진·신문 조각으로 재구성한 선생님의 하루",
+      "type": "evergreen",
+      "why_now": "Vox 스타일의 가장 안전한 해석",
+      "grounded_in": [
+        "Kapwing",
+        "vox-director"
+      ]
+    },
+    {
+      "name": "구조물 밈 직역 — 흔들리는 탑",
+      "hook": "수업 위에 올라간 작업 탑이 흔들린다",
+      "type": "contrarian",
+      "why_now": "원본 밈의 구조 공학 화면을 그대로 뒤집어 쓴다",
+      "grounded_in": [
+        "의뢰 원문 대본(‘나무처럼’, ‘받쳐 주는 구조’)"
+      ]
+    }
+  ],
+  "visual_references": [],
+  "sources": [
+    {
+      "url": "https://www.premiumbeat.com/blog/replicating-vox-motion-graphic/",
+      "title": "Replicating the Vox motion graphic look",
+      "used_for": "모션 리듬·끊기는 움직임",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://www.kapwing.com/resources/how-to-make-informational-videos-like-vox/",
+      "title": "How to Make Vox-Style Animations",
+      "used_for": "Vox 스타일 정의",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://github.com/Alisa0808/vox-director",
+      "title": "vox-director",
+      "used_for": "종이 콜라주 접근의 방증",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://startup.jobs/motion-graphics-designer-at-voxmedia-2",
+      "title": "Motion Graphics Designer at Vox Media",
+      "used_for": "모션 디자인이 스타일의 핵심이라는 진술",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://contra.com/s/WZggPY3k-vox-style-motion-graphics-modern-journalism",
+      "title": "Vox Style motion graphics — Modern journalism",
+      "used_for": "Vox 스타일 포트폴리오 사례",
+      "reliability": "anecdotal"
+    },
+    {
+      "url": "https://fiverr.com/vossvisuals/create-vox-style-motion-graphics-maps-and-documentary-visuals",
+      "title": "Vox style motion graphics, maps and documentary visuals",
+      "used_for": "형광펜 효과·키네틱 타이포가 통용 요소라는 방증",
+      "reliability": "anecdotal"
+    }
+  ],
+  "research_summary": "밈의 원본 영상과 유래는 검색으로 확인하지 못했다(결과가 무관한 건축 시각화·외주 광고뿐). 그래서 형식은 의뢰 대본 자체에서 읽었다: 건조한 다큐 내레이션, 문제 → 그럴듯한 첫 시도 → '공사팀'의 새 방법 → 결과, 쉼표로 이어지는 나열. Vox 스타일은 2차 자료 기준으로 '겹겹의 2D 모션 그래픽·콜라주·형광펜·키네틱 타이포'로 요약되며, 종이 질감·주석·3D 사용을 직접 다룬 자료는 찾지 못했다. 따라서 '3D Vox'는 3D 디오라마 + Vox 식 편집 주석의 혼합으로 해석했고, 이 해석은 의뢰자 확인이 필요하다.",
+  "metadata": {
+    "limits": [
+      "밈 원본 미확인",
+      "Vox 1차 자료 없음"
+    ],
+    "script_supplied_by_user": true
+  }
+}

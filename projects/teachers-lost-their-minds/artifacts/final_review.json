@@ -1,0 +1,101 @@
+{
+  "version": "1.0",
+  "output_path": "renders/final.mp4",
+  "status": "pass",
+  "checks": {
+    "technical_probe": {
+      "valid_container": true,
+      "duration_seconds": 131.3,
+      "resolution": "1920x1080",
+      "fps": 30.0,
+      "has_audio": false,
+      "codec": "h264",
+      "file_size_bytes": 38757433,
+      "issues": [
+        "No audio stream in output"
+      ]
+    },
+    "visual_spotcheck": {
+      "frames_sampled": 4,
+      "frame_paths": [
+        "renders/.final_review_frames/review_frame_0.png",
+        "renders/.final_review_frames/review_frame_1.png",
+        "renders/.final_review_frames/review_frame_2.png",
+        "renders/.final_review_frames/review_frame_3.png"
+      ],
+      "black_frames_detected": false,
+      "broken_overlays": false,
+      "missing_assets": false,
+      "unreadable_text": false,
+      "issues": [],
+      "self_review_completed": true,
+      "method": "반해상도 초안 전체를 1.5초 간격으로 훑고, 전환 4곳을 프레임 단위로 확인. 최종본은 장면별 대표 프레임(snapshots/)으로 재확인.",
+      "per_scene_notes": {
+        "s01": "박물관 전시대 위 선생님 피규어 3명",
+        "s02": "교실 디오라마와 교탁 위로 떨어지는 일 더미",
+        "s03": "삼각대 위 휴대폰",
+        "s05": "책상 위에 떠 있는 편집 타임라인",
+        "s06": "구름 세 개 사이를 헤매는 파일 큐브",
+        "s08": "계단석의 학생 12명과 머리 위 표시등",
+        "s09": "선생님 머리 위 작업 블록 4단과 배터리",
+        "s10": "연구원 2명과 코르크 보드의 할 일 목록",
+        "s11": "천장 카메라·마이크·저장 장치 탑",
+        "s12": "스테이션 4곳을 뛰어다니는 선생님",
+        "s13": "타워 크레인과 ‘시스템’ 상자",
+        "s14": "빨간 녹화 버튼",
+        "s15": "레일 위 자동화 기계 4대",
+        "s16": "땅에서 솟아 수업 받침을 떠받치는 나무",
+        "s17": "나무 옆에 남은 작업 블록 4단",
+        "s18": "유리 덮개 속 전시품 4점(장비·밤샘·링크·명단)",
+        "s19": "영혼이 돌아온 선생님과 빈 교탁",
+        "s21": "전시대 위 웃는 선생님 3명과 ClassIn 로고"
+      }
+    },
+    "audio_spotcheck": {
+      "narration_present": false,
+      "music_present": false,
+      "unexpected_silence": false,
+      "clipping_detected": false,
+      "mix_intelligible": true,
+      "issues": [],
+      "intentional_silence": true,
+      "note": "더빙을 따로 녹음하는 무음 마스터. 오디오 스트림 없음은 의도된 납품 형태."
+    },
+    "promise_preservation": {
+      "delivery_promise_honored": true,
+      "silent_downgrade_detected": false,
+      "runtime_swap_detected": false,
+      "issues": [],
+      "renderer_family_used": "animation-first",
+      "render_runtime_used": "remotion",
+      "runtime_swap_check": "ok — proposal and edit agree (proposal_packet.production_plan.render_runtime)"
+    },
+    "subtitle_check": {
+      "subtitles_expected": true,
+      "subtitles_present": true,
+      "issues": [],
+      "coverage_ratio": 1.0,
+      "burned_in": true,
+      "note": "구절 자막은 컴포지션에 내장(추정 타이밍). 큰 글자 장면에서는 같은 문장의 자막을 숨김."
+    },
+    "atelier": {
+      "stock_reuse_detected": false,
+      "offending_imports": [],
+      "art_direction_declared": true,
+      "art_direction": "projects/teachers-lost-their-minds/art-direction.md",
+      "issues": []
+    }
+  },
+  "issues_found": [],
+  "recommended_action": "present_to_user",
+  "metadata": {
+    "tool_reported_issues": [
+      "No audio stream in output",
+      "transcript_comparison skipped: narration_transcript not provided"
+    ],
+    "other_outputs": {
+      "final.mp4": "pass",
+      "final-vertical.mp4": "pass"
+    }
+  }
+}

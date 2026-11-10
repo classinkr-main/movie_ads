@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "outputs": [
+    {
+      "path": "renders/final.mp4",
+      "format": "mp4",
+      "codec": "h264",
+      "resolution": "1920x1080",
+      "fps": 30.0,
+      "duration_seconds": 131.3,
+      "file_size_bytes": 38757433,
+      "platform_target": "youtube 16:9"
+    },
+    {
+      "path": "renders/final-vertical.mp4",
+      "format": "mp4",
+      "codec": "h264",
+      "resolution": "1080x1920",
+      "fps": 30.0,
+      "duration_seconds": 131.3,
+      "file_size_bytes": 34609017,
+      "platform_target": "shorts/reels 9:16"
+    }
+  ],
+  "render_time_seconds": 5380.0,
+  "render_grammar": "animation-first",
+  "warnings": [
+    "무음 마스터 — 더빙·음악·효과음은 후반 믹스에서 얹는다.",
+    "타이밍은 초당 6.3음절 추정값. 녹음 속도가 다르면 scripts/sync-from-srt.ts 로 재정렬 후 다시 렌더."
+  ],
+  "verification_notes": [
+    "길이 131.3s / 타임라인 131.3s, 3939프레임 @ 30fps",
+    "렌더 경로: Remotion 4 + @remotion/three, 소프트웨어 GL(swangle), 장면 18개를 나눠 렌더한 뒤 무손실 concat → H.264 1회 인코딩",
+    "OpenMontage video_compose 아틀리에 경로(remotion-composer · React 18)에서도 같은 소스가 렌더됨을 스틸로 확인",
+    "아틀리에 규약: 스톡 scene-type import 없음, art-direction.md 선언됨"
+  ],
+  "final_review_ref": "artifacts/final_review.json",
+  "decision_log_ref": "decision_log.json",
+  "metadata": {
+    "self_review_completed": true,
+    "compositions": {
+      "TeachersMental": "1920x1080",
+      "TeachersMentalVertical": "1080x1920"
+    }
+  }
+}

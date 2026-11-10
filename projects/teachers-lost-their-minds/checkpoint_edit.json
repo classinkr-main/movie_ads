@@ -1,0 +1,303 @@
+{
+  "version": "1.0",
+  "project_id": "teachers-lost-their-minds",
+  "pipeline_type": "animation",
+  "stage": "edit",
+  "status": "in_progress",
+  "timestamp": "2026-11-10T04:04:33.377246+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": false,
+  "human_approved": false,
+  "artifacts": {
+    "edit_decisions": {
+      "version": "1.0",
+      "render_runtime": "remotion",
+      "composition_mode": "atelier",
+      "renderer_family": "animation-first",
+      "cuts": [
+        {
+          "id": "s01",
+          "source": "bespoke:s01",
+          "in_seconds": 0,
+          "out_seconds": 4.4,
+          "layer": "primary",
+          "transition_in": "cut",
+          "reason": "\uc804\uc2dc\ub300 \u2014 \uc61b\ub0a0 \uc120\uc0dd\ub2d8\ub4e4"
+        },
+        {
+          "id": "s02",
+          "source": "bespoke:s02",
+          "in_seconds": 4.4,
+          "out_seconds": 11.033,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uad50\uc2e4 \u2014 \ub05d\ub098\uc9c0 \uc54a\ub294 \uc77c"
+        },
+        {
+          "id": "s03",
+          "source": "bespoke:s03",
+          "in_seconds": 11.033,
+          "out_seconds": 21.033,
+          "layer": "primary",
+          "transition_in": "cut",
+          "reason": "\uad50\uc2e4 \u2014 \uc9c1\uc811 \ucd2c\uc601"
+        },
+        {
+          "id": "s05",
+          "source": "bespoke:s05",
+          "in_seconds": 21.033,
+          "out_seconds": 29.567,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\ubc24 \ucc45\uc0c1 \u2014 \ud3b8\uc9d1"
+        },
+        {
+          "id": "s06",
+          "source": "bespoke:s06",
+          "in_seconds": 29.567,
+          "out_seconds": 38.467,
+          "layer": "primary",
+          "transition_in": "cut",
+          "reason": "\uc5c5\ub85c\ub4dc \u2014 \uad6c\ub984\u00b7\ud3f4\ub354\u00b7\ub9c1\ud06c"
+        },
+        {
+          "id": "s08",
+          "source": "bespoke:s08",
+          "in_seconds": 38.467,
+          "out_seconds": 45.033,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uc2dc\uccad \uccb4\ud06c \u2014 \uba85\ub2e8 \ud655\uc778"
+        },
+        {
+          "id": "s09",
+          "source": "bespoke:s09",
+          "in_seconds": 45.033,
+          "out_seconds": 50.867,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uc5d0\ub108\uc9c0 \ubc29\uc804"
+        },
+        {
+          "id": "s10",
+          "source": "bespoke:s10",
+          "in_seconds": 50.867,
+          "out_seconds": 58.133,
+          "layer": "primary",
+          "transition_in": "wipe",
+          "reason": "\uc5d0\ub4c0\ud14c\ud06c \uc5c5\uccb4 \u2014 \uccab \ubc88\uc9f8 \uacc4\ud68d"
+        },
+        {
+          "id": "s11",
+          "source": "bespoke:s11",
+          "in_seconds": 58.133,
+          "out_seconds": 65.233,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uad50\uc2e4 \u2014 \uc7a5\ube44 3\uc885\uacfc \uc124\uacc4\ub3c4"
+        },
+        {
+          "id": "s12",
+          "source": "bespoke:s12",
+          "in_seconds": 65.233,
+          "out_seconds": 75.2,
+          "layer": "primary",
+          "transition_in": "cut",
+          "reason": "\uad50\uc2e4 \u2014 \uadf8\ub798\ub3c4 \uc804\ubd80 \uc120\uc0dd\ub2d8 \uc190"
+        },
+        {
+          "id": "s13",
+          "source": "bespoke:s13",
+          "in_seconds": 75.2,
+          "out_seconds": 82.6,
+          "layer": "primary",
+          "transition_in": "wipe",
+          "reason": "\uacf5\uc0ac\ud300 \u2014 \ud1b5\uc9f8\ub85c \uc2dc\uc2a4\ud15c\uc774 \ubc1b\uc790"
+        },
+        {
+          "id": "s14",
+          "source": "bespoke:s14",
+          "in_seconds": 82.6,
+          "out_seconds": 85.833,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\ub179\ud654 \ubc84\ud2bc \ud558\ub098"
+        },
+        {
+          "id": "s15",
+          "source": "bespoke:s15",
+          "in_seconds": 85.833,
+          "out_seconds": 93.667,
+          "layer": "primary",
+          "transition_in": "cut",
+          "reason": "\uc790\ub3d9 \ub124 \ub2e8\uacc4"
+        },
+        {
+          "id": "s16",
+          "source": "bespoke:s16",
+          "in_seconds": 93.667,
+          "out_seconds": 101.233,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\ub098\ubb34 \uad6c\uc870 \u2014 \ud754\ub4e4\ub9b4\uc218\ub85d \ub2e8\ub2e8\ud558\uac8c"
+        },
+        {
+          "id": "s17",
+          "source": "bespoke:s17",
+          "in_seconds": 101.233,
+          "out_seconds": 106.1,
+          "layer": "primary",
+          "transition_in": "wipe",
+          "reason": "\uc218\uc5c5 \ud6c4 \uc791\uc5c5 \u2014 \uc18c\uba78"
+        },
+        {
+          "id": "s18",
+          "source": "bespoke:s18",
+          "in_seconds": 106.1,
+          "out_seconds": 118.733,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uc61b\ub0a0 \ubc29\uc2dd \uc804\uc2dc\ub300"
+        },
+        {
+          "id": "s19",
+          "source": "bespoke:s19",
+          "in_seconds": 118.733,
+          "out_seconds": 127.1,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uad50\uc2e4 \u2014 \ub9d8 \ud3b8\ud55c \uc218\uc5c5, \uc9c4\uc9dc \ub05d"
+        },
+        {
+          "id": "s21",
+          "source": "bespoke:s21",
+          "in_seconds": 127.1,
+          "out_seconds": 131.3,
+          "layer": "primary",
+          "transition_in": "whip",
+          "reason": "\uc5d4\ub4dc\uce74\ub4dc \u2014 \uc694\uc998 \uc120\uc0dd\ub2d8"
+        }
+      ],
+      "bespoke": {
+        "entry": "projects/teachers-lost-their-minds/index.tsx",
+        "composition_id": "TeachersMental",
+        "art_direction": "projects/teachers-lost-their-minds/art-direction.md",
+        "public_dir": "projects/teachers-lost-their-minds/public",
+        "crf": 18,
+        "concurrency": 4
+      },
+      "subtitles": {
+        "enabled": true,
+        "style": "\uad6c\uc808 \ub2e8\uc704 \uc2a4\ud2f0\ucee4 \uc790\ub9c9 + \ud615\uad11\ud39c(\ucef4\ud3ec\uc9c0\uc158\uc5d0 \ub0b4\uc7a5, props.captions \ub85c \ub054)",
+        "source": "story/beats.ts",
+        "font": "Pretendard 900",
+        "position": "bottom-center"
+      },
+      "audio": {
+        "narration": {
+          "status": "\uc758\ub8b0\uc790 \ub179\uc74c \uc608\uc815 \u2014 \ub80c\ub354\ub294 \ubb34\uc74c",
+          "guide": "deliverables/dubbing-script.md"
+        },
+        "sfx": []
+      },
+      "transitions": [
+        {
+          "type": "whip",
+          "at_seconds": 4.4,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "cut",
+          "at_seconds": 11.033,
+          "duration_seconds": 0
+        },
+        {
+          "type": "whip",
+          "at_seconds": 21.033,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "cut",
+          "at_seconds": 29.567,
+          "duration_seconds": 0
+        },
+        {
+          "type": "whip",
+          "at_seconds": 38.467,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "whip",
+          "at_seconds": 45.033,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "wipe",
+          "at_seconds": 50.867,
+          "duration_seconds": 0.6
+        },
+        {
+          "type": "whip",
+          "at_seconds": 58.133,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "cut",
+          "at_seconds": 65.233,
+          "duration_seconds": 0
+        },
+        {
+          "type": "wipe",
+          "at_seconds": 75.2,
+          "duration_seconds": 0.6
+        },
+        {
+          "type": "whip",
+          "at_seconds": 82.6,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "cut",
+          "at_seconds": 85.833,
+          "duration_seconds": 0
+        },
+        {
+          "type": "whip",
+          "at_seconds": 93.667,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "wipe",
+          "at_seconds": 101.233,
+          "duration_seconds": 0.6
+        },
+        {
+          "type": "whip",
+          "at_seconds": 106.1,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "whip",
+          "at_seconds": 118.733,
+          "duration_seconds": 0.27
+        },
+        {
+          "type": "whip",
+          "at_seconds": 127.1,
+          "duration_seconds": 0.27
+        }
+      ],
+      "metadata": {
+        "compositions": {
+          "TeachersMental": "1920x1080",
+          "TeachersMentalVertical": "1080x1920"
+        },
+        "gl": "swangle",
+        "timing_source": "artifacts/timeline.json"
+      }
+    }
+  },
+  "metadata": {
+    "note": "1\ucc28 \uc644\uc131\ubcf8\uc744 \uc2b9\uc778 \uac8c\uc774\ud2b8 \uc55e\uc9c8\ub7ec \ub9cc\ub4e0 \ucd08\uc548 \ub2e8\uacc4\uc785\ub2c8\ub2e4. proposal \uc774 \uc2b9\uc778\ub418\uba74 completed \ub85c \ub2e4\uc2dc \uae30\ub85d\ud569\ub2c8\ub2e4(decision_log d09)."
+  }
+}
