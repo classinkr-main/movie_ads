@@ -26,21 +26,31 @@ Classin 영상 광고 모음입니다. 폴더는 Google Drive `ClassIn Korea / �
 
 ## 그 밖의 영상
 
-Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한 내용은 각 폴더의 README를 보세요.
+Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한 내용(스토리·검수 참고·수정 방법)은 각 폴더의 README를 보세요.
+
+### 브랜드·제품 광고
 
 | 영상 | 폴더 | 컴포지션 id | 결과물 |
 | --- | --- | --- | --- |
-| 갈매기 드로잉 쇼릴 — 손그림 애니메이션, 49초 · 16:9 · BGM·효과음 | [src/gull](src/gull/README.md) | `GullReel` · `GullThumb` · `GullSheet` | `out/classin-gull-showreel.mp4` · 섬네일 `out/classin-gull-thumbnail*.{png,jpg}` |
-| 선생님들은 멘탈이 나가 버렸습니다 — 자동 녹화 스토리 3D 쇼릴, 2분 11초 · 16:9/9:16 · 무음(더빙 별도) | [projects/teachers-lost-their-minds](projects/teachers-lost-their-minds/README.md) | `TeachersMental` · `TeachersMentalVertical` (별도 엔트리 — `npm run mental:dev`) | `projects/teachers-lost-their-minds/renders/final.mp4` · `final-vertical.mp4` |
-| 할로윈 백설공주 브이로그 — 가로 3분 25초 · 쇼츠 68초 | [vlog/snow-white-halloween](vlog/snow-white-halloween) | – (Python·ffmpeg 파이프라인) | 용량 때문에 커밋하지 않음 — 원본에서 다시 렌더 |
+| 쇼릴 v5 "남는 수업" — 뮤직비디오 × Vox 해설 브랜드 쇼릴, 22초 · 30초 여유판 · 60fps + 인스타 1:1·4:5·9:16 · 썸네일 시안 4종 | [src/showreel-v5](src/showreel-v5/README.md) | `Showreel` · `Showreel30` · `SocialFrame916` · `Thumb-a`…`d` | `out/classin-showreel-v5.mp4` · `out/classin-showreel-v5-30s*.mp4` · `out/thumbs/` |
 | BrandReel v8 — 학원 대상 다크 시네마틱 브랜드 쇼릴, 24초 · 60fps | [src/reel](src/reel/README.md) | `BrandReel` | `out/classin-brand-reel-60fps.mp4`(무음) · `out/classin-brand-reel-60fps-guide-sfx.mp4`(가이드 사운드) |
-| 광저우 투어 — 행사 하이라이트 90초(16:9 · 24fps) · 탐방 브이로그 × Classin 30초(9:16) | [src/guangzhou](src/guangzhou/README.md) | `GuangzhouEventFilm` · `GuangzhouVlog` | `out/guangzhou-event-film.mp4` · `out/guangzhou-vlog.mp4` |
-| 2026 아시아 AI 교육 포럼 숏폼 6편 — 세션 하이라이트, 9:16 · 35–70초 | [src/shorts](src/shorts/README.md) | `short-01-ai-teacher` … `short-06-ai-kpi` | 용량 때문에 커밋하지 않음 — `npm run shorts:cut` → `shorts:render`로 `out/shorts/`에 생성 |
-| 2026 아시아 AI 교육 포럼(부산) 스케치 — 9개 버전(A–I안, 30초–2분 33초) · 16:9 | [src/forum](src/forum/README.md) | `ForumLive` · `ForumHighlight` · `ForumSpeakers` · `ForumSketch60` · `ForumStyle` · `ForumShort30` · `ForumPeople` · `ForumEvent` · `ForumMove` | `out/busan-forum-sketch-{A…I}-*.mp4` |
-| 브래그컷 v5 — 시네마틱 숏폼 런칭 컷(분석 · 채점 · 통역), 20초 · 9:16 · 음악·효과음 | [src/brag](src/brag/README.md) | `Brag` | `out/brag/brag.mp4` · 포스터 `out/brag/brag.jpg` |
+| 갈매기 드로잉 쇼릴 — 손그림 애니메이션, 49초 · 16:9 · BGM·효과음 | [src/gull](src/gull/README.md) | `GullReel` · `GullThumb` · `GullSheet` | `out/classin-gull-showreel.mp4` · 섬네일 `out/classin-gull-thumbnail*.{png,jpg}` |
 | AI 강의 평가 → 강사 관리 — A 라이트 편 22초 · B 가치 편 26초 · 16:9 · 무음 | [src/teacher-mgmt](src/teacher-mgmt/README.md) | `TeacherMgmt` · `TeacherMgmtValue` | `out/classin-ai-teacher-mgmt.mp4` · `out/classin-ai-teacher-mgmt-value.mp4` |
 | Classin Board 하드웨어 광고 — 시네마틱 제품 광고, 45초 · 16:9 · 무음 | [src/hardware](src/hardware/README.md) | `Hardware` | `out/classin-board-hardware.mp4` |
-| 쇼릴 v5 "남는 수업" — 뮤직비디오 × Vox 해설 브랜드 쇼릴, 22초 · 30초 여유판 · 60fps + 인스타 1:1·4:5·9:16 · 썸네일 시안 4종 | [src/showreel-v5](src/showreel-v5/README.md) | `Showreel` · `Showreel30` · `SocialFrame916` · `Thumb-a`…`d` | `out/classin-showreel-v5.mp4` · `out/classin-showreel-v5-30s*.mp4` · `out/thumbs/` |
+| 브래그컷 v5 — 시네마틱 숏폼 런칭 컷(분석 · 채점 · 통역), 20초 · 9:16 · 음악·효과음 | [src/brag](src/brag/README.md) | `Brag` | `out/brag/brag.mp4` · 포스터 `out/brag/brag.jpg` |
+| 선생님들은 멘탈이 나가 버렸습니다 — 자동 녹화 스토리 3D 쇼릴, 2분 11초 · 16:9/9:16 · 무음(더빙 별도) | [projects/teachers-lost-their-minds](projects/teachers-lost-their-minds/README.md) | `TeachersMental` · `TeachersMentalVertical` (별도 엔트리 — `npm run mental:dev`) | `projects/teachers-lost-their-minds/renders/final.mp4` · `final-vertical.mp4` |
+
+### 행사·브이로그
+
+| 영상 | 폴더 | 컴포지션 id | 결과물 |
+| --- | --- | --- | --- |
+| 2026 아시아 AI 교육 포럼 숏폼 6편 — 세션 하이라이트, 9:16 · 35–70초 | [src/shorts](src/shorts/README.md) | `short-01-ai-teacher` … `short-06-ai-kpi` | 용량 때문에 커밋하지 않음 — `npm run shorts:cut` → `shorts:render`로 `out/shorts/`에 생성 |
+| 2026 아시아 AI 교육 포럼(부산) 스케치 — 9개 버전(A–I안, 30초–2분 33초) · 16:9 | [src/forum](src/forum/README.md) | `ForumLive` · `ForumHighlight` · `ForumSpeakers` · `ForumSketch60` · `ForumStyle` · `ForumShort30` · `ForumPeople` · `ForumEvent` · `ForumMove` | `out/busan-forum-sketch-{A…I}-*.mp4` |
+| 광저우 투어 — 행사 하이라이트 90초(16:9 · 24fps) · 탐방 브이로그 × Classin 30초(9:16) | [src/guangzhou](src/guangzhou/README.md) | `GuangzhouEventFilm` · `GuangzhouVlog` | `out/guangzhou-event-film.mp4` · `out/guangzhou-vlog.mp4` |
+| 할로윈 백설공주 브이로그 — 가로 3분 25초 · 쇼츠 68초 | [vlog/snow-white-halloween](vlog/snow-white-halloween/README.md) | – (Python·ffmpeg 파이프라인) | 용량 때문에 커밋하지 않음 — 원본에서 다시 렌더 |
+
+- 포럼 숏폼·부산 포럼 스케치는 Drive 원본에서 잘라 낸 중간본(`public/shorts/`, `public/forum/`)이 있어야 렌더됩니다. 만드는 방법은 각 README의 "다시 만들기"에 있습니다.
+- **쇼릴 v4와 v5**: 30초 AI 기능 소개(v4)는 09 프로젝트(`p09-classin-ai-features-30s`), 22초 "남는 수업"(v5)은 `src/showreel-v5`(`Showreel`)입니다. 둘 다 그대로 렌더할 수 있습니다.
 
 ## 아이디어
 
@@ -51,17 +61,24 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 ```
 src/
   index.ts · Root.tsx            # 프로젝트별 <Folder>, 영상별 <Composition> 등록
-  shared/                        # 모든 영상 공용 코드 (fonts · motion)
-  shared/brand/                  # Classin 팔레트·배경·키네틱 타이포·카드·해설용 컴포넌트(갈매기·자막·기기 프레임)
-  projects/<번호>_<시작일>_<이름>_<특징>/   # 시리즈(05)는 하위에 <번호>_<편> 폴더
+  shared/                        # 모든 영상 공용 코드 — fonts(Pretendard + 갈매기·숏폼·브래그컷 서체) · motion
+  shared/brand/                  # Classin 팔레트(기본 FPS 30 포함)·배경·키네틱 타이포·카드·전환(Transitions)·글래스·해설용 컴포넌트(갈매기·자막·기기 프레임)
+  projects/<번호>_<시작일>_<이름>_<특징>/   # Drive 번호 프로젝트. 시리즈(05)는 하위에 <번호>_<편> 폴더
+  <영상>/                        # 번호가 없는 영상: showreel-v5 · reel · gull · teacher-mgmt · hardware · brag · shorts · forum · guangzhou
 public/
-  00_공통에셋/                   # brand · fonts · character → staticFile("00_공통에셋/…")
-  <번호>_<이름>/                 # 프로젝트 전용 에셋(필요할 때)
-out/<프로젝트 폴더 이름>/*.mp4    # 렌더 결과
+  00_공통에셋/                   # brand · fonts(Pretendard) · character → staticFile("00_공통에셋/…")
+  fonts/                         # 영상별 서체(SIL OFL) — 라이선스 파일 함께
+  <영상>/                        # 영상 전용 에셋(reel · guangzhou · hw · forum …)
+out/                             # 렌더 결과. 번호 프로젝트는 out/<프로젝트 폴더 이름>/
+projects/<이름>/                 # OpenMontage 워크스페이스(엔트리·public·렌더를 따로 가진 영상) — 지금은 '멘탈' 3D 쇼릴
+vlog/<이름>/                     # Remotion을 쓰지 않는 촬영 편집(Python·ffmpeg)
+ideas/                           # 기획 메모
+scripts/ · tools/                # 영상별 보조 스크립트(오디오 합성·에셋 준비·스틸·인코딩)
 ```
 
 - 새 프로젝트는 Drive와 이 저장소에 **같은 번호**로 만들고, 이름 뒤에 시작일과 특징을 붙입니다.
-- Remotion의 `<Folder>` 이름과 컴포지션 id는 한글을 받지 않으므로 `p<번호>-<영문 이름>`으로 씁니다.
+- Remotion의 `<Folder>` 이름과 컴포지션 id는 한글을 받지 않으므로 `p<번호>-<영문 이름>`으로 씁니다. 번호 없는 영상은 만들 때 정한 영문 id를 그대로 씁니다.
+- 공용 코드는 `src/shared/`에서 가져옵니다. 로고는 `staticFile("00_공통에셋/brand/…")`입니다.
 
 ### 영상을 코드로 만들기 시작할 때
 
@@ -73,11 +90,23 @@ out/<프로젝트 폴더 이름>/*.mp4    # 렌더 결과
 
 ```bash
 npm install
-npm run dev          # Remotion Studio
-npm run render:p06   # 06 애니매틱 40초
-npm run render:p07   # 07 애니매틱 45초
-npm run render:p09   # out/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/ClassinAI_기능소개_30초_v4.mp4
+npm run dev          # Remotion Studio — 모든 영상이 폴더별로 보입니다
 npm run typecheck
 ```
 
+| 영상 | 렌더 | 그 밖의 스크립트 |
+| --- | --- | --- |
+| 06 · 07 · 09 | `render:p06` · `render:p07` · `render:p09` | `still:p09` |
+| 쇼릴 v5 | `render:v5` · `render:v5-30` | `social:v5` · `social:v5-30`(인스타 컷) · `still:v5` · `stills:v5` · `music:v5` · `music:v5-30` · `music:v5-synth` |
+| BrandReel | `render:reel` | `still:reel` |
+| 갈매기 쇼릴 | `render:gull` | `thumb:gull` · `still:gull` · `audio:gull` |
+| 강사 관리 | `render:tm` · `render:tmv` | `still:tm` · `still:tmv` |
+| 하드웨어 광고 | `render:hw` | `still:hw` |
+| 브래그컷 | `brag`(오디오 → 렌더 → 포스터) | `brag:audio` · `brag:render` |
+| '멘탈' 3D 쇼릴 | `mental:render` · `mental:render:vertical` · `mental:render:clean` | `mental:dev` · `mental:render:draft` · `mental:timeline` · `mental:sync` · `mental:snapshots` |
+| 포럼 숏폼 | `shorts:render` | `shorts:cut` |
+| 부산 포럼 | `render:forum-live` … `render:forum-move` (9개) | – |
+| 광저우 | `render:guangzhou-film` · `render:guangzhou` | `still:guangzhou` |
+
 Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 설치된 브라우저를 쓰려면 `REMOTION_BROWSER_EXECUTABLE`을 지정합니다(`remotion.config.ts`).
+리눅스에서는 '멘탈' 3D 쇼릴의 WebGL 때문에 기본 GL이 `swangle`입니다. `REMOTION_GL`로 바꿀 수 있습니다.
