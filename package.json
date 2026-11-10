@@ -28,7 +28,16 @@
     "still:guangzhou": "remotion still GuangzhouVlog out/guangzhou-still.png --frame=180",
     "render:guangzhou-film": "remotion render GuangzhouEventFilm out/guangzhou-event-film-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh film",
     "shorts:cut": "python3 scripts/cut-clips.py",
-    "shorts:render": "for id in short-01-ai-teacher short-02-institution short-03-learning short-04-teacher-pay short-05-first-year short-06-ai-kpi; do remotion render $id out/shorts/$id.mp4 --crf=20; done"
+    "shorts:render": "for id in short-01-ai-teacher short-02-institution short-03-learning short-04-teacher-pay short-05-first-year short-06-ai-kpi; do remotion render $id out/shorts/$id.mp4 --crf=20; done",
+    "render:forum-live": "remotion render ForumLive out/forum-sketch-live-master.mp4 --crf=17",
+    "render:forum-highlight": "remotion render ForumHighlight out/forum-sketch-highlight-master.mp4 --crf=17",
+    "render:forum-speakers": "remotion render ForumSpeakers out/forum-sketch-speakers-master.mp4 --crf=17",
+    "render:forum-sketch60": "remotion render ForumSketch60 out/forum-sketch-60s-master.mp4 --crf=17",
+    "render:forum-style": "remotion render ForumStyle out/forum-sketch-style-master.mp4 --crf=17",
+    "render:forum-short30": "remotion render ForumShort30 out/forum-sketch-30s-master.mp4 --crf=17",
+    "render:forum-people": "remotion render ForumPeople out/forum-sketch-people-master.mp4 --crf=17",
+    "render:forum-event": "remotion render ForumEvent out/forum-sketch-event-master.mp4 --crf=17",
+    "render:forum-move": "remotion render ForumMove out/forum-sketch-move-master.mp4 --crf=17"
   },
   "repository": {
     "type": "git",

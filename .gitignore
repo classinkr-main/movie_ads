@@ -38,3 +38,9 @@ out/*-master.mp4
 # 포럼 숏폼 — 원본에서 잘라 낸 클립과 렌더 결과는 용량이 커서 커밋하지 않는다(scripts/cut-clips.py로 재생성)
 public/shorts/
 out/shorts/
+
+# 부산 포럼 스케치 — 원본에서 만든 중간본(클립·사진·오디오)과 미리보기
+public/forum/clips
+public/forum/audio
+public/forum/stills
+out/preview/
