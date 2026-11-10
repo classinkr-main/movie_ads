@@ -27,6 +27,8 @@ import short05 from "./shorts/specs/short-05-first-year.json";
 import short06 from "./shorts/specs/short-06-ai-kpi.json";
 
 import { edlFrames } from "./forum/ForumEdit";
+import { Brag } from "./brag/Brag";
+import { BRAG } from "./brag/timeline";
 import {
   EVENT_EDL,
   ForumEvent,
@@ -100,6 +102,9 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="ForumPeople" component={ForumPeople} durationInFrames={edlFrames(PEOPLE_EDL)} fps={FPS} width={1920} height={1080} />
       <Composition id="ForumEvent" component={ForumEvent} durationInFrames={edlFrames(EVENT_EDL)} fps={FPS} width={1920} height={1080} />
       <Composition id="ForumMove" component={ForumMove} durationInFrames={edlFrames(MOVE_EDL)} fps={FPS} width={1920} height={1080} />
+    </Folder>
+    <Folder name="brag">
+      <Composition id="Brag" component={Brag} defaultProps={{ typeset: "couture" as const }} durationInFrames={BRAG.frames} fps={BRAG.fps} width={1080} height={1920} />
     </Folder>
   </>
 );

@@ -44,3 +44,9 @@ public/forum/clips
 public/forum/audio
 public/forum/stills
 out/preview/
+
+# 브래그컷 — 중간 렌더·포스터 원본은 빼고, 포스터 JPG와 타입셋 비교 보드는 커밋
+out/brag/brag-raw.mp4
+out/brag/poster.png
+!out/brag/brag.jpg
+!out/brag/typeset/*.jpg

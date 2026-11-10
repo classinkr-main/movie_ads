@@ -37,7 +37,10 @@
     "render:forum-short30": "remotion render ForumShort30 out/forum-sketch-30s-master.mp4 --crf=17",
     "render:forum-people": "remotion render ForumPeople out/forum-sketch-people-master.mp4 --crf=17",
     "render:forum-event": "remotion render ForumEvent out/forum-sketch-event-master.mp4 --crf=17",
-    "render:forum-move": "remotion render ForumMove out/forum-sketch-move-master.mp4 --crf=17"
+    "render:forum-move": "remotion render ForumMove out/forum-sketch-move-master.mp4 --crf=17",
+    "brag:audio": "python3 scripts/brag-audio.py",
+    "brag:render": "remotion render Brag out/brag/brag-raw.mp4 && sh scripts/brag-poster.sh",
+    "brag": "npm run brag:audio && npm run brag:render"
   },
   "repository": {
     "type": "git",

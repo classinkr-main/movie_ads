@@ -37,6 +37,7 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 | 광저우 투어 — 행사 하이라이트 90초(16:9 · 24fps) · 탐방 브이로그 × Classin 30초(9:16) | [src/guangzhou](src/guangzhou/README.md) | `GuangzhouEventFilm` · `GuangzhouVlog` | `out/guangzhou-event-film.mp4` · `out/guangzhou-vlog.mp4` |
 | 2026 아시아 AI 교육 포럼 숏폼 6편 — 세션 하이라이트, 9:16 · 35–70초 | [src/shorts](src/shorts/README.md) | `short-01-ai-teacher` … `short-06-ai-kpi` | 용량 때문에 커밋하지 않음 — `npm run shorts:cut` → `shorts:render`로 `out/shorts/`에 생성 |
 | 2026 아시아 AI 교육 포럼(부산) 스케치 — 9개 버전(A–I안, 30초–2분 33초) · 16:9 | [src/forum](src/forum/README.md) | `ForumLive` · `ForumHighlight` · `ForumSpeakers` · `ForumSketch60` · `ForumStyle` · `ForumShort30` · `ForumPeople` · `ForumEvent` · `ForumMove` | `out/busan-forum-sketch-{A…I}-*.mp4` |
+| 브래그컷 v5 — 시네마틱 숏폼 런칭 컷(분석 · 채점 · 통역), 20초 · 9:16 · 음악·효과음 | [src/brag](src/brag/README.md) | `Brag` | `out/brag/brag.mp4` · 포스터 `out/brag/brag.jpg` |
 
 ## 아이디어
 
