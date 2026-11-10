@@ -1,0 +1,565 @@
+{
+  "version": "1.0",
+  "project_id": "teachers-lost-their-minds",
+  "pipeline_type": "animation",
+  "stage": "proposal",
+  "status": "awaiting_human",
+  "timestamp": "2026-11-10T02:27:26.571073+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": true,
+  "human_approved": false,
+  "artifacts": {
+    "proposal_packet": {
+      "version": "1.0",
+      "concept_options": [
+        {
+          "id": "A",
+          "title": "\ucc45\uc0c1 \uc704 \ubbf8\ub2c8\uc5b4\ucc98 \uc0ac\uac74 \ubcf4\uace0\uc11c",
+          "hook": "\uc804\uc2dc\ub300 \uc704 '\uc61b\ub0a0 \uc120\uc0dd\ub2d8' \ud53c\uaddc\uc5b4 \uc14b\uc774 '\uba58\ud0c8\uc774'\uc5d0\uc11c \ub3d9\uc2dc\uc5d0 \ub098\uc120 \ub208\uc774 \ub418\uace0 \uc601\ud63c\uc774 \ube60\uc838\ub098\uac04\ub2e4",
+          "narrative_structure": "problem_solution",
+          "visual_approach": "Three.js \ube14\ub85d \ub514\uc624\ub77c\ub9c8(\uc138\ud2b8 7\uc885) + HTML \ud3b8\uc9d1 \uc8fc\uc11d(\ud615\uad11\ud39c \uc790\ub9c9\u00b7\uaf2c\ub9ac\ud45c\u00b7\ub3c4\uc7a5\u00b7\ud070 \uae00\uc790). \uc27c\ud45c\ub9c8\ub2e4 \ubb3c\ub9ac\uc801 \ub3d9\uc791 \ud558\ub098.",
+          "target_audience": "\ud559\uc6d0\u00b7\ud559\uad50 \uc120\uc0dd\ub2d8\uacfc \uc6b4\uc601\uc790",
+          "target_platform": "youtube",
+          "target_duration_seconds": 131.3,
+          "key_points": [
+            "\uc218\uc5c5 \ud6c4 \uc791\uc5c5 4\uc885(\ucd2c\uc601\u00b7\ud3b8\uc9d1\u00b7\uc5c5\ub85c\ub4dc\u00b7\uc2dc\uccad \uccb4\ud06c)\uc758 \ub204\uc801",
+            "\uc7a5\ube44\ub9cc \ub298\ub9b0 \uccab \uc2dc\ub3c4\uc758 \ud55c\uacc4",
+            "\ubc84\ud2bc \ud558\ub098 \u2192 \uc790\ub3d9 \ucd2c\uc601\u00b7\uc5c5\ub85c\ub4dc\u00b7\uc2dc\uccad \uccb4\ud06c\u00b7\uad00\ub9ac",
+            "\uc218\uc5c5\uc774 \ub05d\ub098\uba74 \uc9c4\uc9dc\ub85c \ub05d"
+          ],
+          "core_message": "\uc120\uc0dd\ub2d8\uc774 \ud558\ub358 \uc218\uc5c5 \ud6c4 \uc791\uc5c5\uc744 \uc2dc\uc2a4\ud15c\uc774 \ud1b5\uc9f8\ub85c \ubc1b\ub294\ub2e4 \u2014 \ud074\ub798\uc2a4\uc778 \ud558\ub098\ub85c.",
+          "cta": "classin.co.kr",
+          "tone": "\uac74\uc870\ud558\uace0 \uacfc\uc7a5\ub418\uac8c \uc9c4\uc9c0\ud55c \ubc08 \ub2e4\ud050 \ud1a4",
+          "grounded_in": [
+            "\uc758\ub8b0 \uc6d0\ubb38 \ub300\ubcf8",
+            "PremiumBeat",
+            "Kapwing"
+          ],
+          "why_this_works": "\uc77c\uc774 '\uc313\uc778\ub2e4'\ub294 \uac10\uac01\uc744 \ube14\ub85d\uc774 \uc2e4\uc81c\ub85c \uc313\uc774\ub294 \uac83\uc73c\ub85c \ubcf4\uc5ec \uc904 \uc218 \uc788\uace0, 3\ub9c9\uc758 '\ub098\ubb34\ucc98\ub7fc \ubc1b\uccd0 \uc8fc\ub294 \uad6c\uc870'\ub97c \uc740\uc720\uac00 \uc544\ub2c8\ub77c \uad6c\uc870\ubb3c\ub85c \uc138\uc6b8 \uc218 \uc788\ub2e4."
+        },
+        {
+          "id": "B",
+          "title": "\uc815\ud1b5 2D \uc885\uc774 \ucf5c\ub77c\uc8fc",
+          "hook": "\uc624\ub824 \ubd99\uc778 \uc885\uc774 \uc778\ud615 \uc120\uc0dd\ub2d8 \uc704\ub85c \ud3ec\uc2a4\ud2b8\uc787\uc774 \uc3df\uc544\uc9c4\ub2e4",
+          "narrative_structure": "problem_solution",
+          "visual_approach": "\ud3c9\uba74 \uc885\uc774 \ucf5c\ub77c\uc8fc, 12fps \uc2a4\ud1b1\ubaa8\uc158 \ub290\ub08c, \uc9c0\ub3c4\u00b7\ucc28\ud2b8 \ub300\uc2e0 \ud3ec\uc2a4\ud2b8\uc787\uacfc \uc11c\ub958",
+          "target_platform": "youtube",
+          "target_duration_seconds": 131.3,
+          "why_this_works": "Vox \uc2a4\ud0c0\uc77c\uc758 \uac00\uc7a5 \uc548\uc804\ud55c \ud574\uc11d\uc774\uc9c0\ub9cc '3D' \uc694\uccad\uacfc \ub9de\uc9c0 \uc54a\uace0, \uad6c\uc870\ubb3c \uc740\uc720(\ub098\ubb34)\uac00 \ud3c9\uba74\uc5d0\uc11c\ub294 \uc57d\ud558\ub2e4."
+        },
+        {
+          "id": "C",
+          "title": "\uad6c\uc870\ubb3c \ubc08 \uc9c1\uc5ed \u2014 \ud754\ub4e4\ub9ac\ub294 \ud0d1 \uc6d0\ud14c\uc774\ud06c",
+          "hook": "\uc218\uc5c5 \ubc1b\uce68 \uc544\ub798 \uc791\uc5c5 \ud0d1\uc774 \ud55c \uce35\uc529 \uc62c\ub77c\uac00\uba70 \ud754\ub4e4\ub9b0\ub2e4",
+          "narrative_structure": "analogy",
+          "visual_approach": "\ud0d1 \ud558\ub098\ub97c \uc6d0\ud14c\uc774\ud06c\ub85c \ub3cc\ub824 \ubcf4\ub294 3D. \uc138\ud2b8 \uc804\ud658 \uc5c6\uc74c.",
+          "target_platform": "youtube",
+          "target_duration_seconds": 131.3,
+          "why_this_works": "\uc6d0\ubcf8 \ubc08\uacfc \uac00\uc7a5 \ub2ee\uc558\uc9c0\ub9cc 2\ubd84 \ub118\uac8c \ud55c \ud53c\uc0ac\uccb4\ub9cc \ubcf4\uc5ec \uc8fc\uba74 \uc27c\ud45c\ub9c8\ub2e4\uc758 \uc138\ubd80 \ub3d9\uc791(\uac01\ub3c4 \ub9de\ucd94\uae30, \uc790\ub9c9 \ub123\uae30\u2026)\uc744 \uadf8\ub9b4 \uc790\ub9ac\uac00 \uc5c6\ub2e4."
+        }
+      ],
+      "selected_concept": {
+        "concept_id": "A",
+        "rationale": "\u20183D\u2019\uc640 \u2018Vox\u2019 \uc694\uccad\uc744 \ub458 \ub2e4 \uc0b4\ub9ac\uace0, \ub300\ubcf8\uc758 \uc27c\ud45c \ub098\uc5f4\uc744 \uc7a5\uba74\ubcc4 \uc138\ubd80 \ub3d9\uc791\uc73c\ub85c \ubc1b\uc744 \uc218 \uc788\ub294 \uc720\uc77c\ud55c \uc548. C \uc758 \ud0d1\uc740 1\ub9c9 \ub05d(\uc5d0\ub108\uc9c0 \ubc29\uc804)\uacfc 3\ub9c9(\ub098\ubb34) \uc7a5\uba74\uc73c\ub85c \ud761\uc218\ud588\ub2e4.",
+        "modifications": [
+          "C \uc548\uc758 '\uc313\uc774\ub294 \ud0d1'\uc744 s09\u00b7s13\u00b7s17 \uc5d0 \ud761\uc218",
+          "\uc138\ub85c 9:16 \ucef4\ud3ec\uc9c0\uc158\uc744 \uac19\uc740 \ucf54\ub4dc\ub85c \ud568\uaed8 \uc81c\uacf5"
+        ]
+      },
+      "production_plan": {
+        "pipeline": "animation",
+        "playbook": "custom (atelier art direction \u2014 art-direction.md)",
+        "render_runtime": "remotion",
+        "composition_mode": "atelier",
+        "renderer_family": "animation-first",
+        "art_direction": "projects/teachers-lost-their-minds/art-direction.md",
+        "taste_profile": {
+          "design_read": "\ucc45\uc0c1 \uc704 \ubbf8\ub2c8\uc5b4\ucc98\ub85c \uc7ac\ud604\ud55c \uc0ac\uac74 \ubcf4\uace0\uc11c: \uc7a5\ub09c\uac10\ucc98\ub7fc \uadc0\uc5ec\uc6b4 3D \ube14\ub85d \ub514\uc624\ub77c\ub9c8 \uc704\uc5d0 \ubcf4\ub3c4 \uadf8\ub798\ud53d\ucc98\ub7fc \ub2e8\uc815\ud55c \ud615\uad11\ud39c\u00b7\uaf2c\ub9ac\ud45c \uc8fc\uc11d. \ubc08\uc758 '\uacfc\uc7a5\ub41c \uc9c4\uc9c0\ud568'\uc744 \ud654\uba74 \ubb38\ubc95\uc73c\ub85c \uc62e\uae34\ub2e4.",
+          "visual_variance": 6,
+          "motion_intensity": 7,
+          "information_density": 4,
+          "palette_discipline": "\uc885\uc774 #F3EEE2 + \uc789\ud06c #1B1A17 \ubc14\ud0d5. \ub9c9\ub9c8\ub2e4 \uac15\uc870\uc0c9 \ud558\ub098: \ub808\ub4dc(\ubb38\uc81c) \u2192 \ucf54\ubc1c\ud2b8(\uccab \uc2dc\ub3c4) \u2192 ClassIn \uadf8\ub9b0\u00b7\ub77c\uc784(\ud574\uacb0\u00b7\uacb0\uacfc).",
+          "layout_variation": "\uc138\ud2b8 7\uc885\uc744 \uc624\uac00\ub418 \uc8fc \ud53c\uc0ac\uccb4\ub294 \uc7a5\uba74\ub9c8\ub2e4 \ud558\ub098. \ud558\ub2e8 \uc790\ub9c9 \ub760\u00b7\uc88c\uc0c1\ub2e8 \ud560 \uc77c \uba54\ubaa8\u00b7\uc6b0\uc0c1\ub2e8 \ub9c9 \ub808\uc77c\uc740 \uace0\uc815.",
+          "reference_strategy": "\uc678\ubd80 \ub808\ud37c\ub7f0\uc2a4 \uc774\ubbf8\uc9c0 \uc5c6\uc74c. \uc7a5\uba74\uad70\ub9c8\ub2e4 \uc2a4\ud2f8 1\uc7a5\uc744 \uba3c\uc800 \ubf51\uc544 \ub8e9\uc744 \ud655\uc815\ud55c \ub4a4 \ub098\uba38\uc9c0\ub97c \uc791\uc131(snapshots/).",
+          "anti_patterns": [
+            "\ubcf4\ub77c\uc0c9 \uadf8\ub77c\ub370\uc774\uc158 SaaS \uc601\uc0c1, \uae00\ub798\uc2a4\ubaa8\ud53c\uc998, \ub124\uc628 \uae00\ub85c\uc6b0",
+            "\uc790\ub9c9\uacfc \uac19\uc740 \ubb38\uc7a5\uc744 \ud654\uba74 \uae00\uc790\ub85c \ud55c \ubc88 \ub354 \uc4f0\uae30",
+            "\uc2e4\uc81c \uc81c\ud488 \ud654\uba74\uc744 \ud749\ub0b4 \ub0b8 \uac00\uc9dc UI \ub85c \uae30\ub2a5\uc744 \ub2e8\uc815\ud558\uae30",
+            "\uc774 \uc800\uc7a5\uc18c v1~v4 \uc1fc\ub9b4\uc758 \uc544\uc774\ubcf4\ub9ac\u00b7\ub77c\uc784 \uc5d0\ub514\ud1a0\ub9ac\uc5bc \ubb38\ubc95 \uc7ac\uc0ac\uc6a9"
+          ],
+          "quality_gates": [
+            "\uc27c\ud45c(\uad6c\uc808)\ub9c8\ub2e4 \ud654\uba74 \ub3d9\uc791\uc774 \ud558\ub098\uc529 \uac78\ub9b0\ub2e4",
+            "\uc5b4\ub290 \ub450 \uc7a5\uba74\ub3c4 \uc8fc \ud53c\uc0ac\uccb4\uac00 \uac19\uc9c0 \uc54a\ub2e4",
+            "\uc601\ud63c \uac00\ucd9c\uc740 \ub124 \ubc88, \ub098\ubb34\ub294 \ud55c \uc7a5\uba74\uc5d0\ub9cc \ub098\uc628\ub2e4",
+            "\uae00\uc790\ub294 \ucd5c\uc885 \ud574\uc0c1\ub3c4\uc5d0\uc11c \uc120\uba85\ud558\ub2e4(HTML \uc8fc\uc11d \u00b7 \uce94\ubc84\uc2a4 \uc778\uc1c4\uba74)"
+          ]
+        },
+        "delivery_promise": {
+          "promise_type": "motion_led",
+          "motion_required": true,
+          "tone_mode": "playful",
+          "quality_floor": "presentable",
+          "approved_fallback": null
+        },
+        "music_source": {
+          "source_type": "none",
+          "mood_direction": "\ub80c\ub354\uc5d0\ub294 \uc74c\uc545 \uc5c6\uc74c(\ubb34\uc74c \ub9c8\uc2a4\ud130). \ub354\ube59\uc744 \ub530\ub85c \ub179\uc74c\ud558\ubbc0\ub85c \uc74c\uc545\u00b7\ud6a8\uacfc\uc74c\uc740 \ubbf9\uc2a4 \ub2e8\uacc4\uc5d0\uc11c \uc5b9\ub294\ub2e4. music_library/ \ube44\uc5b4 \uc788\uc74c, \uc74c\uc545 \uc0dd\uc131 \uc81c\uacf5\uc790 0/8 \uc124\uc815.",
+          "estimated_cost_usd": 0
+        },
+        "voice_selection": {
+          "provider": "none \u2014 \uc758\ub8b0\uc790 \uc9c1\uc811 \ub179\uc74c",
+          "rationale": "\uc758\ub8b0\uc5d0 '\ub530\ub85c \ub179\uc74c \ud560\uac70\uc57c'\ub85c \uba85\uc2dc. TTS \ub294 \uc4f0\uc9c0 \uc54a\ub294\ub2e4(\uc81c\uacf5\uc790 0/19 \uc124\uc815). \ucd94\uc815 \ud0c0\uc774\ubc0d \ub300\ubcf8\uacfc \uac00\uc774\ub4dc SRT \ub97c \uc81c\uacf5\ud558\uace0, \ub179\uc74c \ud6c4 SRT \ub85c \uc601\uc0c1\uc744 \ub2e4\uc2dc \ub9de\ucd9c \uc218 \uc788\ub2e4.",
+          "estimated_cost_usd": 0,
+          "delivery_style": "\uac74\uc870\ud558\uace0 \uacfc\uc7a5\ub418\uac8c \uc9c4\uc9c0\ud55c \ubc08 \ub2e4\ud050 \ub0ad\ub3c5",
+          "pacing_policy": "\ucd08\ub2f9 6.3\uc74c\uc808, \uc27c\ud45c 0.16\ucd08, \ubb38\uc7a5 \ub05d 0.34\ucd08",
+          "sample_approval_required": false
+        },
+        "stages": [
+          {
+            "stage": "research",
+            "tools": [
+              {
+                "tool_name": "WebSearch",
+                "role": "\ud615\uc2dd\u00b7\uc2a4\ud0c0\uc77c \ub9ac\uc11c\uce58",
+                "available": true
+              }
+            ],
+            "approach": "\ubc08 \ud615\uc2dd\uacfc Vox \uc2a4\ud0c0\uc77c \uc870\uc0ac. \ubc08 \uc6d0\ubcf8\uc740 \ubbf8\ud655\uc778."
+          },
+          {
+            "stage": "proposal",
+            "tools": [],
+            "approach": "\ucf58\uc149\ud2b8 3\uc548, \ub7f0\ud0c0\uc784\u00b7\uc791\uc131 \ubc29\uc2dd\u00b7\uc74c\uc545\u00b7\uc131\uc6b0 \uacb0\uc815 \uae30\ub85d"
+          },
+          {
+            "stage": "script",
+            "tools": [],
+            "approach": "\uc758\ub8b0 \uc6d0\ubb38\uc744 \uace0\uce58\uc9c0 \uc54a\uace0 35\ube44\ud2b8\u00b7\uad6c\uc808\ub85c \ubd84\uc808, \uc74c\uc808 \uc218\ub85c \ud0c0\uc774\ubc0d \ucd94\uc815"
+          },
+          {
+            "stage": "scene_plan",
+            "tools": [],
+            "approach": "18\uc7a5\uba74, \uc7a5\uba74\ub9c8\ub2e4 \uc8fc \ud53c\uc0ac\uccb4 1\uac1c, \uc804\ud658 3\uc885(\ucef7\u00b7\ud729\u00b7\uc640\uc774\ud504)"
+          },
+          {
+            "stage": "assets",
+            "tools": [
+              {
+                "tool_name": "remotion still",
+                "role": "\uc7a5\uba74\ubcc4 \uc2a4\ub0c5\uc0f7",
+                "available": true
+              },
+              {
+                "tool_name": "threejs_world",
+                "role": "\ubbf8\uc0ac\uc6a9 \u2014 HyperFrames \uc804\uc6a9 \uacbd\ub85c",
+                "available": true
+              }
+            ],
+            "approach": "\uc0dd\uc131 \uc5d0\uc14b \uc5c6\uc74c. 3D \ub294 \ucf54\ub4dc\ub85c \uc870\ub9bd, \ud3f0\ud2b8\u00b7\ub85c\uace0\ub9cc \uc815\uc801 \ud30c\uc77c.",
+            "fallback_if_unavailable": "\ud574\ub2f9 \uc5c6\uc74c"
+          },
+          {
+            "stage": "edit",
+            "tools": [],
+            "approach": "\uc544\ud2c0\ub9ac\uc5d0 \ucef4\ud3ec\uc9c0\uc158\uc774 \ud3b8\uc9d1\uc744 \uc18c\uc720. \uc7a5\uba74 \uacbd\uacc4 = \ube44\ud2b8 \uacbd\uacc4."
+          },
+          {
+            "stage": "compose",
+            "tools": [
+              {
+                "tool_name": "video_compose",
+                "role": "\uc544\ud2c0\ub9ac\uc5d0 \ub80c\ub354 + \uc0ac\ud6c4 \uac80\uc218",
+                "available": true
+              },
+              {
+                "tool_name": "audio_mixer",
+                "role": "\ubbf8\uc0ac\uc6a9 \u2014 \ubb34\uc74c \ub9c8\uc2a4\ud130",
+                "available": true
+              }
+            ],
+            "approach": "Remotion + @remotion/three, swangle(\uc18c\ud504\ud2b8\uc6e8\uc5b4 GL) \ub80c\ub354"
+          }
+        ],
+        "quality_tradeoffs": [
+          {
+            "tradeoff": "\ub0b4\ub808\uc774\uc158 \uc5c6\uc774 \ucd94\uc815 \ud0c0\uc774\ubc0d\uc73c\ub85c \uba3c\uc800 \uadf8\ub9bc\uc744 \uc7a0\uadfc\ub2e4",
+            "recommendation": "\ub354\ube59\uc744 \ud654\uba74\uc5d0 \ub9de\ucd94\uac70\ub098, \ub179\uc74c \ud6c4 `mental:sync` \ub85c \uc601\uc0c1\uc744 \ubaa9\uc18c\ub9ac\uc5d0 \ub9de\ucd98\ub2e4"
+          },
+          {
+            "tradeoff": "GPU \uc5c6\uc774 \uc18c\ud504\ud2b8\uc6e8\uc5b4 GL \ub85c \ub80c\ub354 \u2014 \ud6c4\ucc98\ub9ac(\ud53c\uc0ac\uacc4 \uc2ec\ub3c4\u00b7\ube14\ub8f8) \uc5c6\uc74c",
+            "recommendation": "\ud1a0\uc774 \ub8e9\uc740 \uc870\uba85\u00b7\uadf8\ub9bc\uc790\u00b7\uc885\uc774 \uc9c8\uac10\uc73c\ub85c \ub9cc\ub4e0\ub2e4"
+          }
+        ],
+        "alternative_paths": [
+          {
+            "description": "HyperFrames(HTML/GSAP + Three.js \uc5b4\ub311\ud130)\ub85c \uc791\uc131 \u2014 \ud488\uc9c8\uc740 \ub3d9\uae09. \ub2e4\ub9cc \uc758\ub8b0\uac00 Remotion \uc744 \uc9c0\uc815\ud588\uace0, \ud504\ub808\uc784 \uacb0\uc815\ub860\uc801 React \uc7a5\uba74 \uad6c\uc131\uc774 \uad6c\uc808 \uc2f1\ud06c\uc5d0 \ub354 \uc9c1\uc811\uc801",
+            "total_cost_usd": 0,
+            "quality_level": "premium"
+          },
+          {
+            "description": "FFmpeg \uc2a4\ud2f8 \uc2ac\ub77c\uc774\ub4dc \u2014 \ubaa8\uc158\uc774 \ud575\uc2ec\uc778 \uc758\ub8b0\ub77c \ubd80\uc801\ud569",
+            "total_cost_usd": 0,
+            "quality_level": "free"
+          }
+        ],
+        "decision_log_ref": "/home/user/calesthio/openmontage/projects/teachers-lost-their-minds/decision_log.json"
+      },
+      "cost_estimate": {
+        "total_estimated_usd": 0,
+        "budget_cap_usd": 2.0,
+        "budget_verdict": "within_budget",
+        "line_items": [
+          {
+            "tool": "remotion (local)",
+            "operation": "\uc544\ud2c0\ub9ac\uc5d0 \ub80c\ub354 16:9 \u00b7 9:16",
+            "quantity": 2,
+            "estimated_usd": 0,
+            "notes": "\ub85c\uceec CPU \ub80c\ub354"
+          },
+          {
+            "tool": "tts_selector",
+            "operation": "\ub0b4\ub808\uc774\uc158",
+            "quantity": 0,
+            "estimated_usd": 0,
+            "notes": "\uc758\ub8b0\uc790 \uc9c1\uc811 \ub179\uc74c \u2014 \ubbf8\uc0ac\uc6a9"
+          },
+          {
+            "tool": "music_gen",
+            "operation": "\uc74c\uc545",
+            "quantity": 0,
+            "estimated_usd": 0,
+            "notes": "\ubbf8\uc0ac\uc6a9"
+          }
+        ],
+        "savings_options": []
+      },
+      "approval": {
+        "status": "pending",
+        "user_notes": "\uc758\ub8b0\uac00 \ub7f0\ud0c0\uc784(Remotion)\u00b7\uc2a4\ud0c0\uc77c(3D Vox)\u00b7\ub300\ubcf8\u00b7\uc131\uc6b0(\uc9c1\uc811 \ub179\uc74c)\ub97c \uc9c0\uc815\ud55c '\uc81c\uc791 \uc694\uccad'\uc774\uc5b4\uc11c, \uc2b9\uc778 \uac8c\uc774\ud2b8\uc5d0\uc11c \uba48\ucd94\uc9c0 \uc54a\uace0 1\ucc28 \uc644\uc131\ubcf8\uae4c\uc9c0 \ud55c \ubc88\uc5d0 \ub9cc\ub4e4\uc5c8\ub2e4. \ucf58\uc149\ud2b8 A \uc640 '3D Vox' \ud574\uc11d\uc740 \uc544\uc9c1 \uc758\ub8b0\uc790 \ud655\uc778 \uc804\uc774\ub2e4.",
+        "approved_budget_usd": 0
+      },
+      "metadata": {
+        "preflight": {
+          "composition_runtimes": {
+            "ffmpeg": true,
+            "remotion": true,
+            "hyperframes": true
+          },
+          "tts": "0/19",
+          "music_generation": "0/8",
+          "image_generation": "0/31",
+          "video_generation": "0/35",
+          "note": "Remotion \uc740 preflight \uc2dc\uc810\uc5d0 remotion-composer node_modules \ubbf8\uc124\uce58\ub85c false \uc600\uace0, npm install \ud6c4 \uc0ac\uc6a9 \uac00\ub2a5"
+        }
+      }
+    },
+    "decision_log": {
+      "version": "1.0",
+      "project_id": "teachers-lost-their-minds",
+      "decisions": [
+        {
+          "decision_id": "d01",
+          "stage": "proposal",
+          "category": "pipeline_selection",
+          "subject": "\uc81c\uc791 \ud30c\uc774\ud504\ub77c\uc778",
+          "options_considered": [
+            {
+              "option_id": "animation",
+              "label": "animation",
+              "score": 0.9,
+              "reason": "\ubaa8\uc158\uadf8\ub798\ud53d\u00b7\uba85\uc2dc\uc801 Three.js \uc7a5\uba74 \uc911\uc2ec"
+            },
+            {
+              "option_id": "animated-explainer",
+              "label": "animated-explainer",
+              "score": 0.5,
+              "reason": "\uc0dd\uc131 \uc774\ubbf8\uc9c0\u00b7TTS \uc804\uc81c",
+              "rejected_because": "\uc0dd\uc131 \uc5d0\uc14b\u00b7TTS \ub97c \uc4f0\uc9c0 \uc54a\uc74c"
+            },
+            {
+              "option_id": "character-animation",
+              "label": "character-animation",
+              "score": 0.4,
+              "reason": "\ub9ac\uae45 \uce90\ub9ad\ud130 \uc5f0\uae30 \uc911\uc2ec",
+              "rejected_because": "SVG \ub9ac\uadf8 \uae30\ubc18 \u2014 3D \ube14\ub85d \ud53c\uaddc\uc5b4\uc640 \ub9de\uc9c0 \uc54a\uc74c"
+            }
+          ],
+          "selected": "animation",
+          "reason": "\ub300\ubcf8\uc774 \uc8fc\uc5b4\uc9c4 \ubaa8\uc158 \uc911\uc2ec \uc791\ud488\uc774\uace0 3D \uc7a5\uba74\uc744 \ucf54\ub4dc\ub85c \uc870\ub9bd\ud55c\ub2e4.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d02",
+          "stage": "proposal",
+          "category": "render_runtime_selection",
+          "subject": "\ucef4\ud3ec\uc9c0\uc158 \ub7f0\ud0c0\uc784",
+          "options_considered": [
+            {
+              "option_id": "remotion",
+              "label": "Remotion",
+              "score": 0.9,
+              "reason": "\ud504\ub808\uc784 \uacb0\uc815\ub860\uc801 React \uc7a5\uba74. \uad6c\uc808 \uc2dc\uc791 \ud504\ub808\uc784\uc744 \uadf8\ub300\ub85c props \ub85c \uc368\uc11c \uc27c\ud45c \uc2f1\ud06c\uac00 \uc9c1\uc811\uc801. @remotion/three \ub85c \uc2e4\uc81c 3D."
+            },
+            {
+              "option_id": "hyperframes",
+              "label": "HyperFrames",
+              "score": 0.6,
+              "reason": "HTML/GSAP \ud0a4\ub124\ud2f1 \ud0c0\uc774\ud3ec\uc5d0 \uac15\ud558\uace0 Three.js \uc5b4\ub311\ud130\ub3c4 \uc788\uc74c",
+              "rejected_because": "\uc758\ub8b0\uc790\uac00 Remotion \uc744 \uc9c0\uc815. \uc774 \uba38\uc2e0\uc5d0\uc11c \uc0ac\uc6a9 \uac00\ub2a5\ud588\uc73c\ub098 \uc120\ud0dd\ud558\uc9c0 \uc54a\uc74c."
+            },
+            {
+              "option_id": "ffmpeg",
+              "label": "FFmpeg",
+              "score": 0.1,
+              "reason": "\ub2e8\uc21c \uc774\uc5b4 \ubd99\uc774\uae30",
+              "rejected_because": "\ubaa8\uc158\uc774 \ud575\uc2ec\uc778 \uc758\ub8b0\uc5d0 \ubd80\uc801\ud569"
+            }
+          ],
+          "selected": "remotion",
+          "reason": "\uc758\ub8b0 \ubb38\uc7a5\uc5d0 'remotion \u2026 \uc0ac\uc6a9\ud574\uc11c'\uac00 \uba85\uc2dc\ub418\uc5b4 \uc788\ub2e4.",
+          "user_visible": true,
+          "user_approved": true,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d03",
+          "stage": "proposal",
+          "category": "composition_mode",
+          "subject": "\uc791\uc131 \ubc29\uc2dd",
+          "options_considered": [
+            {
+              "option_id": "atelier",
+              "label": "\uc544\ud2c0\ub9ac\uc5d0(\uc9c1\uc811 \uc791\uc131)",
+              "score": 0.95,
+              "reason": "\ud788\uc5b4\ub85c \uc791\ud488. 3D \ub514\uc624\ub77c\ub9c8\ub294 \uc2a4\ud1a1 scene-type \uc73c\ub85c \ub9cc\ub4e4 \uc218 \uc5c6\uc74c."
+            },
+            {
+              "option_id": "templated",
+              "label": "\ud15c\ud50c\ub9bf(cut.type \uc870\ub9bd)",
+              "score": 0.1,
+              "reason": "\ube60\ub974\uace0 \uc2f8\uc9c0\ub9cc text_card\u00b7stat_card \uc870\ud569\uc73c\ub85c\ub294 3D\u00b7\uad6c\uc808 \uc2f1\ud06c \ubd88\uac00",
+              "rejected_because": "\uc694\uccad\ud55c \ub8e9\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc74c"
+            }
+          ],
+          "selected": "atelier",
+          "reason": "\uc1fc\ub9b4\uc740 \ub2e8\uc77c \ub0a9\ud488\ubb3c \ud788\uc5b4\ub85c \uc791\uc5c5\uc774\uace0 3D \uc7a5\uba74\uc774 \ud544\uc694\ud558\ub2e4. \ud1a0\ud070\u00b7\ubc18\ubcf5 \ube44\uc6a9\uc774 \ud15c\ud50c\ub9bf\ubcf4\ub2e4 \ud06c\ub2e4\ub294 \uc810\uc740 \uac10\uc218.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d04",
+          "stage": "proposal",
+          "category": "playbook_selection",
+          "subject": "\uc2a4\ud0c0\uc77c",
+          "options_considered": [
+            {
+              "option_id": "custom",
+              "label": "\ucee4\uc2a4\ud140 \uc544\ud2b8 \ub514\ub809\uc158(art-direction.md)",
+              "score": 0.9,
+              "reason": "\u20183D Vox\u2019\uc5d0 \ub9de\ub294 \ud504\ub9ac\uc14b\uc774 \uc5c6\uc74c"
+            },
+            {
+              "option_id": "flat-motion-graphics",
+              "label": "flat-motion-graphics",
+              "score": 0.4,
+              "reason": "\uc18c\uc15c\uc6a9 \ud3c9\uba74 \ubaa8\uc158",
+              "rejected_because": "3D \uc544\ub2d8"
+            },
+            {
+              "option_id": "clean-professional",
+              "label": "clean-professional",
+              "score": 0.2,
+              "reason": "\uae30\uc5c5\uc6a9 \uc815\ub3c8\ub41c \ud1a4",
+              "rejected_because": "\ubc08 \ud1a4\uacfc \ucda9\ub3cc"
+            }
+          ],
+          "selected": "custom",
+          "reason": "styles/ \uc5d0 'vox' \ud504\ub9ac\uc14b\uc774 \uc5c6\uc5b4 taste_profile \uc744 \uc9c1\uc811 \uc37c\ub2e4. \u20183D Vox\u2019\ub294 3D \ub514\uc624\ub77c\ub9c8 + Vox \uc2dd \ud3b8\uc9d1 \uc8fc\uc11d\uc73c\ub85c \ud574\uc11d\ud588\ub2e4.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d05",
+          "stage": "proposal",
+          "category": "concept_selection",
+          "subject": "\ucf58\uc149\ud2b8",
+          "options_considered": [
+            {
+              "option_id": "A",
+              "label": "\ubbf8\ub2c8\uc5b4\ucc98 \uc0ac\uac74 \ubcf4\uace0\uc11c",
+              "score": 0.9,
+              "reason": "3D\u00b7Vox\u00b7\uc27c\ud45c \uc2f1\ud06c\ub97c \ubaa8\ub450 \uc218\uc6a9"
+            },
+            {
+              "option_id": "B",
+              "label": "2D \uc885\uc774 \ucf5c\ub77c\uc8fc",
+              "score": 0.5,
+              "reason": "\uc815\ud1b5 Vox",
+              "rejected_because": "3D \uc694\uccad\uacfc \ubd88\uc77c\uce58"
+            },
+            {
+              "option_id": "C",
+              "label": "\ud754\ub4e4\ub9ac\ub294 \ud0d1 \uc6d0\ud14c\uc774\ud06c",
+              "score": 0.6,
+              "reason": "\uc6d0\ubcf8 \ubc08\uacfc \uac00\uc7a5 \uc720\uc0ac",
+              "rejected_because": "\uc138\ubd80 \ub3d9\uc791\uc744 \uadf8\ub9b4 \uc790\ub9ac\uac00 \uc5c6\uc74c \u2014 A \uc5d0 \ud761\uc218"
+            }
+          ],
+          "selected": "A",
+          "reason": "proposal_packet.selected_concept \ucc38\uc870.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d06",
+          "stage": "proposal",
+          "category": "voice_selection",
+          "subject": "\ub0b4\ub808\uc774\uc158",
+          "options_considered": [
+            {
+              "option_id": "user_recorded",
+              "label": "\uc758\ub8b0\uc790 \uc9c1\uc811 \ub179\uc74c",
+              "score": 1.0,
+              "reason": "\uc758\ub8b0\uc5d0 \uba85\uc2dc('\ub530\ub85c \ub179\uc74c \ud560\uac70\uc57c')"
+            },
+            {
+              "option_id": "tts",
+              "label": "TTS \uac00\uc774\ub4dc \ud2b8\ub799",
+              "score": 0.2,
+              "reason": "\ud0c0\uc774\ubc0d \ud655\uc778\uc6a9 \uc784\uc2dc \uc74c\uc131",
+              "rejected_because": "TTS \uc81c\uacf5\uc790 0/19 \uc124\uc815 \u2014 \uc0ac\uc6a9 \ubd88\uac00, \uc758\ub8b0 \ubc94\uc704\ub3c4 \uc544\ub2d8"
+            }
+          ],
+          "selected": "user_recorded",
+          "reason": "\uc601\uc0c1\uc740 \ubb34\uc74c. \ucd08\ub2f9 6.3\uc74c\uc808 \ucd94\uc815 \ud0c0\uc774\ubc0d\uc73c\ub85c \uadf8\ub9bc\uc744 \uc7a0\uadf8\uace0, \ub179\uc74c \ud6c4 SRT \ub85c \uc7ac\uc815\ub82c\ud560 \uc218 \uc788\uac8c \ud588\ub2e4.",
+          "user_visible": true,
+          "user_approved": true,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d07",
+          "stage": "proposal",
+          "category": "music_source",
+          "subject": "\uc74c\uc545",
+          "options_considered": [
+            {
+              "option_id": "none",
+              "label": "\ub80c\ub354\uc5d0 \uc74c\uc545 \uc5c6\uc74c",
+              "score": 0.8,
+              "reason": "\ub354\ube59 \ubbf9\uc2a4 \ub2e8\uacc4\uc5d0\uc11c \uc5b9\ub294 \ud3b8\uc774 \uc548\uc804"
+            },
+            {
+              "option_id": "library",
+              "label": "music_library/ \ud2b8\ub799",
+              "score": 0.0,
+              "reason": "\ubcf4\uc720 \ud2b8\ub799 \uc0ac\uc6a9",
+              "rejected_because": "\ud3f4\ub354\uac00 \ube44\uc5b4 \uc788\uc74c"
+            },
+            {
+              "option_id": "generate",
+              "label": "\uc74c\uc545 \uc0dd\uc131 API",
+              "score": 0.0,
+              "reason": "\uc0dd\uc131 \uc74c\uc545",
+              "rejected_because": "\uc81c\uacf5\uc790 0/8 \uc124\uc815"
+            },
+            {
+              "option_id": "pixabay",
+              "label": "Pixabay \ubb34\ub8cc \uc74c\uc6d0 \uac80\uc0c9",
+              "score": 0.3,
+              "reason": "\ud0a4 \uc5c6\uc774 \uac80\uc0c9 \uac00\ub2a5",
+              "rejected_because": "\uc800\uc791\uad8c\u00b7\ud1a4 \ud655\uc778\uc744 \uc758\ub8b0\uc790\uac00 \uc9c1\uc811 \ud558\ub294 \ud3b8\uc774 \uc548\uc804\ud574 \uc774\ubc88 \ub80c\ub354\uc5d0\ub294 \ub123\uc9c0 \uc54a\uc74c"
+            }
+          ],
+          "selected": "none",
+          "reason": "\uc74c\uc545 \uc5c6\uc774 \ub0a9\ud488\ud55c\ub2e4\ub294 \uc810\uc744 \uba85\uc2dc\uc801\uc73c\ub85c \uc54c\ub9b0\ub2e4. \uc6d0\ud558\uba74 \ud2b8\ub799\uc744 \ubc1b\uc544 \uc5b9\uc744 \uc218 \uc788\ub2e4.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d08",
+          "stage": "proposal",
+          "category": "motion_commitment",
+          "subject": "\ubaa8\uc158 \uc57d\uc18d",
+          "options_considered": [
+            {
+              "option_id": "real_3d",
+              "label": "\uc2e4\uc81c 3D \ubaa8\uc158",
+              "score": 1.0,
+              "reason": "Three.js \uc7a5\uba74\uc744 \ud504\ub808\uc784\ub9c8\ub2e4 \ub80c\ub354"
+            },
+            {
+              "option_id": "stills",
+              "label": "\uc2a4\ud2f8 + \ucf04 \ubc88\uc2a4",
+              "score": 0.0,
+              "reason": "\uc815\uc9c0 \uc774\ubbf8\uc9c0",
+              "rejected_because": "\uae08\uc9c0\ub41c \ub300\uccb4"
+            }
+          ],
+          "selected": "real_3d",
+          "reason": "WebGL \uc740 \uc774 \ucee8\ud14c\uc774\ub108\uc5d0\uc11c swangle \ub85c \ud655\uc778(1080p \ud504\ub808\uc784\ub2f9 \uc57d 0.3\ucd08).",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d09",
+          "stage": "proposal",
+          "category": "approval_policy",
+          "subject": "\uc2b9\uc778 \uac8c\uc774\ud2b8 \ucc98\ub9ac",
+          "options_considered": [
+            {
+              "option_id": "first_cut_ahead",
+              "label": "\uac8c\uc774\ud2b8 \uc55e\uc9c8\ub7ec 1\ucc28 \uc644\uc131\ubcf8 \uc81c\uc791",
+              "score": 0.7,
+              "reason": "\ube44\uc6a9 0, \ub418\ub3cc\ub9ac\uae30 \uc26c\uc6c0, \uc758\ub8b0\uac00 \uad6c\uccb4\uc801\uc778 \uc81c\uc791 \uc694\uccad"
+            },
+            {
+              "option_id": "stop_at_each_gate",
+              "label": "\uac8c\uc774\ud2b8\ub9c8\ub2e4 \uba48\ucda4",
+              "score": 0.5,
+              "reason": "OpenMontage \uae30\ubcf8 \uaddc\uc57d",
+              "rejected_because": "\uc790\ub9ac\ub97c \ube44\uc6b4 \uc758\ub8b0\uc790\uc5d0\uac8c \uc81c\uc548\uc11c\ub9cc \ub0a8\uae30\ub294 \uac83\ubcf4\ub2e4 \ubcfc \uc218 \uc788\ub294 \uacb0\uacfc\ubb3c\uc774 \ub0ab\ub2e4\uace0 \ud310\ub2e8"
+            }
+          ],
+          "selected": "first_cut_ahead",
+          "reason": "\uc5d0\uc774\uc804\ud2b8 \ud310\ub2e8\uc774\uba70 \uc758\ub8b0\uc790\uc758 \uba85\uc2dc\uc801 \uc0ac\uc804 \uc2b9\uc778\uc774 \uc544\ub2c8\ub2e4. \uadf8\ub798\uc11c proposal \uc740 awaiting_human, \uc774\ud6c4 \ub2e8\uacc4\ub294 in_progress(\ucd08\uc548)\ub85c\ub9cc \uae30\ub85d\ud588\ub2e4. \uc5b4\ub290 \ub2e8\uacc4\ub4e0 \uc218\uc815 \uc694\uccad \uac00\ub2a5.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        },
+        {
+          "decision_id": "d10",
+          "stage": "compose",
+          "category": "visual_accuracy_check",
+          "subject": "\uc81c\ud488 \ud45c\ud604\uc758 \uc815\ud655\uc131",
+          "options_considered": [
+            {
+              "option_id": "script_only",
+              "label": "\ub300\ubcf8\uc774 \ub9d0\ud55c \uac83\ub9cc \ube14\ub85d \uc740\uc720\ub85c \ud45c\ud604",
+              "score": 0.9,
+              "reason": "\ubc84\ud2bc \ud558\ub098 \u2192 \uc790\ub3d9 \ucd2c\uc601\u00b7\uc5c5\ub85c\ub4dc\u00b7\uc2dc\uccad \uccb4\ud06c\u00b7\uad00\ub9ac"
+            },
+            {
+              "option_id": "ui_mock",
+              "label": "\uc81c\ud488 \ud654\uba74 \ubaa9\uc5c5",
+              "score": 0.2,
+              "reason": "\uad6c\uccb4\uc801\uc774\uc9c0\ub9cc \uc2e4\uc81c UI \uc640 \ub2e4\ub97c \uc704\ud5d8",
+              "rejected_because": "\uae30\ub2a5\uc744 \ud654\uba74\uc73c\ub85c \ub2e8\uc815\ud558\uac8c \ub428"
+            }
+          ],
+          "selected": "script_only",
+          "reason": "\ud654\uba74\uc5d0 \ucd94\uac00\ud55c \uc218\uce58(\uc800\uc7a5 \uacf5\uac04 97%, 8.4GB\u21920.9GB, \uc2dc\uccad 7\uba85\u00b7\ubbf8\uc2dc\uccad 5\uba85, \uc5d0\ub108\uc9c0 3%)\ub294 \ubaa8\ub450 '\uc61b\ub0a0 \ubc29\uc2dd'\uc758 \uace0\ucda9\uc744 \uadf8\ub9b0 \uc5f0\ucd9c\uc6a9 \uc608\uc2dc\uc774\uba70 \uc81c\ud488 \uc131\ub2a5 \uc218\uce58\uac00 \uc544\ub2c8\ub2e4. \u2018\ud3b8\uc9d1\u2019\uc740 \ub300\ubcf8\uc5d0 \uc790\ub3d9\ud654 \ud56d\ubaa9\uc73c\ub85c \uc5c6\uc73c\ubbc0\ub85c '\uc790\ub3d9' \ub300\uc2e0 \ucde8\uc18c\uc120(\uc548 \ud574\ub3c4 \ub428)\uc73c\ub85c \ucc98\ub9ac\ud588\ub2e4.",
+          "user_visible": true,
+          "user_approved": false,
+          "confidence": 0.8
+        }
+      ]
+    }
+  }
+}

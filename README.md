@@ -1,3 +1,24 @@
+# Classin 쇼릴 모음
+
+| 작품 | 길이 | 스타일 | 위치 |
+| --- | --- | --- | --- |
+| **선생님들은 멘탈이 나가 버렸습니다** — ClassIn 자동 녹화 스토리 쇼릴 | 2분 11초 · 16:9 / 9:16 · 무음(더빙 별도) | 3D Vox — 블록 디오라마 + 편집 주석 · Remotion + Three.js · OpenMontage 아틀리에 | [`projects/teachers-lost-their-minds/`](projects/teachers-lost-their-minds/README.md) |
+| Classin AI 커머셜 쇼릴 v4 | 30초 · 16:9 · 무음 | 에디토리얼 키네틱 모션그래픽 · Remotion | `src/` (아래 문서) |
+
+```bash
+npm install
+```
+
+```bash
+npm run mental:dev      # '멘탈' 쇼릴 — Remotion Studio
+```
+
+```bash
+npm run mental:render   # projects/teachers-lost-their-minds/renders/final.mp4
+```
+
+---
+
 # Classin AI 커머셜 쇼릴 (30초, v4)
 
 **"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고

@@ -1,0 +1,128 @@
+{
+  "version": "1.0",
+  "project_id": "teachers-lost-their-minds",
+  "pipeline_type": "animation",
+  "stage": "assets",
+  "status": "in_progress",
+  "timestamp": "2026-11-10T02:27:19.130626+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": true,
+  "human_approved": false,
+  "artifacts": {
+    "asset_manifest": {
+      "version": "1.0",
+      "assets": [
+        {
+          "id": "font-pretendard-medium",
+          "type": "font",
+          "path": "public/fonts/Pretendard-Medium.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "Pretendard"
+        },
+        {
+          "id": "font-pretendard-semibold",
+          "type": "font",
+          "path": "public/fonts/Pretendard-SemiBold.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "Pretendard"
+        },
+        {
+          "id": "font-pretendard-bold",
+          "type": "font",
+          "path": "public/fonts/Pretendard-Bold.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "Pretendard"
+        },
+        {
+          "id": "font-pretendard-extrabold",
+          "type": "font",
+          "path": "public/fonts/Pretendard-ExtraBold.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "Pretendard"
+        },
+        {
+          "id": "font-pretendard-black",
+          "type": "font",
+          "path": "public/fonts/Pretendard-Black.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "Pretendard"
+        },
+        {
+          "id": "font-blackhansans-ko",
+          "type": "font",
+          "path": "public/fonts/BlackHanSans-Korean.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "@fontsource/black-han-sans 5.3.0"
+        },
+        {
+          "id": "font-blackhansans-latin",
+          "type": "font",
+          "path": "public/fonts/BlackHanSans-Latin.woff2",
+          "source_tool": "static",
+          "scene_id": "all",
+          "license": "SIL OFL 1.1",
+          "provider": "@fontsource/black-han-sans 5.3.0"
+        },
+        {
+          "id": "brand-wordmark",
+          "type": "image",
+          "path": "public/brand/classin-wordmark.png",
+          "source_tool": "static",
+          "scene_id": "s14",
+          "subtype": "brand_logo",
+          "provider": "classinkr-main/movie_ads public/brand"
+        },
+        {
+          "id": "brand-stacked",
+          "type": "image",
+          "path": "public/brand/classin-logo-stacked.png",
+          "source_tool": "static",
+          "scene_id": "s21",
+          "subtype": "brand_logo",
+          "provider": "classinkr-main/movie_ads public/brand"
+        },
+        {
+          "id": "world-blockkit",
+          "type": "3d_world",
+          "path": "three/kit.tsx",
+          "source_tool": "hand_authored",
+          "scene_id": "all",
+          "generation_summary": "\ub465\uadfc \ubaa8\uc11c\ub9ac \ube14\ub85d\u00b7\uc6d0\uae30\ub465\u00b7\uad6c\ub85c \uc870\ub9bd\ud55c \uce90\ub9ad\ud130\u00b7\uc18c\ud488 \ud0a4\ud2b8. \uc678\ubd80 \ubaa8\ub378\u00b7\ud14d\uc2a4\ucc98 \uc5c6\uc74c.",
+          "provider": "threejs"
+        },
+        {
+          "id": "guide-srt",
+          "type": "subtitle",
+          "path": "deliverables/narration-guide.srt",
+          "source_tool": "scripts/timeline.ts",
+          "scene_id": "all",
+          "format": "srt"
+        }
+      ],
+      "total_cost_usd": 0,
+      "metadata": {
+        "layer3_skills_read": [
+          "remotion-best-practices",
+          "threejs-fundamentals"
+        ],
+        "generated_assets": 0,
+        "note": "\uc0dd\uc131\ud615 \uc5d0\uc14b(\uc774\ubbf8\uc9c0\u00b7\uc601\uc0c1\u00b7TTS\u00b7\uc74c\uc545) \uc5c6\uc74c. \uc7a5\uba74 \uc790\uccb4\uac00 \ucf54\ub4dc."
+      }
+    }
+  },
+  "metadata": {
+    "note": "1\ucc28 \uc644\uc131\ubcf8\uc744 \uac8c\uc774\ud2b8 \uc55e\uc9c8\ub7ec \ub9cc\ub4e0 \ucd08\uc548 \ub2e8\uacc4. proposal \uc774 \uc2b9\uc778\ub418\uba74 completed \ub85c \ub2e4\uc2dc \uae30\ub85d\ud55c\ub2e4(decision_log d09)."
+  }
+}

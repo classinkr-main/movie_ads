@@ -5,3 +5,10 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+
+# OpenMontage 프로젝트 워크스페이스 — 소스·아티팩트·최종 렌더만 커밋
+projects/*/assets/
+projects/*/history/
+projects/*/renders/segments/
+projects/*/renders/*-draft.mp4
+projects/*/renders/.remotion*

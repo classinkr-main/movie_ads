@@ -1,0 +1,112 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "id": "font-pretendard-medium",
+      "type": "font",
+      "path": "public/fonts/Pretendard-Medium.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "Pretendard"
+    },
+    {
+      "id": "font-pretendard-semibold",
+      "type": "font",
+      "path": "public/fonts/Pretendard-SemiBold.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "Pretendard"
+    },
+    {
+      "id": "font-pretendard-bold",
+      "type": "font",
+      "path": "public/fonts/Pretendard-Bold.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "Pretendard"
+    },
+    {
+      "id": "font-pretendard-extrabold",
+      "type": "font",
+      "path": "public/fonts/Pretendard-ExtraBold.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "Pretendard"
+    },
+    {
+      "id": "font-pretendard-black",
+      "type": "font",
+      "path": "public/fonts/Pretendard-Black.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "Pretendard"
+    },
+    {
+      "id": "font-blackhansans-ko",
+      "type": "font",
+      "path": "public/fonts/BlackHanSans-Korean.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "@fontsource/black-han-sans 5.3.0"
+    },
+    {
+      "id": "font-blackhansans-latin",
+      "type": "font",
+      "path": "public/fonts/BlackHanSans-Latin.woff2",
+      "source_tool": "static",
+      "scene_id": "all",
+      "license": "SIL OFL 1.1",
+      "provider": "@fontsource/black-han-sans 5.3.0"
+    },
+    {
+      "id": "brand-wordmark",
+      "type": "image",
+      "path": "public/brand/classin-wordmark.png",
+      "source_tool": "static",
+      "scene_id": "s14",
+      "subtype": "brand_logo",
+      "provider": "classinkr-main/movie_ads public/brand"
+    },
+    {
+      "id": "brand-stacked",
+      "type": "image",
+      "path": "public/brand/classin-logo-stacked.png",
+      "source_tool": "static",
+      "scene_id": "s21",
+      "subtype": "brand_logo",
+      "provider": "classinkr-main/movie_ads public/brand"
+    },
+    {
+      "id": "world-blockkit",
+      "type": "3d_world",
+      "path": "three/kit.tsx",
+      "source_tool": "hand_authored",
+      "scene_id": "all",
+      "generation_summary": "둥근 모서리 블록·원기둥·구로 조립한 캐릭터·소품 키트. 외부 모델·텍스처 없음.",
+      "provider": "threejs"
+    },
+    {
+      "id": "guide-srt",
+      "type": "subtitle",
+      "path": "deliverables/narration-guide.srt",
+      "source_tool": "scripts/timeline.ts",
+      "scene_id": "all",
+      "format": "srt"
+    }
+  ],
+  "total_cost_usd": 0,
+  "metadata": {
+    "layer3_skills_read": [
+      "remotion-best-practices",
+      "threejs-fundamentals"
+    ],
+    "generated_assets": 0,
+    "note": "생성형 에셋(이미지·영상·TTS·음악) 없음. 장면 자체가 코드."
+  }
+}
