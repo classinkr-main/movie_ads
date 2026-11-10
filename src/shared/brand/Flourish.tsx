@@ -362,3 +362,22 @@ export const SkeletonLine: React.FC<{ width: number; delay?: number; height?: nu
   const p = sp(frame - delay, fps, SMOOTH, duration);
   return <div style={{ height, width: `${width * p}%`, borderRadius: 999, background: color }} />;
 };
+
+// 스파크라인 — 값 배열을 작은 선 그래프로 그린다. 선이 왼쪽에서 오른쪽으로 그려지고 끝점이 튀어나온다.
+export const Sparkline: React.FC<{ values: number[]; delay: number; width: number; height: number; color: string; duration?: number }> = ({ values, delay, width, height, color, duration = 30 }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = sp(frame - delay, fps, SMOOTH, duration);
+  const min = Math.min(...values) - 2;
+  const max = Math.max(...values) + 2;
+  const pts = values.map((v, i) => [(i / (values.length - 1)) * (width - 8) + 4, height - 4 - ((v - min) / (max - min)) * (height - 8)] as const);
+  const d = pts.map((pt, i) => `${i === 0 ? "M" : "L"}${pt[0].toFixed(1)},${pt[1].toFixed(1)}`).join(" ");
+  const last = pts[pts.length - 1];
+  const dotS = sp(frame - delay - duration * 0.7, fps, SMOOTH, 10);
+  return (
+    <svg width={width} height={height} style={{ overflow: "visible" }}>
+      <path d={d} stroke={color} strokeWidth={3} fill="none" strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} />
+      <circle cx={last[0]} cy={last[1]} r={5 * dotS} fill={color} />
+    </svg>
+  );
+};

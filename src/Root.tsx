@@ -29,6 +29,8 @@ import short06 from "./shorts/specs/short-06-ai-kpi.json";
 import { edlFrames } from "./forum/ForumEdit";
 import { Brag } from "./brag/Brag";
 import { BRAG } from "./brag/timeline";
+import { TeacherMgmt, TM_DURATION_FRAMES } from "./teacher-mgmt/TeacherMgmt";
+import { TeacherMgmtValue, TMV_DURATION_FRAMES } from "./teacher-mgmt/TeacherMgmtValue";
 import {
   EVENT_EDL,
   ForumEvent,
@@ -105,6 +107,10 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     <Folder name="brag">
       <Composition id="Brag" component={Brag} defaultProps={{ typeset: "couture" as const }} durationInFrames={BRAG.frames} fps={BRAG.fps} width={1080} height={1920} />
+    </Folder>
+    <Folder name="teacher-mgmt">
+      <Composition id="TeacherMgmt" component={TeacherMgmt} durationInFrames={TM_DURATION_FRAMES} fps={FPS} width={1920} height={1080} />
+      <Composition id="TeacherMgmtValue" component={TeacherMgmtValue} durationInFrames={TMV_DURATION_FRAMES} fps={FPS} width={1920} height={1080} />
     </Folder>
   </>
 );

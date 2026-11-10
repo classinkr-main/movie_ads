@@ -3,10 +3,10 @@ import { AbsoluteFill, interpolate, useVideoConfig } from "remotion";
 import type { TransitionPresentation, TransitionPresentationComponentProps } from "@remotion/transitions";
 import { C } from "./theme";
 
-/* ---------- 커스텀 프레젠테이션 ---------- */
+/* ---------- 커스텀 프레젠테이션 — Showreel(v4)·TeacherMgmt·브래그컷이 함께 쓴다 ---------- */
 
-// 연두 스윕
-type SweepProps = { direction: "ltr" | "rtl" };
+// 연두 스윕 — 기울어진 연두 띠가 지나가며 다음 씬이 드러난다
+export type SweepProps = { direction: "ltr" | "rtl" };
 const SweepComp: React.FC<TransitionPresentationComponentProps<SweepProps>> = ({ children, presentationDirection, presentationProgress, passedProps }) => {
   const p = presentationProgress;
   if (presentationDirection === "exiting") {
@@ -27,7 +27,7 @@ const SweepComp: React.FC<TransitionPresentationComponentProps<SweepProps>> = ({
 };
 export const sweep = (props: SweepProps): TransitionPresentation<SweepProps> => ({ component: SweepComp, props });
 
-// 패럴랙스 푸시 — 기능 씬 사이: 앞 씬은 왼쪽으로 살짝 밀리며 사라지고, 다음 씬은 오른쪽에서 들어온다
+// 패럴랙스 푸시 — 앞 씬은 왼쪽으로 살짝 밀리며 사라지고, 다음 씬은 오른쪽에서 들어온다
 type PushProps = Record<string, never>;
 const PushComp: React.FC<TransitionPresentationComponentProps<PushProps>> = ({ children, presentationDirection, presentationProgress }) => {
   const p = presentationProgress;
@@ -38,7 +38,7 @@ const PushComp: React.FC<TransitionPresentationComponentProps<PushProps>> = ({ c
 };
 export const push = (): TransitionPresentation<PushProps> => ({ component: PushComp, props: {} });
 
-// 연두 아이리스
+// 연두 아이리스 — 가운데서 원이 커지며 다음 씬이 열린다
 type IrisProps = Record<string, never>;
 const IrisComp: React.FC<TransitionPresentationComponentProps<IrisProps>> = ({ children, presentationDirection, presentationProgress }) => {
   const { width, height } = useVideoConfig();

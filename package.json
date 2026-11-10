@@ -40,7 +40,11 @@
     "render:forum-move": "remotion render ForumMove out/forum-sketch-move-master.mp4 --crf=17",
     "brag:audio": "python3 scripts/brag-audio.py",
     "brag:render": "remotion render Brag out/brag/brag-raw.mp4 && sh scripts/brag-poster.sh",
-    "brag": "npm run brag:audio && npm run brag:render"
+    "brag": "npm run brag:audio && npm run brag:render",
+    "render:tm": "remotion render TeacherMgmt out/classin-ai-teacher-mgmt.mp4",
+    "render:tmv": "remotion render TeacherMgmtValue out/classin-ai-teacher-mgmt-value.mp4",
+    "still:tm": "remotion still TeacherMgmt out/still-tm.png --frame=400",
+    "still:tmv": "remotion still TeacherMgmtValue out/still-tmv.png --frame=400"
   },
   "repository": {
     "type": "git",
