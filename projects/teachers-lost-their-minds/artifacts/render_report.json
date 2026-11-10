@@ -10,9 +10,19 @@
       "duration_seconds": 131.3,
       "file_size_bytes": 38757433,
       "platform_target": "youtube 16:9"
+    },
+    {
+      "path": "renders/final-vertical.mp4",
+      "format": "mp4",
+      "codec": "h264",
+      "resolution": "1080x1920",
+      "fps": 30.0,
+      "duration_seconds": 131.3,
+      "file_size_bytes": 34609017,
+      "platform_target": "shorts/reels 9:16"
     }
   ],
-  "render_time_seconds": 2694.0,
+  "render_time_seconds": 5380.0,
   "render_grammar": "animation-first",
   "warnings": [
     "무음 마스터 — 더빙·음악·효과음은 후반 믹스에서 얹는다.",

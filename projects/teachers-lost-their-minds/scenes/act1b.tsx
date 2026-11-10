@@ -674,7 +674,7 @@ const S09: SceneDef = {
     const level = Math.round((1 - tw(f, b14.ph[2].start, b14.ph[3].start + 8 - b14.ph[2].start, E.io) * 0.97) * 100);
     return (
       <>
-        <Tag f={f} t0={b14.ph[1].start + 2} t1={fall - 2} at={stack} dx={tall ? -40 : -210} dy={tall ? -260 : -60} text="전부 수업 ‘외’ 시간" tone="red" u={u} />
+        <Tag f={f} t0={b14.ph[1].start + 2} t1={fall - 2} at={stack} dx={tall ? -40 : -210} dy={tall ? -400 : -60} text="전부 수업 ‘외’ 시간" tone="red" u={u} />
         <Tag f={f} t0={b14.ph[2].start + 4} t1={b14.end - 4} at={bat} dx={tall ? -10 : 130} dy={-120} text={`선생님 에너지 ${level}%`} tone={level < 25 ? "red" : "paper"} u={u} />
       </>
     );

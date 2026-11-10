@@ -94,7 +94,8 @@
       "transcript_comparison skipped: narration_transcript not provided"
     ],
     "other_outputs": {
-      "final.mp4": "pass"
+      "final.mp4": "pass",
+      "final-vertical.mp4": "pass"
     }
   }
 }

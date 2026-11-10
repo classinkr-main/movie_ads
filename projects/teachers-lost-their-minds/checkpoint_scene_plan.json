@@ -4,7 +4,7 @@
   "pipeline_type": "animation",
   "stage": "scene_plan",
   "status": "in_progress",
-  "timestamp": "2026-11-10T02:27:19.115142+00:00",
+  "timestamp": "2026-11-10T04:04:33.328600+00:00",
   "checkpoint_policy": "guided",
   "human_approval_required": true,
   "human_approved": false,
@@ -464,6 +464,6 @@
     }
   },
   "metadata": {
-    "note": "1\ucc28 \uc644\uc131\ubcf8\uc744 \uac8c\uc774\ud2b8 \uc55e\uc9c8\ub7ec \ub9cc\ub4e0 \ucd08\uc548 \ub2e8\uacc4. proposal \uc774 \uc2b9\uc778\ub418\uba74 completed \ub85c \ub2e4\uc2dc \uae30\ub85d\ud55c\ub2e4(decision_log d09)."
+    "note": "1\ucc28 \uc644\uc131\ubcf8\uc744 \uc2b9\uc778 \uac8c\uc774\ud2b8 \uc55e\uc9c8\ub7ec \ub9cc\ub4e0 \ucd08\uc548 \ub2e8\uacc4\uc785\ub2c8\ub2e4. proposal \uc774 \uc2b9\uc778\ub418\uba74 completed \ub85c \ub2e4\uc2dc \uae30\ub85d\ud569\ub2c8\ub2e4(decision_log d09)."
   }
 }

@@ -4,7 +4,7 @@
   "pipeline_type": "animation",
   "stage": "proposal",
   "status": "awaiting_human",
-  "timestamp": "2026-11-10T02:27:26.571073+00:00",
+  "timestamp": "2026-11-10T04:04:33.259070+00:00",
   "checkpoint_policy": "guided",
   "human_approval_required": true,
   "human_approved": false,
@@ -202,7 +202,7 @@
             "quality_level": "free"
           }
         ],
-        "decision_log_ref": "/home/user/calesthio/openmontage/projects/teachers-lost-their-minds/decision_log.json"
+        "decision_log_ref": "decision_log.json"
       },
       "cost_estimate": {
         "total_estimated_usd": 0,
@@ -561,5 +561,9 @@
         }
       ]
     }
+  },
+  "cost_snapshot": {
+    "total_spent_usd": 0,
+    "budget_remaining_usd": 2.0
   }
 }

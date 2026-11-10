@@ -19,6 +19,13 @@
 
 자막 없는 버전이 필요하면 `npm run mental:render:clean` 으로 뽑습니다(`renders/final-clean.mp4`).
 
+알아 둘 점
+
+- **무음**입니다. 더빙·음악·효과음은 들어 있지 않습니다(음악은 더빙 믹스 때 얹는 것을 전제로 뺐습니다).
+- 세로 버전은 같은 3D 장면을 9:16 으로 다시 잡은 것입니다. 교실·연구소처럼 가로로 넓은 세트는 좌우가 잘려 보입니다.
+- 렌더는 장면 18개를 나눠 뽑은 뒤 이어 붙입니다. 한 장면만 고쳤다면 `node projects/teachers-lost-their-minds/scripts/render-segments.mjs --only s05` 처럼 그 장면만 다시 렌더할 수 있습니다(세로는 `--vertical` 추가).
+- OpenMontage 승인 게이트는 열려 있습니다: `checkpoint_proposal.json` 이 `awaiting_human`, 이후 단계는 초안(`in_progress`)으로 기록돼 있습니다. 콘셉트·'3D Vox' 해석을 확인해 주시면 완료로 바꿉니다.
+
 ## 더빙 워크플로
 
 영상 타이밍은 **초당 6.3음절**(밈 쇼츠의 빠르고 건조한 낭독)로 추정해 잠갔습니다. 길이 2분 11초.
@@ -66,7 +73,12 @@ npm run mental:render
 npm run mental:render:vertical
 ```
 
-- GPU 가 없는 리눅스(클라우드·CI)에서는 소프트웨어 GL(`swangle`)로 렌더합니다 — `remotion.config.ts` 가 자동으로 고릅니다. 1080p 기준 프레임당 약 0.3~0.5초.
+```bash
+npm run mental:snapshots
+```
+
+- GPU 가 없는 리눅스(클라우드·CI)에서는 소프트웨어 GL(`swangle`)로 렌더합니다 — `remotion.config.ts` 가 자동으로 고릅니다. 4코어 기준 1080p 한 편에 30~40분.
+- 렌더 스크립트는 세그먼트를 CRF 16 으로 뽑고 납품본을 한 번 더 인코딩합니다(`CRF=22 npm run mental:render` 처럼 조절. 저장소의 파일은 CRF 22).
 - 맥·윈도우에서 다른 GL 백엔드를 쓰려면 `REMOTION_GL=angle` 처럼 지정합니다.
 
 ## 이야기 구조 (4막 · 18장면)
