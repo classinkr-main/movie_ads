@@ -57,7 +57,7 @@ export const GullSheet: React.FC = () => {
 
           {/* 색 */}
           {SWATCH.map(([c, name], i) => {
-            const x = 1290 + (i % 2) * 290;
+            const x = 1226 + (i % 2) * 344;
             const y = 786 + Math.floor(i / 2) * 82;
             return (
               <g key={name}>
