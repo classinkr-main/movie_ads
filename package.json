@@ -26,7 +26,9 @@
     "still:reel": "remotion still BrandReel out/reel-still.png --frame=780",
     "render:guangzhou": "remotion render GuangzhouVlog out/guangzhou-vlog-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh",
     "still:guangzhou": "remotion still GuangzhouVlog out/guangzhou-still.png --frame=180",
-    "render:guangzhou-film": "remotion render GuangzhouEventFilm out/guangzhou-event-film-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh film"
+    "render:guangzhou-film": "remotion render GuangzhouEventFilm out/guangzhou-event-film-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh film",
+    "shorts:cut": "python3 scripts/cut-clips.py",
+    "shorts:render": "for id in short-01-ai-teacher short-02-institution short-03-learning short-04-teacher-pay short-05-first-year short-06-ai-kpi; do remotion render $id out/shorts/$id.mp4 --crf=20; done"
   },
   "repository": {
     "type": "git",

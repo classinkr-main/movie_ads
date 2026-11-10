@@ -34,3 +34,7 @@ out/*.wav
 scripts/guangzhou/.src
 scripts/guangzhou/luts
 out/*-master.mp4
+
+# 포럼 숏폼 — 원본에서 잘라 낸 클립과 렌더 결과는 용량이 커서 커밋하지 않는다(scripts/cut-clips.py로 재생성)
+public/shorts/
+out/shorts/

@@ -35,6 +35,7 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 | 할로윈 백설공주 브이로그 — 가로 3분 25초 · 쇼츠 68초 | [vlog/snow-white-halloween](vlog/snow-white-halloween) | – (Python·ffmpeg 파이프라인) | 용량 때문에 커밋하지 않음 — 원본에서 다시 렌더 |
 | BrandReel v8 — 학원 대상 다크 시네마틱 브랜드 쇼릴, 24초 · 60fps | [src/reel](src/reel/README.md) | `BrandReel` | `out/classin-brand-reel-60fps.mp4`(무음) · `out/classin-brand-reel-60fps-guide-sfx.mp4`(가이드 사운드) |
 | 광저우 투어 — 행사 하이라이트 90초(16:9 · 24fps) · 탐방 브이로그 × Classin 30초(9:16) | [src/guangzhou](src/guangzhou/README.md) | `GuangzhouEventFilm` · `GuangzhouVlog` | `out/guangzhou-event-film.mp4` · `out/guangzhou-vlog.mp4` |
+| 2026 아시아 AI 교육 포럼 숏폼 6편 — 세션 하이라이트, 9:16 · 35–70초 | [src/shorts](src/shorts/README.md) | `short-01-ai-teacher` … `short-06-ai-kpi` | 용량 때문에 커밋하지 않음 — `npm run shorts:cut` → `shorts:render`로 `out/shorts/`에 생성 |
 
 ## 아이디어
 
