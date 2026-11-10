@@ -2,7 +2,7 @@
 """외부 음원(제미나이로 만든 곡)을 영상 타이밍에 맞춰 편집하고, 화면 효과음을 얹어 사운드트랙을 만든다.
 
     python3 tools/music/fit_bgm.py                                   # 22초판 → public/audio/classin-v5.wav
-    python3 tools/music/fit_bgm.py --cues src/data/cues-30s.json \\
+    python3 tools/music/fit_bgm.py --cues src/showreel-v5/data/cues-30s.json \\
         --out public/audio/classin-v5-30s.wav                        # 30초 여유판
     python3 tools/music/fit_bgm.py <원곡> [--cues …] [--out …]
 
@@ -76,7 +76,7 @@ def place(dst: np.ndarray, src: np.ndarray, sr: int, s: float, v: float, ln: flo
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("source", nargs="?", default=str(SOURCE))
-    ap.add_argument("--cues", default="src/data/cues.json", help="큐 시트(ROOT 기준) — 30초 여유판은 src/data/cues-30s.json")
+    ap.add_argument("--cues", default="src/showreel-v5/data/cues.json", help="큐 시트(ROOT 기준) — 30초 여유판은 src/showreel-v5/data/cues-30s.json")
     ap.add_argument("--out", default=str(ROOT / "public/audio/classin-v5.wav"))
     args = ap.parse_args()
     os.environ["CLASSIN_CUES"] = args.cues  # compose.py가 같은 큐 시트로 길이·효과음을 만든다

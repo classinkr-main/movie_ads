@@ -19,7 +19,7 @@ export const GraphPaper: React.FC<Children & { height?: number }> = ({ children,
   <div style={{ position: "absolute", left: 0, top: 0, width: W, height, background: C.limeLight, overflow: "hidden" }}>
     <div style={{ position: "absolute", inset: 0, ...gridLines(C.grid, C.gridMajor) }} />
     {Array.from({ length: Math.ceil(height / H) }, (_, i) => (
-      <Img key={i} src={staticFile("textures/paper.jpg")} style={{ position: "absolute", left: 0, top: i * H, width: W, height: H, mixBlendMode: "multiply", opacity: 0.32 }} />
+      <Img key={i} src={staticFile("textures/paper-v5.jpg")} style={{ position: "absolute", left: 0, top: i * H, width: W, height: H, mixBlendMode: "multiply", opacity: 0.32 }} />
     ))}
     {children}
   </div>

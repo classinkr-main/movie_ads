@@ -1,36 +1,26 @@
-
-// v5 팔레트 — 파스텔 연두 지면 + 잉크 글자. 포인트는 코발트(UI·블록)와 시그널 오렌지(손그림 첨삭).
+// v2 팔레트 — 화이트·아이보리 베이스 + 연두 그린 포인트.
+// 텍스트 강조와 CTA 채움에는 Classin Green(DESIGN.md)을, 하이라이터·도형·칩에는 연두를 쓴다.
 export const C = {
-  ink: "#0A0B14",
-  lime: "#E2F4B9", // 파스텔 연두 — 무대 배경
-  limeLight: "#EDF8D4", // 모눈종이 지면
-  limeDeep: "#CDEA92", // 블록·강조 바탕
-  olive: "#4A6B12", // 연두 위 보조 글자·점
-  cobalt: "#2F3CFF",
-  signal: "#FF5A1F",
+  // 베이스
+  ivory: "#FAF8F2",
+  ivory2: "#F3EFE4",
   white: "#FFFFFF",
-  muted: "#5F6E48",
-  grid: "rgba(74,107,18,0.13)",
-  gridMajor: "rgba(74,107,18,0.24)",
-  shadow: "rgba(30,44,6,0.28)", // 연두 위 카드 그림자
+  // 텍스트
+  ink: "#1C1B17",
+  gray: "#6B675F",
+  gray300: "#A9A49A",
+  hairline: "rgba(28,27,23,0.08)",
+  // 연두 포인트
+  lime: "#C8F05A",
+  limeBright: "#D8FF5C",
+  limeSoft: "#EAF7C0",
+  limeDeep: "#8BC926",
+  limeInk: "#3C6B12",
+  // 브랜드 그린(강조 텍스트·CTA)
+  forest: "#084734",
+  brand: "#009060",
 } as const;
 
-// 등록용 패밀리 이름(fonts.ts)과 CSS 스택(FONT)을 나눈다. 영문 전용 서체(Anton·Plex Mono)에 한글이 섞이면
-// 시스템 폰트가 아니라 번들된 한글 서체로 떨어지도록 스택을 고정한다.
-export const FAMILY = {
-  display: "Hahmlet", // 한글 헤드라인 — 가변 100–900
-  sans: "IBM Plex Sans KR", // 라벨·UI
-  num: "Anton", // 숫자·영문 대형
-  mono: "IBM Plex Mono", // 캡션·타임코드
-} as const;
-
-export const FONT = {
-  display: `"${FAMILY.display}", "${FAMILY.sans}"`,
-  sans: `"${FAMILY.sans}"`,
-  num: `"${FAMILY.num}", "${FAMILY.display}"`,
-  mono: `"${FAMILY.mono}", "${FAMILY.sans}"`,
-} as const;
-
-export const FPS = 60; // 버전별 길이·타이밍은 lib/timing.tsx
-export const W = 1920;
-export const H = 1080;
+export const FPS = 30;
+export const DURATION_SEC = 30;
+export const DURATION_FRAMES = FPS * DURATION_SEC; // 900

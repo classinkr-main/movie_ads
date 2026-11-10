@@ -6,7 +6,7 @@ import { C, FONT } from "./lib/theme";
 
 // 인스타 9:16(1080×1920) 타이틀 프레임 — tools/social.mjs가 이 Still을 PNG로 뽑아 바탕에 깔고,
 // 16:9 마스터를 폭 1080으로 줄여 세로 가운데(videoTop)에 얹는다. 영상 칸은 영상이 덮으므로 비워 둔다.
-// 위 타이틀은 src/data/social-titles.json의 시안(titleId)에서 온다. 2줄이고 둘째 줄을 강조한다 —
+// 위 타이틀은 src/showreel-v5/data/social-titles.json의 시안(titleId)에서 온다. 2줄이고 둘째 줄을 강조한다 —
 // accent "marker"(기본) = 시그널 오렌지 형광펜, "outline" = 흰 글자 + 검은 테두리(outline px).
 // 영상 안에 같은 문구가 나오는 동안에는 social.mjs가 해당 요소를 뺀 판(hide)으로 넘어가 한 화면에 같은 말이 두 번 보이지 않게 한다
 // (시스템 장면 = 솔루션 문구, 엔드 카드 = 솔루션 문구·CTA, 타이틀이 피날레 문장과 같으면 피날레부터 타이틀).

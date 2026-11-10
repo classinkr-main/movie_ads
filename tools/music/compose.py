@@ -2,7 +2,7 @@
 """Classin v5 쇼릴 사운드트랙 합성기 — 펑크·뉴디스코 편곡.
 
 120 BPM · 22초 · 48kHz 스테레오. 샘플이나 외부 음원 없이 모든 소리를 numpy로 합성한다.
-타이밍은 영상과 같은 SSOT인 src/data/cues.json을 읽으므로, 컷·타이핑·핀 프레임을 바꾸면
+타이밍은 영상과 같은 SSOT인 src/showreel-v5/data/cues.json을 읽으므로, 컷·타이핑·핀 프레임을 바꾸면
 이 스크립트를 다시 돌려 소리를 맞춘다.
 
     python3 tools/music/compose.py            # → public/audio/classin-v5.wav
@@ -40,8 +40,8 @@ from scipy.io import wavfile
 from scipy.ndimage import minimum_filter1d, uniform_filter1d
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-# 버전별 큐 시트 — 기본 22초판. CLASSIN_CUES=src/data/cues-30s.json이면 30초 여유판(합성 편곡 CHART는 22초판 전용, 화면 효과음은 두 판 모두)
-CUES = json.loads((ROOT / os.environ.get("CLASSIN_CUES", "src/data/cues.json")).read_text())
+# 버전별 큐 시트 — 기본 22초판. CLASSIN_CUES=src/showreel-v5/data/cues-30s.json이면 30초 여유판(합성 편곡 CHART는 22초판 전용, 화면 효과음은 두 판 모두)
+CUES = json.loads((ROOT / os.environ.get("CLASSIN_CUES", "src/showreel-v5/data/cues.json")).read_text())
 
 SR = 48000
 FPS = CUES["fps"]

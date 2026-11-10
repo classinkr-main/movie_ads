@@ -1,11 +1,11 @@
 import React from "react";
 import { Composition, Still } from "remotion";
-import "./lib/fonts";
-import { FPS, H, W } from "./lib/theme";
-import { TimingProvider, VERSIONS, type VersionId } from "./lib/timing";
-import { Showreel } from "./Showreel";
-import { SOCIAL_FRAME, SocialFrame916, type SocialFrameProps } from "./SocialFrame";
-import { Thumb, type ThumbId } from "./Thumbs";
+import "./showreel-v5/lib/fonts";
+import { FPS, H, W } from "./showreel-v5/lib/theme";
+import { TimingProvider, VERSIONS, type VersionId } from "./showreel-v5/lib/timing";
+import { Showreel } from "./showreel-v5/Showreel";
+import { SOCIAL_FRAME, SocialFrame916, type SocialFrameProps } from "./showreel-v5/SocialFrame";
+import { Thumb, type ThumbId } from "./showreel-v5/Thumbs";
 
 // 버전 = cues JSON + 사운드트랙. 장면 코드는 같고 타이밍만 다르다.
 const Version: React.FC<{ version: VersionId }> = ({ version }) => (

@@ -1,9 +1,9 @@
 // 인스타그램 광고용 비율판 — 16:9 마스터를 자르지 않고 폭 1080에 맞춰 줄여 세로 가운데에 놓는다(장면·소리·프레임레이트 그대로).
 //   node tools/social.mjs                               → out/classin-showreel-v5-30s-{1x1,4x5,9x16}.mp4(9:16 타이틀 = social-titles.json의 default)
 //   node tools/social.mjs out/classin-showreel-v5.mp4   → 22초판도 같은 규칙으로
-//   node tools/social.mjs --titles a,b,c                → 9:16 타이틀 시안별 파일 -9x16-<id>.mp4(src/data/social-titles.json의 id)
+//   node tools/social.mjs --titles a,b,c                → 9:16 타이틀 시안별 파일 -9x16-<id>.mp4(src/showreel-v5/data/social-titles.json의 id)
 //   node tools/social.mjs --fps 30                      → 30fps를 요구하는 매체용(파일명에 -30fps, 마스터 60fps에서 한 프레임씩 건너뜀)
-// 1:1·4:5는 위아래를 브랜드 연두로만 채운다. 9:16은 위아래 여백에 타이틀을 넣은 프레임(src/SocialFrame.tsx)을
+// 1:1·4:5는 위아래를 브랜드 연두로만 채운다. 9:16은 위아래 여백에 타이틀을 넣은 프레임(src/showreel-v5/SocialFrame.tsx)을
 // Remotion으로 PNG로 뽑아 바탕에 깔고 그 위에 영상을 얹는다. 영상 안에 같은 문구가 나오는 동안에는 그 요소를 뺀 프레임으로
 // 0.25초에 걸쳐 넘어간다(시점은 마스터 길이에 맞는 큐 시트의 장면 경계에서 읽는다).
 // 프레임레이트: 메타 광고 가이드는 '고정 프레임레이트'만 요구하고, 마케팅 API 사양은 24–60fps를 받는다 → 기본 60fps.
@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const TITLES = JSON.parse(readFileSync(path.join(root, "src/data/social-titles.json"), "utf8"));
+const TITLES = JSON.parse(readFileSync(path.join(root, "src/showreel-v5/data/social-titles.json"), "utf8"));
 const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: { fps: { type: "string", default: "60" }, titles: { type: "string" } },
@@ -27,11 +27,11 @@ const FPS = Number(values.fps);
 if (!(FPS >= 24 && FPS <= 60)) throw new Error(`--fps must be 24–60, got ${values.fps}`);
 // --titles가 없으면 확정 타이틀(default) 하나를 -9x16.mp4로, 있으면 시안마다 -9x16-<id>.mp4로 만든다
 const titleIds = values.titles ? values.titles.split(",").map((s) => s.trim()).filter(Boolean) : [TITLES.default];
-for (const id of titleIds) if (!TITLES.titles[id]) throw new Error(`unknown title "${id}" — see src/data/social-titles.json`);
+for (const id of titleIds) if (!TITLES.titles[id]) throw new Error(`unknown title "${id}" — see src/showreel-v5/data/social-titles.json`);
 
 const W = 1080;
 const VH = 608; // 1080 × 9/16 = 607.5 → 짝수로
-const BG = "0xE2F4B9"; // src/lib/theme.ts C.lime
+const BG = "0xE2F4B9"; // src/showreel-v5/lib/theme.ts C.lime
 const XF = 0.25; // 9:16 프레임이 다음 상태로 넘어가는 크로스페이드(초)
 const LEAD = 1 / FPS; // xfade는 offset 프레임을 아직 이전 상태로 내므로 한 프레임 앞당겨 장면 전환 프레임부터 섞이게 한다
 const FORMATS = [
@@ -46,7 +46,7 @@ const suffix = FPS === 60 ? "" : `-${FPS}fps`;
 const cueSheet = () => {
   const r = spawnSync("ffprobe", ["-v", "error", "-select_streams", "v:0", "-count_packets", "-show_entries", "stream=nb_read_packets", "-of", "csv=p=0", input], { encoding: "utf8" });
   const frames = Number(r.stdout.trim());
-  const sheets = ["cues.json", "cues-30s.json"].map((f) => JSON.parse(readFileSync(path.join(root, "src/data", f), "utf8")));
+  const sheets = ["cues.json", "cues-30s.json"].map((f) => JSON.parse(readFileSync(path.join(root, "src/showreel-v5/data", f), "utf8")));
   const cues = sheets.find((c) => c.durationInFrames === frames);
   if (!cues) throw new Error(`no cue sheet with ${frames} frames for ${input}`);
   return cues;
