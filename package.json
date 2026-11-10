@@ -23,7 +23,10 @@
     "thumb:gull": "remotion still GullThumb out/classin-gull-thumbnail.png",
     "audio:gull": "node scripts/make-audio.mjs && ffmpeg -y -loglevel error -i public/audio/gull-reel.wav -c:a aac -b:a 192k public/audio/gull-reel.m4a",
     "render:reel": "remotion render BrandReel out/classin-brand-reel-60fps.mp4",
-    "still:reel": "remotion still BrandReel out/reel-still.png --frame=780"
+    "still:reel": "remotion still BrandReel out/reel-still.png --frame=780",
+    "render:guangzhou": "remotion render GuangzhouVlog out/guangzhou-vlog-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh",
+    "still:guangzhou": "remotion still GuangzhouVlog out/guangzhou-still.png --frame=180",
+    "render:guangzhou-film": "remotion render GuangzhouEventFilm out/guangzhou-event-film-master.mp4 --crf=17 && bash scripts/guangzhou/encode_social.sh film"
   },
   "repository": {
     "type": "git",

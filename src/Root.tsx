@@ -11,6 +11,10 @@ import { GullThumb } from "./gull/Thumb";
 import { G_DURATION, G_FPS } from "./gull/theme";
 import { BrandReel } from "./reel/BrandReel";
 import { DURATION_FRAMES as REEL_FRAMES, FPS as REEL_FPS } from "./reel/theme";
+import "./guangzhou/fonts";
+import { GuangzhouVlog } from "./guangzhou/GuangzhouVlog";
+import { FPS as GZ_FPS, TOTAL as GZ_TOTAL } from "./guangzhou/timeline";
+import { FILM_FPS, FILM_FRAMES, GuangzhouEventFilm } from "./guangzhou/EventFilm";
 
 // 폴더는 Drive "영상_ai_프로젝트" 번호를 따른다(src/projects/<번호>_<이름>/).
 // Remotion의 Folder 이름·컴포지션 id는 한글을 받지 않아 "p<번호>-<영문 이름>"으로 쓴다.
@@ -33,6 +37,10 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     <Folder name="brand-reel">
       <Composition id="BrandReel" component={BrandReel} durationInFrames={REEL_FRAMES} fps={REEL_FPS} width={1920} height={1080} />
+    </Folder>
+    <Folder name="guangzhou">
+      <Composition id="GuangzhouVlog" component={GuangzhouVlog} durationInFrames={GZ_TOTAL} fps={GZ_FPS} width={1080} height={1920} />
+      <Composition id="GuangzhouEventFilm" component={GuangzhouEventFilm} durationInFrames={FILM_FRAMES} fps={FILM_FPS} width={1920} height={1080} />
     </Folder>
   </>
 );
