@@ -387,14 +387,14 @@ const b27 = B.b27;
 const firmT = b27.ph[1].start;
 
 const S16World: React.FC<{ f: number }> = ({ f }) => {
-  const grow = tw(f, b26.start + 3, 20, E.out5);
+  const grow = tw(f, b26.start + 9, 24, E.out);
   const branch = tw(f, b26.ph[1].start - 2, 18, E.out);
   const sw = tw(f, b27.start, 8) * (1 - tw(f, b27.ph[2].start + 4, 14) * 0.75);
   const firm = tw(f, firmT, 16, E.out);
   const wave = Math.sin((f - b27.start) * 0.42);
   const tilt = wave * 0.085 * sw * (1 - firm * 0.86);
   return (
-    <Tree f={f} grow={grow} branch={grow} leaves={branch} roots={tw(f, b26.start + 1, 16, E.out) + firm} thick={1 + firm * 0.3} tilt={tilt} signs={tw(f, b26.ph[1].start + 8, 22, E.lin)}>
+    <Tree f={f} grow={grow} branch={grow} leaves={branch} roots={tw(f, b26.start + 6, 18, E.out) + firm} thick={1 + firm * 0.3} tilt={tilt} signs={tw(f, b26.ph[1].start + 8, 22, E.lin)}>
       {/* 받침 위의 작은 교실 */}
       <Bx s={[1.5, 1.0, 0.1]} rad={0.04} c={C.boardFrame} p={[-0.85, 0.62, -0.85]} />
       <Bx s={[1.36, 0.86, 0.02]} rad={0.01} c={C.board} p={[-0.85, 0.62, -0.79]} cast={false} />
@@ -407,7 +407,7 @@ const S16World: React.FC<{ f: number }> = ({ f }) => {
           armR: [1.3 + sw * (1.2 - wave * 0.4), 0],
           eyes: firm > 0.5 ? "happy" : sw > 0.3 ? "wide" : "dot",
           mouth: firm > 0.5 ? "smile" : sw > 0.3 ? "o" : "smile",
-          bounce: Math.abs(Math.sin((f - b27.start) * 0.42)) * 0.12 * sw + Math.abs(ring(f, b26.start + 22, 0.2, 0.9, 0.2)),
+          bounce: Math.abs(Math.sin((f - b27.start) * 0.42)) * 0.12 * sw + Math.abs(ring(f, b26.start + 31, 0.2, 0.9, 0.2)),
           headRoll: wave * 0.18 * sw,
         }}
       />
@@ -429,13 +429,14 @@ const S16: SceneDef = {
     camLive(
       camPath(f, [
         [b26.start, { p: [1.2, 1.5, 10.5], t: [0, 1.1, 0], fov: 30 }],
-        [b26.start + 24, { p: [3.4, 3.0, 16.5], t: [0, 2.9, 0], fov: 30 }, E.out],
+        [b26.start + 8, { p: [1.3, 1.6, 10.8], t: [0, 1.15, 0], fov: 30 }, E.lin],
+        [b26.start + 34, { p: [3.4, 3.0, 16.5], t: [0, 2.9, 0], fov: 30 }, E.io],
         [b27.start, { p: [2.4, 2.9, 16.0], t: [0, 3.0, 0], fov: 30 }, E.lin],
         [firmT + 14, { p: [-3.0, 1.9, 15.4], t: [0, 2.9, 0], fov: 30 }, E.io],
         [b27.end, { p: [-3.6, 1.7, 14.8], t: [0, 2.95, 0], fov: 30 }, E.lin],
       ]),
       f,
-      { shakeAt: [b26.start + 6], shakeAmp: 0.14 },
+      { shakeAt: [b26.start + 10], shakeAmp: 0.14 },
     ),
   World: S16World,
   Over: ({ f, pr, u, tall }) => {

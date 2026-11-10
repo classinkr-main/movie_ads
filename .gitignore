@@ -12,3 +12,4 @@ projects/*/history/
 projects/*/renders/segments/
 projects/*/renders/*-draft.mp4
 projects/*/renders/.remotion*
+projects/*/renders/.final_review_frames/

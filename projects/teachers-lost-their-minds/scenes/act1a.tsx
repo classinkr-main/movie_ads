@@ -199,7 +199,7 @@ const S02: SceneDef = {
     return (
       <>
         <Chip f={f} t0={bell} t1={b02.ph[2].start + 2} x={clock.x - 150 * u} y={clock.y + 10 * u} text="딩동댕 ♪ 수업 끝" tone="amber" u={u} size={32} />
-        <Tag f={f} t0={pile0 + 20} t1={b02.end - 4} at={pile} dx={150} dy={-150} text="수업 후 작업" sub="끝이 없음" tone="red" u={u} />
+        <Tag f={f} t0={pile0 + 20} t1={b02.end - 4} at={pile} dx={190} dy={-40} text="수업 후 작업" sub="끝이 없음" tone="red" u={u} />
         <Tag f={f} t0={b03.start + 30} t1={b03.end - 4} at={box} dx={210} dy={-110} text="수업 내용 → 보존" sub="남겨야 다시 볼 수 있으니까" tone="paper" u={u} />
       </>
     );

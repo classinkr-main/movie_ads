@@ -295,7 +295,7 @@ const S19: SceneDef = {
     return (
       <>
         <Chip f={f} t0={bell2} t1={b34.ph[2].start + 6} x={clock.x - 150 * u} y={clock.y + 10 * u} text="딩동댕 ♪ 수업 끝" tone="amber" u={u} size={32} />
-        <Tag f={f} t0={leafLand + 2} t1={b34.end - 3} at={desk} dx={tall ? -60 : -230} dy={tall ? -220 : -130} text="교탁 위에 남은 일: 없음" tone="lime" u={u} size={38} />
+        <Tag f={f} t0={leafLand + 2} t1={b34.end - 3} at={desk} dx={tall ? 30 : 150} dy={tall ? -300 : -190} text="교탁 위에 남은 일: 없음" tone="lime" u={u} size={38} />
       </>
     );
   },

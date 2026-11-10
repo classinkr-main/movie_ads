@@ -57,15 +57,17 @@ if not outputs:
 
 main = reviews[outputs[0]["path"].split("/")[-1]]
 rv = main["review"]
-expected = tl["total_seconds"]
-SILENT = "No audio stream in output"
-real_issues = [i for i in rv.get("issues_found", []) if SILENT not in i]
+target_seconds = tl["total_seconds"]
+# 무음 마스터라서 예상되는 두 가지: 오디오 스트림 없음, 내레이션 전사 비교 생략
+EXPECTED = ("No audio stream in output", "transcript_comparison skipped")
+expected = lambda i: any(e in i for e in EXPECTED)
+real_issues = [i for i in rv.get("issues_found", []) if not expected(i)]
 for name, r in reviews.items():
-    if abs(r["info"]["duration"] - expected) > 0.1:
-        real_issues.append(f"{name}: 길이 {r['info']['duration']}s ≠ 타임라인 {expected}s")
+    if abs(r["info"]["duration"] - target_seconds) > 0.1:
+        real_issues.append(f"{name}: 길이 {r['info']['duration']}s ≠ 타임라인 {target_seconds}s")
     if r["info"]["frames"] and r["info"]["frames"] != tl["total_frames"]:
         real_issues.append(f"{name}: 프레임 수 {r['info']['frames']} ≠ {tl['total_frames']}")
-    real_issues += [f"{name}: {i}" for i in r["review"].get("issues_found", []) if SILENT not in i and name != outputs[0]["path"].split("/")[-1]]
+    real_issues += [f"{name}: {i}" for i in r["review"].get("issues_found", []) if not expected(i) and name != outputs[0]["path"].split("/")[-1]]
 
 checks = rv["checks"]
 checks["audio_spotcheck"] = {**checks.get("audio_spotcheck", {}), "intentional_silence": True, "note": "더빙을 따로 녹음하는 무음 마스터. 오디오 스트림 없음은 의도된 납품 형태."}
@@ -99,7 +101,7 @@ render_report = {
         "타이밍은 초당 6.3음절 추정값. 녹음 속도가 다르면 scripts/sync-from-srt.ts 로 재정렬 후 다시 렌더.",
     ],
     "verification_notes": [
-        f"길이 {outputs[0]['duration_seconds']}s / 타임라인 {expected}s, {tl['total_frames']}프레임 @ {tl['fps']}fps",
+        f"길이 {outputs[0]['duration_seconds']}s / 타임라인 {target_seconds}s, {tl['total_frames']}프레임 @ {tl['fps']}fps",
         "렌더 경로: Remotion 4 + @remotion/three, 소프트웨어 GL(swangle), 장면 18개를 나눠 렌더한 뒤 무손실 concat → H.264 1회 인코딩",
         "OpenMontage video_compose 아틀리에 경로(remotion-composer · React 18)에서도 같은 소스가 렌더됨을 스틸로 확인",
         "아틀리에 규약: 스톡 scene-type import 없음, art-direction.md 선언됨",
@@ -114,7 +116,9 @@ import jsonschema  # noqa: E402
 for name, data in [("final_review", final_review), ("render_report", render_report)]:
     schema = json.loads((Path(HOME) / "schemas" / "artifacts" / f"{name}.schema.json").read_text(encoding="utf-8"))
     errs = list(jsonschema.Draft202012Validator(schema).iter_errors(data))
-    (ART / f"{name}.json").write_text(json.dumps(data, ensure_ascii=False, indent=2, default=str) + "\n", encoding="utf-8")
+    # 로컬 절대 경로는 프로젝트 기준 상대 경로로 바꿔서 저장합니다.
+    text = json.dumps(data, ensure_ascii=False, indent=2, default=str).replace(str(ROOT) + "/", "")
+    (ART / f"{name}.json").write_text(text + "\n", encoding="utf-8")
     print(("OK  " if not errs else "FAIL"), name, *(f"\n   - {'/'.join(map(str, e.path))}: {e.message[:160]}" for e in errs[:8]))
 
 print("status:", final_review["status"], "| issues:", real_issues or "없음")

@@ -398,7 +398,7 @@ const S12: SceneDef = {
     const cam = pr([CAM_AT[0], CAM_AT[1] + 0.4, CAM_AT[2]]);
     return (
       <>
-        <Tag f={f} t0={b19.ph[1].start + 2} t1={b20.start - 3} at={cam} dx={tall ? -60 : -180} dy={-100} text="챙길 장비만 3개 늘어남" tone="red" u={u} />
+        <Tag f={f} t0={b19.ph[1].start + 2} t1={b20.start - 3} at={cam} dx={tall ? -60 : 230} dy={tall ? -100 : -30} text="챙길 장비만 3개 늘어남" tone="red" u={u} />
         <Slam f={f} t0={snapT} t1={b21.end - 5} lines={["그대로였죠"]} u={u} size={tall ? 150 : 150} tone="red" x={0.5} y={tall ? 0.29 : 0.17} w={w} h={h} />
       </>
     );
