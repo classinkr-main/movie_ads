@@ -6,3 +6,5 @@ out/frames
 .DS_Store
 out/preview-*
 public/audio/*.wav
+!out/classin-gull-thumbnail.png
+!out/classin-gull-thumbnail-1280.jpg

@@ -5,6 +5,7 @@ Classin을 소개하는 커머셜 쇼릴 두 편을 [Remotion](https://www.remot
 | 산출물 | 규격 | 컴포지션 | 경로 |
 | --- | --- | --- | --- |
 | **갈매기 드로잉 쇼릴** | 1920×1080 · 30fps · 49s · H.264 + AAC(BGM·효과음) | `GullReel` | `out/classin-gull-showreel.mp4` |
+| 갈매기 쇼릴 섬네일 | 1920×1080 PNG · 1280×720 JPG | `GullThumb` | `out/classin-gull-thumbnail.png` · `out/classin-gull-thumbnail-1280.jpg` |
 | AI 키네틱 쇼릴 (v4) | 1920×1080 · 30fps · 30s · H.264 · 무음 | `Showreel` | `out/classin-ai-showreel.mp4` |
 
 ---
@@ -50,6 +51,16 @@ Classin을 소개하는 커머셜 쇼릴 두 편을 [Remotion](https://www.remot
 
 `npm run still:gull`로 포즈 시트(`out/gull-sheet.png`)를 뽑을 수 있습니다.
 
+## 섬네일
+
+`src/gull/Thumb.tsx`(`GullThumb`)는 오프닝 프레임의 느낌을 그대로 살린 섬네일입니다. 작게 줄여도 읽히도록 요소를 셋으로 줄였습니다 — 햇살 후광 앞의 갈매기, 화면 높이의 4분의 1을 차지하는 **"딱 두 가지"**, 내용을 가린 물음표 카드(01 칠판 · 02 AI · +1 데이터). 말풍선 "원장님, 49초만요!"의 49초는 영상 길이이므로 길이를 바꾸면 함께 고칩니다.
+
+```bash
+npm run thumb:gull    # out/classin-gull-thumbnail.png (1920×1080)
+```
+
+1280×720 JPG(`out/classin-gull-thumbnail-1280.jpg`)는 PNG를 줄여 만든 업로드용 사본입니다.
+
 ## 사운드
 
 BGM과 효과음은 **코드로 합성**합니다(`scripts/make-audio.mjs`, 샘플·외부 음원 없음 → 저작권 걱정 없음). 120 BPM이라 한 박 = 15f, 한 마디 = 60f이고, 주요 장면(연필 낚아채기, "수업은 남습니다", 딩동, 타일 5개, 날아오르기, CTA 버튼 등)이 박자에 맞춰져 있습니다.
@@ -88,6 +99,7 @@ src/gull/
   Paper.tsx           # Paper · PaperFinish(종이 결·비네트·그레인) · Rostrum · Canvas
   parts.tsx           # Badge · TitleLine · Sticky · Bubble · Burst · Motes · Sheet · MarkerWipe · PageMark
   Sheet.tsx           # 캐릭터 포즈 시트(GullSheet 컴포지션)
+  Thumb.tsx           # 섬네일(GullThumb 컴포지션)
   scenes/S0Open · S1Keep · S2Eval · S3Data · S4Scale · S5Cta
 scripts/
   make-audio.mjs      # BGM·효과음 합성

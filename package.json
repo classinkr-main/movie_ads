@@ -8,6 +8,7 @@
     "still": "remotion still Showreel out/still.png --frame=300",
     "render:gull": "remotion render GullReel out/classin-gull-showreel.mp4 --crf=21",
     "still:gull": "remotion still GullSheet out/gull-sheet.png --frame=40",
+    "thumb:gull": "remotion still GullThumb out/classin-gull-thumbnail.png",
     "audio": "node scripts/make-audio.mjs && ffmpeg -y -loglevel error -i public/audio/gull-reel.wav -c:a aac -b:a 192k public/audio/gull-reel.m4a",
     "typecheck": "tsc --noEmit"
   },
