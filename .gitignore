@@ -5,3 +5,6 @@ out/frames
 .remotion
 .DS_Store
 out/preview-*
+
+# 시네마틱 커머셜 — 합성 wav는 m4a로 인코딩해 커밋한다
+public/audio/*.wav
