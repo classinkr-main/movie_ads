@@ -1462,7 +1462,7 @@ function truePeak(chans) {
 // ───────────────────────── 마스터 ─────────────────────────
 const TARGET_LUFS = -14.9; // ffmpeg loudnorm 은 ebur128 보다 0.2–0.3 LU 낮게 읽는다 → 두 미터의 가운데가 −15 가 되게
 const CEILING = dB(-2.2); // 샘플 피크 천장(AAC 인코딩 뒤에도 트루 피크 ≤ −1.5 dBTP 가 되도록 여유)
-const INTRO_PEAK = dB(-18); // 오프닝(f0–f100)의 피크 목표
+const INTRO_PEAK = dB(-12.5); // 오프닝(f0–f100)의 피크 목표 — 작은 스피커에서도 분필·영사기 소리가 들리도록
 const WET = 0.5;
 const OPTICAL_BAND = [250, 4500]; // Hz
 const OPTICAL_WIDTH = 0.35;

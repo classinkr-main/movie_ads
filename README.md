@@ -62,7 +62,7 @@
 npm run score:cinematic      # wav 합성 → public/audio/cinematic-score.m4a
 ```
 
-통합 음량 약 −15 LUFS · 트루 피크 −2.4 dBTP 로 마스터링되어 있습니다. 영상 타이밍(`src/cinematic/theme.ts`의 `T`)을 바꾸면 스크립트의 큐 프레임도 함께 바꿔야 합니다. 다른 음악을 얹을 때는 무음 마스터(`out/classin-cinematic-20s-silent.mp4`, 또는 `npm run render:cinematic:silent`)를 쓰세요. 커밋된 사운드 포함본은 무음 마스터에 m4a를 재인코딩 없이 합친 것입니다(`ffmpeg -i silent.mp4 -i cinematic-score.m4a -c copy`).
+통합 음량 약 −15 LUFS · 트루 피크 약 −1.9 dBTP(m4a 기준)로 마스터링되어 있습니다. 어제 구간은 일부러 작게(피크 −12.5 dBFS) 두어 f120 임팩트와 대비를 만듭니다 — 더 키우거나 줄이려면 스크립트의 `INTRO_PEAK` 한 줄만 바꾸면 됩니다. 영상 타이밍(`src/cinematic/theme.ts`의 `T`)을 바꾸면 스크립트의 큐 프레임도 함께 바꿔야 합니다. 다른 음악을 얹을 때는 무음 마스터(`out/classin-cinematic-20s-silent.mp4`, 또는 `npm run render:cinematic:silent`)를 쓰세요. 커밋된 사운드 포함본은 무음 마스터에 m4a를 재인코딩 없이 합친 것입니다(`ffmpeg -i silent.mp4 -i cinematic-score.m4a -c copy`).
 
 ## 구조
 
