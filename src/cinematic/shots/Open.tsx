@@ -188,7 +188,7 @@ export const Open: React.FC = () => {
 
   // 조명 — 분필 끝을 따라가는 백열등 스폿 → 지우개 구간에서 넓게 열린다
   const open = interpolate(f, [80, 94], [0, 1], cl);
-  const card = fade(frame, -1, 0, 12, 18);
+  const card = fade(frame, 0, 4, 12, 18);
   const lightIn = interpolate(frame, [10, 20], [0, 1], cl);
   const spotX = interpolate(open, [0, 1], [tipX, W * 0.5]);
   const spotY = interpolate(open, [0, 1], [tipY, H * 0.5]);

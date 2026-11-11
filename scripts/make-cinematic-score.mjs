@@ -65,24 +65,26 @@ const n2f = (name) => {
 // ───────────────────────── 믹스 버스 ─────────────────────────
 // 구간 A(0–f120, 어제) · B(f120–f480, 오늘→내일) · C(f480–) 가 각자 드라이/리버브 버스를 가진다.
 // 임팩트 직전의 "진공"에서 앞 구간을 리버브 꼬리까지 통째로 잘라내기 위해서다.
-// 구간 A 는 통째로 "옛 광학 사운드트랙"(대역 제한 + 좁은 스테레오) 처리를 거친다. 드론·험처럼 그 대역 밖에
-// 있어야 하는 소리만 clean 버스(3번)로 보낸다 → f120 에서 풀레인지 와이드 스테레오로 열리는 대비가 핵심.
+// 구간 A 는 통째로 "옛 광학 사운드트랙"(대역 제한 + 포화 + 좁은 스테레오) 처리를 거친다 → f120 에서 풀레인지
+// 와이드 스테레오로 열리는 대비가 핵심. 예외는 route 로 지정한다:
+//   "clean"(3번) = 드론·험처럼 그 대역 밖에 있어야 하는 소리, "swell"(4번) = 대역 제한만 걸고 포화는 건너뛰는 리버스 스웰.
 const newBus = () => [new Float32Array(N), new Float32Array(N)];
-const SECTIONS = [0, 1, 2, 3].map(() => ({ dry: newBus(), rev: newBus() }));
+const SECTIONS = [0, 1, 2, 3, 4].map(() => ({ dry: newBus(), rev: newBus() }));
+const A_ROUTE = { optical: 0, clean: 3, swell: 4 };
 const STEMS = DEBUG ? new Map() : null;
 
 /** 신호(모노 Float32Array 또는 {L,R})를 프레임 위치에 올린다. pan 은 숫자 또는 (0..1)=>pan 함수 */
-function place(sig, frame, { gain = 1, pan = 0, send = 0, dry = 1, group = "misc", clean = false } = {}) {
+function place(sig, frame, { gain = 1, pan = 0, send = 0, dry = 1, group = "misc", route = "optical" } = {}) {
   const start = F(frame);
   const stereo = !(sig instanceof Float32Array);
   const sl = stereo ? sig.L : sig;
   const sr = stereo ? sig.R : sig;
-  const secIdx = start < F(HIT1) ? (clean ? 3 : 0) : start < F(HIT2) ? 1 : 2;
+  const secIdx = start < F(HIT1) ? A_ROUTE[route] : start < F(HIT2) ? 1 : 2;
   const [dl, dr] = SECTIONS[secIdx].dry;
   const [rl, rrr] = SECTIONS[secIdx].rev;
   let stem = null;
   if (STEMS) {
-    if (!STEMS.has(group)) STEMS.set(group, newBus());
+    if (!STEMS.has(group)) STEMS.set(group, Object.assign(newBus(), { clean: route === "clean" }));
     stem = STEMS.get(group);
   }
   const panFn = typeof pan === "function" ? pan : null;
@@ -972,22 +974,22 @@ function glassPad(notes, dur, { attack = 0.8, release = 0.8, air = 0.5 } = {}) {
 console.error("synth…");
 
 // ── 1–2마디 (f0–120) 어제: 4:3 세피아 무성영화 — 칠판 위 분필, 이어서 지우개 ──
-// 이 구간의 소리는 전부 광학 트랙 처리(250 Hz–4.5 kHz, 좁은 스테레오)를 거친다. clean: true 만 예외.
+// 이 구간의 소리는 전부 광학 트랙 처리(250 Hz–4.5 kHz, 포화, 좁은 스테레오)를 거친다. route: "clean" · "swell" 만 예외.
 
 // f0–118 옛 영사기 베드: 기계 플러터 + 드문 크래클 + 옅은 험. f118 에서 뚝 끊긴다
 reseed("projector");
-place(projector(118 / FPS), 0, { gain: dB(-10), pan: -0.1, send: 0.04, group: "projector" });
+place(projector(118 / FPS), 0, { gain: dB(-8), pan: -0.1, send: 0.04, group: "projector" });
 place(crackle(118 / FPS), 0, { gain: dB(-13), pan: 0.1, group: "projector" });
-place(hum(118 / FPS), 0, { gain: dB(-27), clean: true, group: "projector" });
+place(hum(118 / FPS), 0, { gain: dB(-27), route: "clean", group: "hum" });
 
 // f0–118 드론(D) — 여기서는 은은하게
 reseed("drone");
-place(drone(118 / FPS), 0, { gain: dB(-15), clean: true, group: "drone" });
+place(drone(118 / FPS), 0, { gain: dB(-15), route: "clean", group: "drone" });
 
 // f4 영사 램프가 켜진다: (대역 제한된) 옅은 쉬머 + 작은 서브 스웰
 reseed("ignite");
 place(shimmer([n2f("D6"), n2f("A6"), n2f("D7"), n2f("A7")], 1.5, { attack: 0.09, tau: 0.42 }), 4, { gain: dB(-20), send: 0.5, group: "ignite" });
-place(subSwell(n2f("D2"), 1.0), 4, { gain: dB(-19), clean: true, group: "ignite" });
+place(subSwell(n2f("D2"), 1.0), 4, { gain: dB(-19), route: "clean", group: "ignitesub" });
 
 // 분필 폴리(드라이·근접, 쓰는 방향을 따라 왼→오)
 reseed("chalk");
@@ -1038,11 +1040,11 @@ reseed("eraser");
 
 // f100–118 리버스 스웰 → f118–120 정적
 reseed("swell");
-place(reverseSwell(18 / FPS, ["D3", "A3", "D4", "F4", "A4", "D5"]), 100, { gain: dB(5), send: 0.3, group: "swell" });
+place(reverseSwell(18 / FPS, ["D3", "A3", "D4", "F4", "A4", "D5"]), 100, { gain: dB(5), route: "swell", group: "swell" });
 
 // ── f120: IMPACT 1 — 오늘. 풀레인지·와이드 스테레오로 열리며 헤드라인이 떨어진다 ──
 reseed("impact1");
-place(subBoom({ f0: 70, f1: n2f("D1"), tail: 1.8 }), HIT1, { gain: dB(-6), group: "boom" });
+place(subBoom({ f0: 70, f1: n2f("D1"), tail: 1.8 }), HIT1, { gain: dB(-7), group: "boom" });
 place(
   braam(
     [
@@ -1054,7 +1056,7 @@ place(
     { fcPeak: 2100 },
   ),
   HIT1,
-  { gain: dB(-7.5), send: 0.35, group: "braam" },
+  { gain: dB(-8.5), send: 0.35, group: "braam" },
 );
 place(darkCrash(1.6), HIT1, { gain: dB(-15), send: 0.9, group: "crash" });
 place(shimmer([n2f("D6"), n2f("A6"), n2f("D7"), n2f("F7")], 2.4, { attack: 0.2, tau: 0.9 }), HIT1, { gain: dB(-27), send: 0.7, group: "shimmer" });
@@ -1154,7 +1156,7 @@ const CUT_ROOT = { 240: "Bb1", 300: "F1", 420: "G1" };
 [240, 300, 420].forEach((f, i) => {
   const dir = i % 2 ? -1 : 1;
   place(whip(12 / FPS), f - 6, { gain: dB(-12), pan: (k) => dir * (-0.85 + 1.7 * smooth(k)), send: 0.25, group: "whip" });
-  place(subBoom({ f0: 100, f1: n2f(CUT_ROOT[f]), drop: 0.05, tail: 0.8, punch: 0.45, click: 0.2 }), f, { gain: dB(-10), group: "cuthit" });
+  place(subBoom({ f0: 100, f1: n2f(CUT_ROOT[f]), drop: 0.05, tail: 0.8, punch: 0.45, click: 0.2 }), f, { gain: dB(-11.5), group: "cuthit" });
   place(thud(0.2), f, { gain: dB(-13), send: 0.5, group: "cuthit" });
 });
 
@@ -1199,22 +1201,22 @@ for (let j = 0; j < COUNT_N; j++) {
 place(glassBell(n2f("D6"), 1.6), 458, { gain: dB(-19), pan: 0.15, send: 0.7, group: "chime" });
 place(glassBell(n2f("A5"), 1.6), 458, { gain: dB(-21), pan: -0.15, send: 0.7, group: "chime" });
 // f420–476 라이저(f476 직후 초크될 때까지 최대치 유지)
-place(riser(57 / FPS, n2f("A3"), n2f("A5")), 420, { gain: dB(-7), send: 0.3, group: "riser" });
+place(riser(57 / FPS, n2f("A3"), n2f("A5")), 420, { gain: dB(-9.5), send: 0.3, group: "riser" });
 // 가속하는 저음 드럼 롤
 [
-  [450, -10],
-  [457.5, -9],
-  [465, -8],
-  [469, -7],
-  [473, -6],
-  [476, -5],
+  [450, -12],
+  [457.5, -11],
+  [465, -10],
+  [469, -9],
+  [473, -9],
+  [476, -8.5],
 ].forEach(([f, g]) => place(taiko(n2f("A1"), { dur: 0.7 }), f, { gain: dB(g), send: 0.3, group: "roll" }));
 // f476–480: 진공(구간 B 엔벨로프가 리버브 꼬리까지 잘라낸다)
 
 // ── f480: IMPACT 2 — 로고 리빌, 곡에서 가장 큰 순간 ──
 reseed("impact2");
-place(subBoom({ f0: 82, f1: n2f("D1"), tail: 2.2, drive: 1.8, punch: 0.6, click: 0.3 }), HIT2, { gain: dB(-3.5), group: "boom" });
-place(taiko(n2f("D2"), { dur: 1.2 }), HIT2, { gain: dB(-7), send: 0.5, group: "boom" });
+place(subBoom({ f0: 82, f1: n2f("D1"), tail: 2.2, drive: 1.8, punch: 0.6, click: 0.3 }), HIT2, { gain: dB(-6), group: "boom" });
+place(taiko(n2f("D2"), { dur: 1.2 }), HIT2, { gain: dB(-11), send: 0.5, group: "boom" });
 place(
   braam(
     [
@@ -1229,7 +1231,7 @@ place(
     { fcPeak: 3600, fcEnd: 320, close: 0.9, hold: 0.45, decay: 0.75 },
   ),
   HIT2,
-  { gain: dB(-3.5), send: 0.4, group: "braam" },
+  { gain: dB(-4.5), send: 0.4, group: "braam" },
 );
 place(wash(3.0), HIT2, { gain: dB(-12), send: 0.6, group: "wash" });
 place(shimmer([n2f("D6"), n2f("F#6"), n2f("A6"), n2f("D7"), n2f("F#7"), n2f("A7")], 3.2, { attack: 0.25, tau: 1.3 }), HIT2, { gain: dB(-22), send: 0.7, group: "shimmer" });
@@ -1259,7 +1261,8 @@ place(uiPop(n2f("A5"), n2f("D6") * 1.12), 528, { gain: dB(-23), pan: 0.1, send: 
 // ───────────────────────── 리버브: 16-라인 FDN ─────────────────────────
 // 프리딜레이 → 입력 확산(올패스 4단) → 하다마드 피드백 딜레이 네트워크(16라인, 라인마다 변조) →
 // 피드백 안의 로우패스 댐핑(고역이 먼저 죽는 어두운 꼬리) → 서로 직교하는 탭으로 L/R 을 뽑아 넓게.
-function reverb(inL, inR, s0, s1, { rt60 = 3.1, hfRatio = 0.2, preMs = 32, lowCut = 170, highCut = 6500 } = {}) {
+// 임펄스 응답 실측: RT60 ≈ 3.0 s(250 Hz–1 kHz) · 2 s 안팎(4 kHz 이상), 꼬리의 L/R 상관 ≈ 0.
+function reverb(inL, inR, s0, s1, { rt60 = 3.1, hfRatio = 0.14, preMs = 20, lowCut = 170, highCut = 6500, early = 0.12 } = {}) {
   const n = s1 - s0;
   const xl = inL.slice(s0, s1);
   const xr = inR.slice(s0, s1);
@@ -1366,8 +1369,9 @@ function reverb(inL, inR, s0, s1, { rt60 = 3.1, hfRatio = 0.2, preMs = 32, lowCu
     const ir = xr[t];
     for (let i = 0; i < LINES; i++) bufs[i][w] = v[i] * 0.25 + il * bL[i] + ir * bR[i];
     w = (w + 1) & MASK;
-    outL[t] = ol;
-    outR[t] = or;
+    // 확산된 입력을 조금 섞어 초기 반사로 쓴다(프리딜레이 직후 ~ FDN 첫 도달 사이를 메운다)
+    outL[t] = ol + early * il;
+    outR[t] = or + early * ir;
   }
   for (const o of [outL, outR]) {
     onePoleLP(o, highCut);
@@ -1432,12 +1436,13 @@ function truePeak(chans) {
 }
 
 // ───────────────────────── 마스터 ─────────────────────────
-const TARGET_LUFS = -15;
+const TARGET_LUFS = -14.9; // ffmpeg loudnorm 은 ebur128 보다 0.2–0.3 LU 낮게 읽는다 → 두 미터의 가운데가 −15 가 되게
 const CEILING = dB(-2.2); // 샘플 피크 천장(AAC 인코딩 뒤에도 트루 피크 ≤ −1.5 dBTP 가 되도록 여유)
 const INTRO_PEAK = dB(-18); // 오프닝(f0–f100)의 피크 목표
 const WET = 0.5;
 const OPTICAL_BAND = [250, 4500]; // Hz
 const OPTICAL_WIDTH = 0.35;
+const OPTICAL_CREST_DB = 11; // 광학 트랙 포화의 기준: 버스 RMS 보다 이만큼 위에서 tanh 가 눕는다
 const INTRO_END = 100; // 오프닝 피크를 재는 구간의 끝(리버스 스웰 시작 전)
 const FADE_FROM = 565;
 const FADE_TO = 598;
@@ -1470,16 +1475,36 @@ const SEC_MIX = SECTIONS.slice(0, 3).map((sec, s) => {
     r[i] = sec.dry[1][s0 + i] + wr[i] * WET;
   }
   if (s === 0) {
-    // 어제(옛 필름): 250 Hz–4.5 kHz 대역 제한(HP 2차 · LP 4차) + 폭 35% → 그 위에 clean 버스(드론·험)를 더한다
-    for (const ch of [l, r]) {
+    // 어제(옛 필름): 250 Hz–4.5 kHz 대역 제한(HP 2차 · LP 4차) → 광학 트랙식 포화(다이내믹이 눌린 옛 녹음) → 폭 35%.
+    // 리버스 스웰은 대역 제한만, 드론·험(clean)은 그대로 더한다.
+    const band = (ch) => {
       biquad(ch, hpCoef(OPTICAL_BAND[0]));
       biquad(ch, lpCoef(OPTICAL_BAND[1], 0.5412));
       biquad(ch, lpCoef(OPTICAL_BAND[1], 1.3066));
+    };
+    band(l);
+    band(r);
+    // 포화 기준 레벨 = RMS + OPTICAL_CREST_DB → 드문 스파이크(분필 탭·크래클)가 눌려 같은 피크에서 몸통이 더 잘 들린다
+    let e = 0;
+    for (let i = 0; i < n; i++) e += l[i] * l[i] + r[i] * r[i];
+    const ref = Math.sqrt(e / (2 * n)) * dB(OPTICAL_CREST_DB);
+    if (ref > 0) {
+      for (let i = 0; i < n; i++) {
+        l[i] = Math.tanh(l[i] / ref) * ref;
+        r[i] = Math.tanh(r[i] / ref) * ref;
+      }
+      biquad(l, lpCoef(OPTICAL_BAND[1]));
+      biquad(r, lpCoef(OPTICAL_BAND[1]));
     }
+    const sw = SECTIONS[4].dry.map((c) => c.slice(s0, s1));
+    band(sw[0]);
+    band(sw[1]);
     const clean = SECTIONS[3].dry;
     for (let i = 0; i < n; i++) {
-      const m = (l[i] + r[i]) * 0.5;
-      const sd = (l[i] - r[i]) * 0.5 * OPTICAL_WIDTH;
+      const lo = l[i] + sw[0][i];
+      const ro = r[i] + sw[1][i];
+      const m = (lo + ro) * 0.5;
+      const sd = (lo - ro) * 0.5 * OPTICAL_WIDTH;
       l[i] = m + sd + clean[0][s0 + i];
       r[i] = m - sd + clean[1][s0 + i];
     }
@@ -1503,25 +1528,38 @@ const SEC_MIX = SECTIONS.slice(0, 3).map((sec, s) => {
   return [L, R];
 });
 
-/** 리미터: 필요한 감쇠량을 구한 뒤 릴리스(전방)·룩어헤드 어택(후방)으로 다듬는다. 지연 없음 */
-function limiter(L, R, thr, { attackMs = 8, releaseMs = 220 } = {}) {
+/** 룩어헤드 리미터(지연 없음): 앞으로 W 샘플의 최소 필요 게인 → 느린 릴리스 → W 샘플 이동 평균.
+ *  게인이 파형의 마루 하나하나가 아니라 엔벨로프를 따라가므로 저음 마루가 평평하게 깎이지 않는다. 감쇠 곡선을 돌려준다 */
+function limiter(L, R, thr, { lookMs = 5, releaseMs = 220 } = {}) {
   const n = L.length;
-  const g = new Float32Array(n);
+  const W = Math.max(1, Math.round((lookMs / 1000) * SR));
+  const req = new Float32Array(n);
   for (let i = 0; i < n; i++) {
     const p = Math.max(Math.abs(L[i]), Math.abs(R[i]));
-    g[i] = p > thr ? thr / p : 1;
+    req[i] = p > thr ? thr / p : 1;
+  }
+  const ahead = new Float32Array(n);
+  const dq = new Int32Array(n);
+  let head = 0;
+  let tail = 0;
+  for (let i = n - 1; i >= 0; i--) {
+    while (tail > head && req[dq[tail - 1]] >= req[i]) tail--;
+    dq[tail++] = i;
+    while (dq[head] > i + W - 1) head++;
+    ahead[i] = req[dq[head]];
   }
   const rel = 1 - Math.exp(-1 / ((releaseMs / 1000) * SR));
-  const att = 1 - Math.exp(-1 / ((attackMs / 1000) * SR));
-  for (let i = 1; i < n; i++) g[i] = Math.min(g[i], g[i - 1] + (1 - g[i - 1]) * rel);
-  for (let i = n - 2; i >= 0; i--) g[i] = Math.min(g[i], g[i + 1] + (1 - g[i + 1]) * att);
-  let minG = 1;
+  for (let i = 1; i < n; i++) ahead[i] = Math.min(ahead[i], ahead[i - 1] + (1 - ahead[i - 1]) * rel);
+  const g = new Float32Array(n);
+  let acc = 0;
   for (let i = 0; i < n; i++) {
+    acc += ahead[i];
+    if (i >= W) acc -= ahead[i - W];
+    g[i] = Math.min(req[i], i >= W - 1 ? acc / W : (acc + (W - 1 - i)) / W);
     L[i] *= g[i];
     R[i] *= g[i];
-    if (g[i] < minG) minG = g[i];
   }
-  return minG;
+  return g;
 }
 /** 소프트 클립: knee 아래는 선형, 위는 tanh 로 천장에 수렴 */
 function softClip(x, knee, ceil) {
@@ -1556,14 +1594,14 @@ function master(trimA) {
   let gain = dB(TARGET_LUFS - lufs(L, R));
   let oL;
   let oR;
-  let gr = 1;
+  let gr = null;
   let loud = 0;
   for (let it = 0; it < 6; it++) {
     oL = Float32Array.from(L, (v) => v * gain);
     oR = Float32Array.from(R, (v) => v * gain);
-    gr = limiter(oL, oR, CEILING * dB(3));
-    softClip(oL, CEILING * dB(-4), CEILING);
-    softClip(oR, CEILING * dB(-4), CEILING);
+    gr = limiter(oL, oR, CEILING * dB(1.5));
+    softClip(oL, CEILING * dB(-3), CEILING);
+    softClip(oR, CEILING * dB(-3), CEILING);
     loud = lufs(oL, oR);
     if (Math.abs(loud - TARGET_LUFS) < 0.02) break;
     gain *= dB(TARGET_LUFS - loud);
@@ -1580,6 +1618,12 @@ const rmsIn = (m, fa, fb) => {
   let e = 0;
   for (let i = F(fa); i < F(fb); i++) e += m.L[i] * m.L[i] + m.R[i] * m.R[i];
   return Math.sqrt(e / (2 * (F(fb) - F(fa))));
+};
+
+const grIn = (fa, fb) => {
+  let m = 1;
+  for (let i = F(fa); i < F(fb); i++) if (M.gr[i] < m) m = M.gr[i];
+  return toDb(m).toFixed(2);
 };
 
 console.error("master…");
@@ -1628,7 +1672,7 @@ console.log(
     `wrote ${outPath}`,
     `${N} samples · ${(N / SR).toFixed(3)} s · ${SR} Hz · 16-bit stereo`,
     `integrated ${M.loud.toFixed(2)} LUFS · sample peak ${toDb(peakIn(M, 0, TOTAL_FRAMES)).toFixed(2)} dBFS · true peak ≈ ${toDb(tp).toFixed(2)} dBTP`,
-    `master gain ${toDb(M.gain).toFixed(2)} dB · limiter max GR ${toDb(M.gr).toFixed(2)} dB · intro trim ${toDb(trimA).toFixed(2)} dB`,
+    `master gain ${toDb(M.gain).toFixed(2)} dB · intro trim ${toDb(trimA).toFixed(2)} dB · limiter GR (dB): hit1 ${grIn(120, 150)} · bars5–7 ${grIn(240, 420)} · bar8 ${grIn(420, 478)} · hit2 ${grIn(480, 540)}`,
     `peaks: intro f0–100 ${toDb(peakIn(M, 0, INTRO_END)).toFixed(1)} · swell f100–118 ${toDb(peakIn(M, INTRO_END, 118)).toFixed(1)} · gap f118.2–120 ${toDb(peakIn(M, 118.2, 120)).toFixed(1)} · hit1 f120–135 ${toDb(peakIn(M, 120, 135)).toFixed(1)} · gap f477.5–480 ${toDb(peakIn(M, 477.5, 480)).toFixed(1)} · hit2 f480–495 ${toDb(peakIn(M, 480, 495)).toFixed(1)} dBFS`,
     `rms 0.5 s: hit1 ${toDb(rmsIn(M, 120, 135)).toFixed(1)} · bars5–7 ${toDb(rmsIn(M, 240, 420)).toFixed(1)} · bar8 ${toDb(rmsIn(M, 420, 476)).toFixed(1)} · hit2 ${toDb(rmsIn(M, 480, 495)).toFixed(1)} dBFS · DC ${(dc[0] / N / 32768).toExponential(1)}/${(dc[1] / N / 32768).toExponential(1)}`,
   ].join("\n"),
@@ -1656,4 +1700,44 @@ if (STEMS) {
     }
     console.log(`${name.padEnd(12)} peak ${toDb(p * g).toFixed(1).padStart(6)} dBFS · rms(active) ${toDb(Math.sqrt(e / Math.max(1, cnt)) * g).toFixed(1).padStart(6)} · f${(first / SPF).toFixed(1)}–f${(last / SPF).toFixed(1)}`);
   }
+  console.log(`\n── 구간 A 스템: 광학 트랙 처리 뒤(리버브 제외), f0–${INTRO_END} ──`);
+  for (const [name, bus] of [...STEMS.entries()].sort()) {
+    const n = F(118);
+    const l = bus[0].slice(0, n);
+    const r = bus[1].slice(0, n);
+    if (!l.some((v) => v !== 0) && !r.some((v) => v !== 0)) continue;
+    if (!bus.clean) {
+      for (const ch of [l, r]) {
+        biquad(ch, hpCoef(OPTICAL_BAND[0]));
+        biquad(ch, lpCoef(OPTICAL_BAND[1], 0.5412));
+        biquad(ch, lpCoef(OPTICAL_BAND[1], 1.3066));
+      }
+      for (let i = 0; i < n; i++) {
+        const m = (l[i] + r[i]) * 0.5;
+        const sd = (l[i] - r[i]) * 0.5 * OPTICAL_WIDTH;
+        l[i] = m + sd;
+        r[i] = m - sd;
+      }
+    }
+    const st = { L: l, R: r };
+    const k = trimA * g;
+    console.log(`${name.padEnd(12)} peak ${toDb(peakIn(st, 0, INTRO_END) * k).toFixed(1).padStart(6)} · rms f0–${INTRO_END} ${toDb(rmsIn(st, 0, INTRO_END) * k).toFixed(1).padStart(6)} · rms f100–118 ${toDb(rmsIn(st, INTRO_END, 118) * k).toFixed(1).padStart(6)}`);
+  }
+  for (const [label, fa, fb] of [
+    ["hit1 f120–135", 120, 135],
+    ["bar8 f450–477", 450, 477],
+    ["hit2 f480–495", 480, 495],
+  ]) {
+    const rows = [...STEMS.entries()]
+      .map(([name, bus]) => [name, peakIn({ L: bus[0], R: bus[1] }, fa, fb) * g, rmsIn({ L: bus[0], R: bus[1] }, fa, fb) * g])
+      .filter((r) => r[1] > 1e-4)
+      .sort((a, b) => b[1] - a[1]);
+    console.log(`\n── ${label}: 스템 피크/RMS (dry, post gain) ──\n` + rows.map(([nm, pk, rm]) => `${nm} ${toDb(pk).toFixed(1)}/${toDb(rm).toFixed(1)}`).join(" · "));
+  }
+  const ev = [];
+  for (let f = 120; f < 600; f += 2.5) {
+    const v = Number(grIn(f, f + 2.5));
+    if (v < -0.3) ev.push(`f${f}:${v.toFixed(1)}`);
+  }
+  console.log("\n── limiter GR < −0.3 dB (2.5f 창) ──\n" + ev.join(" "));
 }

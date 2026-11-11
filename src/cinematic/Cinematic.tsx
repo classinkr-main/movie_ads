@@ -52,13 +52,13 @@ const Shot: React.FC<{ id: string; from: number; to: number; inDir?: Dir; outDir
     const t = interpolate(frame, [from, from + 10], [0, 1], { ...cl, easing: Easing.out(Easing.exp) });
     scale *= 0.6 + t * 0.4;
     soft = Math.max(soft, (1 - t) * 16);
-    bright = Math.max(bright, 1 + (1 - t) * 0.5);
+    bright = Math.max(bright, 1 + (1 - t) * 0.22);
   }
   if (outZoom) {
     const t = interpolate(frame, [to - 7, to], [0, 1], { ...cl, easing: Easing.in(Easing.cubic) });
     scale *= 1 + t * 1.15;
     soft = Math.max(soft, t * 18);
-    bright = Math.max(bright, 1 + t * 0.7);
+    bright = Math.max(bright, 1 + t * 0.35);
   }
   const transform = `${x ? `translateX(${x.toFixed(1)}px) ` : ""}${scale !== 1 ? `scale(${scale.toFixed(4)})` : ""}`.trim();
   return (
@@ -115,7 +115,7 @@ export const Cinematic: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
   const bars = frame < T.end ? interpolate(frame, [T.reveal, T.reveal + 10], [0, BAR_H], { ...cl, easing: Easing.out(Easing.exp) }) : interpolate(frame, [T.end, T.end + 18], [BAR_H, 0], { ...cl, easing: Easing.out(Easing.cubic) });
 
   // 임팩트 1 — 보드가 드러나는 순간의 플레어
-  const hit1 = interpolate(frame, [T.reveal - 2, T.reveal, T.reveal + 6, T.reveal + 26], [0, 1.3, 0.55, 0], cl);
+  const hit1 = interpolate(frame, [T.reveal - 1, T.reveal, T.reveal + 6, T.reveal + 26], [0, 1.3, 0.55, 0], cl);
   const hit1x = interpolate(frame, [T.reveal, T.reveal + 26], [W * 0.5, W * 0.46], { ...cl, easing: Easing.out(Easing.exp) });
   // 보드 윗변에 남는 작은 글린트
   const glint = interpolate(frame, [T.reveal + 30, T.reveal + 50, T.record - 10, T.record - 3], [0, 0.34, 0.3, 0], cl) * (1 + Math.sin(frame / 7) * 0.08);
@@ -169,8 +169,8 @@ export const Cinematic: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
         <LightLeak key={c} at={c} dir={dir} strength={0.5} color={c >= T.next ? K.holo : K.mint} />
       ))}
       <Flash at={T.reveal} strength={0.5} dur={7} />
-      <Flash at={T.next - 1} strength={0.55} dur={8} color={K.ice} />
-      <Flash at={T.end} strength={0.6} dur={6} />
+      <Flash at={T.next - 1} strength={0.28} dur={6} color={K.ice} />
+      <Flash at={T.end} strength={0.46} dur={5} />
       <Vignette strength={0.62} />
       <FilmGrain opacity={grain} />
       <EraBar y={bars + (frame < T.reveal ? 52 : 30)} />

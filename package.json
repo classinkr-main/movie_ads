@@ -7,8 +7,8 @@
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
     "typecheck": "tsc --noEmit",
-    "render:cinematic": "remotion render Cinematic out/classin-cinematic-20s.mp4 --crf=20 --image-format=jpeg --jpeg-quality=96",
-    "render:cinematic:silent": "remotion render Cinematic out/classin-cinematic-20s-silent.mp4 --crf=20 --image-format=jpeg --jpeg-quality=96 --muted",
+    "render:cinematic": "remotion render Cinematic out/classin-cinematic-20s.mp4 --crf=18 --image-format=jpeg --jpeg-quality=96",
+    "render:cinematic:silent": "remotion render Cinematic out/classin-cinematic-20s-silent.mp4 --crf=18 --image-format=jpeg --jpeg-quality=96 --muted",
     "score:cinematic": "node scripts/make-cinematic-score.mjs && ffmpeg -y -loglevel error -i public/audio/cinematic-score.wav -c:a aac -b:a 256k public/audio/cinematic-score.m4a",
     "stills:cinematic": "node scripts/cinematic-stills.mjs"
   },
