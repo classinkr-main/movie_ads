@@ -334,7 +334,7 @@ function shimmer(freqs, dur, { attack = 0.15, tau = 0.8, air = 0.3 } = {}) {
     L[i] = (L[i] + air * a.L[i]) * env;
     R[i] = (R[i] + air * a.R[i]) * env;
   }
-  return normalize(fadeSt({ L, R }, 0.005, Math.min(0.6, dur * 0.3)));
+  return normalize(fadeSt({ L, R }, 0.005, 0.12));
 }
 
 /** 부드럽게 부풀었다 꺼지는 서브 */
@@ -1208,8 +1208,8 @@ reseed("bar7");
 place(pushThrough(16 / FPS), 352, { gain: dB(-12.5), send: 0.3, group: "push" });
 place(subBoom({ f0: 120, f1: n2f("C1"), drop: 0.14, tail: 1.1, drive: 1.3, punch: 0.4, click: 0.2 }), 360, { gain: dB(-12.5), group: "push" });
 place(thud(0.2), 360, { gain: dB(-14), send: 0.5, group: "push" });
-// f360–384 홀로그램 파워업(Csus2/add9 음으로 아래→위). 버퍼는 f386 까지(마지막 0.2 s 는 페이드), 꼬리는 리버브가 잇는다
-place(holoPowerUp(26 / FPS, ["C5", "G5", "D6", "E6", "G6", "C7", "D7"]), 360, { gain: dB(-18), send: 0.75, group: "holo" });
+// f360–384 홀로그램 파워업(Csus2/add9 음으로 아래→위)
+place(holoPowerUp(32 / FPS, ["C5", "G5", "D6", "E6", "G6", "C7", "D7"]), 360, { gain: dB(-18), send: 0.75, group: "holo" });
 
 // ── 8마디 (f420–480) AI 강의 리포트 + 피날레로 빌드업 ──
 reseed("bar8");

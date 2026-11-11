@@ -2,7 +2,7 @@
 
 | 영상 | 규격 | 컴포지션 id | 결과물 |
 | --- | --- | --- | --- |
-| **시네마틱 커머셜 "어제 · 오늘 · 내일의 수업"** | 1920×1080 · 30fps · 20s · 4:3 → 2.39:1 → 풀 프레임 · 사운드트랙 포함 | `Cinematic` | `out/classin-cinematic-20s.mp4` |
+| **시네마틱 커머셜 "어제 · 오늘 · 내일의 수업"** | 1920×1080 · 30fps · 20s · 4:3 → 2.39:1 → 풀 프레임 · H.264 + AAC | `Cinematic` | `out/classin-cinematic-20s.mp4`(사운드 포함) · `out/classin-cinematic-20s-silent.mp4`(무음 마스터) |
 | Classin AI 기능 쇼릴 v4 | 1920×1080 · 30fps · 30s · 무음 | `Showreel` | `out/classin-ai-showreel.mp4` |
 
 두 영상은 같은 워크스페이스에서 따로 렌더됩니다. 아래는 시네마틱 커머셜, 그 다음이 v4 쇼릴 문서입니다.
@@ -62,7 +62,7 @@
 npm run score:cinematic      # wav 합성 → public/audio/cinematic-score.m4a
 ```
 
-영상 타이밍(`src/cinematic/theme.ts`의 `T`)을 바꾸면 스크립트의 큐 프레임도 함께 바꿔야 합니다. 다른 음악을 얹으려면 `npm run render:cinematic:silent`로 무음본을 뽑으세요.
+통합 음량 약 −15 LUFS · 트루 피크 −2.4 dBTP 로 마스터링되어 있습니다. 영상 타이밍(`src/cinematic/theme.ts`의 `T`)을 바꾸면 스크립트의 큐 프레임도 함께 바꿔야 합니다. 다른 음악을 얹을 때는 무음 마스터(`out/classin-cinematic-20s-silent.mp4`, 또는 `npm run render:cinematic:silent`)를 쓰세요. 커밋된 사운드 포함본은 무음 마스터에 m4a를 재인코딩 없이 합친 것입니다(`ffmpeg -i silent.mp4 -i cinematic-score.m4a -c copy`).
 
 ## 구조
 
