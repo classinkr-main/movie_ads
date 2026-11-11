@@ -1,10 +1,10 @@
 import React from "react";
 import { AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Dust, cl } from "../fx";
-import { FONT, FadeIn, Hairline, Roll, Tracked } from "../type";
+import { FONT, FadeIn } from "../type";
 import { H, K, W, rgba } from "../theme";
 
-// S4 (420–480f) 글로벌 스케일 → S5 (480–600f) 로고 · CTA. 두 샷은 같은 "지평선" 무대를 공유한다.
+// 엔드카드 (480–600f) — 임팩트. 레터박스가 열리고 지평선 위로 로고 · 태그라인 · CTA.
 
 /** 행성의 가장자리처럼 빛나는 지평선 */
 export const Horizon: React.FC<{ y: number; glow?: number; rise?: number }> = ({ y, glow = 1, rise = 0 }) => {
@@ -32,54 +32,7 @@ export const Horizon: React.FC<{ y: number; glow?: number; rise?: number }> = ({
   );
 };
 
-const STATS: Array<{ to: number; unit: string; label: string; comma?: boolean }> = [
-  { to: 160, unit: "", label: "서비스 국가" },
-  { to: 6, unit: "만", label: "교육기관" },
-  { to: 5000, unit: "만", label: "교사 · 학습자", comma: true },
-  { to: 3000, unit: "만", label: "월간 수업", comma: true },
-];
-
-export const Scale: React.FC = () => {
-  const f = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const rise = interpolate(f, [0, 60], [0, 46], { easing: Easing.out(Easing.quad) });
-  return (
-    <AbsoluteFill>
-      <Horizon y={790} rise={rise} glow={interpolate(f, [0, 12, 60], [0.5, 0.85, 1.05], cl)} />
-      <Dust count={90} seed="sc" wind={0.5} rise={-0.3} opacity={0.9} near={0.12} />
-      <div style={{ position: "absolute", left: 0, top: 272, width: W, display: "flex", justifyContent: "center" }}>
-        <FadeIn at={0} y={8} dur={10}>
-          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-            <Hairline at={0} width={50} dur={14} origin="right" />
-            <Tracked size={25} spacing={0.24}>전 세계 교실에서</Tracked>
-            <Hairline at={0} width={50} dur={14} />
-          </div>
-        </FadeIn>
-      </div>
-      <div style={{ position: "absolute", left: 0, top: 352, width: W, display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
-        {STATS.map((s, i) => {
-          const at = 2 + i * 8;
-          const sp = spring({ frame: f - at, fps, config: { damping: 15, stiffness: 210, mass: 0.7 } });
-          const o = interpolate(f - at, [0, 4], [0, 1], cl);
-          const blur = interpolate(f - at, [0, 7], [14, 0], cl);
-          return (
-            <div key={s.label} style={{ padding: "0 52px", display: "flex", flexDirection: "column", alignItems: "center", opacity: o, transform: `translateY(${(1 - sp) * 44}px) scale(${1.25 - sp * 0.25})`, filter: blur > 0.3 ? `blur(${blur}px)` : undefined, borderLeft: i ? `1px solid ${rgba(K.white, 0.14)}` : undefined }}>
-              <div style={{ fontFamily: FONT, fontSize: 116, fontWeight: 800, color: K.white, letterSpacing: "-0.05em", lineHeight: 1, whiteSpace: "nowrap", textShadow: `0 0 50px ${rgba(K.mint, 0.25)}` }}>
-                <Roll to={s.to} at={at} dur={12} comma={s.comma} />
-                {s.unit && <span style={{ fontSize: 66, fontWeight: 700, letterSpacing: "-0.02em", marginLeft: 5 }}>{s.unit}</span>}
-                <span style={{ color: K.mint, fontWeight: 700, marginLeft: 2 }}>+</span>
-              </div>
-              <div style={{ marginTop: 20, fontFamily: FONT, fontSize: 32, fontWeight: 600, color: "rgba(244,246,242,0.74)", letterSpacing: "-0.01em" }}>{s.label}</div>
-            </div>
-          );
-        })}
-      </div>
-      <FadeIn at={30} y={6} dur={10} style={{ position: "absolute", left: 0, top: 596, width: W, textAlign: "center" }}>
-        <span style={{ fontFamily: FONT, fontSize: 25, fontWeight: 500, color: K.dim, letterSpacing: "0.03em" }}>EEO 공식 기준 · 전 세계 누적</span>
-      </FadeIn>
-    </AbsoluteFill>
-  );
-};
+const STATS = ["160+ 서비스 국가", "6만+ 교육기관", "5,000만+ 교사 · 학습자", "3,000만+ 월간 수업"];
 
 /** 로고 심볼 — 원본 그린 위로 스페큘러가 한 번 지나간다 */
 const Mark: React.FC<{ height: number; sweep: number }> = ({ height, sweep }) => {
@@ -139,8 +92,16 @@ export const End: React.FC = () => {
           <div style={{ fontFamily: FONT, fontSize: 27, fontWeight: 500, color: K.dim, letterSpacing: "0.08em" }}>학원 전자칠판 · 수업 녹화 · AI 강의 평가</div>
         </FadeIn>
 
+        {/* 글로벌 수치 — 파인 프린트 */}
+        <FadeIn at={60} y={6} dur={16} style={{ position: "absolute", left: 0, top: 976, width: W, textAlign: "center" }}>
+          <div style={{ fontFamily: FONT, fontSize: 23, fontWeight: 500, color: K.dim, letterSpacing: "0.01em" }}>
+            {STATS.join("  ·  ")}
+            <span style={{ color: K.faint, marginLeft: 18 }}>EEO 공식 기준 · 전 세계 누적</span>
+          </div>
+        </FadeIn>
+
         {/* CTA — 매트 플랫 버튼 */}
-        <div style={{ position: "absolute", left: 0, top: 846, width: W, display: "flex", justifyContent: "center", alignItems: "center", gap: 30, opacity: Math.min(1, cta * 1.4), transform: `translateY(${(1 - cta) * 22}px)` }}>
+        <div style={{ position: "absolute", left: 0, top: 838, width: W, display: "flex", justifyContent: "center", alignItems: "center", gap: 30, opacity: Math.min(1, cta * 1.4), transform: `translateY(${(1 - cta) * 22}px)` }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18, height: 72, padding: "0 30px 0 32px", borderRadius: 12, background: K.mint, color: K.forest, fontFamily: FONT, fontSize: 31, fontWeight: 800, letterSpacing: "-0.02em", boxShadow: "0 14px 34px rgba(0,0,0,0.45)" }}>
             도입 문의
             <svg width={30} height={18} viewBox="0 0 30 18" style={{ transform: `translateX(${nudge}px)` }}>

@@ -69,15 +69,15 @@ const pr = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], c
 /** 오프닝 매크로 샷의 판서 진행(로컬 프레임) */
 export const lessonAt = (f: number): LessonP => ({
   title: 1,
-  formula: pr(f, 6, 30),
-  xAxis: pr(f, 31, 37),
-  yAxis: pr(f, 36, 42),
-  curve: pr(f, 41, 70),
-  sym: pr(f, 64, 74),
-  dot: pr(f, 69, 72),
-  label: pr(f, 72, 80),
-  bullets: pr(f, 50, 78),
-  box: pr(f, 30, 44),
+  formula: pr(f, 11, 35),
+  xAxis: pr(f, 36, 42),
+  yAxis: pr(f, 41, 47),
+  curve: pr(f, 46, 75),
+  sym: pr(f, 69, 79),
+  dot: pr(f, 74, 77),
+  label: pr(f, 77, 85),
+  bullets: pr(f, 55, 83),
+  box: pr(f, 35, 49),
 });
 
 const along = (pts: Pt[], t: number): Pt => {
@@ -91,7 +91,8 @@ const FORMULA_X = 84;
 const FORMULA_W = 560;
 
 /** 분필 끝 위치(보드 좌표)와 밝기 */
-export const tipAt = (f: number): { x: number; y: number; on: number } => {
+export const tipAt = (f0: number): { x: number; y: number; on: number } => {
+  const f = f0 - 5; // 타이틀 카드만큼 뒤로
   if (f < 6) return { x: FORMULA_X, y: 236, on: pr(f, 2, 6) };
   if (f <= 30) {
     const t = pr(f, 6, 30);

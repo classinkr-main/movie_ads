@@ -1,22 +1,23 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, useCurrentFrame } from "remotion";
 import { Lesson, LESSON_FULL, Slate, lessonAt, tipAt } from "../Chalk";
-import { FONT_FAMILY } from "../fonts";
-import { Flare, cl, fade } from "../fx";
-import { BAR_H, BOARD, H, K, W, rgba } from "../theme";
+import { SERIF_FONT } from "../fonts";
+import { FilmDamage, Flare, cl, fade, gateWeave } from "../fx";
+import { BOARD, H, K, PILLAR_W, W, rgba } from "../theme";
 
-// S1 (0–120f) — 어둠 속 매크로: 분필이 식과 포물선을 그리고, 지우개가 두 번 훑는다.
+// 어제 (0–120f) — 옛 필름 속 매크로: 분필이 식과 포물선을 그리고, 지우개가 세 번 훑는다.
+// 4:3 게이트 · 세피아 · 2프레임씩 끊기는 움직임(on twos).
 
 type Key = [number, number, number, number]; // frame, focusX, focusY, scale
 const CAM: Key[] = [
   [0, 300, 222, 2.55],
-  [25, 425, 232, 2.44],
-  [35, 850, 430, 2.06],
-  [46, 905, 372, 1.98],
-  [70, 968, 330, 1.86],
-  [84, 900, 338, 1.7],
-  [112, 652, 342, 1.5],
-  [120, 646, 341, 1.47],
+  [30, 425, 232, 2.44],
+  [40, 850, 430, 2.06],
+  [51, 905, 372, 1.98],
+  [75, 968, 330, 1.86],
+  [88, 905, 338, 1.74],
+  [114, 668, 342, 1.63],
+  [120, 660, 341, 1.61],
 ];
 
 // Catmull-Rom 보간 — 키프레임에서 멈칫하지 않는 카메라
@@ -40,7 +41,7 @@ const spline = (f: number, keys: Key[], idx: 1 | 2 | 3) => {
 export const camAt = (f: number) => ({ fx: spline(f, CAM, 1), fy: spline(f, CAM, 2), s: spline(f, CAM, 3) });
 
 // 지우개 — 세 번의 긴 스윕(→ ← →). 지워지는 영역은 경로를 따라가는 굵은 획으로 마스킹한다.
-const ERASE: [number, number] = [82, 114];
+const ERASE: [number, number] = [86, 115];
 const PASS_Y = [114, 340, 567];
 const EX0 = -220;
 const EX1 = BOARD.sw + 220;
@@ -55,11 +56,11 @@ const ease = (t: number) => 0.5 - Math.cos(Math.PI * Math.max(0, Math.min(1, t))
 const eraseDist = (f: number) => {
   const t = f - ERASE[0];
   if (t <= 0) return 0;
-  if (t < 10) return ease(t / 10) * LEN_PASS;
-  if (t < 11) return LEN_PASS + (t - 10) * LEN_TURN;
-  if (t < 21) return LEN_PASS + LEN_TURN + ease((t - 11) / 10) * LEN_PASS;
-  if (t < 22) return LEN_PASS * 2 + LEN_TURN + (t - 21) * LEN_TURN;
-  if (t < 32) return LEN_PASS * 2 + LEN_TURN * 2 + ease((t - 22) / 10) * LEN_PASS;
+  if (t < 9) return ease(t / 9) * LEN_PASS;
+  if (t < 10) return LEN_PASS + (t - 9) * LEN_TURN;
+  if (t < 19) return LEN_PASS + LEN_TURN + ease((t - 10) / 9) * LEN_PASS;
+  if (t < 20) return LEN_PASS * 2 + LEN_TURN + (t - 19) * LEN_TURN;
+  if (t < 29) return LEN_PASS * 2 + LEN_TURN * 2 + ease((t - 20) / 9) * LEN_PASS;
   return LEN_TOTAL;
 };
 const erasePos = (dist: number): { x: number; y: number; dir: 1 | -1; turning: boolean } => {
@@ -146,12 +147,24 @@ const TipDust: React.FC<{ f: number }> = ({ f }) => {
   );
 };
 
+/** 무성영화식 타이틀 카드 */
+const TitleCard: React.FC<{ opacity: number }> = ({ opacity }) =>
+  opacity <= 0.01 ? null : (
+    <AbsoluteFill style={{ background: "#0b0906", opacity, alignItems: "center", justifyContent: "center" }}>
+      <div style={{ position: "relative", padding: "74px 120px", border: `2px solid ${rgba(K.cream, 0.7)}`, outline: `1px solid ${rgba(K.cream, 0.35)}`, outlineOffset: 10 }}>
+        <div style={{ position: "absolute", left: "50%", top: 26, transform: "translateX(-50%)", width: 54, height: 2, background: rgba(K.cream, 0.7) }} />
+        <div style={{ position: "absolute", left: "50%", bottom: 26, transform: "translateX(-50%)", width: 54, height: 2, background: rgba(K.cream, 0.7) }} />
+        <div style={{ fontFamily: SERIF_FONT, fontWeight: 800, fontSize: 104, color: K.cream, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>어제의 수업은,</div>
+      </div>
+    </AbsoluteFill>
+  );
+
 export const Open: React.FC = () => {
-  const f = useCurrentFrame();
+  const frame = useCurrentFrame();
+  const f = Math.floor(frame / 2) * 2; // on twos — 옛 필름의 끊기는 움직임
   const cam = camAt(f);
-  const drift = { x: Math.sin(f / 17) * 3 + Math.sin(f / 7.3) * 1.2, y: Math.cos(f / 21) * 2.4 };
-  const tx = W / 2 - cam.fx * cam.s + drift.x;
-  const ty = H / 2 - cam.fy * cam.s + drift.y;
+  const tx = W / 2 - cam.fx * cam.s;
+  const ty = H / 2 - cam.fy * cam.s;
   const tip = tipAt(f);
   const tipX = tx + tip.x * cam.s;
   const tipY = ty + tip.y * cam.s;
@@ -159,7 +172,7 @@ export const Open: React.FC = () => {
   const dist = eraseDist(f);
   const erasing = f >= ERASE[0];
   const er = erasePos(dist);
-  const speed = eraseDist(f + 0.5) - eraseDist(f - 0.5);
+  const speed = eraseDist(f + 1) - eraseDist(f - 1);
   const eraseP = dist / LEN_TOTAL;
   const eraseMask = (
     <>
@@ -173,60 +186,68 @@ export const Open: React.FC = () => {
     </>
   );
 
-  // 조명 — 분필 끝을 따라가는 스폿 → 지우개 구간에서 넓게 열린다
-  const open = interpolate(f, [76, 90], [0, 1], cl);
-  const lightIn = interpolate(f, [2, 12], [0, 1], cl);
+  // 조명 — 분필 끝을 따라가는 백열등 스폿 → 지우개 구간에서 넓게 열린다
+  const open = interpolate(f, [80, 94], [0, 1], cl);
+  const card = fade(frame, -1, 0, 12, 18);
+  const lightIn = interpolate(frame, [10, 20], [0, 1], cl);
   const spotX = interpolate(open, [0, 1], [tipX, W * 0.5]);
   const spotY = interpolate(open, [0, 1], [tipY, H * 0.5]);
-  const spotR = interpolate(open, [0, 1], [820, 1500]);
-  const dark = interpolate(open, [0, 1], [0.86, 0.5]);
-  const out = interpolate(f, [114, 119.5], [1, 0.25], cl);
-
-  const caption = fade(f, 56, 68, 106, 115);
+  const spotR = interpolate(open, [0, 1], [860, 1500]);
+  const dark = interpolate(open, [0, 1], [0.84, 0.5]);
+  const out = interpolate(frame, [116, 119.5], [1, 0.2], cl);
+  const caption = fade(frame, 66, 76, 108, 116);
+  const GX0 = PILLAR_W;
+  const GX1 = W - PILLAR_W;
 
   return (
-    <AbsoluteFill style={{ background: K.black }}>
-      <div style={{ position: "absolute", left: 0, top: 0, width: BOARD.sw, height: BOARD.sh, transform: `translate(${tx}px, ${ty}px) scale(${cam.s}) rotate(${-0.6 + Math.sin(f / 40) * 0.25}deg)`, transformOrigin: "0 0", opacity: lightIn * out }}>
-        <Slate id="open-slate" />
-        {/* 지운 자국 */}
-        {erasing && (
-          <>
-            <div style={{ position: "absolute", inset: 0, opacity: 0.13, filter: "blur(5px)" }}>
-              <Lesson id="open-ghost" p={LESSON_FULL} rough={false} />
-            </div>
-            <svg width={BOARD.sw} height={BOARD.sh} viewBox={`0 0 ${BOARD.sw} ${BOARD.sh}`} style={{ position: "absolute", left: 0, top: 0, filter: "blur(10px)" }}>
-              <path d={ERASE_PATH} stroke={rgba(K.chalk, 0.07)} strokeWidth={PASS_W * 0.82} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - eraseP} />
-              <path d={ERASE_PATH} stroke={rgba(K.chalk, 0.05)} strokeWidth={PASS_W * 0.3} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - eraseP} />
-            </svg>
-          </>
-        )}
-        <div style={{ position: "absolute", inset: 0 }}>
-          <Lesson id="open-lesson" p={lessonAt(f)} defs={erasing ? eraseMask : undefined} maskId={erasing ? "open-erase" : undefined} />
+    <AbsoluteFill style={{ background: "#000" }}>
+      {/* 필름에 찍힌 화면 — 세피아 그레이드 + 게이트 위브 */}
+      <AbsoluteFill style={{ filter: "sepia(1) saturate(1.25) hue-rotate(-14deg) contrast(1.08) brightness(1.1)", transform: gateWeave(frame) }}>
+        <AbsoluteFill style={{ background: "#040302" }} />
+        <div style={{ position: "absolute", left: 0, top: 0, width: BOARD.sw, height: BOARD.sh, transform: `translate(${tx}px, ${ty}px) scale(${cam.s}) rotate(-0.5deg)`, transformOrigin: "0 0", opacity: lightIn * out }}>
+          <Slate id="open-slate" />
+          {/* 지운 자국 */}
+          {erasing && (
+            <>
+              <div style={{ position: "absolute", inset: 0, opacity: 0.13, filter: "blur(5px)" }}>
+                <Lesson id="open-ghost" p={LESSON_FULL} rough={false} />
+              </div>
+              <svg width={BOARD.sw} height={BOARD.sh} viewBox={`0 0 ${BOARD.sw} ${BOARD.sh}`} style={{ position: "absolute", left: 0, top: 0, filter: "blur(10px)" }}>
+                <path d={ERASE_PATH} stroke={rgba(K.chalk, 0.07)} strokeWidth={PASS_W * 0.82} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - eraseP} />
+                <path d={ERASE_PATH} stroke={rgba(K.chalk, 0.05)} strokeWidth={PASS_W * 0.3} fill="none" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - eraseP} />
+              </svg>
+            </>
+          )}
+          <div style={{ position: "absolute", inset: 0 }}>
+            <Lesson id="open-lesson" p={lessonAt(f)} defs={erasing ? eraseMask : undefined} maskId={erasing ? "open-erase" : undefined} />
+          </div>
+          <TipDust f={f} />
+          {erasing && <EraseDust f={f} />}
+          {erasing && f < ERASE[1] + 0.5 && !er.turning && <Eraser x={er.x} y={er.y} dir={er.dir} speed={Math.abs(speed) / 2} />}
         </div>
-        <TipDust f={f} />
-        {erasing && <EraseDust f={f} />}
-        {erasing && f < ERASE[1] + 0.5 && !er.turning && <Eraser x={er.x} y={er.y} dir={er.dir} speed={Math.abs(speed)} />}
+
+        {/* 창으로 비스듬히 드는 빛 */}
+        <AbsoluteFill style={{ mixBlendMode: "screen", opacity: lightIn * out, background: `linear-gradient(118deg, transparent 24%, ${rgba(K.mintHot, 0.04)} 40%, ${rgba(K.mintHot, 0.075)} 50%, transparent 66%)` }} />
+        {/* 스폿 조명 밖은 어둠 */}
+        <AbsoluteFill style={{ background: `radial-gradient(circle ${spotR}px at ${spotX}px ${spotY}px, transparent 0%, rgba(0,0,0,${dark * 0.3}) 38%, rgba(0,0,0,${dark}) 84%)` }} />
+        <AbsoluteFill style={{ mixBlendMode: "screen", background: `radial-gradient(circle ${spotR * 0.6}px at ${spotX}px ${spotY}px, ${rgba(K.mint, 0.14 * lightIn * out)} 0%, transparent 70%)` }} />
+
+        {/* 얕은 심도 — 위·아래 가장자리 포커스 아웃(카메라가 빠지면 풀린다) */}
+        <div style={{ position: "absolute", left: 0, top: 0, width: W, height: 250, backdropFilter: `blur(${(10 * (1 - open * 0.7)).toFixed(1)}px)`, WebkitMaskImage: "linear-gradient(180deg, #000 0%, transparent 100%)" }} />
+        <div style={{ position: "absolute", left: 0, bottom: 0, width: W, height: 270, backdropFilter: `blur(${(11 * (1 - open * 0.7)).toFixed(1)}px)`, WebkitMaskImage: "linear-gradient(0deg, #000 0%, transparent 100%)" }} />
+
+        {/* 분필 끝의 빛 */}
+        <Flare x={tipX} y={tipY} power={tip.on * 0.46 * lightIn * out} length={520} core={0.36} ghosts={false} />
+      </AbsoluteFill>
+
+      {/* 자막 — 옛 필름 자막 서체 */}
+      <div style={{ position: "absolute", left: GX0, width: GX1 - GX0, bottom: 0, height: 300, opacity: caption, background: "linear-gradient(0deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 50%, transparent 100%)" }} />
+      <div style={{ position: "absolute", left: GX0, width: GX1 - GX0, bottom: 104, textAlign: "center", opacity: caption, transform: gateWeave(frame, 0.5) }}>
+        <span style={{ fontFamily: SERIF_FONT, fontWeight: 800, fontSize: 66, color: K.cream, letterSpacing: "0.03em", textShadow: "0 3px 24px rgba(0,0,0,0.95), 0 0 3px rgba(0,0,0,0.9)" }}>지워지면, 사라졌습니다.</span>
       </div>
 
-      {/* 비스듬히 떨어지는 약한 주변광 */}
-      <AbsoluteFill style={{ mixBlendMode: "screen", opacity: lightIn * out, background: `linear-gradient(118deg, transparent 22%, ${rgba(K.mintHot, 0.035)} 40%, ${rgba(K.mintHot, 0.06)} 50%, transparent 68%)` }} />
-      {/* 스폿 조명 밖은 어둠 */}
-      <AbsoluteFill style={{ background: `radial-gradient(circle ${spotR}px at ${spotX}px ${spotY}px, transparent 0%, rgba(0,0,0,${dark * 0.3}) 38%, rgba(0,0,0,${dark}) 84%)` }} />
-      <AbsoluteFill style={{ mixBlendMode: "screen", background: `radial-gradient(circle ${spotR * 0.6}px at ${spotX}px ${spotY}px, ${rgba(K.mint, 0.13 * lightIn * out)} 0%, transparent 70%)` }} />
-
-      {/* 얕은 심도 — 위·아래 가장자리 포커스 아웃(카메라가 빠지면 풀린다) */}
-      <div style={{ position: "absolute", left: 0, top: BAR_H, width: W, height: 200, backdropFilter: `blur(${(9 * (1 - open * 0.75)).toFixed(1)}px)`, WebkitMaskImage: "linear-gradient(180deg, #000 0%, transparent 100%)" }} />
-      <div style={{ position: "absolute", left: 0, bottom: BAR_H, width: W, height: 220, backdropFilter: `blur(${(10 * (1 - open * 0.75)).toFixed(1)}px)`, WebkitMaskImage: "linear-gradient(0deg, #000 0%, transparent 100%)" }} />
-      {/* 자막 스크림 */}
-      <div style={{ position: "absolute", left: 0, bottom: BAR_H, width: W, height: 230, opacity: caption, background: "linear-gradient(0deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.5) 45%, transparent 100%)" }} />
-
-      {/* 분필 끝 — 작은 빛 */}
-      <Flare x={tipX} y={tipY} power={tip.on * (0.46 + Math.sin(f * 1.7) * 0.05) * out} length={560} core={0.36} ghosts={false} />
-
-      {/* 자막 */}
-      <div style={{ position: "absolute", left: 0, width: W, bottom: BAR_H + 58, textAlign: "center", opacity: caption, transform: `translateY(${(1 - Math.min(1, caption * 1.4)) * 10}px)` }}>
-        <span style={{ fontFamily: FONT_FAMILY, fontSize: 54, fontWeight: 500, color: K.white, letterSpacing: `${interpolate(caption, [0, 1], [0.06, -0.01])}em`, textShadow: "0 2px 24px rgba(0,0,0,0.95), 0 0 3px rgba(0,0,0,0.9)" }}>칠판은 지워져도,</span>
-      </div>
+      <TitleCard opacity={card} />
+      <FilmDamage x0={GX0} x1={GX1} />
     </AbsoluteFill>
   );
 };

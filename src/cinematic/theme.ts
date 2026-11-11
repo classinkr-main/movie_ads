@@ -16,6 +16,12 @@ export const K = {
   forest: "#084734",
   rec: "#FF5343",
   amber: "#FFCF99",
+  // 어제 — 옛 필름
+  cream: "#F1E4C6",
+  tungsten: "#FFB866",
+  // 내일 — 홀로그램
+  holo: "#7DF7D2",
+  ice: "#A8E9FF",
 } as const;
 
 export const rgba = (hex: string, a: number) => {
@@ -32,15 +38,18 @@ export const H = 1080;
 export const BEAT = 15;
 export const BAR = 60;
 export const T = {
-  open: 0, // 판서 매크로 → 지우개
-  reveal: 120, // 임팩트 1 · 풀백 · 헤드라인
-  p1: 240, // 01 자동 녹화
-  p2: 300, // 02 AI 강의 평가
-  p3: 360, // 03 EDB 교안
-  scale: 420, // 글로벌 스케일
+  open: 0, // 어제 — 분필 칠판(옛 필름 · 4:3)
+  reveal: 120, // 오늘 — 임팩트 1 · 풀백 · 헤드라인
+  record: 240, // 오늘 · 자동 녹화
+  edb: 300, // 오늘 · EDB 교안
+  next: 360, // 내일 — 홀로그램 공간
+  ai: 420, // 내일 · AI 강의 평가
   end: 480, // 임팩트 2 · 로고 · CTA
   total: 600,
 } as const;
+
+// 어제 구간은 4:3 필름 게이트(좌우 필러박스), 오늘·내일은 2.39:1
+export const PILLAR_W = (W - (H * 4) / 3) / 2; // 240
 
 // 2.39:1 시네마스코프 레터박스(1920×804 화면)
 export const BAR_H = Math.round((H - W / 2.39) / 2); // 138

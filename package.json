@@ -26,6 +26,7 @@
   "dependencies": {
     "@remotion/cli": "^4.0.533",
     "@remotion/fonts": "^4.0.533",
+    "@remotion/noise": "4.0.533",
     "@remotion/transitions": "^4.0.533",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

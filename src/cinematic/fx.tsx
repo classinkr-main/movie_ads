@@ -228,3 +228,66 @@ export const Stage: React.FC<{ glowX?: number; glowY?: number; glow?: number; ch
 );
 
 export const fade = (frame: number, a: number, b: number, c: number, d: number) => interpolate(frame, [a, b, c, d], [0, 1, 1, 0], cl);
+
+/* ───────── 어제 — 옛 필름 ───────── */
+
+/** 좌우 필러박스(4:3 게이트). w=0 이면 없음 */
+export const Pillarbox: React.FC<{ w: number }> = ({ w }) =>
+  w <= 0.2 ? null : (
+    <>
+      <div style={{ position: "absolute", left: 0, top: 0, width: w, height: H, background: "#000" }} />
+      <div style={{ position: "absolute", right: 0, top: 0, width: w, height: H, background: "#000" }} />
+    </>
+  );
+
+/** 필름 손상 — 세로 스크래치 · 먼지 · 머리카락 · 깜박임 · 게이트 비네트. x0~x1 범위(게이트 안)에만 그린다 */
+export const FilmDamage: React.FC<{ x0: number; x1: number; strength?: number }> = ({ x0, x1, strength = 1 }) => {
+  const frame = useCurrentFrame();
+  if (strength <= 0.01) return null;
+  const gw = x1 - x0;
+  const r = (k: string) => random(`fd-${k}-${frame}`);
+  // 몇 프레임씩 이어지는 긴 스크래치
+  const scratches = [0, 1, 2].map((i) => {
+    const life = Math.floor(frame / (7 + i * 5));
+    const on = random(`fd-on${i}-${life}`) < 0.62;
+    const x = x0 + random(`fd-x${i}-${life}`) * gw + (r(`j${i}`) - 0.5) * 3;
+    return on ? <div key={`s${i}`} style={{ position: "absolute", left: x, top: 0, width: 1.5 + random(`fd-w${i}-${life}`) * 1.5, height: H, background: `linear-gradient(180deg, transparent ${r(`a${i}`) * 20}%, rgba(255,240,205,${0.1 + r(`o${i}`) * 0.18}) 30%, rgba(255,240,205,0.05) ${70 + r(`b${i}`) * 30}%, transparent)` }} /> : null;
+  });
+  const specks = Array.from({ length: 9 }).map((_, i) => {
+    if (r(`sp${i}`) > 0.55) return null;
+    const size = 2 + r(`sz${i}`) * (r(`big${i}`) < 0.12 ? 22 : 7);
+    const dark = r(`dk${i}`) < 0.6;
+    return <div key={`p${i}`} style={{ position: "absolute", left: x0 + r(`px${i}`) * gw, top: r(`py${i}`) * H, width: size, height: size * (0.6 + r(`pa${i}`) * 0.8), borderRadius: "50%", background: dark ? "rgba(0,0,0,0.75)" : "rgba(255,244,214,0.6)", filter: "blur(0.6px)", transform: `rotate(${r(`pr${i}`) * 180}deg)` }} />;
+  });
+  const hair = r("hair") < 0.07;
+  const hx = x0 + r("hx") * gw;
+  const hy = r("hy") * H;
+  const flicker = 0.02 + r("fl") * 0.07 + (r("dip") < 0.05 ? 0.1 : 0);
+  return (
+    <AbsoluteFill style={{ pointerEvents: "none", opacity: strength }}>
+      {/* 깜박임 */}
+      <div style={{ position: "absolute", left: x0, top: 0, width: gw, height: H, background: "#000", opacity: flicker }} />
+      {/* 가장자리 타는 듯한 텅스텐 리크 */}
+      <div style={{ position: "absolute", left: x0, top: 0, width: gw, height: H, mixBlendMode: "screen", opacity: 0.5 + r("lk") * 0.2, background: `radial-gradient(ellipse 30% 60% at 0% ${40 + Math.sin(frame / 23) * 14}%, ${rgba(K.tungsten, 0.2)} 0%, transparent 70%)` }} />
+      {scratches}
+      {specks}
+      {hair && (
+        <svg width={120} height={120} style={{ position: "absolute", left: hx, top: hy, transform: `rotate(${r("hr") * 360}deg)` }}>
+          <path d="M10 60 C 40 10, 70 110, 110 50" stroke="rgba(0,0,0,0.7)" strokeWidth={1.6} fill="none" />
+        </svg>
+      )}
+      {/* 게이트 — 둥근 모서리와 깊은 비네트 */}
+      <div style={{ position: "absolute", left: x0, top: 0, width: gw, height: H, boxShadow: "inset 0 0 0 3px #000, inset 0 0 140px 40px rgba(0,0,0,0.78)", borderRadius: 34 }} />
+      <svg width={gw} height={H} style={{ position: "absolute", left: x0, top: 0 }}>
+        <path d={`M0 0 H${gw} V${H} H0 Z M34 0 A34 34 0 0 0 0 34 V${H - 34} A34 34 0 0 0 34 ${H} H${gw - 34} A34 34 0 0 0 ${gw} ${H - 34} V34 A34 34 0 0 0 ${gw - 34} 0 Z`} fill="#000" fillRule="evenodd" />
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
+/** 게이트 위브 — 영사기에서 필름이 미세하게 흔들린다 */
+export const gateWeave = (frame: number, amp = 1) => {
+  const x = (random(`gw-x${frame}`) - 0.5) * 2.6 * amp;
+  const y = (random(`gw-y${frame}`) - 0.5) * 3.4 * amp + (random(`gw-j${frame}`) < 0.04 ? 7 * amp : 0);
+  return `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`;
+};
