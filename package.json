@@ -1,12 +1,16 @@
 {
   "name": "classin-ai-showreel",
   "version": "1.0.0",
-  "description": "Classin AI 강의 분석 커머셜 쇼릴 (23s) — Remotion 기반 키네틱 모션그래픽",
+  "description": "Classin 영상 광고 — 시네마틱 커머셜(20s) · AI 기능 쇼릴 v4(30s). Remotion 기반 모션그래픽",
   "scripts": {
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render:cinematic": "remotion render Cinematic out/classin-cinematic-20s.mp4 --crf=20",
+    "render:cinematic:silent": "remotion render Cinematic out/classin-cinematic-20s-silent.mp4 --crf=20 --muted",
+    "score:cinematic": "node scripts/make-cinematic-score.mjs && ffmpeg -y -loglevel error -i public/audio/cinematic-score.wav -c:a aac -b:a 256k public/audio/cinematic-score.m4a",
+    "stills:cinematic": "node scripts/cinematic-stills.mjs"
   },
   "repository": {
     "type": "git",

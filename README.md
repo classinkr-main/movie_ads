@@ -1,3 +1,98 @@
+# Classin 영상 광고 (Remotion)
+
+| 영상 | 규격 | 컴포지션 id | 결과물 |
+| --- | --- | --- | --- |
+| **시네마틱 커머셜 "칠판은 지워져도, 수업은 남습니다"** | 1920×1080 · 30fps · 20s · 2.39:1 레터박스 · 사운드트랙 포함 | `Cinematic` | `out/classin-cinematic-20s.mp4` |
+| Classin AI 기능 쇼릴 v4 | 1920×1080 · 30fps · 30s · 무음 | `Showreel` | `out/classin-ai-showreel.mp4` |
+
+두 영상은 같은 워크스페이스에서 따로 렌더됩니다. 아래는 시네마틱 커머셜, 그 다음이 v4 쇼릴 문서입니다.
+
+---
+
+# 시네마틱 커머셜 (20초)
+
+**"칠판은 지워져도, 수업은 남습니다."** — classinkr-web 홈 H1을 그대로 한 편의 장면으로 옮긴 브랜드 커머셜입니다.
+어둠 속에서 분필이 식과 포물선을 그리고, 지우개가 훑고 지나간 뒤, 카메라가 빠지면 그 칠판이 Classin Board이고 지워진 판서가 빛으로 되살아납니다.
+이어서 "남는 방식" 세 가지(자동 녹화 · AI 강의 평가 · EDB 교안)와 글로벌 수치, 로고·CTA로 끝납니다.
+
+## 룩
+
+- **다크 스테이지 + 민트 림라이트** — 포화 컬러는 Classin Green 계열 하나(`#0B7A52` · 다크 면 포인트 `#6EE7B7`)만 씁니다. 지우개 손잡이의 우드 톤이 유일한 보색 포인트입니다.
+- **렌즈·필름 레이어** — 2.39:1 레터박스(엔드카드에서 열림), 아나모픽 플레어, 화면 전체 블룸(할레이션), 라이트 리크, 필름 그레인, 비네트, 임팩트 셰이크.
+- **카메라** — 오프닝은 얕은 심도의 매크로(스폿 조명이 분필 끝을 따라감), 리빌은 CSS 3D 돌리 아웃, 샷 사이는 방향성 모션 블러가 걸린 휩 팬.
+- **실제 제품** — 보드 프레임(`board-frame.webp`)과 AI 강의 분석 리포트 화면(`ai-report.webp`)은 classinkr-web 공개 사이트 에셋입니다. 판서(중3 수학 · 이차함수의 그래프)는 SVG로 직접 그린 예시 수업입니다.
+
+## 스토리 (600f · 120 BPM — 한 마디 60f, 컷은 모두 마디 선)
+
+| 구간 | 프레임 | 내용 |
+| --- | --- | --- |
+| S1 오프닝 | 0–120 | 매크로: 분필이 `y = (x − 2)² + 1` 과 포물선을 그린다 → 자막 "칠판은 지워져도," → 지우개 세 번 |
+| S2 리빌 | 120–240 | 임팩트. 풀백하며 Classin Board 등장, 지워진 판서가 스캔되며 되살아남. 헤드라인 "수업은 남습니다." + "판서는 교안으로, 수업은 녹화로, 강의는 AI 평가로." |
+| 01 자동 녹화 | 240–300 | 카메라 뷰파인더 시점. REC 타임코드가 45:00에 멈추고 "클라우드에 자동 저장" |
+| 02 AI 강의 평가 | 300–360 | 실제 리포트 화면 위로 스캔 → 점수 83 · "4개 영역 · 11개 항목" |
+| 03 EDB 교안 | 360–420 | 판서가 페이지로 떠올라 `이차함수의 그래프.edb` 코스 파일이 된다 |
+| S4 스케일 | 420–480 | 160+ 서비스 국가 · 6만+ 교육기관 · 5,000만+ 교사·학습자 · 3,000만+ 월간 수업 (EEO 공식 기준 · 전 세계 누적) |
+| S5 엔드카드 | 480–600 | 임팩트. 레터박스가 열리고 로고 · 태그라인 · "도입 문의 → classin.co.kr/contact" |
+
+## 콘텐츠 출처와 검수 참고
+
+- **카피** — 헤드라인·기능 문장은 classinkr-web 라이브 카피를 따릅니다(`lib/classin-positioning.ts` heroHeadline, `components/home/home-copy.ts` gains: "수업만 하면 녹화가 저절로 쌓입니다" / "수업이 끝나면 AI가 바로 평가합니다" / "누가 들어가도 같은 수업"). 엔드카드 보조 문구 "학원 전자칠판 · 수업 녹화 · AI 강의 평가"는 공유 카드(OG) 문구입니다.
+- **수치** — 네 가지 글로벌 수치는 홈·About 페이지와 같은 값이며, 브랜드 캐논(`docs/active/brand-canon/company-facts.md`) 규칙대로 "EEO 공식 기준 · 전 세계 누적" 출처 문구를 함께 표기했습니다. 국내 도입 수치는 쓰지 않았습니다.
+- **AI 강의 평가 화면** — 사이트의 `images/home/win-ai.webp`(종합 83점, 개인 정보 블러 처리본)를 그대로 썼고 화면에 "리포트 예시 화면"이라고 표기했습니다. "4개 영역 · 11개 항목"은 포지셔닝 가이드의 AI 강의 분석 구성입니다.
+- **연출용 요소** — 판서 내용, REC 타임코드(00:45:00), 저장 토스트, EDB 페이지 스택과 파일 이름, AI 카메라 PIP는 기능을 설명하기 위한 콘셉트 연출입니다. 실제 UI와 다를 수 있습니다.
+- **로고** — 심볼은 원본 그린 그대로, 워드마크는 다크 배경용으로 흰색 처리했습니다(`src/cinematic/shots/Finale.tsx`의 `filter: brightness(0) invert(1)` 한 줄을 지우면 원본 색으로 돌아갑니다).
+- **CTA** — 사이트 헤더와 같은 "도입 문의" → `classin.co.kr/contact`.
+- **서체** — Pretendard(본문) + Gaegu Bold(판서, SIL OFL 1.1 · `public/fonts/LICENSE-Gaegu.txt`).
+
+## 사운드트랙
+
+`scripts/make-cinematic-score.mjs`가 샘플 없이 코드로 합성합니다(120 BPM, D단조 → 엔드카드에서 D장조). 분필·지우개 폴리, 두 번의 임팩트(f120 · f480), 컷마다 휩 사운드, 마디 8의 라이저가 영상 타이밍과 프레임 단위로 맞물려 있습니다.
+
+```bash
+npm run score:cinematic      # wav 합성 → public/audio/cinematic-score.m4a
+```
+
+영상 타이밍(`src/cinematic/theme.ts`의 `T`)을 바꾸면 스크립트의 큐 프레임도 함께 바꿔야 합니다. 다른 음악을 얹으려면 `npm run render:cinematic:silent`로 무음본을 뽑으세요.
+
+## 구조
+
+```
+src/cinematic/
+  Cinematic.tsx        # 타임라인 · 휩 팬 샷 래퍼 · 렌즈/필름 레이어 · 오디오
+  theme.ts             # 팔레트 · 타이밍(T) · 레터박스 · 보드 프레임 좌표
+  fx.tsx               # Flare · Bloom · Letterbox · FilmGrain · LightLeak · Flash · Dust · WhipBlur · Stage · shake
+  type.tsx             # Tracked · LineUp · FadeIn · SweepText · Hairline · Roll
+  Chalk.tsx            # 판서(Lesson) · 칠판 면(Slate) · 판서 진행(lessonAt) · 분필 끝 위치(tipAt)
+  Board.tsx            # 실제 프레임 이미지 위에 화면을 얹는 Classin Board 프롭
+  shots/Open.tsx       # S1 매크로 판서 + 지우개(경로 마스크) + 분필 가루
+  shots/Reveal.tsx     # S2 3D 풀백 + 되살아나는 판서 + 헤드라인
+  shots/Proofs.tsx     # 01 자동 녹화 · 02 AI 강의 평가 · 03 EDB 교안
+  shots/Finale.tsx     # S4 스케일 · S5 엔드카드(지평선 무대 공유)
+scripts/make-cinematic-score.mjs   # 사운드트랙 합성
+scripts/cinematic-stills.mjs       # 스틸 추출(번들 1회) — node scripts/cinematic-stills.mjs 60,150,540 0.5
+public/cinematic/                  # board-frame · ai-report (classinkr-web 에셋)
+public/audio/cinematic-score.m4a   # 합성 사운드트랙
+```
+
+## 실행
+
+```bash
+npm install
+npm run dev                      # Remotion Studio → Cinematic
+npm run render:cinematic         # out/classin-cinematic-20s.mp4 (사운드 포함)
+npm run render:cinematic:silent  # out/classin-cinematic-20s-silent.mp4
+npm run typecheck
+```
+
+## 수정 가이드
+
+- **카피** — 헤드라인 `shots/Reveal.tsx`, 기능 문장 `shots/Proofs.tsx`의 `ProofText` props, 수치 `shots/Finale.tsx`의 `STATS`, 엔드카드 문구·CTA `shots/Finale.tsx`의 `End`.
+- **판서 내용** — `Chalk.tsx`의 좌표·문자열(식, 단원 제목, 정리 3줄)과 `lessonAt`(그려지는 순서).
+- **타이밍** — `theme.ts`의 `T`. 샷 길이를 바꾸면 사운드트랙 큐도 맞춥니다.
+- **룩 강도** — `Cinematic.tsx`의 `Bloom amount`, `FilmGrain opacity`, `Vignette strength`, `HITS`(셰이크), `Letterbox`.
+
+---
+
 # Classin AI 커머셜 쇼릴 (30초, v4)
 
 **"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고

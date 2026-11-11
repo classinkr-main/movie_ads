@@ -12,7 +12,7 @@ const SOFT = { damping: 200, stiffness: 120, mass: 0.9 };
 const POP = { damping: 16, stiffness: 190, mass: 0.8 };
 
 const ProofText: React.FC<{ side: "left" | "right"; n: string; en: string; title: string; sub: React.ReactNode }> = ({ side, n, en, title, sub }) => (
-  <div style={{ position: "absolute", left: side === "left" ? 150 : 1150, top: 0, width: 680, height: H, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+  <div style={{ position: "absolute", left: side === "left" ? 150 : 1182, top: 0, width: 680, height: H, display: "flex", flexDirection: "column", justifyContent: "center" }}>
     <FadeIn at={2} y={0} x={side === "left" ? -16 : 16} dur={10}>
       <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 22 }}>
         <span style={{ fontFamily: FONT, fontSize: 30, fontWeight: 800, color: K.mint, letterSpacing: "0.04em", fontVariantNumeric: "tabular-nums" }}>{n}</span>
@@ -151,7 +151,7 @@ export const ProofAi: React.FC = () => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const push = interpolate(f, [0, 60], [0, 1]);
-  const pw = 940;
+  const pw = 900;
   const k = pw / REPORT.w;
   const ph = REPORT.h * k;
   const scan = interpolate(f, [5, 36], [0, 1], { ...cl, easing: Easing.inOut(Easing.quad) });
@@ -165,7 +165,7 @@ export const ProofAi: React.FC = () => {
     <Stage glowX={0.68} glowY={0.5} glow={0.9}>
       <Dust count={60} seed="p2" px={push * 60} opacity={0.7} />
       <AbsoluteFill style={{ perspective: 1700, perspectiveOrigin: "58% 50%" }}>
-        <div style={{ position: "absolute", left: 842, top: (H - ph) / 2 - 4, width: pw, height: ph, transformStyle: "preserve-3d", transform: `translate3d(${push * 18}px, 0, ${push * 40}px) rotateY(${-17 + push * 2.5}deg) rotateX(1.5deg)` }}>
+        <div style={{ position: "absolute", left: 912, top: (H - ph) / 2 - 4, width: pw, height: ph, transformStyle: "preserve-3d", transform: `translate3d(${push * 18}px, 0, ${push * 40}px) rotateY(${-17 + push * 2.5}deg) rotateX(1.5deg)` }}>
           {/* 패널이 뿜는 빛 */}
           <div style={{ position: "absolute", left: -160, top: -140, width: pw + 320, height: ph + 280, background: `radial-gradient(ellipse 50% 50% at 50% 50%, ${rgba(K.mint, 0.22)} 0%, transparent 68%)` }} />
           <div style={{ position: "absolute", inset: 0, borderRadius: 18, overflow: "hidden", boxShadow: `0 50px 120px rgba(0,0,0,0.7), 0 0 0 1.5px ${rgba(K.mintHot, 0.5)}`, background: "#fff" }}>
@@ -182,7 +182,7 @@ export const ProofAi: React.FC = () => {
           </div>
 
           {/* 점수 배지 — 패널 앞으로 떠오른다 */}
-          <div style={{ position: "absolute", left: -150, top: ph - 318, width: 300, transform: `translateZ(${90 + badge * 60}px) scale(${0.7 + badge * 0.3})`, opacity: Math.min(1, badge * 1.6) }}>
+          <div style={{ position: "absolute", left: -118, top: ph - 300, width: 300, transform: `translateZ(${90 + badge * 60}px) scale(${0.7 + badge * 0.3})`, opacity: Math.min(1, badge * 1.6) }}>
             <div style={{ borderRadius: 26, background: "rgba(6,14,12,0.9)", border: `1.5px solid ${rgba(K.mint, 0.65)}`, boxShadow: `0 40px 90px rgba(0,0,0,0.7), 0 0 60px ${rgba(K.mint, 0.22)}`, padding: "26px 26px 22px", display: "flex", flexDirection: "column", alignItems: "center" }}>
               <div style={{ position: "relative", width: 220, height: 220 }}>
                 <svg width={220} height={220} viewBox="0 0 220 220" style={{ transform: "rotate(-90deg)" }}>
@@ -258,7 +258,7 @@ export const ProofEdb: React.FC = () => {
                   top: BOARD.sy * k,
                   width: sw,
                   height: sh,
-                  transform: `translate3d(${s * (30 + i * 58)}px, ${s * -(12 + i * 26)}px, ${s * (60 + i * 78)}px)`,
+                  transform: `translate3d(${s * (26 + i * 50)}px, ${s * -(12 + i * 26)}px, ${s * (60 + i * 78)}px)`,
                   opacity: Math.min(1, s * 2) * (top ? 1 : 0.88),
                   borderRadius: 10,
                   overflow: "hidden",

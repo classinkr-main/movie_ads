@@ -10,8 +10,9 @@ import { BAR_H, BOARD, H, K, W, rgba } from "../theme";
 type Key = [number, number, number, number]; // frame, focusX, focusY, scale
 const CAM: Key[] = [
   [0, 300, 222, 2.55],
-  [28, 420, 230, 2.42],
-  [42, 850, 380, 2.02],
+  [25, 425, 232, 2.44],
+  [35, 850, 430, 2.06],
+  [46, 905, 372, 1.98],
   [70, 968, 330, 1.86],
   [84, 900, 338, 1.7],
   [112, 652, 342, 1.5],
@@ -213,9 +214,11 @@ export const Open: React.FC = () => {
       <AbsoluteFill style={{ background: `radial-gradient(circle ${spotR}px at ${spotX}px ${spotY}px, transparent 0%, rgba(0,0,0,${dark * 0.3}) 38%, rgba(0,0,0,${dark}) 84%)` }} />
       <AbsoluteFill style={{ mixBlendMode: "screen", background: `radial-gradient(circle ${spotR * 0.6}px at ${spotX}px ${spotY}px, ${rgba(K.mint, 0.13 * lightIn * out)} 0%, transparent 70%)` }} />
 
-      {/* 얕은 심도 — 위·아래 가장자리 포커스 아웃 */}
-      <div style={{ position: "absolute", left: 0, top: BAR_H, width: W, height: 200, backdropFilter: "blur(9px)", WebkitMaskImage: "linear-gradient(180deg, #000 0%, transparent 100%)" }} />
-      <div style={{ position: "absolute", left: 0, bottom: BAR_H, width: W, height: 220, backdropFilter: "blur(10px)", WebkitMaskImage: "linear-gradient(0deg, #000 0%, transparent 100%)" }} />
+      {/* 얕은 심도 — 위·아래 가장자리 포커스 아웃(카메라가 빠지면 풀린다) */}
+      <div style={{ position: "absolute", left: 0, top: BAR_H, width: W, height: 200, backdropFilter: `blur(${(9 * (1 - open * 0.75)).toFixed(1)}px)`, WebkitMaskImage: "linear-gradient(180deg, #000 0%, transparent 100%)" }} />
+      <div style={{ position: "absolute", left: 0, bottom: BAR_H, width: W, height: 220, backdropFilter: `blur(${(10 * (1 - open * 0.75)).toFixed(1)}px)`, WebkitMaskImage: "linear-gradient(0deg, #000 0%, transparent 100%)" }} />
+      {/* 자막 스크림 */}
+      <div style={{ position: "absolute", left: 0, bottom: BAR_H, width: W, height: 230, opacity: caption, background: "linear-gradient(0deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.5) 45%, transparent 100%)" }} />
 
       {/* 분필 끝 — 작은 빛 */}
       <Flare x={tipX} y={tipY} power={tip.on * (0.46 + Math.sin(f * 1.7) * 0.05) * out} length={560} core={0.36} ghosts={false} />

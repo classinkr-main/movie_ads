@@ -70,9 +70,9 @@ const pr = (f: number, a: number, b: number) => interpolate(f, [a, b], [0, 1], c
 export const lessonAt = (f: number): LessonP => ({
   title: 1,
   formula: pr(f, 6, 30),
-  xAxis: pr(f, 28, 35),
-  yAxis: pr(f, 34, 41),
-  curve: pr(f, 40, 70),
+  xAxis: pr(f, 31, 37),
+  yAxis: pr(f, 36, 42),
+  curve: pr(f, 41, 70),
   sym: pr(f, 64, 74),
   dot: pr(f, 69, 72),
   label: pr(f, 72, 80),
@@ -97,16 +97,16 @@ export const tipAt = (f: number): { x: number; y: number; on: number } => {
     const t = pr(f, 6, 30);
     return { x: FORMULA_X + t * FORMULA_W, y: 236 + Math.sin(f * 2.1) * 20 + Math.sin(f * 0.9) * 8, on: 1 };
   }
-  if (f < 34.5) {
-    const [x, y] = along(X_AXIS, pr(f, 28, 35));
-    return { x, y, on: 1 };
+  if (f < 36.5) {
+    const [x, y] = along(X_AXIS, pr(f, 31, 37));
+    return { x, y, on: f < 31 ? 0.35 : 1 };
   }
-  if (f < 40.5) {
-    const [x, y] = along(Y_AXIS, pr(f, 34, 41));
+  if (f < 41.5) {
+    const [x, y] = along(Y_AXIS, pr(f, 36, 42));
     return { x, y, on: 1 };
   }
   if (f <= 70) {
-    const [x, y] = along(CURVE, pr(f, 40, 70));
+    const [x, y] = along(CURVE, pr(f, 41, 70));
     return { x, y, on: 1 };
   }
   if (f <= 80) {
@@ -205,7 +205,11 @@ export const Lesson: React.FC<{
         {p.xAxis > 0.95 && <path d={X_HEAD} stroke={c} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round" fill="none" />}
         <Stroke d={d(Y_AXIS)} p={p.yAxis} color={c} w={4.5} />
         {p.yAxis > 0.95 && <path d={Y_HEAD} stroke={c} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round" fill="none" />}
-        {TICKS.map(([a, b], i) => (i < 4 ? p.xAxis : p.yAxis) > 0.3 + (i % 5) * 0.14 && <path key={i} d={d([a, b])} stroke={c} strokeWidth={3.5} strokeLinecap="round" opacity={0.8} />)}
+        {TICKS.map(([a, b], i) => {
+          // 축이 지나간 뒤에 눈금이 찍힌다
+          const passed = i < 4 ? p.xAxis > (a[0] - 690) / 532 + 0.06 : p.yAxis > (628 - a[1]) / 532 + 0.06;
+          return passed && <path key={i} d={d([a, b])} stroke={c} strokeWidth={3.5} strokeLinecap="round" opacity={0.8} />;
+        })}
         {p.xAxis > 0.98 && (
           <text x={1232} y={578} fontSize={40} fill={c} opacity={0.85} style={text}>
             x

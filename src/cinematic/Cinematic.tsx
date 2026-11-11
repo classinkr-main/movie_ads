@@ -105,7 +105,7 @@ export const Cinematic: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
       {/* ── 렌즈·필름 레이어 ── */}
       <Bloom amount={bloom} radius={20} />
       <Flare x={hit1x} y={H * 0.47} power={hit1} length={2300} />
-      <Flare x={interpolate(frame, [T.reveal + 30, T.p1], [1010, 960])} y={interpolate(frame, [T.reveal + 30, T.p1], [296, 304])} power={glint} length={900} core={0.3} ghosts={false} />
+      <Flare x={interpolate(frame, [T.reveal + 30, T.p1], [1060, 1010])} y={interpolate(frame, [T.reveal + 30, T.p1], [250, 256])} power={glint} length={900} core={0.3} ghosts={false} />
       {CUTS.map(([c, dir]) => {
         const pw = interpolate(frame, [c - 5, c, c + 8], [0, 0.8, 0], cl);
         return <Flare key={c} x={W / 2 + dir * (frame - c) * 70} y={H * 0.5} power={pw} length={2600} core={0.5} ghosts={false} />;
@@ -115,7 +115,7 @@ export const Cinematic: React.FC<{ audio?: boolean }> = ({ audio = true }) => {
         <LightLeak key={c} at={c} dir={dir} strength={0.5} />
       ))}
       <Flash at={T.reveal} strength={0.5} dur={7} />
-      <Flash at={T.end} strength={0.62} dur={9} />
+      <Flash at={T.end} strength={0.6} dur={6} />
       <Vignette strength={0.62} />
       <FilmGrain opacity={0.3} />
       <Letterbox h={bars} />
