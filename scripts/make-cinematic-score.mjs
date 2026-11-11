@@ -7,6 +7,16 @@
 // 120 BPM · 4/4 · D minor → 마지막에 D major. 한 박 = 15f, 한 마디 = 60f, 1f = 1600 샘플(정수)이라
 // 모든 큐는 프레임 단위로 샘플 정확도를 갖는다. 영상 타이밍(src/cinematic/*)을 바꾸면 아래 "큐 시트"도 함께 고친다.
 // 결정적(deterministic): 시드 고정 PRNG 만 쓰므로 몇 번을 돌려도 같은 파일이 나온다.
+//
+// 구성(세 시대):
+//   어제  f0–118    옛 필름 — 영사기 베드·분필·낡은 업라이트. 250 Hz–4.5 kHz 로 좁힌 "광학 트랙" 버스, 피크 ≈ −18 dBFS
+//         f118–120  정적
+//   오늘  f120      IMPACT 1 → 풀레인지 와이드 스테레오. 오스티나토 + 패드 + 컷마다 휩/히트 (3–6마디)
+//   내일  f360–476  푸시스루 → 홀로그램, 에어 패드가 얹힌다. 8마디는 라이저 + 드럼 롤로 빌드업
+//         f476–480  진공
+//         f480      IMPACT 2(가장 큰 순간, D major) → 벨 모티프 → f565–598 페이드
+// 신호 흐름: 보이스 → 구간별 드라이/리버브 버스 → FDN 리버브 → (구간 A 만 광학 트랙 처리) → HP 25 Hz · 120 Hz 아래 모노
+//           → 구간 엔벨로프(진공) → 합 → 엔딩 페이드 → 라우드니스 목표 게인 → 룩어헤드 리미터 → 소프트 클립 → 16-bit WAV
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,7 +31,6 @@ const TAU = Math.PI * 2;
 const HIT1 = 120; // IMPACT 1 (3마디 첫 박)
 const HIT2 = 480; // IMPACT 2 (9마디 첫 박)
 const EIGHTH = 7.5;
-const SIXTEENTH = 3.75;
 
 const DEBUG = !!process.env.SCORE_DEBUG;
 // 믹스 점검용: SCORE_SOLO=projector,chalk 처럼 그룹만 골라 렌더(이때는 SCORE_OUT 으로 다른 파일에 쓴다)
@@ -76,7 +85,8 @@ const SECTIONS = [0, 1, 2, 3, 4].map(() => ({ dry: newBus(), rev: newBus() }));
 const A_ROUTE = { optical: 0, clean: 3, swell: 4 };
 const STEMS = DEBUG ? new Map() : null;
 
-/** 신호(모노 Float32Array 또는 {L,R})를 프레임 위치에 올린다. pan 은 숫자 또는 (0..1)=>pan 함수 */
+/** 신호(모노 Float32Array 또는 {L,R})를 프레임 위치에 올린다. pan 은 숫자 또는 (0..1)=>pan 함수.
+ *  send = 리버브 센드(구간 A 의 clean·swell 경로에서는 무시된다), route 는 구간 A 에서만 의미가 있다 */
 function place(sig, frame, { gain = 1, pan = 0, send = 0, dry = 1, group = "misc", route = "optical" } = {}) {
   if (SOLO && !SOLO.includes(group)) return;
   const start = F(frame);
@@ -105,12 +115,12 @@ function place(sig, frame, { gain = 1, pan = 0, send = 0, dry = 1, group = "misc
     }
   };
   if (!panFn) setPan(pan);
-  const len = sl.length;
-  for (let i = 0; i < len; i++) {
+  const count = sl.length;
+  for (let i = 0; i < count; i++) {
     const j = start + i;
     if (j < 0) continue;
     if (j >= N) break;
-    if (panFn && (i & 63) === 0) setPan(panFn(i / len));
+    if (panFn && (i & 63) === 0) setPan(panFn(i / count));
     const l = sl[i] * gl;
     const r = sr[i] * gr;
     dl[j] += l * dry;
@@ -324,7 +334,7 @@ function shimmer(freqs, dur, { attack = 0.15, tau = 0.8, air = 0.3 } = {}) {
     L[i] = (L[i] + air * a.L[i]) * env;
     R[i] = (R[i] + air * a.R[i]) * env;
   }
-  return normalize(fadeSt({ L, R }, 0.005, 0.12));
+  return normalize(fadeSt({ L, R }, 0.005, Math.min(0.6, dur * 0.3)));
 }
 
 /** 부드럽게 부풀었다 꺼지는 서브 */
@@ -1003,7 +1013,7 @@ reseed("ignite");
 place(shimmer([n2f("D6"), n2f("A6"), n2f("D7"), n2f("A7")], 1.5, { attack: 0.09, tau: 0.42 }), 4, { gain: dB(-20), send: 0.5, group: "ignite" });
 place(subSwell(n2f("D2"), 1.0), 4, { gain: dB(-19), route: "clean", group: "ignitesub" });
 
-// 분필 폴리(드라이·근접, 쓰는 방향을 따라 왼→오)
+// 분필 폴리(드라이·근접, 쓰는 방향을 따라 왼→오). 광학 버스가 폭을 35% 로 좁히므로 이 구간의 팬은 넓게 적는다
 reseed("chalk");
 const chalk = (frame, durFrames, opt, mix) => place(chalkStroke(durFrames / FPS, opt), frame, { send: 0.05, group: "chalk", ...mix });
 // f11–35 손글씨: 짧은 획 8개
@@ -1018,17 +1028,17 @@ const chalk = (frame, durFrames, opt, mix) => place(chalkStroke(durFrames / FPS,
   [32, 3.0],
 ].forEach(([f, d], i) => {
   const skew = rr(0.7, 1.3);
-  chalk(f, d, { speed: (k) => Math.pow(Math.sin(Math.PI * Math.pow(k, skew)), 0.6), bright: rr(0.9, 1.15), tap: rr(0.5, 0.8) }, { gain: dB(rr(-7.5, -4.5)), pan: -0.3 + 0.45 * (i / 7) });
+  chalk(f, d, { speed: (k) => Math.pow(Math.sin(Math.PI * Math.pow(k, skew)), 0.6), bright: rr(0.9, 1.15), tap: rr(0.5, 0.8) }, { gain: dB(rr(-7.5, -4.5)), pan: -0.6 + 0.9 * (i / 7) });
 });
 // f36–42 · f41–47 긴 직선 두 획. 화면에서는 1프레임씩 겹치지만 소리는 다음 획이 시작하는 프레임에서 분필을 뗀다
 // (f36–41 · f41–46) — 겹치면 한 획처럼 뭉개져서, 획마다 "톡" 으로 시작해 끝에서 힘이 빠지게 했다
 const straight = (k) => (0.8 + 0.2 * smooth(k * 4)) * (1 - 0.55 * smooth((k - 0.7) / 0.3));
-chalk(36, 5, { speed: straight, bright: 1.05, tap: 0.9 }, { gain: dB(-4), pan: (k) => -0.35 + 0.6 * k });
-chalk(41, 5, { speed: straight, bright: 1.0, tap: 0.85 }, { gain: dB(-4.5), pan: (k) => -0.3 + 0.6 * k });
+chalk(36, 5, { speed: straight, bright: 1.05, tap: 0.9 }, { gain: dB(-4), pan: (k) => -0.7 + 1.2 * k });
+chalk(41, 5, { speed: straight, bright: 1.0, tap: 0.85 }, { gain: dB(-4.5), pan: (k) => -0.6 + 1.2 * k });
 // f46–75 긴 곡선 한 획: 가운데에서 느려지며 어두워졌다가 다시 밝아진다
-chalk(46, 29, { speed: (k) => (1 - 0.6 * Math.pow(Math.sin(Math.PI * k), 1.5)) * (0.8 + 0.35 * k), bright: 1.0, tap: 0.7 }, { gain: dB(-4), pan: (k) => -0.3 + 0.55 * k + 0.08 * Math.sin(Math.PI * k) });
+chalk(46, 29, { speed: (k) => (1 - 0.6 * Math.pow(Math.sin(Math.PI * k), 1.5)) * (0.8 + 0.35 * k), bright: 1.0, tap: 0.7 }, { gain: dB(-4), pan: (k) => -0.6 + 1.1 * k + 0.16 * Math.sin(Math.PI * k) });
 // f75 점 하나
-place(chalkTap(), 75, { gain: dB(-5), pan: 0.3, send: 0.06, group: "chalk" });
+place(chalkTap(), 75, { gain: dB(-5), pan: 0.6, send: 0.06, group: "chalk" });
 // f78–86 짧은 대시 4개
 [
   [78, 1.9],
@@ -1036,7 +1046,7 @@ place(chalkTap(), 75, { gain: dB(-5), pan: 0.3, send: 0.06, group: "chalk" });
   [82.3, 1.8],
   [84.3, 1.7],
 ].forEach(([f, d], i) => {
-  chalk(f, d, { speed: (k) => 0.7 + 0.3 * Math.sin(Math.PI * k), bright: rr(0.95, 1.1), tap: 0.7 }, { gain: dB(rr(-6.5, -5)), pan: (k) => -0.1 + 0.12 * i + 0.1 * k });
+  chalk(f, d, { speed: (k) => 0.7 + 0.3 * Math.sin(Math.PI * k), bright: rr(0.95, 1.1), tap: 0.7 }, { gain: dB(rr(-6.5, -5)), pan: (k) => -0.2 + 0.24 * i + 0.2 * k });
 });
 
 // 낡은 업라이트 피아노 두 음: D4 @f8, A4 @f60
@@ -1050,7 +1060,7 @@ reseed("eraser");
   [86, 1],
   [96, -1],
   [106, 1],
-].forEach(([f, dir]) => place(eraser(9 / FPS), f, { gain: dB(-8), pan: (k) => dir * (-0.6 + 1.2 * k), send: 0.1, group: "eraser" }));
+].forEach(([f, dir]) => place(eraser(9 / FPS), f, { gain: dB(-8), pan: (k) => dir * (-1 + 2 * k), send: 0.1, group: "eraser" }));
 
 // f100–118 리버스 스웰 → f118–120 정적
 reseed("swell");
@@ -1058,7 +1068,7 @@ place(reverseSwell(18 / FPS, ["D3", "A3", "D4", "F4", "A4", "D5"]), 100, { gain:
 
 // ── f120: IMPACT 1 — 오늘. 풀레인지·와이드 스테레오로 열리며 헤드라인이 떨어진다 ──
 reseed("impact1");
-place(subBoom({ f0: 70, f1: n2f("D1"), tail: 1.8 }), HIT1, { gain: dB(-8), group: "boom" });
+place(subBoom({ f0: 70, f1: n2f("D1"), tail: 1.8 }), HIT1, { gain: dB(-9), group: "boom" });
 place(
   braam(
     [
@@ -1070,9 +1080,9 @@ place(
     { fcPeak: 2100 },
   ),
   HIT1,
-  { gain: dB(-9.5), send: 0.35, group: "braam" },
+  { gain: dB(-10.5), send: 0.35, group: "braam" },
 );
-place(darkCrash(1.6), HIT1, { gain: dB(-15), send: 0.9, group: "crash" });
+place(darkCrash(1.6), HIT1, { gain: dB(-16), send: 0.9, group: "crash" });
 place(shimmer([n2f("D6"), n2f("A6"), n2f("D7"), n2f("F7")], 2.4, { attack: 0.2, tau: 0.9 }), HIT1, { gain: dB(-27), send: 0.7, group: "shimmer" });
 
 // f120–540 오스티나토: 8분음표 저음 스타카토, 화음 근음을 따라간다(3+3+2 악센트, 점8분 스테레오 딜레이)
@@ -1198,8 +1208,8 @@ reseed("bar7");
 place(pushThrough(16 / FPS), 352, { gain: dB(-12.5), send: 0.3, group: "push" });
 place(subBoom({ f0: 120, f1: n2f("C1"), drop: 0.14, tail: 1.1, drive: 1.3, punch: 0.4, click: 0.2 }), 360, { gain: dB(-12.5), group: "push" });
 place(thud(0.2), 360, { gain: dB(-14), send: 0.5, group: "push" });
-// f360–384 홀로그램 파워업(Csus2/add9 음으로 아래→위)
-place(holoPowerUp(32 / FPS, ["C5", "G5", "D6", "E6", "G6", "C7", "D7"]), 360, { gain: dB(-18), send: 0.75, group: "holo" });
+// f360–384 홀로그램 파워업(Csus2/add9 음으로 아래→위). 버퍼는 f386 까지(마지막 0.2 s 는 페이드), 꼬리는 리버브가 잇는다
+place(holoPowerUp(26 / FPS, ["C5", "G5", "D6", "E6", "G6", "C7", "D7"]), 360, { gain: dB(-18), send: 0.75, group: "holo" });
 
 // ── 8마디 (f420–480) AI 강의 리포트 + 피날레로 빌드업 ──
 reseed("bar8");
@@ -1653,7 +1663,7 @@ for (let it = 0; it < 2; it++) {
 
 // ───────────────────────── WAV 저장 ─────────────────────────
 const pcm = Buffer.alloc(N * 4);
-let dc = [0, 0];
+const dc = [0, 0];
 for (let i = 0; i < N; i++) {
   const l = Math.max(-32768, Math.min(32767, Math.round(M.L[i] * 32767)));
   const r = Math.max(-32768, Math.min(32767, Math.round(M.R[i] * 32767)));
