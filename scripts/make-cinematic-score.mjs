@@ -358,7 +358,7 @@ function chalkStroke(dur, { speed = () => 1, bright = 1, tap = 0.7 } = {}) {
   for (let i = 0; i < n; i++) {
     if (hold-- <= 0) {
       hold = Math.floor(rr(0.0004, 0.002) * SR);
-      target = Math.pow(rnd(), 2.2);
+      target = Math.pow(rnd(), 1.6);
     }
     lvl += (target - lvl) * 0.25;
     if (slowHold-- <= 0) {
@@ -366,7 +366,7 @@ function chalkStroke(dur, { speed = () => 1, bright = 1, tap = 0.7 } = {}) {
       slowT = rr(0.45, 1);
     }
     slow += (slowT - slow) * 0.004;
-    x[i] = noise() * (0.22 + lvl) * slow * Math.pow(Math.max(0, speed(i / n)), 0.8);
+    x[i] = noise() * (0.28 + lvl) * slow * Math.pow(Math.max(0, speed(i / n)), 0.8);
   }
   const a = Float32Array.from(x);
   const b = Float32Array.from(x);
@@ -377,6 +377,7 @@ function chalkStroke(dur, { speed = () => 1, bright = 1, tap = 0.7 } = {}) {
   for (let i = 0; i < n; i++) x[i] = a[i] + 0.6 * b[i] + 0.3 * c[i];
   onePoleHP(x, 600);
   normalize(fadeEdges(x, 0.004, 0.012));
+  for (let i = 0; i < n; i++) x[i] = Math.tanh(1.4 * x[i]) / Math.tanh(1.4); // 튀는 알갱이를 살짝 눌러 몸통이 들리게
   if (tap > 0) {
     const t = chalkTap();
     for (let i = 0; i < t.length && i < n; i++) x[i] += t[i] * tap;
@@ -975,8 +976,8 @@ console.error("synth…");
 
 // f0–118 옛 영사기 베드: 기계 플러터 + 드문 크래클 + 옅은 험. f118 에서 뚝 끊긴다
 reseed("projector");
-place(projector(118 / FPS), 0, { gain: dB(-15), pan: -0.1, send: 0.04, group: "projector" });
-place(crackle(118 / FPS), 0, { gain: dB(-15), pan: 0.1, group: "projector" });
+place(projector(118 / FPS), 0, { gain: dB(-10), pan: -0.1, send: 0.04, group: "projector" });
+place(crackle(118 / FPS), 0, { gain: dB(-13), pan: 0.1, group: "projector" });
 place(hum(118 / FPS), 0, { gain: dB(-27), clean: true, group: "projector" });
 
 // f0–118 드론(D) — 여기서는 은은하게
@@ -1024,8 +1025,8 @@ place(chalkTap(), 75, { gain: dB(-5), pan: 0.3, send: 0.06, group: "chalk" });
 
 // 낡은 업라이트 피아노 두 음: D4 @f8, A4 @f60
 reseed("piano");
-place(uprightPiano(n2f("D4")), 8, { gain: dB(-6), pan: -0.1, send: 0.55, group: "piano" });
-place(uprightPiano(n2f("A4")), 60, { gain: dB(-7), pan: 0.1, send: 0.55, group: "piano" });
+place(uprightPiano(n2f("D4")), 8, { gain: dB(-5), pan: -0.1, send: 0.55, group: "piano" });
+place(uprightPiano(n2f("A4")), 60, { gain: dB(-6), pan: 0.1, send: 0.55, group: "piano" });
 
 // 지우개 스윕 3번: f86–95(L→R) · f96–105(R→L) · f106–115(L→R)
 reseed("eraser");
@@ -1041,7 +1042,7 @@ place(reverseSwell(18 / FPS, ["D3", "A3", "D4", "F4", "A4", "D5"]), 100, { gain:
 
 // ── f120: IMPACT 1 — 오늘. 풀레인지·와이드 스테레오로 열리며 헤드라인이 떨어진다 ──
 reseed("impact1");
-place(subBoom({ f0: 70, f1: n2f("D1"), tail: 1.8 }), HIT1, { gain: dB(-5), group: "boom" });
+place(subBoom({ f0: 70, f1: n2f("D1"), tail: 1.8 }), HIT1, { gain: dB(-6), group: "boom" });
 place(
   braam(
     [
@@ -1067,7 +1068,7 @@ for (let i = 0; HIT1 + i * EIGHTH < 540; i++) {
   const f = HIT1 + i * EIGHTH;
   const vel = ACCENT[i % 8];
   const note = ostNote(n2f(ostRoot(f)), vel);
-  const g = dB(-9.5 + ostLevel(f)) * (0.55 + 0.45 * vel);
+  const g = dB(-8.5 + ostLevel(f)) * (0.55 + 0.45 * vel);
   place(note, f, { gain: g, send: 0.12, group: "ost" });
   const echo = onePoleHP(onePoleLP(Float32Array.from(note), 1400), 160);
   for (const [df, eg, ep] of [
@@ -1081,12 +1082,12 @@ for (let i = 0; HIT1 + i * EIGHTH < 540; i++) {
 
 // 패드: 구간마다 화음 하나(경계 조금 앞에서 피어올라 크로스페이드)
 reseed("pads");
-const padCue = (from, to, notes, { gain = -12, attack = 0.6, release = 0.8, fc = 1500, lead = 7, send = 0.45 } = {}) => {
+const padCue = (from, to, notes, { gain = -11, attack = 0.6, release = 0.8, fc = 1500, lead = 7, send = 0.45 } = {}) => {
   const start = from - lead;
   place(pad(notes, (to - start) / FPS + release, { attack, release, fc }), start, { gain: dB(gain), send, group: "pad" });
 };
 // 3–4마디 Dm9
-padCue(120, 240, [["D3"], ["A3"], ["F4"], ["A4", 0.8], ["C5", 0.8], ["E5", 0.7]], { lead: 0, attack: 0.9, gain: -13 });
+padCue(120, 240, [["D3"], ["A3"], ["F4"], ["A4", 0.8], ["C5", 0.8], ["E5", 0.7]], { lead: 0, attack: 0.9, gain: -12.5 });
 // 5마디 B♭maj7
 padCue(240, 300, [["Bb2"], ["F3"], ["D4"], ["F4"], ["A4", 0.85], ["D5", 0.7]]);
 // 6마디 Fadd9
@@ -1178,8 +1179,8 @@ place(glassBell(n2f("C6"), 2.0), 342, { gain: dB(-20), pan: 0.2, send: 0.7, grou
 // ── 7마디 (f360–420) 내일: 칠판을 뚫고 홀로그램 공간으로 ──
 reseed("bar7");
 // f352–368 푸시스루 우쉬(넓게) + f360 서브 드롭
-place(pushThrough(16 / FPS), 352, { gain: dB(-8), send: 0.3, group: "push" });
-place(subBoom({ f0: 120, f1: n2f("C1"), drop: 0.14, tail: 1.1, drive: 1.3, punch: 0.4, click: 0.2 }), 360, { gain: dB(-8), group: "push" });
+place(pushThrough(16 / FPS), 352, { gain: dB(-11.5), send: 0.3, group: "push" });
+place(subBoom({ f0: 120, f1: n2f("C1"), drop: 0.14, tail: 1.1, drive: 1.3, punch: 0.4, click: 0.2 }), 360, { gain: dB(-10), group: "push" });
 place(thud(0.2), 360, { gain: dB(-14), send: 0.5, group: "push" });
 // f360–384 홀로그램 파워업(Csus2/add9 음으로 아래→위)
 place(holoPowerUp(32 / FPS, ["C5", "G5", "D6", "E6", "G6", "C7", "D7"]), 360, { gain: dB(-18), send: 0.75, group: "holo" });
@@ -1212,7 +1213,7 @@ place(riser(57 / FPS, n2f("A3"), n2f("A5")), 420, { gain: dB(-7), send: 0.3, gro
 
 // ── f480: IMPACT 2 — 로고 리빌, 곡에서 가장 큰 순간 ──
 reseed("impact2");
-place(subBoom({ f0: 82, f1: n2f("D1"), tail: 2.2, drive: 1.8, punch: 0.6, click: 0.3 }), HIT2, { gain: dB(-2), group: "boom" });
+place(subBoom({ f0: 82, f1: n2f("D1"), tail: 2.2, drive: 1.8, punch: 0.6, click: 0.3 }), HIT2, { gain: dB(-3.5), group: "boom" });
 place(taiko(n2f("D2"), { dur: 1.2 }), HIT2, { gain: dB(-7), send: 0.5, group: "boom" });
 place(
   braam(
@@ -1432,7 +1433,7 @@ function truePeak(chans) {
 
 // ───────────────────────── 마스터 ─────────────────────────
 const TARGET_LUFS = -15;
-const CEILING = dB(-2.6); // 샘플 피크 천장(AAC 인코딩 뒤에도 트루 피크 ≤ −1.5 dBTP 가 되도록 여유)
+const CEILING = dB(-2.2); // 샘플 피크 천장(AAC 인코딩 뒤에도 트루 피크 ≤ −1.5 dBTP 가 되도록 여유)
 const INTRO_PEAK = dB(-18); // 오프닝(f0–f100)의 피크 목표
 const WET = 0.5;
 const OPTICAL_BAND = [250, 4500]; // Hz
@@ -1469,11 +1470,11 @@ const SEC_MIX = SECTIONS.slice(0, 3).map((sec, s) => {
     r[i] = sec.dry[1][s0 + i] + wr[i] * WET;
   }
   if (s === 0) {
-    // 어제(옛 필름): 250 Hz–4.5 kHz 대역 제한 + 폭 35% → 그 위에 clean 버스(드론·험)를 더한다
+    // 어제(옛 필름): 250 Hz–4.5 kHz 대역 제한(HP 2차 · LP 4차) + 폭 35% → 그 위에 clean 버스(드론·험)를 더한다
     for (const ch of [l, r]) {
       biquad(ch, hpCoef(OPTICAL_BAND[0]));
-      biquad(ch, lpCoef(OPTICAL_BAND[1]));
-      onePoleLP(ch, OPTICAL_BAND[1] * 1.6);
+      biquad(ch, lpCoef(OPTICAL_BAND[1], 0.5412));
+      biquad(ch, lpCoef(OPTICAL_BAND[1], 1.3066));
     }
     const clean = SECTIONS[3].dry;
     for (let i = 0; i < n; i++) {

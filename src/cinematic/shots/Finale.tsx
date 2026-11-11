@@ -89,7 +89,9 @@ export const End: React.FC = () => {
           </div>
         </FadeIn>
         <FadeIn at={32} y={8} dur={14} style={{ position: "absolute", left: 0, top: 602, width: W, textAlign: "center" }}>
-          <div style={{ fontFamily: FONT, fontSize: 27, fontWeight: 500, color: K.dim, letterSpacing: "0.08em" }}>학원 전자칠판 · 수업 녹화 · AI 강의 평가</div>
+          <div style={{ fontFamily: FONT, fontSize: 33, fontWeight: 600, color: "rgba(244,246,242,0.82)", letterSpacing: "-0.01em" }}>
+            내일의 수업을, <span style={{ color: K.white, fontWeight: 700 }}>오늘 Classin에서.</span>
+          </div>
         </FadeIn>
 
         {/* 글로벌 수치 — 파인 프린트 */}
