@@ -36,6 +36,7 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 | BrandReel v8 — 학원 대상 다크 시네마틱 브랜드 쇼릴, 24초 · 60fps | [src/reel](src/reel/README.md) | `BrandReel` | `out/classin-brand-reel-60fps.mp4`(무음) · `out/classin-brand-reel-60fps-guide-sfx.mp4`(가이드 사운드) |
 | 갈매기 드로잉 쇼릴 — 손그림 애니메이션, 49초 · 16:9 · BGM·효과음 | [src/gull](src/gull/README.md) | `GullReel` · `GullThumb` · `GullSheet` | `out/classin-gull-showreel.mp4` · 섬네일 `out/classin-gull-thumbnail*.{png,jpg}` |
 | AI 강의 평가 → 강사 관리 — A 라이트 편 22초 · B 가치 편 26초 · 16:9 · 무음 | [src/teacher-mgmt](src/teacher-mgmt/README.md) | `TeacherMgmt` · `TeacherMgmtValue` | `out/classin-ai-teacher-mgmt.mp4` · `out/classin-ai-teacher-mgmt-value.mp4` |
+| 시네마틱 커머셜 "어제 · 오늘 · 내일의 수업" — 분필 → Classin Board → AI 세 시대, 20초 · 16:9(4:3 → 2.39:1 → 풀 프레임) · 음악·효과음 | [src/cinematic](src/cinematic/README.md) | `Cinematic` | `out/classin-cinematic-20s.mp4` · 무음 마스터 `out/classin-cinematic-20s-silent.mp4` |
 | Classin Board 하드웨어 광고 — 시네마틱 제품 광고, 45초 · 16:9 · 무음 | [src/hardware](src/hardware/README.md) | `Hardware` | `out/classin-board-hardware.mp4` |
 | 브래그컷 v5 — 시네마틱 숏폼 런칭 컷(분석 · 채점 · 통역), 20초 · 9:16 · 음악·효과음 | [src/brag](src/brag/README.md) | `Brag` | `out/brag/brag.mp4` · 포스터 `out/brag/brag.jpg` |
 | 선생님들은 멘탈이 나가 버렸습니다 — 자동 녹화 스토리 3D 쇼릴, 2분 11초 · 16:9/9:16 · 무음(더빙 별도) | [projects/teachers-lost-their-minds](projects/teachers-lost-their-minds/README.md) | `TeachersMental` · `TeachersMentalVertical` (별도 엔트리 — `npm run mental:dev`) | `projects/teachers-lost-their-minds/renders/final.mp4` · `final-vertical.mp4` |
@@ -64,7 +65,7 @@ src/
   shared/                        # 모든 영상 공용 코드 — fonts(Pretendard + 갈매기·숏폼·브래그컷 서체) · motion
   shared/brand/                  # Classin 팔레트(기본 FPS 30 포함)·배경·키네틱 타이포·카드·전환(Transitions)·글래스·해설용 컴포넌트(갈매기·자막·기기 프레임)
   projects/<번호>_<시작일>_<이름>_<특징>/   # Drive 번호 프로젝트. 시리즈(05)는 하위에 <번호>_<편> 폴더
-  <영상>/                        # 번호가 없는 영상: showreel-v5 · reel · gull · teacher-mgmt · hardware · brag · shorts · forum · guangzhou
+  <영상>/                        # 번호가 없는 영상: showreel-v5 · reel · gull · teacher-mgmt · hardware · cinematic · brag · shorts · forum · guangzhou
 public/
   00_공통에셋/                   # brand · fonts(Pretendard) · character → staticFile("00_공통에셋/…")
   fonts/                         # 영상별 서체(SIL OFL) — 라이선스 파일 함께

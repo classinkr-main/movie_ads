@@ -54,3 +54,6 @@ out/brag/poster.png
 # 쇼릴 v5 — 음악 편집 중간 파일(stems)은 빼고, 인스타 썸네일 시안은 커밋
 out/stems
 !out/thumbs/*.png
+
+# 시네마틱 커머셜 — 합성 wav는 m4a로 인코딩해 커밋한다
+public/audio/cinematic-score.wav

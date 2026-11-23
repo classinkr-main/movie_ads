@@ -62,6 +62,9 @@ import "./guangzhou/fonts";
 import { GuangzhouVlog } from "./guangzhou/GuangzhouVlog";
 import { FPS as GZ_FPS, TOTAL as GZ_TOTAL } from "./guangzhou/timeline";
 import { FILM_FPS, FILM_FRAMES, GuangzhouEventFilm } from "./guangzhou/EventFilm";
+// 시네마틱 커머셜 "어제 · 오늘 · 내일의 수업"
+import { Cinematic } from "./cinematic/Cinematic";
+import { T as CINE } from "./cinematic/theme";
 
 const SHORTS = [short01, short02, short03, short04, short05, short06] as ShortSpec[];
 
@@ -143,6 +146,9 @@ export const RemotionRoot: React.FC = () => (
     <Folder name="guangzhou">
       <Composition id="GuangzhouVlog" component={GuangzhouVlog} durationInFrames={GZ_TOTAL} fps={GZ_FPS} width={1080} height={1920} />
       <Composition id="GuangzhouEventFilm" component={GuangzhouEventFilm} durationInFrames={FILM_FRAMES} fps={FILM_FPS} width={1920} height={1080} />
+    </Folder>
+    <Folder name="cinematic">
+      <Composition id="Cinematic" component={Cinematic} durationInFrames={CINE.total} fps={30} width={1920} height={1080} defaultProps={{ audio: true }} />
     </Folder>
   </>
 );
