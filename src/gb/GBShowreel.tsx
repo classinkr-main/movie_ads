@@ -11,7 +11,7 @@ import { S5Record } from "./scenes/S5Record";
 import { S6Dashboard } from "./scenes/S6Dashboard";
 import { S7End } from "./scenes/S7End";
 
-export const GB_AUDIO = { enabled: false, src: "gb/audio/gb_score.wav" };
+export const GB_AUDIO = { enabled: true, src: "gb/audio/gb_score.wav" };
 
 // 밝은 장면(아침·낮)에서는 비네트를 약하게
 const Finish: React.FC = () => {

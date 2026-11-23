@@ -64,8 +64,11 @@ HTML 삽입용 경량본과 페이지 갱신:
 
 ```bash
 ffmpeg -i out/gaebyeol-showreel.mp4 -c:v libx264 -crf 23 -preset slow -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart out/gaebyeol-showreel_web.mp4
+ffmpeg -sseof -0.04 -i out/gaebyeol-showreel.mp4 -frames:v 1 -q:v 3 out/gaebyeol-poster.jpg
 python3 tools/gb_embed_html.py <설명회.html> out/gaebyeol-showreel_web.mp4 out/gaebyeol-poster.jpg <출력.html>
 ```
+
+완성본: `out/개별진도_ClassIn_v2.3_영상포함.html`(경량본 5.5MB를 base64로 넣은 단일 파일). 경량본과 포스터는 중간 파일이라 커밋하지 않습니다.
 
 ---
 
