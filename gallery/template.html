@@ -1,0 +1,308 @@
+<title>Classin 영상 갤러리</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: 편집실 컷 보드 — 위에 요약·필터, 포스터 그리드, 클릭하면 슬레이트(규격표)가 붙은 플레이어 */
+:root {
+  --bg: #f2f4ef;
+  --surface: #ffffff;
+  --well: #101814;
+  --ink: #13201a;
+  --muted: #5a6a62;
+  --line: #d9e0da;
+  --accent: #084734;
+  --accent-ink: #ffffff;
+  --point: #a6d84b;
+  --chip: #e6ebe4;
+  --shadow: 0 1px 2px rgb(16 32 24 / .06), 0 8px 24px rgb(16 32 24 / .08);
+  --font-display: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1411; --surface: #141e1a; --well: #070b09; --ink: #e6eee9; --muted: #92a39a; --line: #25332c;
+    --accent: #7fd1a6; --accent-ink: #062a1f; --point: #b5e35f; --chip: #1c2923;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1411; --surface: #141e1a; --well: #070b09; --ink: #e6eee9; --muted: #92a39a; --line: #25332c;
+  --accent: #7fd1a6; --accent-ink: #062a1f; --point: #b5e35f; --chip: #1c2923;
+  --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 14px; }
+.eyebrow { font: 500 12px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #e5484d; box-shadow: 0 0 0 3px rgb(229 72 77 / .18); }
+h1 { margin: 0; font: 700 clamp(28px, 4.4vw, 44px)/1.15 var(--font-display); letter-spacing: -.02em; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 64ch; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 22px; font: 500 13px/1.4 var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.stats b { color: var(--ink); font-weight: 500; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; padding-block: 10px; background: var(--bg); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 500 13px/1 var(--font-body); padding: 9px 13px; border-radius: 999px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.chip .n { font-family: var(--font-mono); color: var(--muted); font-size: 12px; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip[aria-pressed="true"] .n { color: inherit; opacity: .75; }
+.chip:focus-visible, .card:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.search { flex: 1 1 220px; max-width: 320px; min-width: 0; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 9px 14px; font: 14px var(--font-body); }
+.section-title { display: flex; align-items: baseline; gap: 10px; margin: 8px 0 -8px; font: 600 15px/1.3 var(--font-display); }
+.section-title span { font: 500 12px var(--font-mono); color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 22px 18px; }
+.card { display: grid; gap: 10px; text-align: left; background: none; border: 0; padding: 0; color: inherit; cursor: pointer; font: inherit; min-width: 0; }
+.frame { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: var(--well); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
+.frame img, .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.frame video { opacity: 0; transition: opacity .2s; }
+.card.playing .frame video { opacity: 1; }
+.tc { position: absolute; right: 8px; bottom: 8px; font: 500 12px/1 var(--font-mono); color: #fff; background: rgb(0 0 0 / .62); padding: 5px 7px; border-radius: 4px; font-variant-numeric: tabular-nums; }
+.vars { position: absolute; left: 8px; top: 8px; font: 500 11px/1 var(--font-mono); color: #12201a; background: var(--point); padding: 5px 7px; border-radius: 4px; }
+.ratio { position: absolute; left: 8px; bottom: 8px; display: flex; gap: 4px; }
+.ratio i { display: block; border: 1.5px solid rgb(255 255 255 / .85); border-radius: 2px; }
+.meta { display: grid; gap: 3px; min-width: 0; }
+.cat { font: 500 11px/1.2 var(--font-mono); letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+.title { font: 600 16px/1.35 var(--font-display); letter-spacing: -.01em; text-wrap: balance; }
+.spec { font: 400 12px/1.4 var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.card:hover .title { color: var(--accent); }
+.empty { color: var(--muted); padding: 24px 0; }
+.lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px; margin-top: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.panel h2 { margin: 0; font: 600 15px/1.3 var(--font-display); }
+.panel ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.panel li { display: grid; gap: 2px; }
+.panel li b { font-weight: 600; }
+.panel li span { color: var(--muted); font-size: 13.5px; }
+.panel code { font: 12px var(--font-mono); color: var(--muted); }
+.deadline { color: #c2410c; font-weight: 600; }
+footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 4px; }
+footer code { font-family: var(--font-mono); font-size: 12px; }
+
+/* 플레이어 */
+dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); width: min(1180px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); border-radius: 14px; box-shadow: 0 24px 80px rgb(0 0 0 / .45); overflow: auto; }
+dialog::backdrop { background: rgb(6 12 9 / .78); }
+.player { display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
+.stage { background: var(--well); display: grid; place-items: center; min-height: 260px; }
+.stage video { display: block; width: 100%; max-height: calc(100dvh - 24px); background: var(--well); }
+.stage.tall video { max-height: min(78dvh, 820px); width: auto; max-width: 100%; }
+.slate { padding: 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.slate-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.slate h2 { margin: 0; font: 700 20px/1.3 var(--font-display); letter-spacing: -.01em; text-wrap: balance; }
+.icon-btn { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; font-size: 18px; line-height: 1; display: grid; place-items: center; }
+.slate p { margin: 0; color: var(--muted); font-size: 14px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs .chip { padding: 7px 11px; font-size: 12.5px; }
+dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 7px 14px; font-size: 13px; border-top: 1px solid var(--line); padding-top: 14px; }
+dt { color: var(--muted); }
+dd { margin: 0; font-family: var(--font-mono); font-size: 12.5px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a { color: var(--accent); font-weight: 600; font-size: 13.5px; text-decoration: none; border-bottom: 1px solid currentColor; }
+.note { font-size: 12.5px; color: var(--muted); background: var(--chip); border-radius: 8px; padding: 9px 11px; }
+.nav { display: flex; gap: 8px; }
+@media (max-width: 860px) {
+  .player { grid-template-columns: 1fr; }
+  .stage.tall video { max-height: 62dvh; }
+}
+@media (prefers-reduced-motion: reduce) { .frame video { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow">movie_ads · 영상 아카이브</div>
+    <h1>Classin 영상 갤러리</h1>
+    <p class="lede">이 저장소에서 만든 광고·쇼릴·행사 영상을 한곳에 모았습니다. 포스터에 마우스를 올리면 미리 보고, 누르면 버전별로 재생하고 규격·폴더·컴포지션 id를 확인할 수 있습니다.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="toolbar">
+    <div class="chips" id="filters" role="group" aria-label="분류"></div>
+    <input class="search" id="q" type="search" placeholder="제목·폴더·컴포지션 검색" aria-label="영상 검색">
+  </div>
+
+  <main id="sections"></main>
+
+  <div class="lists">
+    <section class="panel"><h2>진행 중 작업</h2><ul id="progress"></ul></section>
+    <section class="panel"><h2>저장소에 넣지 않은 영상</h2><ul id="missing"></ul></section>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <div class="player">
+    <div class="stage" id="stage"><video id="vid" controls playsinline preload="metadata"></video></div>
+    <div class="slate">
+      <div class="slate-top">
+        <h2 id="dlg-title"></h2>
+        <button class="icon-btn" id="close" aria-label="닫기">×</button>
+      </div>
+      <p id="dlg-sum"></p>
+      <div class="tabs" id="tabs" role="group" aria-label="버전"></div>
+      <dl id="dlg-spec"></dl>
+      <div class="note" id="dlg-note" hidden></div>
+      <div class="links" id="dlg-links"></div>
+      <div class="nav">
+        <button class="chip" id="prev">← 이전 영상</button>
+        <button class="chip" id="next">다음 영상 →</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const DATA = /*__DATA__*/null;
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const tc = (sec) => { const s = Math.round(sec); const m = Math.floor(s / 60); return `${m}:${String(s % 60).padStart(2, "0")}`; };
+const mb = (b) => `${(b / 1e6).toFixed(1)} MB`;
+const ratioName = (w, h) => { const r = w / h; return r > 1.6 ? "16:9" : r > 1.1 ? "가로" : r > 0.95 ? "1:1" : r > 0.7 ? "4:5" : "9:16"; };
+const catLabel = Object.fromEntries(DATA.categories.map((c) => [c.id, c.label]));
+const videos = DATA.videos;
+let filter = "all";
+try { filter = localStorage.getItem("gallery-filter") || "all"; } catch (e) {}
+
+const allFiles = videos.flatMap((v) => v.variants);
+const total = allFiles.reduce((a, f) => a + f.duration, 0);
+$("#stats").innerHTML = [
+  `<span><b>${videos.length}</b>편</span>`,
+  `<span><b>${allFiles.length}</b>개 파일</span>`,
+  `<span>총 러닝타임 <b>${Math.floor(total / 60)}분 ${Math.round(total % 60)}초</b></span>`,
+  `<span>업데이트 <b>${esc(allFiles.map((f) => f.updated).sort().pop())}</b></span>`,
+].join("");
+if (DATA.mode === "web") $("#eyebrow").textContent = "movie_ads · 영상 아카이브 · 웹 미리보기";
+
+function renderFilters() {
+  const counts = { all: videos.length };
+  videos.forEach((v) => (counts[v.category] = (counts[v.category] || 0) + 1));
+  const items = [{ id: "all", label: "전체" }, ...DATA.categories];
+  $("#filters").innerHTML = items.map((c) => `<button class="chip" data-f="${c.id}" aria-pressed="${filter === c.id}">${esc(c.label)} <span class="n">${counts[c.id] || 0}</span></button>`).join("");
+}
+
+function ratioGlyphs(v) {
+  const seen = new Set();
+  return v.variants.map((f) => {
+    const k = ratioName(f.width, f.height); if (seen.has(k)) return ""; seen.add(k);
+    const h = 10, w = Math.max(6, Math.round((f.width / f.height) * h));
+    return `<i style="width:${w}px;height:${h}px" title="${k}"></i>`;
+  }).join("");
+}
+
+function specLine(v) {
+  const f = v.variants[0];
+  const parts = [`${f.width}×${f.height}`, `${f.fps}fps`];
+  const durs = v.variants.map((x) => x.duration);
+  const lo = Math.min(...durs), hi = Math.max(...durs);
+  parts.push(Math.abs(hi - lo) < 1 ? tc(lo) : `${tc(lo)}–${tc(hi)}`);
+  parts.push(v.variants.some((x) => x.audio) ? "사운드" : "무음");
+  return parts.join(" · ");
+}
+
+function matches(v, q) {
+  if (filter !== "all" && v.category !== filter) return false;
+  if (!q) return true;
+  const hay = [v.title, v.summary, v.folder, v.composition, ...v.variants.map((x) => x.label + " " + x.file)].join(" ").toLowerCase();
+  return q.toLowerCase().split(/\s+/).every((t) => hay.includes(t));
+}
+
+function renderGrid() {
+  const q = $("#q").value.trim();
+  const groups = DATA.categories.map((c) => ({ c, list: videos.filter((v) => v.category === c.id && matches(v, q)) })).filter((g) => g.list.length);
+  $("#sections").innerHTML = groups.length ? groups.map(({ c, list }) => `
+    <h2 class="section-title">${esc(c.label)} <span>${list.length}</span></h2>
+    <div class="grid" style="margin-block:18px 30px">${list.map((v) => {
+      const f = v.variants[0];
+      const longest = Math.max(...v.variants.map((x) => x.duration));
+      return `<button class="card" data-id="${esc(v.id)}" aria-label="${esc(v.title)} 재생">
+        <div class="frame">
+          <img src="${esc(f.poster)}" alt="" loading="lazy">
+          <video muted loop playsinline preload="none" data-src="${esc(f.src)}"></video>
+          ${v.variants.length > 1 ? `<span class="vars">${v.variants.length}개 버전</span>` : ""}
+          <span class="ratio">${ratioGlyphs(v)}</span>
+          <span class="tc">${tc(longest)}</span>
+        </div>
+        <div class="meta">
+          <span class="cat">${esc(v.folder.split("/").pop().replace(/^(\d\d)_.*/, "project $1"))}</span>
+          <span class="title">${esc(v.title)}</span>
+          <span class="spec">${esc(specLine(v))}</span>
+        </div>
+      </button>`;
+    }).join("")}</div>`).join("") : `<p class="empty">조건에 맞는 영상이 없습니다. 필터를 ‘전체’로 바꾸거나 검색어를 지워 보세요.</p>`;
+}
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+$("#sections").addEventListener("pointerover", (e) => {
+  const card = e.target.closest(".card"); if (!card || reduce || card.classList.contains("playing")) return;
+  const vid = $("video", card); if (!vid.src) vid.src = vid.dataset.src;
+  vid.currentTime = 0; vid.play().then(() => card.classList.add("playing")).catch(() => {});
+});
+$("#sections").addEventListener("pointerout", (e) => {
+  const card = e.target.closest(".card"); if (!card || card.contains(e.relatedTarget)) return;
+  card.classList.remove("playing"); $("video", card).pause();
+});
+$("#sections").addEventListener("click", (e) => { const card = e.target.closest(".card"); if (card) open(card.dataset.id, 0); });
+$("#filters").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f;
+  try { localStorage.setItem("gallery-filter", filter); } catch (err) {}
+  renderFilters(); renderGrid();
+});
+$("#q").addEventListener("input", renderGrid);
+
+// 플레이어
+const dlg = $("#dlg"), vid = $("#vid");
+let cur = null, curVar = 0;
+function open(id, vi) {
+  const v = videos.find((x) => x.id === id); if (!v) return;
+  cur = v; curVar = Math.min(vi || 0, v.variants.length - 1);
+  $("#dlg-title").textContent = v.title;
+  $("#dlg-sum").textContent = v.summary;
+  $("#tabs").innerHTML = v.variants.length > 1 ? v.variants.map((f, i) => `<button class="chip" data-v="${i}" aria-pressed="${i === curVar}">${esc(f.label)} <span class="n">${tc(f.duration)}</span></button>`).join("") : "";
+  showVariant();
+  if (!dlg.open) dlg.showModal();
+  if (location.hash !== "#v-" + id) history.replaceState(null, "", "#v-" + id);
+}
+function showVariant() {
+  const f = cur.variants[curVar];
+  $("#stage").classList.toggle("tall", f.height > f.width);
+  vid.poster = f.poster; vid.src = f.src; vid.play().catch(() => {});
+  $$tabs();
+  $("#dlg-spec").innerHTML = [
+    ["버전", f.label], ["규격", `${f.width}×${f.height} · ${ratioName(f.width, f.height)} · ${f.fps}fps`], ["길이", `${tc(f.duration)} (${f.duration.toFixed(1)}초)`],
+    ["오디오", f.audio ? "있음 (AAC)" : "무음"], ["원본 크기", mb(f.bytes)], ["업데이트", f.updated],
+    ["컴포지션", cur.composition], ["폴더", cur.folder], ["파일", f.file],
+  ].map(([k, val]) => `<dt>${k}</dt><dd>${esc(val)}</dd>`).join("");
+  const note = $("#dlg-note");
+  note.hidden = DATA.mode !== "web";
+  note.textContent = "공유용 540p 웹 미리보기입니다. 원본 화질은 GitHub의 원본 파일에서 받으세요.";
+  $("#dlg-links").innerHTML = `<a href="${esc(f.github)}" target="_blank" rel="noopener">GitHub 원본 파일</a><a href="${esc(DATA.repo)}/tree/${esc(DATA.branch)}/${esc(cur.folder)}" target="_blank" rel="noopener">영상 폴더·README</a>`;
+}
+function $$tabs() { document.querySelectorAll("#tabs .chip").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.v === curVar))); }
+$("#tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (!b) return; curVar = +b.dataset.v; showVariant(); });
+function step(d) {
+  const list = videos.filter((v) => matches(v, $("#q").value.trim()));
+  const i = list.indexOf(cur); if (i < 0 || !list.length) return;
+  open(list[(i + d + list.length) % list.length].id, 0);
+}
+$("#prev").addEventListener("click", () => step(-1));
+$("#next").addEventListener("click", () => step(1));
+$("#close").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener("close", () => { vid.pause(); vid.removeAttribute("src"); vid.load(); if (location.hash) history.replaceState(null, "", location.pathname + location.search); });
+dlg.addEventListener("keydown", (e) => { if (e.target.closest("video")) return; if (e.key === "ArrowRight") step(1); if (e.key === "ArrowLeft") step(-1); });
+function fromHash() { const m = location.hash.match(/^#v-([\w-]+)$/); if (m) open(m[1], 0); }
+addEventListener("hashchange", fromHash);
+
+$("#progress").innerHTML = DATA.inProgress.map((x) => `<li><b>${esc(x.title)}</b><span>${esc(x.note).replace(/(본사 과제 마감[^<]*)/, '<span class="deadline">$1</span>')}</span><code>${esc(x.folder)}</code></li>`).join("");
+$("#missing").innerHTML = DATA.notCommitted.map((x) => `<li><b>${esc(x.title)}</b><span>${esc(x.note)}</span><code>${esc(x.folder)}</code></li>`).join("");
+$("#foot").innerHTML = `<span>목록 원본은 <code>gallery/videos.json</code>입니다. 영상을 추가하거나 바꾸면 이 파일을 고치고 <code>python3 gallery/build.py</code>를 다시 실행하세요.</span><span>빌드 ${esc(DATA.built)} · 브랜치 <code>${esc(DATA.branch)}</code></span>`;
+
+renderFilters(); renderGrid(); fromHash();
+</script>

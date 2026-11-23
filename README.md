@@ -3,6 +3,8 @@
 Classin 영상 광고 모음입니다. 폴더는 Google Drive `ClassIn Korea / 혁님 작업 / [영상_ai_프로젝트(마케팅,혁)](https://drive.google.com/drive/folders/1kfof3LwlePQhLExUu-cVSqq0t3xnh33e)`의 **프로젝트 번호·이름을 그대로** 따릅니다.
 코드로 만드는 영상은 [Remotion](https://www.remotion.dev/) 4 워크스페이스 하나에서 관리하고, 기획서·생성 이미지·영상 원본 같은 대용량 자료는 Drive에 둡니다.
 
+**영상 갤러리** — 완성 영상을 포스터 그리드로 보고 버전별로 재생합니다. 저장소를 받은 뒤 [`gallery/index.html`](gallery/index.html)을 브라우저로 여세요(`out/`의 원본을 그대로 재생). 목록은 [`gallery/videos.json`](gallery/videos.json)에서 고치고 `python3 gallery/build.py`로 다시 만듭니다. 공유용 웹 미리보기(540p)는 `python3 gallery/build.py --web <폴더>`.
+
 ## 프로젝트 목록
 
 폴더 이름 규칙: `<번호>_<시작일 YYYYMMDD>_<Drive 프로젝트 이름>_<특징>`. 특징은 만드는 방식·포맷이라 이름만 보고 구분할 수 있습니다.

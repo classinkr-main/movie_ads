@@ -1,0 +1,177 @@
+{
+  "categories": [
+    { "id": "brand", "label": "브랜드·제품 광고" },
+    { "id": "event", "label": "행사·브이로그" },
+    { "id": "project", "label": "번호 프로젝트" }
+  ],
+  "videos": [
+    {
+      "id": "cinematic",
+      "posterAt": 6.3,
+      "category": "brand",
+      "title": "시네마틱 커머셜 — 어제 · 오늘 · 내일의 수업",
+      "summary": "분필과 칠판(옛 필름 4:3) → Classin Board(2.39:1 와이드) → AI 홀로그램. 판서 하나가 세 시대를 잇는 브랜드 커머셜.",
+      "folder": "src/cinematic",
+      "composition": "Cinematic",
+      "variants": [
+        { "label": "사운드", "file": "out/classin-cinematic-20s.mp4" },
+        { "label": "무음 마스터", "file": "out/classin-cinematic-20s-silent.mp4" }
+      ]
+    },
+    {
+      "id": "showreel-v5",
+      "category": "brand",
+      "title": "쇼릴 v5 — 남는 수업",
+      "summary": "\"수업이 끝나면, 수업은 어디로 갈까?\" 뮤직비디오 비트 컷 × Vox 해설 문법의 학원 대상 브랜드 쇼릴. 30초 여유판과 인스타 광고판 포함.",
+      "folder": "src/showreel-v5",
+      "composition": "Showreel · Showreel30",
+      "variants": [
+        { "label": "22초", "file": "out/classin-showreel-v5.mp4" },
+        { "label": "30초", "file": "out/classin-showreel-v5-30s.mp4" },
+        { "label": "인스타 1:1", "file": "out/classin-showreel-v5-30s-1x1.mp4" },
+        { "label": "인스타 4:5", "file": "out/classin-showreel-v5-30s-4x5.mp4" },
+        { "label": "인스타 9:16", "file": "out/classin-showreel-v5-30s-9x16.mp4" }
+      ]
+    },
+    {
+      "id": "brand-reel",
+      "category": "brand",
+      "title": "BrandReel v8",
+      "summary": "학원 대상 다크 시네마틱 브랜드 쇼릴. 60fps.",
+      "folder": "src/reel",
+      "composition": "BrandReel",
+      "variants": [
+        { "label": "무음", "file": "out/classin-brand-reel-60fps.mp4" },
+        { "label": "가이드 효과음", "file": "out/classin-brand-reel-60fps-guide-sfx.mp4" }
+      ]
+    },
+    {
+      "id": "gull",
+      "category": "brand",
+      "title": "갈매기 드로잉 쇼릴",
+      "summary": "손그림 애니메이션 쇼릴. BGM·효과음 포함, 섬네일 별도.",
+      "folder": "src/gull",
+      "composition": "GullReel",
+      "variants": [{ "label": "16:9", "file": "out/classin-gull-showreel.mp4" }]
+    },
+    {
+      "id": "teacher-mgmt",
+      "category": "brand",
+      "title": "AI 강의 평가 → 강사 관리",
+      "summary": "AI 강의 평가로 강사를 관리하는 흐름. A 라이트 편 22초, B 가치 편 26초.",
+      "folder": "src/teacher-mgmt",
+      "composition": "TeacherMgmt · TeacherMgmtValue",
+      "variants": [
+        { "label": "A 라이트 편", "file": "out/classin-ai-teacher-mgmt.mp4" },
+        { "label": "B 가치 편", "file": "out/classin-ai-teacher-mgmt-value.mp4" }
+      ]
+    },
+    {
+      "id": "hardware",
+      "category": "brand",
+      "title": "Classin Board 하드웨어 광고",
+      "summary": "Classin Board 하드웨어를 보여 주는 시네마틱 제품 광고.",
+      "folder": "src/hardware",
+      "composition": "Hardware",
+      "variants": [{ "label": "16:9", "file": "out/classin-board-hardware.mp4" }]
+    },
+    {
+      "id": "brag",
+      "posterAt": 6.3,
+      "category": "brand",
+      "title": "브래그컷 v5",
+      "summary": "분석 · 채점 · 통역 세 기능을 보여 주는 세로 시네마틱 런칭 컷. 음악·효과음 포함.",
+      "folder": "src/brag",
+      "composition": "Brag",
+      "variants": [{ "label": "9:16", "file": "out/brag/brag.mp4" }]
+    },
+    {
+      "id": "teachers-mental",
+      "category": "brand",
+      "title": "선생님들은 멘탈이 나가 버렸습니다",
+      "summary": "밈 형식의 자동 녹화 스토리 3D 쇼릴. 블록 디오라마 위 Vox식 주석. 더빙 전제 무음.",
+      "folder": "projects/teachers-lost-their-minds",
+      "composition": "TeachersMental · TeachersMentalVertical",
+      "variants": [
+        { "label": "16:9", "file": "projects/teachers-lost-their-minds/renders/final.mp4" },
+        { "label": "9:16", "file": "projects/teachers-lost-their-minds/renders/final-vertical.mp4" }
+      ]
+    },
+    {
+      "id": "busan-forum",
+      "category": "event",
+      "title": "2026 아시아 AI 교육 포럼(부산) 스케치",
+      "summary": "학원 탐방과 포럼 당일을 담은 9개 버전. 실황·하이라이트·연사·1분·스타일·30초·사람·행사 전체·현장편.",
+      "folder": "src/forum",
+      "composition": "ForumLive … ForumMove",
+      "variants": [
+        { "label": "A 실황편", "file": "out/busan-forum-sketch-A-live.mp4" },
+        { "label": "B 스케치 하이라이트", "file": "out/busan-forum-sketch-B-highlight.mp4" },
+        { "label": "C 하이라이트(연사)", "file": "out/busan-forum-sketch-C-highlight-speakers.mp4" },
+        { "label": "D 1분 스케치", "file": "out/busan-forum-sketch-D-60s.mp4" },
+        { "label": "E 스타일편", "file": "out/busan-forum-sketch-E-style.mp4" },
+        { "label": "F 30초편", "file": "out/busan-forum-sketch-F-30s.mp4" },
+        { "label": "G 사람편", "file": "out/busan-forum-sketch-G-people.mp4" },
+        { "label": "H 행사 전체편", "file": "out/busan-forum-sketch-H-event.mp4" },
+        { "label": "I 현장편", "file": "out/busan-forum-sketch-I-move.mp4" }
+      ]
+    },
+    {
+      "id": "guangzhou-film",
+      "category": "event",
+      "title": "광저우 투어 — 행사 하이라이트",
+      "summary": "광저우 투어 행사 하이라이트 필름. 24fps 가로.",
+      "folder": "src/guangzhou",
+      "composition": "GuangzhouEventFilm",
+      "variants": [{ "label": "16:9", "file": "out/guangzhou-event-film.mp4" }]
+    },
+    {
+      "id": "guangzhou-vlog",
+      "posterAt": 5.6,
+      "category": "event",
+      "title": "광저우 투어 — 탐방 브이로그 × Classin",
+      "summary": "광저우 탐방 브이로그 세로 30초.",
+      "folder": "src/guangzhou",
+      "composition": "GuangzhouVlog",
+      "variants": [{ "label": "9:16", "file": "out/guangzhou-vlog.mp4" }]
+    },
+    {
+      "id": "p06",
+      "category": "project",
+      "title": "06 수업 전·중·후 케어",
+      "summary": "앱 화면 + 내레이션으로 수업 전·중·후 학습 흐름을 보여 주는 애니매틱 v1. 목업 화면·가이드 자막.",
+      "folder": "src/projects/06_20261006_수업전중후케어_40초_앱화면-학습흐름",
+      "composition": "p06-care-flow-40s",
+      "variants": [{ "label": "애니매틱 v1", "file": "out/06_20261006_수업전중후케어_40초_앱화면-학습흐름/수업전중후케어_40초_애니매틱_v1.mp4" }]
+    },
+    {
+      "id": "p07",
+      "category": "project",
+      "title": "07 수업 표준화",
+      "summary": "수업 형태 4가지를 비교하는 애니매틱 v1. 교안은 같은 자리에 두고 기기 프레임만 바뀐다.",
+      "folder": "src/projects/07_20261006_수업표준화_45초_앱화면-수업형태비교",
+      "composition": "p07-one-standard-45s",
+      "variants": [{ "label": "애니매틱 v1", "file": "out/07_20261006_수업표준화_45초_앱화면-수업형태비교/수업표준화_45초_애니매틱_v1.mp4" }]
+    },
+    {
+      "id": "p09",
+      "posterAt": 2.2,
+      "category": "project",
+      "title": "09 Classin AI 기능 소개 (쇼릴 v4)",
+      "summary": "Remotion 모션그래픽으로 만든 AI 기능 소개 30초. 중2 국어 예시 수업으로 기능 UI를 보여 준다.",
+      "folder": "src/projects/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽",
+      "composition": "p09-classin-ai-features-30s",
+      "variants": [{ "label": "v4", "file": "out/09_20261007_ClassinAI_기능소개_30초_Remotion-모션그래픽/ClassinAI_기능소개_30초_v4.mp4" }]
+    }
+  ],
+  "notCommitted": [
+    { "title": "2026 아시아 AI 교육 포럼 숏폼 6편", "note": "9:16 · 35–70초 · 용량 때문에 커밋하지 않음. npm run shorts:cut → shorts:render", "folder": "src/shorts" },
+    { "title": "할로윈 백설공주 브이로그", "note": "가로 3분 25초 · 쇼츠 68초 · Python·ffmpeg 파이프라인, 원본에서 다시 렌더", "folder": "vlog/snow-white-halloween" }
+  ],
+  "inProgress": [
+    { "title": "개별진도 ClassIn 설명회 오프닝 30초", "note": "검토 중. 메시지 방향·엔딩 문구·톤 확정 후 컷 제작. 본사 과제 마감 2026-11-28(토) 00:59 KST", "folder": "docs" },
+    { "title": "06 · 07 애니매틱 실제 화면 교체", "note": "실제 앱 캡처와 내레이션 녹음이 들어오면 목업 화면과 비트 길이를 교체", "folder": "src/projects" },
+    { "title": "01–05 · 08 번호 프로젝트", "note": "Drive 자료만 있음(대본·스토리보드·생성 영상). 코드 작업 전", "folder": "src/projects" },
+    { "title": "아이디어 3개", "note": "칠판 일상 상황극 · 플립러닝/에듀테크 · 기능 소개 시리즈", "folder": "ideas" }
+  ]
+}
