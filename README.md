@@ -53,6 +53,14 @@ Drive 번호가 아직 없는 영상은 각자 폴더에 있습니다. 자세한
 - 포럼 숏폼·부산 포럼 스케치는 Drive 원본에서 잘라 낸 중간본(`public/shorts/`, `public/forum/`)이 있어야 렌더됩니다. 만드는 방법은 각 README의 "다시 만들기"에 있습니다.
 - **쇼릴 v4와 v5**: 30초 AI 기능 소개(v4)는 09 프로젝트(`p09-classin-ai-features-30s`), 22초 "남는 수업"(v5)은 `src/showreel-v5`(`Showreel`)입니다. 둘 다 그대로 렌더할 수 있습니다.
 
+## 진행 중 작업
+
+| 작업 | 문서 | 상태 · 다음 할 일 |
+| --- | --- | --- |
+| **개별진도 ClassIn 설명회 오프닝 영상** — 30초 · 16:9 · 30fps · 내레이션·자막·BGM. 설명회 HTML 페이지의 첫 화면이자 본사 과제 제출본 | [30초 기획 v2.0](docs/20261123_개별진도영상_30초기획_v2.0.md) · [디자인·그래픽·Higgsfield 가이드 v1.0](docs/20261123_개별진도영상_디자인·Higgsfield가이드_v1.0.md) | 검토(Review). Wayne이 메시지 방향·엔딩 문구·톤(페이지 블루 체계)을 확정하면 컷 1·2 스틸 생성, 컷 4·6 Remotion 시안 시작. **본사 과제 마감 2026-11-28(토) 00:59 KST** |
+| 01–05 · 08 번호 프로젝트 | 위 [프로젝트 목록](#프로젝트-목록) | 코드 없이 Drive 자료만 있음 — 상태 칸 참고 |
+| 06 · 07 애니매틱 | 각 폴더 README | v1 렌더 완료(목업 화면·가이드 자막). 실제 앱 화면·내레이션 교체 대기 |
+
 ## 아이디어
 
 다음 영상 후보는 [`ideas/`](ideas/README.md)에 있습니다(칠판 일상 상황극 · 플립러닝/에듀테크 트렌드 · Classin 기능 소개 시리즈).
@@ -103,6 +111,7 @@ npm run typecheck
 | 갈매기 쇼릴 | `render:gull` | `thumb:gull` · `still:gull` · `audio:gull` |
 | 강사 관리 | `render:tm` · `render:tmv` | `still:tm` · `still:tmv` |
 | 하드웨어 광고 | `render:hw` | `still:hw` |
+| 시네마틱 커머셜 | `render:cinematic` · `render:cinematic:silent` | `score:cinematic` · `stills:cinematic` |
 | 브래그컷 | `brag`(오디오 → 렌더 → 포스터) | `brag:audio` · `brag:render` |
 | '멘탈' 3D 쇼릴 | `mental:render` · `mental:render:vertical` · `mental:render:clean` | `mental:dev` · `mental:render:draft` · `mental:timeline` · `mental:sync` · `mental:snapshots` |
 | 포럼 숏폼 | `shorts:render` | `shorts:cut` |
