@@ -1,14 +1,14 @@
 import React from "react";
 import { AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { noise2D } from "@remotion/noise";
-import { FONT, MONO, TONES, Tone } from "./theme";
+import { FONT, HAND, HEAD, INK, Paper } from "./theme";
 
 /* ───────── 공통 유틸 ───────── */
 
 export const CL = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 export const eOut = Easing.out(Easing.cubic);
 export const eOutExpo = Easing.out(Easing.exp);
-export const eOutBack = Easing.out(Easing.back(1.4));
+export const eOutBack = Easing.out(Easing.back(1.5));
 export const eInOut = Easing.inOut(Easing.cubic);
 export const eIn = Easing.in(Easing.cubic);
 
@@ -47,129 +47,387 @@ export const alpha = (h: string, a: number) => {
   return `rgba(${r},${g},${b},${a})`;
 };
 
-export const t = (size: number, weight = 700, color = "#fff", extra: React.CSSProperties = {}): React.CSSProperties => ({
+// 글자 스타일 — 앱 UI(Pretendard) / 제목(고운바탕) / 손글씨(나눔손글씨 펜)
+export const t = (size: number, weight = 600, color: string = INK.graphite, extra: React.CSSProperties = {}): React.CSSProperties => ({
   fontFamily: FONT,
   fontSize: size,
   fontWeight: weight,
   color,
-  letterSpacing: size >= 60 ? "-0.04em" : size >= 28 ? "-0.025em" : "-0.012em",
-  lineHeight: 1.18,
+  letterSpacing: size >= 28 ? "-0.02em" : "-0.01em",
+  lineHeight: 1.25,
   ...extra,
 });
-
-export const mono = (size: number, weight = 500, color = "#fff", extra: React.CSSProperties = {}): React.CSSProperties => ({
-  fontFamily: `${MONO}, ${FONT}`,
+export const hand = (size: number, color: string = INK.navy, extra: React.CSSProperties = {}): React.CSSProperties => ({
+  fontFamily: HAND,
   fontSize: size,
-  fontWeight: weight,
+  fontWeight: 400,
   color,
-  letterSpacing: "0.04em",
-  fontVariantNumeric: "tabular-nums",
-  lineHeight: 1,
+  letterSpacing: "0.005em",
+  lineHeight: 1.05,
   ...extra,
 });
 
-/* ───────── 배경 ───────── */
+/* ───────── 종이 배경 ───────── */
 
-// 장면 색조. from → to 로 장면 안에서 천천히 물든다.
-export const Backdrop: React.FC<{ from: Tone; to?: Tone; k?: number; grid?: number; gridSize?: number }> = ({ from, to, k = 0, grid = 0, gridSize = 120 }) => {
+export const PaperBg: React.FC<{ paper: Paper; to?: Paper; k?: number; ruled?: number; grid?: number; margin?: boolean; lineGap?: number; gridGap?: number }> = ({
+  paper,
+  to,
+  k = 0,
+  ruled = 0,
+  grid = 0,
+  margin = false,
+  lineGap = 54,
+  gridGap = 36,
+}) => {
   const f = useCurrentFrame();
-  const T = to ?? from;
-  const bg = mixHex(from.bg, T.bg, k);
-  const bg2 = mixHex(from.bg2, T.bg2, k);
-  const glow = mixHex(from.glow, T.glow, k);
-  const gx = 30 + noise2D("bgx", f * 0.004, 0) * 14;
-  const gy = 28 + noise2D("bgy", 0, f * 0.004) * 10;
-  const dark = from.dark;
+  const T = to ?? paper;
+  const base = mixHex(paper.base, T.base, k);
+  const tint = mixHex(paper.tint, T.tint, k);
+  const gx = 30 + noise2D("pbx", f * 0.003, 0) * 10;
+  const gy = 25 + noise2D("pby", 0, f * 0.003) * 8;
   return (
-    <AbsoluteFill
-      style={{
-        background: `radial-gradient(70% 80% at ${gx}% ${gy}%, ${glow.replace("rgb", "rgba").replace(")", `,${dark ? 0.55 : 0.9})`)} 0%, rgba(0,0,0,0) 70%), linear-gradient(160deg, ${bg2} 0%, ${bg} 70%)`,
-      }}
-    >
+    <AbsoluteFill style={{ background: `radial-gradient(80% 90% at ${gx}% ${gy}%, ${base} 0%, ${base} 45%, ${tint} 100%)` }}>
+      {ruled > 0 ? (
+        <AbsoluteFill style={{ opacity: ruled, backgroundImage: `linear-gradient(transparent ${lineGap - 2}px, ${paper.rule ?? "rgba(90,120,170,0.2)"} ${lineGap - 2}px, ${paper.rule ?? "rgba(90,120,170,0.2)"} ${lineGap}px)`, backgroundSize: `100% ${lineGap}px`, backgroundPosition: "0 18px" }} />
+      ) : null}
       {grid > 0 ? (
         <AbsoluteFill
           style={{
             opacity: grid,
-            backgroundImage: `linear-gradient(${from.line} 1px, transparent 1px), linear-gradient(90deg, ${from.line} 1px, transparent 1px)`,
-            backgroundSize: `${gridSize}px ${gridSize}px`,
-            backgroundPosition: "0 0",
+            backgroundImage: `linear-gradient(${paper.grid ?? "rgba(0,0,0,0.08)"} 1px, transparent 1px), linear-gradient(90deg, ${paper.grid ?? "rgba(0,0,0,0.08)"} 1px, transparent 1px)`,
+            backgroundSize: `${gridGap}px ${gridGap}px`,
           }}
         />
       ) : null}
+      {margin ? <div style={{ position: "absolute", left: 96, top: 0, bottom: 0, width: 2, background: paper.margin ?? "rgba(214,96,96,0.45)" }} /> : null}
+      <AbsoluteFill style={{ mixBlendMode: "soft-light", opacity: 0.75 }}>
+        <Img src={staticFile("gb/paper/paper.png")} style={{ width: "100%", height: "100%" }} />
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
 
-export const Grain: React.FC<{ opacity?: number }> = ({ opacity = 0.06 }) => {
-  const f = useCurrentFrame();
-  return (
-    <AbsoluteFill style={{ mixBlendMode: "overlay", opacity, pointerEvents: "none" }}>
-      <Img src={staticFile(`gb/grain/g${f % 8}.png`)} style={{ width: "100%", height: "100%" }} />
-    </AbsoluteFill>
-  );
-};
+/* ───────── 연필·잉크 필터 (루트에 한 번) ───────── */
 
-export const Vignette: React.FC<{ strength?: number }> = ({ strength = 0.5 }) => (
-  <AbsoluteFill style={{ background: `radial-gradient(90% 90% at 50% 50%, rgba(0,0,0,0) 58%, rgba(0,0,0,${strength}) 100%)`, pointerEvents: "none" }} />
+export const FilterDefs: React.FC = () => (
+  <svg width={0} height={0} style={{ position: "absolute" }}>
+    <defs>
+      <filter id="gb-pencil" filterUnits="userSpaceOnUse" x={-400} y={-400} width={2800} height={1900}>
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves={2} seed={4} result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale={2.6} xChannelSelector="R" yChannelSelector="G" result="rough" />
+        <feTurbulence type="fractalNoise" baseFrequency="1.9" numOctaves={1} seed={9} result="g" />
+        <feColorMatrix in="g" type="luminanceToAlpha" result="ga" />
+        <feComponentTransfer in="ga" result="gm">
+          <feFuncA type="linear" slope={2.6} intercept={-0.32} />
+        </feComponentTransfer>
+        <feComposite in="rough" in2="gm" operator="in" />
+      </filter>
+      <filter id="gb-ink" filterUnits="userSpaceOnUse" x={-400} y={-400} width={2800} height={1900}>
+        <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves={2} seed={2} result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale={1.6} xChannelSelector="R" yChannelSelector="G" result="rough" />
+        <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves={2} seed={12} result="g" />
+        <feColorMatrix in="g" type="luminanceToAlpha" result="ga" />
+        <feComponentTransfer in="ga" result="gm">
+          <feFuncA type="linear" slope={3.2} intercept={-0.45} />
+        </feComponentTransfer>
+        <feComposite in="rough" in2="gm" operator="in" />
+      </filter>
+    </defs>
+  </svg>
 );
 
-/* ───────── 프레임 장식 (크롭 마크 · 눈금 · 타임코드) ───────── */
+/* ───────── 손그림 경로 생성 ───────── */
 
-export const FrameMarks: React.FC<{ tone: Tone; at?: number; out?: number }> = ({ tone, at = 0, out }) => {
+type Pt = [number, number];
+
+export const smooth = (pts: Pt[]) => {
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[Math.min(pts.length - 1, i + 2)];
+    const c1: Pt = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2: Pt = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C ${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+};
+
+// 손으로 그은 선: 중간점이 조금씩 흔들리고 끝이 살짝 넘친다
+export const roughLine = (x1: number, y1: number, x2: number, y2: number, seed = 1, amp = 1.6): string => {
+  const r = rng(seed);
+  const len = Math.hypot(x2 - x1, y2 - y1);
+  const n = Math.max(3, Math.round(len / 70));
+  const nx = -(y2 - y1) / (len || 1);
+  const ny = (x2 - x1) / (len || 1);
+  const ext = 3 + r() * 4;
+  const ux = (x2 - x1) / (len || 1);
+  const uy = (y2 - y1) / (len || 1);
+  const pts: Pt[] = [];
+  for (let i = 0; i <= n; i++) {
+    const k = i / n;
+    const o = i === 0 || i === n ? (r() - 0.5) * amp : (r() - 0.5) * amp * 2;
+    pts.push([x1 + (x2 - x1) * k + nx * o - (i === 0 ? ux * ext : 0) + (i === n ? ux * ext : 0), y1 + (y2 - y1) * k + ny * o - (i === 0 ? uy * ext : 0) + (i === n ? uy * ext : 0)]);
+  }
+  return smooth(pts);
+};
+
+// 여러 점을 지나는 손그림 선
+export const roughPoly = (pts: Pt[], seed = 1, amp = 1.4): string => {
+  const r = rng(seed);
+  const out: Pt[] = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [ax, ay] = pts[i];
+    const [bx, by] = pts[i + 1];
+    const len = Math.hypot(bx - ax, by - ay);
+    const n = Math.max(2, Math.round(len / 60));
+    for (let j = 0; j < n; j++) {
+      const k = j / n;
+      out.push([ax + (bx - ax) * k + (r() - 0.5) * amp * 2, ay + (by - ay) * k + (r() - 0.5) * amp * 2]);
+    }
+  }
+  out.push(pts[pts.length - 1]);
+  return smooth(out);
+};
+
+// 손그림 사각형: 네 변을 따로 긋고 모서리가 조금 넘친다
+export const roughRect = (x: number, y: number, w: number, h: number, seed = 1, amp = 1.6): string =>
+  [roughLine(x, y, x + w, y, seed, amp), roughLine(x + w, y, x + w, y + h, seed + 1, amp), roughLine(x + w, y + h, x, y + h, seed + 2, amp), roughLine(x, y + h, x, y, seed + 3, amp)].join(" ");
+
+// 손그림 동그라미: 한 바퀴보다 조금 더 돌고, 반지름이 흔들린다
+export const roughEllipse = (cx: number, cy: number, rx: number, ry: number, seed = 1, turns = 1.12, startDeg = -160): string => {
+  const r = rng(seed);
+  const N = 36;
+  const pts: Pt[] = [];
+  for (let i = 0; i <= N; i++) {
+    const a = ((startDeg + (360 * turns * i) / N) * Math.PI) / 180;
+    const j = 1 + (r() - 0.5) * 0.06 + (i / N) * 0.05;
+    pts.push([cx + Math.cos(a) * rx * j, cy + Math.sin(a) * ry * j]);
+  }
+  return smooth(pts);
+};
+
+// 물결 밑줄
+export const wavyLine = (x1: number, x2: number, y: number, seed = 1, amp = 3): string => {
+  const r = rng(seed);
+  const n = Math.max(4, Math.round((x2 - x1) / 40));
+  const pts: Pt[] = [];
+  for (let i = 0; i <= n; i++) pts.push([x1 + ((x2 - x1) * i) / n, y + Math.sin(i * 1.7 + r()) * amp * 0.6 + (r() - 0.5) * amp + (i / n) * -3]);
+  return smooth(pts);
+};
+
+// 손그림 화살표(곡선 + 화살촉)
+export const roughArrow = (from: Pt, to: Pt, bend = 0.2, seed = 1): { body: string; head: string } => {
+  const mx = (from[0] + to[0]) / 2;
+  const my = (from[1] + to[1]) / 2;
+  const dx = to[0] - from[0];
+  const dy = to[1] - from[1];
+  const c: Pt = [mx - dy * bend, my + dx * bend];
+  const r = rng(seed);
+  const pts: Pt[] = [];
+  for (let i = 0; i <= 8; i++) {
+    const k = i / 8;
+    const x = (1 - k) * (1 - k) * from[0] + 2 * (1 - k) * k * c[0] + k * k * to[0];
+    const y = (1 - k) * (1 - k) * from[1] + 2 * (1 - k) * k * c[1] + k * k * to[1];
+    pts.push([x + (i > 0 && i < 8 ? (r() - 0.5) * 2 : 0), y + (i > 0 && i < 8 ? (r() - 0.5) * 2 : 0)]);
+  }
+  const tx = to[0] - pts[7][0];
+  const ty = to[1] - pts[7][1];
+  const tl = Math.hypot(tx, ty) || 1;
+  const ux = tx / tl;
+  const uy = ty / tl;
+  const s = 18;
+  const a1: Pt = [to[0] - ux * s - uy * s * 0.6, to[1] - uy * s + ux * s * 0.6];
+  const a2: Pt = [to[0] - ux * s + uy * s * 0.6, to[1] - uy * s - ux * s * 0.6];
+  return { body: smooth(pts), head: `M ${a1[0]} ${a1[1]} L ${to[0]} ${to[1]} L ${a2[0]} ${a2[1]}` };
+};
+
+/* ───────── 손그림 컴포넌트 ───────── */
+
+// 획이 그려지는 잉크 선 (pathLength 정규화)
+export const Ink: React.FC<{ d: string; color: string; width?: number; at: number; dur?: number; filter?: "pencil" | "ink" | "none"; opacity?: number; cap?: "round" | "butt" }> = ({
+  d,
+  color,
+  width = 4,
+  at,
+  dur = 14,
+  filter = "ink",
+  opacity = 1,
+  cap = "round",
+}) => {
   const f = useCurrentFrame();
-  const p = ramp(f, at, at + 14);
-  const o = out !== undefined ? ramp(f, out, out + 6) : 0;
-  const col = alpha(tone.dark ? "#FFFFFF" : "#0D1A14", tone.dark ? 0.34 : 0.32);
-  const L = 26 * p;
-  const I = 36;
-  const corner = (x: number, y: number, sx: number, sy: number) => (
-    <path key={`${x}-${y}`} d={`M ${x} ${y + sy * L} V ${y} H ${x + sx * L}`} fill="none" stroke={col} strokeWidth={1.6} />
-  );
+  const p = ramp(f, at, at + dur, eInOut);
+  if (p <= 0) return null;
   return (
-    <svg width={1920} height={1080} style={{ position: "absolute", inset: 0, opacity: 1 - o, pointerEvents: "none", zIndex: 40 }}>
-      {corner(I, I, 1, 1)}
-      {corner(1920 - I, I, -1, 1)}
-      {corner(I, 1080 - I, 1, -1)}
-      {corner(1920 - I, 1080 - I, -1, -1)}
-      {/* 가장자리 중앙 눈금 */}
-      <path d={`M 960 ${I - 4} V ${I + 10 * p}`} stroke={col} strokeWidth={1.6} />
-      <path d={`M 960 ${1080 - I + 4} V ${1080 - I - 10 * p}`} stroke={col} strokeWidth={1.6} />
-      <path d={`M ${I - 4} 540 H ${I + 10 * p}`} stroke={col} strokeWidth={1.6} />
-      <path d={`M ${1920 - I + 4} 540 H ${1920 - I - 10 * p}`} stroke={col} strokeWidth={1.6} />
-    </svg>
+    <path
+      d={d}
+      fill="none"
+      stroke={color}
+      strokeWidth={width}
+      strokeLinecap={cap}
+      strokeLinejoin="round"
+      pathLength={1}
+      strokeDasharray="1 1"
+      strokeDashoffset={1 - p}
+      opacity={opacity}
+      filter={filter === "none" ? undefined : `url(#gb-${filter})`}
+    />
   );
 };
 
-export const Timecode: React.FC<{ tone: Tone; offset: number }> = ({ tone, offset }) => {
-  const f = useCurrentFrame() + offset;
-  const s = Math.floor(f / 30);
-  const fr = f % 30;
+// 전체 화면 크기의 SVG 레이어
+export const Layer: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style }) => (
+  <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{ position: "absolute", inset: 0, overflow: "visible", pointerEvents: "none", ...style }}>
+    {children}
+  </svg>
+);
+
+// 형광펜: 글자 아래 절반을 왼→오로 칠한다
+export const Highlighter: React.FC<{ x: number; y: number; w: number; h: number; color?: string; at: number; dur?: number; skew?: number }> = ({ x, y, w, h, color = INK.hiYellow, at, dur = 10, skew = -4 }) => {
+  const f = useCurrentFrame();
+  const p = ramp(f, at, at + dur, eOut);
+  if (p <= 0) return null;
   return (
-    <div style={{ position: "absolute", right: 64, bottom: 52, ...mono(15, 500, tone.sub, { letterSpacing: "0.12em" }), zIndex: 40 }}>
-      00:{String(s).padStart(2, "0")}:{String(fr).padStart(2, "0")}
+    <div
+      style={{
+        position: "absolute",
+        left: x,
+        top: y,
+        width: w * p,
+        height: h,
+        background: color,
+        transform: `skewX(${skew}deg) rotate(-0.6deg)`,
+        borderRadius: "3px 8px 4px 9px",
+        mixBlendMode: "multiply",
+      }}
+    />
+  );
+};
+
+// 손글씨: 왼쪽부터 써 내려가듯 드러난다
+export const HandText: React.FC<{ children: React.ReactNode; x: number; y: number; size: number; color?: string; at: number; dur?: number; rotate?: number; style?: React.CSSProperties }> = ({
+  children,
+  x,
+  y,
+  size,
+  color = INK.navy,
+  at,
+  dur = 16,
+  rotate = -1.5,
+  style,
+}) => {
+  const f = useCurrentFrame();
+  const p = ramp(f, at, at + dur, (v) => v);
+  if (p <= 0) return null;
+  return (
+    <div style={{ position: "absolute", left: x, top: y, transform: `rotate(${rotate}deg)`, transformOrigin: "0% 50%", whiteSpace: "nowrap", clipPath: `inset(-20% ${(1 - p) * 100}% -30% -2%)`, ...hand(size, color), ...style }}>
+      {children}
     </div>
   );
 };
 
-// 좌상단 섹션 표기
-export const Hud: React.FC<{ tone: Tone; chapter: number; label: string; at?: number; out?: number }> = ({ tone, chapter, label, at = 0, out }) => {
+// 포스트잇
+export const Sticky: React.FC<{ x: number; y: number; w?: number; h?: number; color: string; rot?: number; at: number; children?: React.ReactNode; shadow?: number }> = ({
+  x,
+  y,
+  w = 150,
+  h = 128,
+  color,
+  rot = 0,
+  at,
+  children,
+  shadow = 1,
+}) => {
+  const f = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  if (f < at) return null;
+  const p = spring({ frame: f - at, fps, config: { damping: 13, stiffness: 210, mass: 0.6 } });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: x,
+        top: y,
+        width: w,
+        height: h,
+        transform: `translateY(${(1 - p) * -40}px) rotate(${rot + (1 - p) * 8}deg) scale(${lerp(1.25, 1, p)})`,
+        opacity: interpolate(f - at, [0, 2], [0, 1], CL),
+        background: `linear-gradient(180deg, ${color} 0%, ${color} 70%, ${alpha(color.startsWith("#") ? color : "#FFFFFF", 0.92)} 100%)`,
+        boxShadow: `0 ${12 * shadow}px ${22 * shadow}px rgba(70,50,20,0.18), 0 2px 3px rgba(70,50,20,0.14)`,
+        borderRadius: 2,
+        padding: "16px 14px 12px",
+        boxSizing: "border-box",
+      }}
+    >
+      <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 22, background: "rgba(0,0,0,0.045)" }} />
+      {children}
+    </div>
+  );
+};
+
+// 마스킹 테이프
+export const Tape: React.FC<{ x: number; y: number; w?: number; rot?: number; color?: string; opacity?: number }> = ({ x, y, w = 120, rot = -4, color = "rgba(250,244,220,0.78)", opacity = 1 }) => (
+  <div
+    style={{
+      position: "absolute",
+      left: x,
+      top: y,
+      width: w,
+      height: 30,
+      background: color,
+      transform: `rotate(${rot}deg)`,
+      opacity,
+      boxShadow: "0 1px 2px rgba(0,0,0,0.08)",
+      clipPath: "polygon(0% 8%, 4% 0%, 8% 10%, 12% 0%, 88% 2%, 92% 10%, 96% 0%, 100% 8%, 100% 92%, 96% 100%, 92% 90%, 88% 100%, 12% 98%, 8% 90%, 4% 100%, 0% 92%)",
+    }}
+  />
+);
+
+// 도장 (상태 표시 · 초안)
+export const Stamp: React.FC<{ children: React.ReactNode; color: string; at: number; rot?: number; size?: number; style?: React.CSSProperties; pad?: string }> = ({ children, color, at, rot = -3, size = 24, style, pad = "10px 18px" }) => {
+  const f = useCurrentFrame();
+  const p = interpolate(f, [at, at + 7], [0, 1], { ...CL, easing: eOutBack });
+  if (f < at) return null;
+  return (
+    <div style={{ position: "absolute", transform: `rotate(${rot}deg) scale(${lerp(1.7, 1, p)})`, opacity: interpolate(f, [at, at + 3], [0, 1], CL), ...style }}>
+      <div style={{ position: "relative", padding: pad, filter: "url(#gb-ink)" }}>
+        <div style={{ position: "absolute", inset: 0, border: `3px solid ${color}`, borderRadius: 4 }} />
+        <div style={{ position: "absolute", inset: 5, border: `1.5px solid ${color}`, borderRadius: 2, opacity: 0.8 }} />
+        <div style={{ position: "relative", ...t(size, 800, color, { lineHeight: 1.1, whiteSpace: "nowrap", letterSpacing: "-0.01em" }) }}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+// 상태 도장 — 우측 상단 고정
+export const StatusStamp: React.FC<{ kind: "example" | "now"; at: number }> = ({ kind, at }) => {
+  const isEx = kind === "example";
+  const col = isEx ? "#C8432F" : "#0B8F5E";
+  return (
+    <Stamp color={col} at={at} rot={-2} size={23} style={{ right: 64, top: 48, zIndex: 50 }} pad="12px 20px">
+      <span style={{ fontSize: 13, letterSpacing: "0.16em", display: "block", marginBottom: 4, fontWeight: 800 }}>{isEx ? "EXAMPLE" : "AVAILABLE NOW"}</span>
+      {isEx ? "방향 예시 · 개발필요 · 가상 데이터" : "지금 됨 · ClassIn 화면 재구성 · 가상 데이터"}
+    </Stamp>
+  );
+};
+
+// 좌상단 머리글 — 공책 쪽수
+export const Hud: React.FC<{ page: number; label?: string; at?: number; out?: number; color?: string }> = ({ page, label = "개별진도 × ClassIn + AI", at = 0, out, color = INK.sub }) => {
   const f = useCurrentFrame();
   const p = ramp(f, at, at + 10);
   const o = out !== undefined ? ramp(f, out, out + 8) : 0;
   return (
-    <div style={{ position: "absolute", top: 60, left: 120, display: "flex", alignItems: "center", gap: 16, opacity: p * (1 - o), zIndex: 40 }}>
-      <span style={mono(17, 700, tone.ink)}>{String(chapter).padStart(2, "0")}</span>
-      <span style={mono(17, 500, tone.sub)}>/ 07</span>
-      <div style={{ width: 44 * p, height: 1.5, background: tone.sub, opacity: 0.6 }} />
-      <span style={mono(16, 500, tone.sub, { letterSpacing: "0.1em" })}>{label}</span>
+    <div style={{ position: "absolute", top: 50, left: 120, display: "flex", alignItems: "baseline", gap: 16, opacity: p * (1 - o), zIndex: 40 }}>
+      <span style={hand(34, INK.red)}>p.{page}</span>
+      <span style={t(17, 600, color, { letterSpacing: "0.02em" })}>{label}</span>
     </div>
   );
 };
 
-/* ───────── 키네틱 타이포 ───────── */
+/* ───────── 키네틱 타이포 (제목) ───────── */
 
-export type Seg = { t: string; c?: string; w?: number; u?: string };
-type Mode = "rise" | "slam" | "type";
+export type Seg = { t: string; c?: string; w?: number };
 
 export const KText: React.FC<{
   lines: Seg[][];
@@ -177,123 +435,51 @@ export const KText: React.FC<{
   size: number;
   weight?: number;
   color?: string;
+  font?: string;
   stagger?: number;
   out?: number;
   outDur?: number;
-  mode?: Mode;
   align?: "left" | "center" | "right";
   lineHeight?: number;
   style?: React.CSSProperties;
-}> = ({ lines, at, size, weight = 800, color = "#fff", stagger = 1.5, out, outDur = 10, mode = "rise", align = "left", lineHeight = 1.16, style }) => {
+}> = ({ lines, at, size, weight = 700, color = INK.head, font = HEAD, stagger = 1.4, out, outDur = 8, align = "left", lineHeight = 1.24, style }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   let gi = 0;
   return (
-    <div style={{ textAlign: align, fontFamily: FONT, fontSize: size, fontWeight: weight, color, letterSpacing: size >= 60 ? "-0.045em" : "-0.02em", ...style }}>
+    <div style={{ textAlign: align, fontFamily: font, fontSize: size, fontWeight: weight, color, letterSpacing: "-0.015em", ...style }}>
       {lines.map((line, li) => (
         <div key={li} style={{ whiteSpace: "pre", lineHeight, height: size * lineHeight }}>
-          {line.map((seg, si) => {
-            const segStart = gi;
-            const glyphs = Array.from(seg.t).map((ch, ci) => {
+          {line.map((seg, si) =>
+            Array.from(seg.t).map((ch, ci) => {
               const i = gi++;
               const local = frame - at - i * stagger;
-              let tr = "";
-              let op = 1;
-              let bl = 0;
-              if (mode === "rise") {
-                const p = spring({ frame: local, fps, config: { damping: 17, stiffness: 170, mass: 0.7 } });
-                tr = `translateY(${(1 - p) * 0.7}em)`;
-                op = interpolate(local, [0, 4], [0, 1], CL);
-                bl = (1 - Math.min(1, p)) * 8;
-              } else if (mode === "slam") {
-                const p = interpolate(local, [0, 6], [0, 1], { ...CL, easing: eOutExpo });
-                tr = `scale(${lerp(1.7, 1, p)})`;
-                op = interpolate(local, [0, 2], [0, 1], CL);
-                bl = (1 - p) * 18;
-              } else {
-                op = local >= 0 ? 1 : 0;
-              }
+              const p = spring({ frame: local, fps, config: { damping: 18, stiffness: 150, mass: 0.7 } });
+              let tr = `translateY(${(1 - p) * 0.45}em)`;
+              let op = interpolate(local, [0, 5], [0, 1], CL);
+              let bl = (1 - Math.min(1, p)) * 6;
               if (out !== undefined) {
-                const o = interpolate(frame - out - i * 0.5, [0, outDur], [0, 1], { ...CL, easing: eIn });
-                tr += ` translateY(${-o * 0.35}em)`;
+                const o = interpolate(frame - out - i * 0.4, [0, outDur], [0, 1], { ...CL, easing: eIn });
+                tr += ` translateY(${-o * 0.3}em)`;
                 op *= 1 - o;
-                bl += o * 10;
+                bl += o * 8;
               }
               return (
-                <span
-                  key={`${li}-${si}-${ci}`}
-                  style={{ display: "inline-block", transform: tr, opacity: op, filter: bl > 0.3 ? `blur(${bl}px)` : undefined, color: seg.c ?? color, fontWeight: seg.w ?? weight }}
-                >
+                <span key={`${li}-${si}-${ci}`} style={{ display: "inline-block", transform: tr, opacity: op, filter: bl > 0.3 ? `blur(${bl}px)` : undefined, color: seg.c ?? color, fontWeight: seg.w ?? weight }}>
                   {ch}
                 </span>
               );
-            });
-            if (!seg.u) return <React.Fragment key={si}>{glyphs}</React.Fragment>;
-            // 밑줄: 글자가 다 올라온 뒤 왼→오로 그어진다
-            const uAt = at + (segStart + Array.from(seg.t).length) * stagger + 4;
-            const up = ramp(frame, uAt, uAt + 12, eOutExpo);
-            const uo = out !== undefined ? ramp(frame, out, out + outDur) : 0;
-            return (
-              <span key={si} style={{ position: "relative", display: "inline-block" }}>
-                {glyphs}
-                <span style={{ position: "absolute", left: 0, bottom: "0.02em", height: Math.max(3, size * 0.055), width: `${up * 100}%`, background: seg.u, opacity: 1 - uo }} />
-              </span>
-            );
-          })}
+            }),
+          )}
         </div>
       ))}
     </div>
   );
 };
 
-/* ───────── 상태 표시 (코너 브래킷 태그) ───────── */
+/* ───────── 커서 · 전환 ───────── */
 
-export const Bracket: React.FC<{ color: string; size?: number; w?: number }> = ({ color, size = 12, w = 2 }) => {
-  const s: React.CSSProperties = { position: "absolute", width: size, height: size, borderColor: color, borderStyle: "solid", borderWidth: 0 };
-  return (
-    <>
-      <span style={{ ...s, left: 0, top: 0, borderLeftWidth: w, borderTopWidth: w }} />
-      <span style={{ ...s, right: 0, top: 0, borderRightWidth: w, borderTopWidth: w }} />
-      <span style={{ ...s, left: 0, bottom: 0, borderLeftWidth: w, borderBottomWidth: w }} />
-      <span style={{ ...s, right: 0, bottom: 0, borderRightWidth: w, borderBottomWidth: w }} />
-    </>
-  );
-};
-
-export const StatusTag: React.FC<{ kind: "example" | "now"; tone: Tone; at: number; out?: number }> = ({ kind, tone, at, out }) => {
-  const f = useCurrentFrame();
-  const p = ramp(f, at, at + 12, eOutExpo);
-  const o = out !== undefined ? ramp(f, out, out + 6) : 0;
-  const isEx = kind === "example";
-  const col = isEx ? (tone.dark ? "#FFC266" : "#A86400") : tone.dark ? "#7DF2C8" : "#00875C";
-  const label = isEx ? "방향 예시 · 개발필요 · 가상 데이터" : "지금 됨 · ClassIn 기능";
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: 46,
-        right: 64,
-        padding: "13px 22px 13px 22px",
-        opacity: p * (1 - o),
-        transform: `translateY(${(1 - p) * -10}px)`,
-        background: tone.dark ? "rgba(0,0,0,0.28)" : "rgba(255,255,255,0.55)",
-        zIndex: 50,
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-      }}
-    >
-      <Bracket color={col} />
-      <span style={mono(14, 700, col, { letterSpacing: "0.14em" })}>{isEx ? "EXAMPLE" : "LIVE"}</span>
-      <span style={{ width: 1.5, height: 18, background: col, opacity: 0.5 }} />
-      <span style={t(23, 700, col, { lineHeight: 1, letterSpacing: "-0.01em" })}>{label}</span>
-    </div>
-  );
-};
-
-/* ───────── 커서 ───────── */
-
-export const Cursor: React.FC<{ path: Array<{ f: number; x: number; y: number }>; clicks: number[]; show: [number, number]; dark?: boolean }> = ({ path, clicks, show, dark = true }) => {
+export const Cursor: React.FC<{ path: Array<{ f: number; x: number; y: number }>; clicks: number[]; show: [number, number] }> = ({ path, clicks, show }) => {
   const f = useCurrentFrame();
   if (f < show[0] || f > show[1]) return null;
   let x = path[0].x;
@@ -312,51 +498,28 @@ export const Cursor: React.FC<{ path: Array<{ f: number; x: number; y: number }>
   }
   const op = interpolate(f, [show[0], show[0] + 5, show[1] - 5, show[1]], [0, 1, 1, 0], CL);
   const press = clicks.some((c) => f >= c && f < c + 4) ? 0.85 : 1;
-  const ring = dark ? "#BFFFE6" : "#00875C";
   return (
     <>
       {clicks.map((c) => {
         const k = interpolate(f, [c, c + 14], [0, 1], { ...CL, easing: eOut });
         if (f < c || k >= 1) return null;
-        return (
-          <div key={c} style={{ position: "absolute", left: x - 36, top: y - 36, width: 72, height: 72, border: `2.5px solid ${ring}`, borderRadius: 999, transform: `scale(${0.25 + k * 1.1})`, opacity: 1 - k, zIndex: 60 }} />
-        );
+        return <div key={c} style={{ position: "absolute", left: x - 34, top: y - 34, width: 68, height: 68, border: `2.5px solid #00A975`, borderRadius: 999, transform: `scale(${0.25 + k * 1.1})`, opacity: 1 - k, zIndex: 60 }} />;
       })}
-      <svg width={44} height={52} viewBox="0 0 44 52" style={{ position: "absolute", left: x - 6, top: y - 4, opacity: op, transform: `scale(${press})`, transformOrigin: "6px 4px", zIndex: 61, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.35))" }}>
-        <path d="M6 4 L6 40 L15.5 31 L22 46 L29 43 L22.5 28.5 L36 28.5 Z" fill={dark ? "#FFFFFF" : "#0D1A14"} stroke={dark ? "#0B1712" : "#FFFFFF"} strokeWidth={2.5} strokeLinejoin="miter" />
+      <svg width={44} height={52} viewBox="0 0 44 52" style={{ position: "absolute", left: x - 6, top: y - 4, opacity: op, transform: `scale(${press})`, transformOrigin: "6px 4px", zIndex: 61, filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.28))" }}>
+        <path d="M6 4 L6 40 L15.5 31 L22 46 L29 43 L22.5 28.5 L36 28.5 Z" fill="#141414" stroke="#FFFFFF" strokeWidth={2.5} strokeLinejoin="round" />
       </svg>
     </>
   );
 };
 
-/* ───────── 면 · 장식 ───────── */
-
-export const panel = (tone: Tone, extra: React.CSSProperties = {}): React.CSSProperties => ({
-  position: "absolute",
-  borderRadius: 4,
-  background: tone.dark ? "linear-gradient(170deg, rgba(255,255,255,0.055), rgba(255,255,255,0.02))" : "#FFFFFF",
-  border: `1.2px solid ${tone.dark ? "rgba(255,255,255,0.13)" : "rgba(13,26,20,0.12)"}`,
-  boxShadow: tone.dark ? "0 30px 80px rgba(0,0,0,0.45)" : "0 24px 60px rgba(30,60,45,0.14), 0 2px 6px rgba(30,60,45,0.06)",
-  overflow: "hidden",
-  ...extra,
-});
-
-export const Sheen: React.FC<{ at: number; dur?: number; angle?: number; strength?: number }> = ({ at, dur = 22, angle = 115, strength = 0.12 }) => {
+export const Sheen: React.FC<{ at: number; dur?: number; angle?: number; strength?: number }> = ({ at, dur = 22, angle = 115, strength = 0.35 }) => {
   const f = useCurrentFrame();
   const p = interpolate(f, [at, at + dur], [-0.4, 1.4], CL);
   if (f < at || f > at + dur) return null;
-  return (
-    <AbsoluteFill
-      style={{
-        background: `linear-gradient(${angle}deg, rgba(255,255,255,0) ${p * 100 - 16}%, rgba(255,255,255,${strength}) ${p * 100}%, rgba(255,255,255,0) ${p * 100 + 16}%)`,
-        mixBlendMode: "screen",
-        pointerEvents: "none",
-      }}
-    />
-  );
+  return <AbsoluteFill style={{ background: `linear-gradient(${angle}deg, rgba(255,255,255,0) ${p * 100 - 16}%, rgba(255,255,255,${strength}) ${p * 100}%, rgba(255,255,255,0) ${p * 100 + 16}%)`, pointerEvents: "none" }} />;
 };
 
-export const Flash: React.FC<{ at: number; dur?: number; color?: string; peak?: number }> = ({ at, dur = 10, color = "#F3FFF9", peak = 0.85 }) => {
+export const Flash: React.FC<{ at: number; dur?: number; color?: string; peak?: number }> = ({ at, dur = 10, color = "#FFFDF7", peak = 0.8 }) => {
   const f = useCurrentFrame();
   const o = interpolate(f, [at - 1, at, at + dur], [0, peak, 0], { ...CL, easing: eOut });
   if (o <= 0.001) return null;
@@ -381,13 +544,13 @@ export const Whip: React.FC<{ id: string; enter?: number; exit?: number; childre
   if (enter !== undefined) {
     const p = interpolate(f, [enter, enter + dur], [0, 1], { ...CL, easing: eOutExpo });
     x += (1 - p) * 520;
-    blur += (1 - p) * 60;
+    blur += (1 - p) * 50;
     op *= interpolate(f, [enter, enter + 3], [0, 1], CL);
   }
   if (exit !== undefined) {
     const p = interpolate(f, [exit - dur, exit], [0, 1], { ...CL, easing: eIn });
     x -= p * 520;
-    blur += p * 60;
+    blur += p * 50;
     op *= 1 - interpolate(f, [exit - 3, exit], [0, 1], CL);
   }
   return (
@@ -397,25 +560,3 @@ export const Whip: React.FC<{ id: string; enter?: number; exit?: number; childre
     </AbsoluteFill>
   );
 };
-
-// 각진 라벨
-export const Tag: React.FC<{ children: React.ReactNode; color: string; bg?: string; size?: number; style?: React.CSSProperties; border?: boolean }> = ({ children, color, bg = "transparent", size = 16, style, border = true }) => (
-  <span
-    style={{
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 8,
-      padding: `${size * 0.36}px ${size * 0.62}px`,
-      borderRadius: 2,
-      background: bg,
-      border: border ? `1.2px solid ${color}` : undefined,
-      ...t(size, 700, color, { lineHeight: 1, whiteSpace: "nowrap" }),
-      ...style,
-    }}
-  >
-    {children}
-  </span>
-);
-
-// 공용: 장면에 쓰는 기본 톤
-export const tone = TONES;

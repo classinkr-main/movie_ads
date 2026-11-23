@@ -1,99 +1,76 @@
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { noise2D } from "@remotion/noise";
-import { AMBER, LINE, REC, STUDENTS, TONES } from "../theme";
-import { Icon, IconName } from "../icons";
-import { Backdrop, CL, FrameMarks, Hud, KText, StatusTag, Tag, Timecode, Whip, eInOut, eOut, eOutBack, lerp, mono, panel, ramp, t } from "../kit";
+import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { APP, BRAND, COVER, INK, PAPER, STUDENTS } from "../theme";
+import { AppWindow, LaurelScore, Meter, Pill } from "../app";
+import { Icon } from "../icons";
+import { CL, HandText, Hud, Ink, KText, Layer, PaperBg, StatusStamp, Sticky, Whip, eInOut, hand, lerp, ramp, roughArrow, roughLine, t } from "../kit";
 
-// 블루아워 — 지금 되는 기능: 수업방 채팅 질문과 녹화(A), 수업 후 AI 강의분석(B). 두 장면은 화면 전환으로 분리한다.
-const T = TONES.blue;
-const WIN = { x: 300, y: 400, w: 1500, h: 590 };
-const CH = 36; // 모노 60px 글자 폭
+// 지금 되는 기능 — (A) 수업방: 칠판 판서 + 채팅 질문 + 녹화, (B) 수업 다시보기 → AI 강의 분석.
+// 실제 앱 화면 구조를 가상 데이터로 다시 그렸다. 두 장면은 화면 전환으로 분리한다.
+const WIN = { x: 240, y: 392, w: 1560, h: 646 };
 
-const TitleBar: React.FC<{ children: React.ReactNode; right?: React.ReactNode }> = ({ children, right }) => (
-  <div style={{ position: "absolute", left: 0, top: 0, right: 0, height: 58, borderBottom: `1.2px solid ${T.line}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px" }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>{children}</div>
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>{right}</div>
-  </div>
-);
+/* ───────── (A) 수업방 ───────── */
 
-const Equation: React.FC<{ f: number }> = ({ f }) => {
+const Board: React.FC<{ f: number }> = ({ f }) => {
   const mv = ramp(f, 32, 46, eInOut);
   const l2 = ramp(f, 30, 40);
   const l3 = ramp(f, 48, 56);
-  const arrow = ramp(f, 36, 48, eOut);
-  const token = (txt: string, idx: number, y: number, color: string, op = 1) => (
-    <span style={{ position: "absolute", left: 70 + idx * CH, top: y, ...mono(60, 700, color, { letterSpacing: 0, opacity: op }) }}>{txt}</span>
-  );
-  // "+ 3"이 등호를 넘어 "− 3"이 된다
-  const fromX = 70 + 3 * CH;
-  const toX = 70 + 8 * CH;
-  const x = lerp(fromX, toX, mv);
-  const y = lerp(108, 208, mv);
+  const ink = INK.navy;
+  const x = lerp(250, 418, mv);
+  const y = lerp(64, 196, mv);
+  const arrow = roughArrow([300, 150], [440, 214], 0.35, 9);
   return (
-    <div style={{ position: "absolute", left: 24, top: 76, width: 1000, height: 364, border: `1.2px solid ${T.line}`, borderRadius: 3, background: "rgba(255,255,255,0.025)", overflow: "hidden" }}>
-      <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${T.line} 1px, transparent 1px), linear-gradient(90deg, ${T.line} 1px, transparent 1px)`, backgroundSize: "40px 40px", opacity: 0.45 }} />
-      <span style={{ position: "absolute", left: 22, top: 18, ...mono(12, 700, T.sub, { letterSpacing: "0.16em" }) }}>칠판 · 일차방정식 활용</span>
-      {token("2x", 0, 108, T.ink)}
-      {token("+ 3", 3, 108, T.ink, mv > 0 ? 0.32 : 0)}
-      {token("=", 7, 108, T.ink)}
-      {token("11", 9, 108, T.ink)}
-      {/* 이동하는 항 */}
-      <span style={{ position: "absolute", left: x, top: y, ...mono(60, 700, mv > 0.5 ? AMBER : T.ink, { letterSpacing: 0 }) }}>{mv > 0.5 ? "− 3" : "+ 3"}</span>
-      {token("2x", 0, 208, T.ink, l2)}
-      {token("=", 3, 208, T.ink, l2)}
-      {token("11", 5, 208, T.ink, l2)}
-      {/* 이항 화살표 */}
-      <svg width={1000} height={364} style={{ position: "absolute", inset: 0 }}>
-        <path d={`M ${fromX + 50} 178 C ${fromX + 90} 220 ${toX - 40} 160 ${toX + 20} 204`} fill="none" stroke={AMBER} strokeWidth={2} strokeDasharray="6 6" opacity={arrow} />
-      </svg>
-      <div style={{ position: "absolute", left: toX + 150, top: 226, display: "flex", alignItems: "center", gap: 10, opacity: arrow }}>
-        <Icon name="arrow" size={22} color={AMBER} draw={arrow} />
-        <span style={t(20, 700, AMBER, { lineHeight: 1 })}>이항하면 부호가 반대로</span>
-      </div>
-      <div style={{ position: "absolute", left: 70, top: 292, opacity: l3, transform: `translateY(${(1 - l3) * 12}px)` }}>
-        <span style={mono(60, 700, T.accent, { letterSpacing: 0 })}>x = 4</span>
-      </div>
+    <div style={{ position: "absolute", left: 0, top: 0, width: 1090, height: 528, background: "#FFFFFF", borderRight: `1px solid ${APP.line}`, overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+      <span style={{ position: "absolute", left: 24, top: 18, ...t(13, 700, APP.sub, { lineHeight: 1 }) }}>칠판 · 일차방정식 활용</span>
+      <div style={{ position: "absolute", left: 90, top: 64, ...hand(104, ink) }}>2x</div>
+      <div style={{ position: "absolute", left: 250, top: 64, ...hand(104, ink), opacity: mv > 0 ? 0.25 : 0 }}>+ 3</div>
+      <div style={{ position: "absolute", left: 420, top: 64, ...hand(104, ink) }}>= 11</div>
+      {/* 이동하는 항: +3 → −3 */}
+      <div style={{ position: "absolute", left: x, top: y, ...hand(104, mv > 0.5 ? INK.red : ink) }}>{mv > 0.5 ? "− 3" : "+ 3"}</div>
+      <div style={{ position: "absolute", left: 90, top: 196, ...hand(104, ink), opacity: l2 }}>2x = 11</div>
+      <Layer style={{ width: 1090, height: 528 }}>
+        <Ink d={arrow.body} color={INK.red} width={4} at={36} dur={10} />
+        <Ink d={arrow.head} color={INK.red} width={4} at={44} dur={4} />
+        <Ink d={roughLine(86, 448, 330, 444, 31, 1.5)} color={INK.green} width={5} at={56} dur={8} />
+      </Layer>
+      <HandText x={600} y={230} size={52} color={INK.red} at={40} dur={12} rotate={-4}>
+        넘기면 부호가 바뀐다!
+      </HandText>
+      <div style={{ position: "absolute", left: 90, top: 336, ...hand(104, INK.green), opacity: l3, transform: `translateY(${(1 - l3) * 12}px)` }}>x = 4</div>
     </div>
   );
 };
 
-const Students: React.FC<{ f: number }> = ({ f }) => (
-  <div style={{ position: "absolute", left: 24, top: 456, width: 1000, height: 110, display: "flex", gap: 14 }}>
-    {STUDENTS.map((s, i) => {
-      const asking = s.id === "C" && f >= 6;
-      const hl = asking ? ramp(f, 6, 12) * (1 - ramp(f, 40, 50)) : 0;
-      return (
-        <div key={s.id} style={{ position: "relative", flex: 1, border: `1.2px solid ${hl > 0.05 ? AMBER : T.line}`, borderRadius: 3, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, background: hl > 0.05 ? "rgba(255,181,71,0.07)" : "rgba(255,255,255,0.02)", opacity: ramp(f, 2 + i, 8 + i) }}>
-          <Icon name="student" size={34} color={LINE[s.id]} draw={ramp(f, 2 + i, 14 + i)} stroke={1.8} />
-          <span style={t(15, 700, T.ink, { lineHeight: 1 })}>학생 {s.id}</span>
-          {asking ? (
-            <div style={{ position: "absolute", right: 10, top: 10, opacity: hl }}>
-              <Icon name="chat" size={20} color={AMBER} draw={ramp(f, 6, 14)} />
-            </div>
-          ) : null}
-        </div>
-      );
-    })}
+const Toolbar: React.FC = () => (
+  <div style={{ position: "absolute", left: 0, top: 528, width: 1090, height: 64, background: "#2C2C2E", display: "flex", alignItems: "center", padding: "0 22px", gap: 22 }}>
+    <Icon name="pen" size={22} color="#FFFFFF" round />
+    <Icon name="board" size={22} color="#BDBDC2" round />
+    <Icon name="dashboard" size={22} color="#BDBDC2" round />
+    <div style={{ margin: "0 auto", display: "flex", alignItems: "center", gap: 14 }}>
+      <span style={t(15, 700, "#BDBDC2", { lineHeight: 1 })}>‹</span>
+      <span style={{ padding: "6px 14px", borderRadius: 8, background: "#3A3A3D", ...t(14, 700, "#FFFFFF", { lineHeight: 1 }) }}>3 / 12</span>
+      <span style={t(15, 700, "#BDBDC2", { lineHeight: 1 })}>›</span>
+    </div>
+    <span style={{ padding: "8px 16px", borderRadius: 999, background: "#F59E2E", ...t(14, 800, "#FFFFFF", { lineHeight: 1 }) }}>회수</span>
   </div>
 );
 
-const Bubble: React.FC<{ who: string; text: string; at: number; f: number; me?: boolean; dim?: boolean; hot?: boolean; size?: number }> = ({ who, text, at, f, me, dim, hot, size = 18 }) => {
+const Bubble: React.FC<{ who: string; text: string; at: number; f: number; me?: boolean; dim?: boolean; hot?: boolean }> = ({ who, text, at, f, me, dim, hot }) => {
   const { fps } = useVideoConfig();
-  const p = spring({ frame: f - at, fps, config: { damping: 15, stiffness: 190 } });
   if (f < at) return null;
-  const glow = hot ? Math.max(0, 1 - (f - at) / 24) : 0;
+  const p = spring({ frame: f - at, fps, config: { damping: 15, stiffness: 190 } });
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: me ? "flex-end" : "flex-start", gap: 6, opacity: interpolate(f - at, [0, 4], [0, 1], CL) * (dim ? 0.45 : 1), transform: `translateY(${(1 - p) * 18}px) scale(${lerp(0.94, 1, p)})`, transformOrigin: me ? "100% 100%" : "0% 100%" }}>
-      <span style={mono(12, 700, hot ? AMBER : T.sub, { letterSpacing: "0.12em" })}>{who}</span>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: me ? "flex-end" : "flex-start", gap: 5, opacity: interpolate(f - at, [0, 4], [0, 1], CL) * (dim ? 0.5 : 1), transform: `translateY(${(1 - p) * 16}px)` }}>
+      <span style={t(12, 700, hot ? APP.badge : APP.sub, { lineHeight: 1 })}>{who}</span>
       <div
         style={{
-          maxWidth: 360,
-          padding: "11px 15px",
-          borderRadius: 3,
-          border: `1.3px solid ${hot ? AMBER : me ? "rgba(108,203,255,0.6)" : T.line}`,
-          background: me ? "rgba(108,203,255,0.14)" : hot ? `rgba(255,181,71,${0.08 + glow * 0.12})` : "rgba(255,255,255,0.05)",
-          ...t(size, hot ? 700 : 600, T.ink, { lineHeight: 1.35 }),
+          maxWidth: 330,
+          padding: "10px 14px",
+          borderRadius: me ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+          background: me ? BRAND.green : hot ? "#FFF1EF" : APP.pill,
+          border: hot ? `1.5px solid ${APP.badge}` : "none",
+          ...t(16, hot ? 800 : 600, me ? "#FFFFFF" : APP.ink, { lineHeight: 1.35 }),
         }}
       >
         {text}
@@ -102,130 +79,126 @@ const Bubble: React.FC<{ who: string; text: string; at: number; f: number; me?: 
   );
 };
 
-const Chat: React.FC<{ f: number }> = ({ f }) => {
+const Side: React.FC<{ f: number }> = ({ f }) => {
   const typing = f >= 20 && f < 30;
-  const dots = "·".repeat(1 + (Math.floor(f / 4) % 3));
   return (
-    <div style={{ position: "absolute", left: 1044, top: 76, width: 432, height: 490, border: `1.2px solid ${T.line}`, borderRadius: 3, background: "rgba(0,0,0,0.12)" }}>
-      <div style={{ height: 52, borderBottom: `1.2px solid ${T.line}`, display: "flex", alignItems: "center", gap: 10, padding: "0 18px" }}>
-        <Icon name="chat" size={22} color={T.ink} draw={ramp(f, 0, 12)} />
-        <span style={t(18, 800, T.ink, { lineHeight: 1 })}>채팅</span>
-        <span style={{ marginLeft: "auto", ...mono(13, 700, T.sub) }}>수업 중</span>
+    <div style={{ position: "absolute", left: 1090, top: 0, right: 0, bottom: 0, background: "#FAFAFB" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, padding: 12 }}>
+        {STUDENTS.map((s, i) => {
+          const ask = s.id === "C" ? ramp(f, 6, 12) * (1 - ramp(f, 44, 52)) : 0;
+          return (
+            <div key={s.id} style={{ position: "relative", height: 78, borderRadius: 10, background: `linear-gradient(135deg, ${COVER[s.id][0]}, ${COVER[s.id][1]})`, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: ask > 0.05 ? `0 0 0 3px ${APP.badge}` : undefined, opacity: ramp(f, i, i + 6) }}>
+              <Icon name="student" size={28} color="#FFFFFF" stroke={2.2} round />
+              <span style={{ position: "absolute", left: 8, bottom: 6, ...t(11, 700, "#FFFFFF", { lineHeight: 1 }) }}>학생 {s.id}</span>
+            </div>
+          );
+        })}
       </div>
-      <div style={{ position: "absolute", left: 18, right: 18, bottom: 18, display: "flex", flexDirection: "column", gap: 14 }}>
-        <Bubble who="학생 F" text="다음 문제 풀어도 되나요?" at={-10} f={f} dim size={16} />
-        <Bubble who="선생님" text="네, 5번부터요." at={-10} f={f} dim me size={16} />
-        <Bubble who="학생 C" text="부호가 왜 바뀌나요?" at={12} f={f} hot size={21} />
-        {typing ? <span style={{ alignSelf: "flex-end", ...mono(13, 700, T.sub) }}>선생님 입력 중 {dots}</span> : null}
-        <Bubble who="선생님" text="이항하면 부호가 바뀌어요. 칠판 볼게요!" at={30} f={f} me size={18} />
+      <div style={{ margin: "4px 12px 0", height: 1, background: APP.line }} />
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px" }}>
+        <Icon name="chat" size={19} color={APP.ink} round />
+        <span style={t(15, 800, APP.ink, { lineHeight: 1 })}>채팅</span>
+      </div>
+      <div style={{ position: "absolute", left: 16, right: 16, bottom: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+        <Bubble who="학생 F" text="다음 문제 풀어도 되나요?" at={-10} f={f} dim />
+        <Bubble who="학생 C" text="부호가 왜 바뀌나요?" at={12} f={f} hot />
+        {typing ? <span style={{ alignSelf: "flex-end", ...t(12, 600, APP.sub, { lineHeight: 1 }) }}>선생님 입력 중…</span> : null}
+        <Bubble who="선생님" text="이항하면 부호가 바뀌어요. 칠판 볼게요!" at={30} f={f} me />
       </div>
     </div>
   );
 };
 
-const ClassWindow: React.FC<{ f: number }> = ({ f }) => {
-  const recOn = Math.floor(f / 12) % 2 === 0;
+const ClassRoom: React.FC<{ f: number }> = ({ f }) => {
+  const rec = Math.floor(f / 12) % 2 === 0;
   const secs = 23 * 60 + 14 + Math.floor(f / 30);
-  const tc = `00:${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")}`;
+  const tc = `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")}`;
   return (
-    <div style={{ ...panel(T, { left: WIN.x, top: WIN.y, width: WIN.w, height: WIN.h }), opacity: ramp(f, 0, 6), transform: `translateY(${(1 - ramp(f, 0, 12)) * 30}px)` }}>
-      <TitleBar
-        right={
-          <>
-            <Icon name="record" size={22} color={REC} style={{ opacity: recOn ? 1 : 0.35 }} />
-            <span style={mono(15, 700, REC)}>REC</span>
-            <span style={mono(15, 700, T.ink)}>{tc}</span>
-          </>
-        }
-      >
-        <span style={t(20, 800, T.ink, { lineHeight: 1 })}>수업방</span>
-        <span style={mono(14, 500, T.sub)}>중2 수학 개별진도반 A</span>
-      </TitleBar>
-      <Equation f={f} />
-      <Students f={f} />
-      <Chat f={f} />
-    </div>
+    <AppWindow x={WIN.x} y={WIN.y} w={WIN.w} h={WIN.h} pill="중2 수학 개별진도반 A">
+      <Board f={f} />
+      <Toolbar />
+      <Side f={f} />
+      <div style={{ position: "absolute", right: 120, top: -38, display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ width: 10, height: 10, borderRadius: 99, background: APP.badge, opacity: rec ? 1 : 0.35 }} />
+        <span style={t(14, 800, APP.badge, { lineHeight: 1 })}>녹화 중</span>
+        <span style={t(14, 700, APP.ink, { lineHeight: 1 })}>00:{tc}</span>
+      </div>
+    </AppWindow>
   );
 };
 
-const AREAS: Array<{ label: string; items: string; icon: IconName; v: number }> = [
-  { label: "수업 전달", items: "효과성 · 흥미·몰입도 · 스캐폴딩", icon: "megaphone", v: 0.86 },
-  { label: "수업 분위기", items: "적극적 참여 · 협업 · 정서적 안전감", icon: "sun", v: 0.8 },
-  { label: "수업 상호작용", items: "공평성 · 반응성·평등성 · 자율성", icon: "interact", v: 0.72 },
-  { label: "언어 표현", items: "명료성·유창성 · 표현력·전달력", icon: "voice", v: 0.84 },
-];
+/* ───────── (B) 수업 다시보기 → AI 강의 분석 ───────── */
 
-const Analysis: React.FC<{ f: number }> = ({ f }) => {
-  const ph = ramp(f, 2, 40, eInOut);
-  const N = 120;
-  const segs = [
-    { l: "도입 · 8분", w: 8 },
-    { l: "전개 · 28분", w: 28 },
-    { l: "정리 · 9분", w: 9 },
-  ];
-  const done = ramp(f, 40, 46);
+const Replay: React.FC<{ f: number }> = ({ f }) => {
+  const prog = ramp(f, 2, 40, eInOut);
   return (
-    <div style={{ ...panel(T, { left: WIN.x, top: WIN.y, width: WIN.w, height: WIN.h }) }}>
-      <TitleBar right={<div style={{ opacity: done, transform: `scale(${lerp(1.3, 1, done)})` }}><Tag color={T.accent} size={15}><Icon name="check" size={16} color={T.accent} draw={done} stroke={2.4} />분석 완료</Tag></div>}>
-        <Icon name="ai" size={24} color={T.accent} draw={ramp(f, 0, 14)} />
-        <span style={t(20, 800, T.ink, { lineHeight: 1 })}>AI 강의분석 리포트</span>
-        <span style={mono(14, 500, T.sub)}>수업 녹화 · 45분 · 중2 수학 개별진도반 A</span>
-      </TitleBar>
-      {/* 녹화 타임라인 */}
-      <div style={{ position: "absolute", left: 24, top: 80, display: "flex", alignItems: "center", gap: 10 }}>
-        <Icon name="play" size={18} color={T.ink} draw={ramp(f, 0, 10)} />
-        <span style={t(16, 700, T.ink, { lineHeight: 1 })}>수업 녹화</span>
-        <span style={mono(13, 500, T.sub)}>00:00 — 45:00</span>
+    <AppWindow x={WIN.x} y={WIN.y} w={WIN.w} h={WIN.h} bar={false}>
+      <div style={{ position: "absolute", left: 24, top: 18, display: "flex", alignItems: "center", gap: 10 }}>
+        <Img src={staticFile("brand/classin-mark.png")} style={{ height: 18 }} />
+        <span style={t(13, 600, APP.sub, { lineHeight: 1 })}>종료됨</span>
       </div>
-      <svg width={1452} height={130} style={{ position: "absolute", left: 24, top: 108 }}>
-        {Array.from({ length: N }, (_, i) => {
-          const h = 12 + Math.abs(noise2D("wave", i * 0.21, 1)) * 96 + Math.abs(noise2D("wave2", i * 0.9, 3)) * 18;
-          const x = (i / N) * 1452;
-          const passed = i / N < ph;
-          return <rect key={i} x={x} y={65 - h / 2} width={5.5} height={h} fill={passed ? T.accent : "rgba(160,205,255,0.28)"} />;
-        })}
-        <line x1={ph * 1452} x2={ph * 1452} y1={0} y2={130} stroke="#FFFFFF" strokeWidth={2} />
-        <rect x={ph * 1452 - 6} y={0} width={12} height={12} fill="#FFFFFF" />
-      </svg>
-      <div style={{ position: "absolute", left: 24, top: 246, width: 1452, height: 28, display: "flex", gap: 6 }}>
-        {segs.map((s, i) => {
-          const start = segs.slice(0, i).reduce((a, b) => a + b.w, 0) / 45;
-          const end = start + s.w / 45;
-          const active = ph >= start && ph < end;
-          return (
-            <div key={s.l} style={{ flex: s.w, border: `1.2px solid ${active ? T.accent : T.line}`, borderRadius: 2, display: "flex", alignItems: "center", paddingLeft: 10, ...mono(12, 700, active ? T.accent : T.sub, { letterSpacing: "0.1em" }) }}>
-              {s.l}
-            </div>
-          );
-        })}
+      <div style={{ position: "absolute", right: 24, top: 18, display: "flex", gap: 16 }}>
+        <Icon name="refresh" size={18} color="#555" round />
+        <Icon name="sideToggle" size={18} color="#B5B5B8" round />
       </div>
-      {/* 네 영역 */}
-      <div style={{ position: "absolute", left: 24, top: 296, width: 1452, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-        {AREAS.map((a, i) => {
-          const at = 8 + i * 6;
-          const p = ramp(f, at, at + 22, eOut);
-          return (
-            <div key={a.label} style={{ height: 126, border: `1.2px solid ${T.line}`, borderRadius: 3, padding: "18px 22px", position: "relative", opacity: ramp(f, at - 4, at + 2) }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <Icon name={a.icon} size={32} color={T.accent} draw={ramp(f, at - 2, at + 14)} stroke={1.7} />
-                <div>
-                  <div style={t(23, 800, T.ink, { lineHeight: 1 })}>{a.label}</div>
-                  <div style={{ marginTop: 8, ...t(14, 500, T.sub, { lineHeight: 1 }) }}>{a.items}</div>
-                </div>
-              </div>
-              <svg width={660} height={24} style={{ position: "absolute", left: 22, bottom: 14 }}>
-                <line x1={0} x2={660} y1={12} y2={12} stroke="rgba(160,205,255,0.22)" strokeWidth={3} />
-                {Array.from({ length: 11 }, (_, k) => (
-                  <line key={k} x1={k * 66} x2={k * 66} y1={4} y2={20} stroke="rgba(160,205,255,0.25)" strokeWidth={1.2} />
-                ))}
-                <line x1={0} x2={660 * a.v * p} y1={12} y2={12} stroke={T.accent} strokeWidth={3} />
-                <rect x={660 * a.v * p - 5} y={5} width={10} height={14} fill="#FFFFFF" opacity={p} />
-              </svg>
-            </div>
-          );
-        })}
+      <div style={{ position: "absolute", left: 24, top: 56, display: "flex", gap: 30 }}>
+        {["수업 다시보기", "수업 정보", "수업 평가", "강의 보고서"].map((tab, i) => (
+          <div key={tab} style={{ paddingBottom: 10, borderBottom: i === 0 ? `2.5px solid ${APP.ink}` : "2.5px solid transparent", ...t(16, i === 0 ? 800 : 500, i === 0 ? APP.ink : APP.sub, { lineHeight: 1 }) }}>
+            {tab}
+          </div>
+        ))}
       </div>
-    </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 92, height: 1, background: APP.line }} />
+      {/* 녹화본 */}
+      <div style={{ position: "absolute", left: 24, top: 112, width: 640, height: 400, borderRadius: 14, background: "#121212", overflow: "hidden" }}>
+        <div style={{ position: "absolute", left: 40, top: 40, right: 40, bottom: 70, background: "#FFFFFF", borderRadius: 6 }}>
+          <div style={{ position: "absolute", left: 30, top: 18, ...hand(64, INK.navy) }}>2x + 3 = 11</div>
+          <div style={{ position: "absolute", left: 30, top: 100, ...hand(64, INK.navy) }}>
+            2x = 11 <span style={{ color: INK.red }}>− 3</span>
+          </div>
+          <div style={{ position: "absolute", left: 30, top: 182, ...hand(64, INK.green) }}>x = 4</div>
+        </div>
+        <div style={{ position: "absolute", left: "50%", top: "44%", width: 64, height: 64, marginLeft: -32, marginTop: -32, borderRadius: 99, background: APP.chart, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 18px rgba(0,0,0,0.3)" }}>
+          <svg width={26} height={26} viewBox="0 0 24 24">
+            <path d="M8 5 L19 12 L8 19 Z" fill="#FFFFFF" />
+          </svg>
+        </div>
+        <div style={{ position: "absolute", left: 20, right: 20, bottom: 22, height: 5, borderRadius: 9, background: "rgba(255,255,255,0.25)" }}>
+          <div style={{ width: `${prog * 100}%`, height: 5, borderRadius: 9, background: APP.chart }} />
+        </div>
+      </div>
+      <div style={{ position: "absolute", left: 24, top: 530, display: "flex", gap: 20, ...t(13, 600, APP.sub, { lineHeight: 1 }) }}>
+        <span>중2 수학 개별진도반 A</span>
+        <span>45분</span>
+        <span>칠판 화면 녹화</span>
+      </div>
+      {/* AI 패널 */}
+      <div style={{ position: "absolute", left: 700, top: 112, right: 28, bottom: 24 }}>
+        <div style={{ display: "flex", gap: 10 }}>
+          <Pill dark size={14}>AI 강의 분석</Pill>
+          <Pill size={14}>AI 요약</Pill>
+          <Pill size={14}>AI 스크립트</Pill>
+        </div>
+        <div style={{ marginTop: 22, display: "inline-block", padding: "5px 10px", borderRadius: 6, background: APP.pill, ...t(12, 700, APP.sub, { lineHeight: 1 }) }}>일차방정식 활용</div>
+        <div style={{ marginTop: 10, ...t(24, 800, APP.ink, { lineHeight: 1.2 }) }}>중2 수학 개별진도반 A</div>
+        <div style={{ marginTop: 8, width: 520, ...t(14, 500, APP.sub, { lineHeight: 1.45 }) }}>식 세우기와 부호 정리를 단계별로 설명하고, 질문에 바로 답한 수업</div>
+        <div style={{ position: "absolute", right: 10, top: 64 }}>
+          <LaurelScore v={86} f={f} at={6} />
+        </div>
+        <div style={{ marginTop: 22, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <Meter label="지식 설명 품질" v={87} f={f} at={10} />
+          <Meter label="사고 수준 및 방법 정리" v={84} f={f} at={14} />
+          <Meter label="학생 학습 품질" v={76} color={APP.orange} f={f} at={18} />
+          <Meter label="수업 구조 및 효율" v={82} f={f} at={22} />
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <Pill size={13}>
+            <Icon name="download" size={15} color={APP.ink} round />
+            다운로드
+          </Pill>
+        </div>
+      </div>
+    </AppWindow>
   );
 };
 
@@ -234,27 +207,27 @@ export const S5Record: React.FC = () => {
   return (
     <Whip id="s5out" enter={0} exit={120}>
       <AbsoluteFill style={{ overflow: "hidden" }}>
-        <Backdrop from={T} to={TONES.dawn} k={ramp(f, 60, 120) * 0.3} grid={0.45} gridSize={60} />
+        <PaperBg paper={PAPER.morning} grid={0.5} gridGap={36} />
         <Whip id="s5a" exit={63}>
-          <ClassWindow f={f} />
+          <ClassRoom f={f} />
         </Whip>
         {f >= 57 ? (
           <Whip id="s5b" enter={57}>
-            <AnalysisWrap f={f - 60} />
+            <Replay f={f - 60} />
+            <Sticky x={1586} y={318} w={250} h={116} color="#B9EBCF" rot={5} at={36}>
+              <div style={{ ...hand(36, "#2F3A33"), lineHeight: 1.05 }}>수업 끝나면</div>
+              <div style={{ ...hand(36, "#2F3A33"), lineHeight: 1.05 }}>바로 확인!</div>
+            </Sticky>
           </Whip>
         ) : null}
-        {/* 헤드라인 A → B */}
-        <KText lines={[[{ t: "수업은" }]]} at={4} size={88} color={T.ink} out={56} outDur={6} style={{ position: "absolute", left: 116, top: 124 }} />
-        <KText lines={[[{ t: "ClassIn", c: T.accent, u: T.accent }, { t: "에 남기고," }]]} at={12} size={88} color={T.ink} out={56} outDur={6} style={{ position: "absolute", left: 116, top: 230 }} />
-        <KText lines={[[{ t: "AI 강의분석으로" }]]} at={62} size={88} color={T.ink} style={{ position: "absolute", left: 116, top: 124 }} />
-        <KText lines={[[{ t: "수업의 질", c: T.accent, u: T.accent }, { t: "을 확인합니다." }]]} at={70} size={88} color={T.ink} style={{ position: "absolute", left: 116, top: 230 }} />
-        <Hud tone={T} chapter={5} label="수업 · 녹화 · AI 강의분석" />
-        <StatusTag kind="now" tone={T} at={4} />
-        <FrameMarks tone={T} />
-        <Timecode tone={T} offset={420} />
+        <KText lines={[[{ t: "수업은" }]]} at={4} size={100} out={56} outDur={6} style={{ position: "absolute", left: 116, top: 112 }} />
+        <KText lines={[[{ t: "ClassIn", c: BRAND.green }, { t: "에 남기고," }]]} at={12} size={100} out={56} outDur={6} style={{ position: "absolute", left: 116, top: 236 }} />
+        <KText lines={[[{ t: "AI 강의분석으로" }]]} at={62} size={100} style={{ position: "absolute", left: 116, top: 112 }} />
+        <KText lines={[[{ t: "수업의 질", c: BRAND.green }, { t: "을 확인합니다." }]]} at={70} size={100} style={{ position: "absolute", left: 116, top: 236 }} />
+        <Hud page={5} label="수업 · 녹화 · AI 강의분석" />
+        <StatusStamp kind="now" at={4} />
       </AbsoluteFill>
     </Whip>
   );
 };
 
-const AnalysisWrap: React.FC<{ f: number }> = ({ f }) => <Analysis f={f} />;

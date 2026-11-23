@@ -38,6 +38,22 @@ export const ICONS = {
   trend: [P("M3 20.5 H21"), P("M4 16 L9 11 L13 14 L20 6.5"), P("M15.5 6.5 H20 V11")],
   warning: [P("M12 3 L22 20.5 H2 Z"), P("M12 9.5 V14"), P("M12 16.3 V17.6")],
   layers: [P("M12 3 L21.5 8 L12 13 L2.5 8 Z"), P("M2.5 12 L12 17 L21.5 12"), P("M2.5 16 L12 21 L21.5 16")],
+  // ClassIn 앱 사이드바·툴바용
+  home: [P("M3.5 10.5 L12 3.8 L20.5 10.5 V20.2 H14.6 V14.6 H9.4 V20.2 H3.5 Z")],
+  todo: [P("M4 4 H20 V20 H4 Z"), P("M8 12.2 L11 15.2 L16.5 9")],
+  drive: [P("M2.8 6.5 H9.2 L11.2 8.6 H21.2 V19.3 H2.8 Z"), P("M2.8 11 H21.2")],
+  board: [P("M3 4 H21 V15 H3 Z"), P("M8 20.5 L12 15 L16 20.5"), P("M7 9.5 L10 7.5 L13 10 L17 7")],
+  mirror: [P("M2.8 4.8 H21.2 V16 H2.8 Z"), P("M8 20 H16"), P("M12 16 V20")],
+  search: [C(10.5, 10.5, 6.5), P("M15.4 15.4 L20.5 20.5")],
+  plusCircle: [C(12, 12, 8.8), P("M12 8 V16"), P("M8 12 H16")],
+  plus: [P("M12 5 V19"), P("M5 12 H19")],
+  refresh: [P("M19.5 12 A7.5 7.5 0 1 1 16.8 6.2"), P("M17.2 2.8 L17.2 6.6 L13.4 6.6")],
+  sideToggle: [P("M3.5 4.5 H20.5 V19.5 H3.5 Z"), P("M15 4.5 V19.5")],
+  dots: [C(6, 12, 1.2), C(12, 12, 1.2), C(18, 12, 1.2)],
+  download: [P("M12 3.5 V15"), P("M7.5 10.5 L12 15 L16.5 10.5"), P("M4.5 19.5 H19.5")],
+  pen: [P("M14.5 4.5 L19.5 9.5 L9 20 H4 V15 Z"), P("M12.5 6.5 L17.5 11.5")],
+  external: [P("M13 4 H20 V11"), P("M20 4 L11 13"), P("M18 14 V20 H4 V6 H10")],
+  chevronDown: [P("M6.5 9.5 L12 15 L17.5 9.5")],
 } as const;
 
 export type IconName = keyof typeof ICONS;
@@ -49,8 +65,9 @@ export const Icon: React.FC<{
   stroke?: number; // 24 격자 기준 획 두께
   draw?: number; // 0→1 그려지기
   fill?: string;
+  round?: boolean; // 앱 아이콘처럼 둥근 끝
   style?: React.CSSProperties;
-}> = ({ name, size = 24, color = "currentColor", stroke = 1.8, draw = 1, fill = "none", style }) => {
+}> = ({ name, size = 24, color = "currentColor", stroke = 1.8, draw = 1, fill = "none", round = false, style }) => {
   const prims = ICONS[name] as ReadonlyArray<Prim>;
   const n = prims.length;
   return (
@@ -63,8 +80,8 @@ export const Icon: React.FC<{
           fill: i === 0 ? fill : "none",
           stroke: color,
           strokeWidth: stroke,
-          strokeLinecap: "square" as const,
-          strokeLinejoin: "miter" as const,
+          strokeLinecap: (round ? "round" : "square") as "round" | "square",
+          strokeLinejoin: (round ? "round" : "miter") as "round" | "miter",
           pathLength: 1,
           strokeDasharray: "1 1",
           strokeDashoffset: 1 - k,
