@@ -2,7 +2,7 @@
 type: action
 role: 팀운영
 project: 개별진도 ClassIn 설명회
-status: Review
+status: Superseded
 importance: ⭐⭐⭐⭐
 next_action: Wayne이 1장의 톤 결정(페이지 블루 체계 채택, 에메랄드는 엔딩 로고 주변만)을 확정하면 컷 1 스틸 생성과 컷 4·6 모형 시안을 시작한다
 date: 2026-11-23
@@ -11,6 +11,8 @@ url:
 ---
 
 # 개별진도 영상 | 디자인·그래픽·Higgsfield 가이드 v1.0
+
+> **2026-11-23 대체됨.** Wayne 피드백(사진·왼쪽 점·색 띠·둥근 모서리 제외, 색조 변화, 자체 아이콘)에 따라 쇼릴을 새로 만들었습니다. 현재 기준은 `20261123_개별진도영상_쇼릴_제작노트_v1.0.md`와 README의 `Gaebyeol` 절입니다. 이 문서의 토큰·Higgsfield 프롬프트는 참고용으로만 남깁니다.
 
 ## 0. 전제 — 영상은 HTML 페이지의 첫 화면이다
 

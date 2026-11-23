@@ -1,4 +1,75 @@
-# Classin AI 커머셜 쇼릴 (30초, v4)
+# ClassIn 영상 (Remotion)
+
+이 레포에는 컴포지션이 두 개 있습니다.
+
+| 컴포지션 | 내용 | 산출물 |
+| --- | --- | --- |
+| `Gaebyeol` | **개별진도 × ClassIn + AI** 설명회 오프닝 쇼릴 (30초) | `out/gaebyeol-showreel.mp4`, `out/gaebyeol-showreel.ko.srt` |
+| `Showreel` | Classin AI 기능 5종 커머셜 쇼릴 (30초, v4) | `out/classin-ai-showreel.mp4` |
+
+---
+
+## 개별진도 × ClassIn + AI 쇼릴 (`Gaebyeol`, 30초)
+
+학원 원장 설명회 페이지(HTML) 맨 위에 들어가는 오프닝 영상입니다. 1920×1080 · 30fps · 900프레임이고, 음악·효과음은 코드로 합성한 오리지널입니다.
+사진이나 생성 이미지는 쓰지 않았고, 화면은 전부 코드로 그린 모션그래픽입니다.
+
+**콘셉트: 하루의 빛.** 장면마다 색조가 조금씩 바뀝니다.
+밤(문제) → 열기(과부하) → 암전(전환) → 새벽(AI 설계) → 블루아워(수업 기록) → 아침(한 화면 관리) → 낮(시작 제안).
+학생 여섯 명은 **지하철 노선 여섯 개**로 표현해 평면도·노선도·대시보드·엔딩까지 이어집니다.
+
+| # | 시간(프레임) | 톤 | 화면 | 카피 | 표시 |
+| --- | --- | --- | --- | --- | --- |
+| S1 | 0–4s (0–120) | 밤 | 교실 평면도, 책상 6개에서 학생별 노선이 뻗음 | 한 반에 여섯 명, 진도는 여섯 갈래. | — |
+| S2 | 4–8s (120–240) | 열기 | 학생 6 × 할 일 6 = 36칸 매트릭스가 박자마다 참 | 진도표, 채점, 상담, 보고까지. 개별진도는 손이 많이 갑니다. | — |
+| S3 | 8–10s (240–300) | 암전 | 36칸이 한 점으로 수렴 → 한 줄 → 화면이 열림 | AI로 설계하고, 한 화면에서 관리한다면요? | — |
+| S4 | 10–14s (300–420) | 새벽 | AI가 진단 결과로 학생별 4주 노선을 설계 | 진단 결과로, 학생마다 진도 경로를 짜고, | 방향 예시 |
+| S5 | 14–18s (420–540) | 블루아워 | 수업방 채팅 질문·녹화 → (전환) → AI 강의분석 | 수업은 ClassIn에 남기고, AI 강의분석으로 수업의 질을 확인합니다. | 지금 됨 |
+| S6 | 18–24s (540–720) | 아침 | 원장 대시보드 → 학생 E → 학부모 리포트 초안 | 원장님은 한 화면에서 챙길 학생을 보고, 학부모 리포트 초안까지. | 방향 예시 |
+| S7 | 24–30s (720–900) | 낮 | 노선 여섯이 ClassIn 마크로 모임, 엔딩 | 손은 덜고, 퀄리티와 만족은 높게. 시작은, 개별진도반 하나부터. | 각주 |
+
+**디자인 규칙** — 왼쪽 점·색 띠·색 면 장식 없음, 모서리 2~4px, 강조는 선·아이콘·타이포로. 아이콘은 `src/gb/icons.tsx`의 자체 제작 라인 아이콘(24px 격자, 각진 끝)이며 획이 그려지며 등장합니다.
+크롭 마크·타임코드·섹션 표기·치수선·방위표·코너 브래킷·초안 스탬프를 장식 요소로 씁니다.
+
+**표시 규칙** — 개발이 필요한 예시 화면(S4·S6) 전 구간 우측 상단에 `EXAMPLE | 방향 예시 · 개발필요 · 가상 데이터`, 지금 되는 기능(S5)에는 `LIVE | 지금 됨 · ClassIn 기능`을 고정합니다.
+학생·점수는 설명회 페이지 v2.2의 가상 반(중2 수학 반 A) 값이고, 학부모 리포트는 "초안"까지만 보여 주며 발송 장면은 없습니다.
+S5의 수업방·AI 강의분석은 기능 설명 그래픽입니다. 한국판 데모 계정 실화면 녹화로 바꾸려면 `S5Record.tsx`의 `ClassWindow`/`Analysis` 자리에 `<OffthreadVideo>`를 넣으면 됩니다.
+
+### 파일
+
+```
+src/gb/
+  GBShowreel.tsx      # 타임라인(Sequence 7개) + 전환 섬광 + 질감 + 음악
+  theme.ts            # 씬 경계(SC), 장면별 색조(TONES), 학생 노선 색(LINE), 가상 반 데이터
+  kit.tsx             # 배경·키네틱 타이포(KText)·상태 태그·커서·휩 전환·크롭 마크·타임코드
+  icons.tsx           # 자체 제작 라인 아이콘 29종
+  scenes/S1Six … S7End.tsx
+tools/gb_audio.py     # 음악·효과음 합성 → public/gb/audio/gb_score.wav (120 BPM, 컷 시점에 맞춤)
+tools/gb_embed_html.py# 설명회 HTML의 #openingVideo 교체 + 자막 목록 갱신
+public/gb/grain/      # 필름 그레인 8프레임
+public/fonts/         # Pretendard, JetBrains Mono (SIL OFL 1.1)
+```
+
+### 실행
+
+```bash
+npm install
+npm run audio:gb      # 음악 합성 (python3 + numpy + scipy)
+npm run dev           # Remotion Studio에서 Gaebyeol 선택
+npm run render:gb     # out/gaebyeol-showreel.mp4
+```
+
+클라우드 세션에서는 `REMOTION_BROWSER_EXECUTABLE=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell`을 지정해 렌더합니다.
+HTML 삽입용 경량본과 페이지 갱신:
+
+```bash
+ffmpeg -i out/gaebyeol-showreel.mp4 -c:v libx264 -crf 23 -preset slow -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart out/gaebyeol-showreel_web.mp4
+python3 tools/gb_embed_html.py <설명회.html> out/gaebyeol-showreel_web.mp4 out/gaebyeol-poster.jpg <출력.html>
+```
+
+---
+
+## Classin AI 커머셜 쇼릴 (`Showreel`, 30초, v4)
 
 **"Classin AI로, 수업을 업그레이드."** — Classin의 AI 기능 다섯 가지를 에디토리얼 톤의 키네틱 모션그래픽으로 소개하고
 **"지금 문의하기"** CTA로 끝나는 30초 가로(16:9) 커머셜 쇼릴입니다. v4부터 모든 기능 화면을 하나의 예시 수업(중2 국어)으로 채웠습니다. [Remotion](https://www.remotion.dev/) 4 기반이라
@@ -10,7 +81,7 @@
 
 > v1(20초 다크 톤 · 9:16 포함), v2(23초 AI 강의 분석 단독), v3(25초 5개 기능 · 스켈레톤 UI)는 git 히스토리에 남아 있습니다.
 
-## 예시 수업 (v4)
+### 예시 수업 (v4)
 
 모든 기능 화면은 같은 수업 하나를 따라갑니다. 상단 중앙의 "예시 수업" 라벨이 기능 씬 내내 표시됩니다.
 
@@ -19,14 +90,14 @@
 - **수업 흐름**: 도입 8분 → 전개 28분 → 정리 9분, '하늘·바람·별'의 상징 해석, 과제 "상징이 쓰인 시 1편 찾아오기"
 - 「서시」 시구 인용은 공유 저작물(윤동주, 1945년 작고) 범위이며, 은유법 예문은 직접 만든 문장입니다.
 
-## 디자인 톤 (v3)
+### 디자인 톤 (v3)
 
 - **베이스**: 화이트·아이보리(`#FFFFFF` / `#FAF8F2` / `#F3EFE4`), 헤어라인 그리드, 느린 카메라 드리프트
 - **포인트**: 연두 그린(`#C8F05A` 형광펜·칩·스티커·전환 띠, `#8BC926` 선·아이콘·거대 아웃라인 인덱스, `#3C6B12` 소문자)
 - **강조 텍스트·CTA 채움**: Classin Green `#084734`
 - **에디토리얼 장치**: 좌측 챕터 레일(01–05), 상단 "Classin AI · 01 — 05" 라벨, 기능별 거대 아웃라인 번호 워터마크, 유리 카드 UI 목업
 
-## 스토리 (7씬 · 900f)
+### 스토리 (7씬 · 900f)
 
 | # | 글로벌 프레임 | 길이 | 화면 속 예시 내용 |
 | --- | --- | --- | --- |
@@ -40,7 +111,7 @@
 
 전환: 연두 스윕(오프닝→01) → 패럴랙스 푸시 ×4(기능 사이) → 연두 아이리스(05→CTA). 챕터 레일 · 상단 라벨 · 예시 수업 라벨은 기능 씬 동안 고정됩니다.
 
-## 콘텐츠 출처와 검수 참고
+### 콘텐츠 출처와 검수 참고
 
 - 기능 구성(강의 평가 / 스크립트·요약 / 숙제 출제·채점 / 자동 번역·실시간 자막 / AI 에이전트)은 마케팅 측 지시 목록을 따릅니다.
   AI 강의 평가의 4개 영역 11개 항목·리포트 위치는 Notion "AI 강의 분석 기능 소개 (2026.04.23)" 원문입니다.
@@ -50,7 +121,7 @@
 - 점수(종합 88, 영역 92/88/81/90, 형성평가 90점, 반 평균 82, 단원 성취도 72/78/90)와 발문 14회, 발화 비율, 제출 24/28, 제출률 92%는 모두 예시 수치입니다.
 - CTA URL은 사이트 정본 도메인 `classin.co.kr/contact`.
 
-## 프로젝트 구조
+### 프로젝트 구조
 
 ```
 src/
@@ -69,7 +140,7 @@ public/fonts/               # Pretendard (SIL OFL 1.1)
 public/brand/               # Classin 마크·워드마크·스택 로고
 ```
 
-## 실행
+### 실행
 
 ```bash
 npm install
@@ -80,7 +151,7 @@ npm run typecheck
 
 Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 설치된 브라우저를 쓰려면 `REMOTION_BROWSER_EXECUTABLE`을 지정합니다.
 
-## 수정 가이드
+### 수정 가이드
 
 - **기능 목록·순서** — `src/components/Feature.tsx`의 `FEATURES`(목차·레일·CTA 칩이 함께 바뀜) + `src/Showreel.tsx`의 씬 순서.
 - **카피** — 각 기능 씬의 `title`/`sub`/`bullets` props와 카드 안 문자열.
@@ -89,7 +160,7 @@ Chrome Headless Shell이 없으면 Remotion이 자동으로 내려받습니다. 
 - **색** — `src/lib/theme.ts`.
 - **BGM/SFX** — `Showreel.tsx`에 `<Audio src={staticFile("audio/bgm.mp3")} />` 추가. 전환 시작 프레임은 `starts` 배열 참고.
 
-## 참고한 라이브러리
+### 참고한 라이브러리
 
 - **Remotion 4.0.533** — 프레임 결정론적 React 렌더, `spring`/`interpolate`, `@remotion/fonts`, `@remotion/transitions`(TransitionSeries + 커스텀 프레젠테이션).
 - **HyperFrames**(`hyperframes` npm, HeyGen) — HTML/GSAP 타임라인 기반 영상 합성 CLI. 검토했으나 한글 폰트 번들과 스프링 물리 기반 키네틱 타이포에 Remotion이 더 직접적이라 엔진으로 채택하지 않았습니다.

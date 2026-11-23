@@ -6,7 +6,10 @@
     "dev": "remotion studio",
     "render": "remotion render Showreel out/classin-ai-showreel.mp4",
     "still": "remotion still Showreel out/still.png --frame=300",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render:gb": "remotion render Gaebyeol out/gaebyeol-showreel.mp4",
+    "still:gb": "remotion still Gaebyeol out/gaebyeol-still.png --frame=899",
+    "audio:gb": "python3 tools/gb_audio.py"
   },
   "repository": {
     "type": "git",
@@ -22,12 +25,15 @@
   "dependencies": {
     "@remotion/cli": "^4.0.533",
     "@remotion/fonts": "^4.0.533",
+    "@remotion/noise": "4.0.533",
+    "@remotion/paths": "4.0.533",
     "@remotion/transitions": "^4.0.533",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "remotion": "^4.0.533"
   },
   "devDependencies": {
+    "@fontsource/jetbrains-mono": "^5.3.0",
     "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
