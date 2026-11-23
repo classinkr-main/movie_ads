@@ -132,9 +132,59 @@ export const FilterDefs: React.FC = () => (
         </feComponentTransfer>
         <feComposite in="rough" in2="gm" operator="in" />
       </filter>
+      {/* 색연필: 종이 결(가로로 긴 입자)에 걸려 군데군데 비는 질감 */}
+      <filter id="gb-crayon" filterUnits="userSpaceOnUse" x={-400} y={-400} width={2800} height={1900}>
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves={2} seed={5} result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale={3.4} xChannelSelector="R" yChannelSelector="G" result="rough" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.9 2.8" numOctaves={3} seed={17} result="g" />
+        <feColorMatrix in="g" type="luminanceToAlpha" result="ga" />
+        <feComponentTransfer in="ga" result="gm">
+          <feFuncA type="linear" slope={3.8} intercept={-0.72} />
+        </feComponentTransfer>
+        <feComposite in="rough" in2="gm" operator="in" />
+      </filter>
     </defs>
   </svg>
 );
+
+// 채점 동그라미: 빠르게 한 바퀴 넘게 돌고, 조금씩 바깥으로 벌어지며, 끝이 위로 튄다
+export const gradeCircle = (cx: number, cy: number, rx: number, ry: number, seed = 1): string => {
+  const r = rng(seed);
+  const N = 48;
+  const turns = 1.24;
+  const start = -128;
+  const pts: Array<[number, number]> = [];
+  for (let i = 0; i <= N; i++) {
+    const k = i / N;
+    const a = ((start + 360 * turns * k) * Math.PI) / 180;
+    const grow = 1 + 0.11 * k;
+    const wob = 1 + (r() - 0.5) * 0.035;
+    pts.push([cx + Math.cos(a) * rx * grow * wob, cy + Math.sin(a) * ry * grow * wob - k * 7]);
+  }
+  const last = pts[N];
+  const prev = pts[N - 3];
+  const dx = last[0] - prev[0];
+  const dy = last[1] - prev[1];
+  const l = Math.hypot(dx, dy) || 1;
+  pts.push([last[0] + (dx / l) * 26, last[1] + (dy / l) * 26 - 8]);
+  return smooth(pts);
+};
+
+// 색연필 획: 굵은 주획 + 어긋난 보조획 두 번으로 필압과 결을 만든다
+export const Pencil: React.FC<{ d: string; color: string; width?: number; at: number; dur?: number; opacity?: number; raw?: boolean }> = ({ d, color, width = 9, at, dur = 14, opacity = 1, raw = false }) => {
+  const f = useCurrentFrame();
+  const pass = (lag: number) => ramp(f, at + lag, at + dur + lag, eInOut);
+  const p0 = pass(0);
+  if (p0 <= 0) return null;
+  const common = { d, fill: "none", stroke: color, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, pathLength: 1, strokeDasharray: "1 1" };
+  return (
+    <g filter={raw ? undefined : "url(#gb-crayon)"} opacity={opacity}>
+      <path {...common} strokeWidth={width} strokeDashoffset={1 - p0} opacity={0.92} />
+      <path {...common} strokeWidth={width * 0.62} strokeDashoffset={1 - pass(1.5)} opacity={0.6} transform="translate(1.8 -1.4)" />
+      <path {...common} strokeWidth={width * 0.4} strokeDashoffset={1 - pass(3)} opacity={0.5} transform="translate(-1.4 1.6)" />
+    </g>
+  );
+};
 
 /* ───────── 손그림 경로 생성 ───────── */
 

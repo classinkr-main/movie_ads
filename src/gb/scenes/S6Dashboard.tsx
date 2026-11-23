@@ -3,7 +3,7 @@ import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, us
 import { APP, BRAND, INK, PAPER, PENCIL, STUDENTS } from "../theme";
 import { AppWindow, Pill, Sidebar, StudentCard } from "../app";
 import { Icon, IconName } from "../icons";
-import { CL, Cursor, Hud, KText, PaperBg, Sheen, Stamp, StatusStamp, Tape, eInOut, lerp, ramp, t } from "../kit";
+import { CL, Cursor, HandText, Hud, KText, Layer, PaperBg, Pencil, Sheen, Stamp, StatusStamp, Tape, eInOut, gradeCircle, hand, lerp, ramp, roughArrow, roughLine, t } from "../kit";
 
 // 아침 — ClassIn 홈 화면 구성 그대로(사이드바 · 카드 · 우측 패널)에 원장용 개별진도 화면을 넣은 방향 예시.
 const WIN = { x: 240, y: 392, w: 1560, h: 646 };
@@ -17,7 +17,15 @@ const ITEMS = [
   { id: "E", title: "학생 E · 일차방정식 활용", meta: "어제 62점 · 최근 하락", pill: "리포트 초안", y: 232 },
   { id: "B", title: "학생 B · 연립방정식 도입", meta: "금요일 합반 후보", pill: "보기", y: 372 },
 ];
-const SCORES = [70, 74, 68, 66, 62];
+// 학생 E 한 명에게 매일 붙는 체크 항목 6가지 (촘촘한 개인화 관리)
+const E_CHECKS: Array<{ icon: IconName; label: string; value: string; warn?: boolean }> = [
+  { icon: "route", label: "진도", value: "활용 재도전" },
+  { icon: "trend", label: "테스트", value: "70 → 62", warn: true },
+  { icon: "book", label: "숙제", value: "4 / 6 제출" },
+  { icon: "chat", label: "질문", value: "부호 1건" },
+  { icon: "warning", label: "막힌 곳", value: "부호 정리", warn: true },
+  { icon: "report", label: "학부모", value: "요약 초안" },
+];
 
 const Panel: React.FC<{ f: number }> = ({ f }) => {
   const open = ramp(f, 62, 78, eInOut);
@@ -39,7 +47,7 @@ const Panel: React.FC<{ f: number }> = ({ f }) => {
         const p = ramp(f, at, at + 10);
         const isE = it.id === "E";
         const hot = it.id === "C" || it.id === "E" ? ramp(f, 30, 38) : 0;
-        const shift = it.id === "B" ? open * 120 : 0;
+        const shift = it.id === "B" ? open * 162 : 0;
         const pillHot = isE ? Math.max(ramp(f, 86, 90) * (1 - ramp(f, 100, 110)), 0) : 0;
         const icon: IconName = it.id === "B" ? "calendar" : "flag";
         return (
@@ -57,26 +65,20 @@ const Panel: React.FC<{ f: number }> = ({ f }) => {
               </Pill>
             </div>
             {isE ? (
-              <div style={{ overflow: "hidden", height: open * 118 }}>
-                <div style={{ marginTop: 12, padding: "12px 12px", borderRadius: 12, background: "#FFFFFF", border: `1px solid ${APP.line}` }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, ...t(12.5, 700, APP.ink, { lineHeight: 1 }) }}>
-                    <span style={{ color: APP.sub }}>진도</span> 일차방정식 활용 <span style={{ color: APP.sub }}>→</span> 활용 재도전
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 10 }}>
-                    <svg width={150} height={44}>
-                      <polyline points={SCORES.map((v, k) => `${8 + k * 34},${40 - (v - 58) * 2.2}`).join(" ")} fill="none" stroke={PENCIL.E} strokeWidth={2.5} strokeLinejoin="round" />
-                      {SCORES.map((v, k) => (
-                        <circle key={k} cx={8 + k * 34} cy={40 - (v - 58) * 2.2} r={3.4} fill={k === 4 ? PENCIL.E : "#FFFFFF"} stroke={PENCIL.E} strokeWidth={2} />
-                      ))}
-                    </svg>
-                    <div>
-                      <div style={t(12, 600, APP.sub, { lineHeight: 1 })}>데일리 테스트</div>
-                      <div style={{ marginTop: 5, ...t(18, 800, PENCIL.E, { lineHeight: 1 }) }}>70 → 62</div>
-                    </div>
-                  </div>
-                  <div style={{ marginTop: 8, ...t(12.5, 600, APP.ink, { lineHeight: 1.3 }) }}>
-                    <span style={{ color: APP.sub }}>오답</span> 식을 세운 뒤 부호 정리
-                  </div>
+              <div style={{ overflow: "hidden", height: open * 160 }}>
+                <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
+                  {E_CHECKS.map((c, k) => {
+                    const cp = ramp(f, 66 + k * 2.5, 72 + k * 2.5);
+                    return (
+                      <div key={c.label} style={{ padding: "9px 9px 8px", borderRadius: 10, background: c.warn ? "#FFF1EF" : "#FFFFFF", border: `1px solid ${c.warn ? "rgba(240,72,62,0.35)" : APP.line}`, opacity: cp, transform: `scale(${lerp(0.85, 1, cp)})` }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 5, ...t(11, 700, APP.sub, { lineHeight: 1 }) }}>
+                          <Icon name={c.icon} size={13} color={c.warn ? APP.badge : APP.sub} stroke={2.1} round />
+                          {c.label}
+                        </div>
+                        <div style={{ marginTop: 7, ...t(13, 800, c.warn ? APP.badge : APP.ink, { lineHeight: 1.1, whiteSpace: "nowrap" }) }}>{c.value}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ) : null}
@@ -116,6 +118,34 @@ const Home: React.FC<{ f: number }> = ({ f }) => {
       })}
       <Panel f={f} />
     </>
+  );
+};
+
+// 손글씨 인포그래픽: 오늘 챙길 일 36 → 먼저 볼 학생 2명 (AI가 먼저 골라 준다)
+const TriageNote: React.FC<{ f: number }> = ({ f }) => {
+  const out = 1 - ramp(f, 84, 91);
+  if (f < 24 || out <= 0) return null;
+  const arrow = roughArrow([1318, 336], [1468, 330], -0.12, 12);
+  return (
+    <div style={{ position: "absolute", inset: 0, opacity: out }}>
+      <HandText x={1168} y={256} size={34} color={INK.sub} at={24} dur={8} rotate={-2}>
+        오늘 챙길 일
+      </HandText>
+      <div style={{ position: "absolute", left: 1186, top: 284, ...hand(92, INK.red), opacity: ramp(f, 26, 30), filter: "url(#gb-crayon)" }}>36</div>
+      <HandText x={1500} y={252} size={34} color={INK.sub} at={40} dur={8} rotate={-2}>
+        먼저 볼 학생
+      </HandText>
+      <div style={{ position: "absolute", left: 1526, top: 282, ...hand(92, BRAND.green), opacity: ramp(f, 44, 48), filter: "url(#gb-crayon)" }}>2명</div>
+      <HandText x={1336} y={350} size={30} color={INK.navy} at={44} dur={8} rotate={-2}>
+        AI가 골라요
+      </HandText>
+      <Layer>
+        <Pencil d={roughLine(1176, 352, 1300, 318, 14, 2)} color={INK.red} width={6} at={34} dur={6} />
+        <Pencil d={arrow.body} color={INK.navy} width={5} at={36} dur={7} />
+        <Pencil d={arrow.head} color={INK.navy} width={5} at={42} dur={3} />
+        <Pencil d={gradeCircle(1590, 338, 92, 52, 24)} color={BRAND.green} width={8} at={48} dur={9} />
+      </Layer>
+    </div>
   );
 };
 
@@ -205,6 +235,7 @@ export const S6Dashboard: React.FC = () => {
           <Home f={f} />
         </AppWindow>
       </div>
+      <TriageNote f={f} />
       <ReportPaper f={f} />
       <Cursor
         show={[42, 104]}

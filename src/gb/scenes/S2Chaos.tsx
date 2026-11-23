@@ -3,7 +3,7 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { noise2D } from "@remotion/noise";
 import { INK, PAPER, PENCIL, STUDENTS } from "../theme";
 import { Icon, IconName } from "../icons";
-import { CL, HandText, Highlighter, Hud, Ink, KText, Layer, PaperBg, Sticky, Tape, eIn, eOutExpo, hand, lerp, ramp, rng, roughEllipse, roughLine, shake } from "../kit";
+import { CL, HandText, Highlighter, Hud, Ink, KText, Layer, PaperBg, Pencil, Sticky, Tape, eIn, eOutExpo, gradeCircle, hand, lerp, ramp, rng, roughLine, shake } from "../kit";
 
 // 바쁜 책상 — 학생 6명 × 할 일 6가지 = 36장의 포스트잇이 플래너를 덮는다.
 export const COLS: Array<{ label: string; icon: IconName; note: string; color: string }> = [
@@ -131,10 +131,10 @@ export const S2Chaos: React.FC = () => {
         <Layer>
           {[2, 4].map((r, i) => {
             const y = PLAN.y + PLAN.head + r * PLAN.ch + PLAN.ch / 2;
-            return <Ink key={r} d={roughEllipse(PLAN.x + 36, y, 34, 34, 90 + i)} color={INK.red} width={4} at={78 + i * 6} dur={10} />;
+            return <Pencil key={r} d={gradeCircle(PLAN.x + 36, y + 2, 36, 32, 90 + i)} color={INK.red} width={7} at={78 + i * 6} dur={9} />;
           })}
         </Layer>
-        <HandText x={PLAN.x - 230} y={PLAN.y + PLAN.head + 2 * PLAN.ch + 8} size={44} color={INK.red} at={84} dur={10} rotate={-6}>
+        <HandText x={PLAN.x - 230} y={PLAN.y + PLAN.head + 2 * PLAN.ch + 8} size={46} color={INK.red} at={84} dur={10} rotate={-6} style={{ filter: "url(#gb-crayon)" }}>
           급해요!
         </HandText>
       </AbsoluteFill>
@@ -149,10 +149,10 @@ export const S2Chaos: React.FC = () => {
       {/* 카운터: 손글씨 숫자 */}
       <div style={{ position: "absolute", right: 96, top: 54, textAlign: "center", opacity: ramp(f, 0, 6) }}>
         <div style={hand(40, INK.sub)}>오늘 챙길 일</div>
-        <div style={{ ...hand(128, count > 24 ? INK.red : INK.graphite), lineHeight: 0.9 }}>{count}</div>
+        <div style={{ ...hand(132, count > 24 ? INK.red : INK.graphite), lineHeight: 0.9, filter: "url(#gb-crayon)" }}>{count}</div>
       </div>
       <Layer>
-        <Ink d={roughEllipse(1748, 168, 86, 66, 7)} color={INK.red} width={4} at={66} dur={12} />
+        <Pencil d={gradeCircle(1750, 184, 90, 66, 7)} color={INK.red} width={12} at={64} dur={11} />
       </Layer>
       <Hud page={2} label="손이 많이 가는 이유" />
     </AbsoluteFill>
