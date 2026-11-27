@@ -111,6 +111,10 @@ if SIMPLE:
         ("v4.jpg", "v4", "완성본", "제출", "定稿", "提交"),
     ]
 
+ARROW_DOWN = '<svg width="18" height="30" viewBox="0 0 16 26" aria-hidden="true"><path d="M8 2 V22 M3 17 L8 23 L13 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+ARROW_UP = '<svg width="18" height="30" viewBox="0 0 16 26" aria-hidden="true"><path d="M8 24 V4 M3 9 L8 3 L13 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+ARROW_LR = '<svg width="40" height="18" viewBox="0 0 34 16" aria-hidden="true"><path d="M2 8 H32 M26 3 L32 8 L26 13 M8 3 L2 8 L8 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
 CSS = """
 :root {
   --paper: #F2F3EE; --sheet: #FCFCF8; --ink: #1D2321; --sub: #4F5652; --line: rgba(29,35,33,.14); --grid: rgba(0,140,100,.07);
@@ -156,7 +160,13 @@ h1 em { font-style: normal; color: var(--green-ink); background: linear-gradient
 h2 { font-family: var(--display); font-weight: 700; font-size: 31px; line-height: 1.25; letter-spacing: -0.015em; margin: 0; }
 
 /* 역할 */
-.roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.org { display: grid; gap: 14px; }
+.role.top { width: min(560px, 100%); justify-self: center; }
+.row2 { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.link { display: flex; align-items: center; justify-content: center; gap: 10px; font-family: var(--hand); font-size: 26px; line-height: 1; color: var(--sub); }
+.link .gap { width: 22px; }
+.link svg { flex: none; }
+.link.side { flex-direction: column; gap: 4px; color: var(--navy); }
 .role { position: relative; background: var(--sheet); padding: 24px 24px 22px; border-top: 5px solid var(--ink); box-shadow: 0 12px 30px rgba(40,50,45,.11), 0 1px 3px rgba(40,50,45,.08); min-width: 0; }
 .role.human { border-top-color: var(--red); }
 .role.main { border-top-color: var(--green-ink); }
@@ -210,7 +220,9 @@ footer b { color: var(--ink); }
 
 @media (max-width: 900px) {
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .roles, .learn { grid-template-columns: minmax(0, 1fr); }
+  .learn { grid-template-columns: minmax(0, 1fr); }
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+  .link.side { flex-direction: row; }
   .vers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
@@ -255,11 +267,18 @@ def body() -> str:
     stats = "".join(
         f'<div class="stat">{L(nk, nz, "div", "num")}{L(ck, cz, "div", "cap")}</div>' for nk, nz, ck, cz in STATS
     )
-    roles = ""
+    cards = []
     for icon, cls, wk, wz, ak, az, lk, lz in ROLES:
         items = "".join(f"<li>{L(a, b)}</li>" for a, b in zip(lk, lz))
         ul = f"<ul>{items}</ul>" if items else ""
-        roles += f'<div class="role {cls}">{ico(icon)}{L(wk, wz, "div", "who")}{L(ak, az, "div", "what")}{ul}</div>'
+        cards.append(f'<div class="role {cls}">{ico(icon)}{L(wk, wz, "div", "who")}{L(ak, az, "div", "what")}{ul}</div>')
+    human, main_ai, sub_ai = cards
+    human = human.replace('class="role human"', 'class="role human top"')
+    roles = (
+        f'<div class="org">{human}'
+        f'<div class="link">{ARROW_DOWN}{L("요청 · 피드백", "需求 · 反馈")}<span class="gap"></span>{ARROW_UP}{L("시안 확인", "查看样片")}</div>'
+        f'<div class="row2">{main_ai}<div class="link side">{ARROW_LR}{L("맡김 · 반납", "委派 · 交回")}</div>{sub_ai}</div></div>'
+    )
     refs = ""
     for hk, hz, ik, iz in REFS:
         if len(ik) == 1:
@@ -292,7 +311,7 @@ def body() -> str:
 
   <section>
     {sec("01", "누가 무엇을 했나", "谁做了什么")}
-    <div class="roles">{roles}</div>
+    {roles}
     {B("AI 둘이 동시에 일해서, 음악을 기다리는 시간 없이 영상과 음악이 함께 완성됐습니다.", "两个AI同时工作，视频和配乐同步完成，不用互相等待。", "p", "roles-note")}
   </section>
 
