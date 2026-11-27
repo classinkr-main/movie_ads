@@ -288,11 +288,6 @@ def body() -> str:
     </div>
   </section>
 
-  <section>
-    {sec("04", "해 보니", "心得")}
-    <div class="learn">{learn}</div>
-  </section>
-
   <footer>
     {L("<b>개별진도 × ClassIn + AI</b> · ClassIn 한국 · 2026.11", "<b>个别进度 × ClassIn + AI</b> · ClassIn 韩国 · 2026.11")}
     {L("영상 속 학생과 점수는 모두 가상입니다", "视频中的学生与分数均为虚拟")}
