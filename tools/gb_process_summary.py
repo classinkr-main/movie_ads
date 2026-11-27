@@ -10,6 +10,7 @@ from pathlib import Path
 TH = Path(sys.argv[1])
 OUT_BODY = Path(sys.argv[2])
 OUT_FULL = Path(sys.argv[3])
+SIMPLE = len(sys.argv) > 4 and sys.argv[4] == "simple"  # 같은 구조, 글을 더 줄인 한눈판
 
 
 def img(name: str) -> str:
@@ -87,6 +88,29 @@ LEARN = [
      "用真实App录屏替换部分画面，并制作手机用竖版视频。"),
 ]
 
+if SIMPLE:
+    STATS = [
+        ("30<small>초</small>", "30<small>秒</small>", "오프닝 영상", "开场视频"),
+        ("4<small>번</small>", "4<small>次</small>", "고쳐서 완성", "修改后定稿"),
+        ("5<small>시간 반</small>", "5.5<small>小时</small>", "요청부터 완성까지", "从需求到定稿"),
+        ("0<small>장</small>", "0<small>张</small>", "가져온 사진 없음", "未用现成图片"),
+    ]
+    ROLES = [
+        ("person", "human", "사람 · 디렉터", "人 · 导演", "방향 결정 · 최종 판단", "定方向 · 做决定", [], []),
+        ("film", "main", "AI 담당자 ①", "AI负责人 ①", "기획 · 디자인 · 영상 제작", "策划 · 设计 · 视频制作", [], []),
+        ("music", "sub", "AI 담당자 ②", "AI负责人 ②", "배경 음악 · 효과음", "背景音乐 · 音效", [], []),
+    ]
+    REFS = [
+        ("회사 자료", "公司资料", ["과제 안내 · 제작 브리프 · 설명회 페이지"], ["作业说明 · 制作简报 · 说明会页面"]),
+        ("ClassIn 실제 화면", "ClassIn真实界面", ["앱 화면 · 기능 소개 문서"], ["App界面 · 功能介绍文档"]),
+    ]
+    VERS = [
+        ("v1.jpg", "v1", "어두운 화면", "AI 티 빼기", "深色画面", "去掉AI感"),
+        ("v2.jpg", "v2", "도면 그림", "앱 화면처럼", "平面图", "改成App界面风格"),
+        ("v3.jpg", "v3", "공책 + 앱 화면", "진도판 추가", "笔记本 + App界面", "加入进度看板"),
+        ("v4.jpg", "v4", "완성본", "제출", "定稿", "提交"),
+    ]
+
 CSS = """
 :root {
   --paper: #F2F3EE; --sheet: #FCFCF8; --ink: #1D2321; --sub: #4F5652; --line: rgba(29,35,33,.14); --grid: rgba(0,140,100,.07);
@@ -153,6 +177,7 @@ h2 { font-family: var(--display); font-weight: 700; font-size: 31px; line-height
 .ref { border: 1.5px solid var(--ink); border-radius: 6px; padding: 18px 22px; background: var(--sheet); min-width: 0; }
 .ref h3 { margin: 0 0 8px; font-size: 18px; font-weight: 900; }
 .ref ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; font-size: 16.5px; }
+.ref p.one { margin: 0; font-size: 17px; }
 .fine { font-size: 15px; color: var(--sub); margin: 14px 0 0; }
 
 /* 버전 */
@@ -233,9 +258,13 @@ def body() -> str:
     roles = ""
     for icon, cls, wk, wz, ak, az, lk, lz in ROLES:
         items = "".join(f"<li>{L(a, b)}</li>" for a, b in zip(lk, lz))
-        roles += f'<div class="role {cls}">{ico(icon)}{L(wk, wz, "div", "who")}{L(ak, az, "div", "what")}<ul>{items}</ul></div>'
+        ul = f"<ul>{items}</ul>" if items else ""
+        roles += f'<div class="role {cls}">{ico(icon)}{L(wk, wz, "div", "who")}{L(ak, az, "div", "what")}{ul}</div>'
     refs = ""
     for hk, hz, ik, iz in REFS:
+        if len(ik) == 1:
+            refs += f'<div class="ref">{L(hk, hz, "h3")}{L(ik[0], iz[0], "p", "one")}</div>'
+            continue
         items = "".join(f"<li>{L(a, b)}</li>" for a, b in zip(ik, iz))
         refs += f'<div class="ref">{L(hk, hz, "h3")}<ol>{items}</ol></div>'
     vers = "".join(
@@ -298,6 +327,15 @@ def body() -> str:
 
 
 BODY = body()
+if SIMPLE:
+    import re
+    # 설명 문장은 빼고 한 줄 소개만 남긴다
+    BODY = re.sub(r'<p class="(ko|zh) (roles-note|fine)" lang="(ko|zh)">.*?</p>', "", BODY, flags=re.S)
+    BODY = re.sub(r'<p class="(ko|zh)" lang="(ko|zh)">(빨간 글씨|红字).*?</p>', "", BODY, flags=re.S)
+    BODY = re.sub(r'(<p class="ko lede" lang="ko">).*?(</p>)', r"\1사람은 방향을 정하고, AI 둘이 나눠 만들었습니다.\2", BODY, flags=re.S)
+    BODY = re.sub(r'(<p class="zh lede" lang="zh">).*?(</p>)', r"\1人定方向，两个AI分工制作。\2", BODY, flags=re.S)
+    BODY = BODY.replace("제작 요약", "한눈에 보기").replace("制作摘要", "一页看懂").replace("오프닝 영상 제작 요약", "오프닝 영상 한눈에 보기")
+    HEAD = HEAD.replace("오프닝 영상 제작 요약", "오프닝 영상 한눈에 보기")
 OUT_BODY.write_text(HEAD + "\n" + BODY, encoding="utf-8")
 OUT_FULL.write_text(
     '<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
